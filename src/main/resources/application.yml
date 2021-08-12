@@ -1,0 +1,83 @@
+spring:
+  profiles:
+    active: local
+#    active: dev
+#    active: prd
+  application:
+    name: IITP
+  datasource:
+    hikari:
+      connection-timeout: 1000
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: Asia/Seoul
+  devtools:
+    restart:
+      log-condition-evaluation-delta: false
+  web:
+    resources:
+      static-locations: classpath:/static/
+logging:
+  level:
+    kr.co.kesti: info
+---
+server:
+  port: 9200
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: [url]
+    username: [username]
+    password: [password]
+  jpa:
+    properties:
+      hibernate:
+        dialect: [dialect]
+        show_sql: true
+        format_sql: true
+---
+server:
+  port: 9200
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: [url]
+    username: [username]
+    password: [password]
+  jpa:
+    properties:
+      hibernate:
+        dialect: [dialect]
+        show_sql: false
+        format_sql: false
+---
+server:
+  port: 9200
+spring:
+  config:
+    activate:
+      on-profile: prd
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: [url]
+    username: [username]
+    password: [password]
+  jpa:
+    properties:
+      hibernate:
+        dialect: [dialect]
+        show_sql: false
+        format_sql: false
