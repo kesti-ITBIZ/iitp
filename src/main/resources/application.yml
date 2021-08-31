@@ -36,13 +36,15 @@ spring:
       on-profile: local
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: [url]
-    username: [username]
-    password: [password]
+    url: jdbc:postgresql://192.168.1.223:5432/itbiz
+    username: itbiz_owner
+    password: itbiz2021@!
+    hikari:
+      schema: iitp
   jpa:
     properties:
       hibernate:
-        dialect: [dialect]
+        dialect: org.hibernate.dialect.PostgreSQL94Dialect
         show_sql: true
         format_sql: true
 ---

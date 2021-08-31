@@ -5,6 +5,12 @@ plugins {
     id 'war'
 }
 
+bootWar{
+    archiveBaseName = '-'
+    archiveFileName = 'iitp.war'
+    archiveVersion = '0.0.0'
+}
+
 group = 'kr.co.kesti'
 version = '0.1'
 sourceCompatibility = '1.8'
