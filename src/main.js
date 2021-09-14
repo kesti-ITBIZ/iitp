@@ -8,17 +8,27 @@ import {
     faChartLine,
     faChartBar,
     faChartArea,
-    faChartPie
+    faChartPie,
+    faChartScatter
 } from "@fortawesome/free-solid-svg-icons";
+
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
+
+import VueSlider from "vue-slider-component";
+import "vue-slider-component/theme/antd.css";
 
 import "./index.css";
 
+Vue.component("date-picker", DatePicker);
+Vue.component("vue-slider", VueSlider);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 library.add(
     faChartLine,
     faChartBar,
     faChartArea,
-    faChartPie);
+    faChartPie,
+    faChartScatter);
 
 Vue.config.productionTip = false;
 

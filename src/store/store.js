@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import dayjs from "dayjs";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -27,6 +29,15 @@ export default new Vuex.Store({
         selectedItems: [],
         xAxis: [],
         yAxis: [],
+        startDatetime: dayjs().format("YYYY.MM.DD HH"),
+        endDatetime: dayjs().format("YYYY.MM.DD HH"),
+        dateTypes: [
+            { label: "시간", type: "datetime", format: "YYYY.MM.DD HH" },
+            { label: "일", type: "date", format: "YYYY.MM.DD" },
+            { label: "월", type: "month", format: "YYYY.MM" },
+            { label: "년", type: "year", format: "YYYY" }
+        ],
+        selectedDateType: "datetime",
         selectedChartType: "line"
     },
     getters: {
@@ -91,6 +102,9 @@ export default new Vuex.Store({
             }
             state.yAxis = Object.freeze(yAxis);
         },
+        SET_START_DATETIME: (state, datetime) => state.startDatetime = datetime,
+        SET_END_DATETIME: (state, datetime) => state.endDatetime = datetime,
+        SET_SELECTED_DATE_TYPE: (state, dateType) => state.selectedDateType = Object.freeze(dateType),
         SET_SELECTED_CHART_TYPE: (state, chartType) => state.selectedChartType = chartType
     },
     actions: {
@@ -102,6 +116,9 @@ export default new Vuex.Store({
         REMOVE_X_AXIS: (context, item) => context.commit("REMOVE_X_AXIS", item),
         ADD_Y_AXIS: (context, items) => context.commit("ADD_Y_AXIS", items),
         REMOVE_Y_AXIS: (context, item) => context.commit("REMOVE_Y_AXIS", item),
+        SET_START_DATETIME: (context, datetime) => context.commit("SET_START_DATETIME", datetime),
+        SET_END_DATETIME: (context, datetime) => context.commit("SET_END_DATETIME", datetime),
+        SET_SELECTED_DATE_TYPE: (context, dateType) => context.commit("SET_SELECTED_DATE_TYPE", dateType),
         SET_SELECTED_CHART_TYPE: (context, chartType) => context.commit("SET_SELECTED_CHART_TYPE", chartType)
     }
 });

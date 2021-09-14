@@ -35,6 +35,14 @@
     padding: 0;
 }
 
+#layout input.mx-input {
+    border-radius: 0;
+}
+
+#layout div.vue-slider.vue-slider-ltr {
+    padding: 0 !important;
+}
+
 #layout .header {
     width: 600px;
     height: 100%;
@@ -221,6 +229,29 @@
 
 #layout .content thead th {
     text-align: left;
+    border-left: none;
+    border-right: none;
+}
+
+#layout .content thead th:last-child {
+    border-right: 1px solid #a5a5a5;
+}
+
+#layout .content thead .select-datetime {
+    padding: 15px;
+}
+
+#layout .content thead .select-datetime select {
+    width: 100px;
+    border: 1px solid #9c9c9c;
+    border-radius: 0;
+    margin-left: 10px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+#layout .content thead .select-datetime select:hover {
+    border: 1px solid #409aff;
 }
 
 #layout .content thead .select-chart-btn {
@@ -255,6 +286,14 @@
 #layout .content thead .select-chart-btn.on > div {
     color: white;
     background-color: #0094c4;
+}
+
+#layout .content thead .select-constraint h5 {
+    margin-bottom: 10px;
+}
+
+#layout .content thead .select-constraint > div {
+    margin-bottom: 20px;
 }
 
 #layout .content .chart {
