@@ -1,5 +1,5 @@
 <template>
-    <div id="layout" class="text-no-drag" @click="clearSelectedCategory">
+    <div id="layout" class="text-no-drag" @click="clearSelectedItem">
         <div class="header">
             <table>
                 <colgroup>
@@ -8,21 +8,25 @@
                 </colgroup>
                 <tbody>
                     <tr>
-                        <td class="data">
+                        <td rowspan="2" class="category">
                             <table>
                                 <thead>
                                     <tr>
-                                        <th class="opt-head">데이터 분류</th>
+                                        <th class="opt-head">데이터 항목</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="opt-body scroll no-scrollbar">
-                                            <ul>
-                                                <li :key="i" v-for="(_data, i) in data">
-                                                    <input type="button" :class="selectedData == _data ? 'on' : ''" :value="_data" @click="setSelectedData(_data)" />
+                                        <td class="opt-body">
+                                            <ul class="scroll no-scrollbar">
+                                                <li :key="i" v-for="(item, i) in items">
+                                                    <input type="button" :class="selectedItems.indexOf(item) != -1 ? 'on' : ''" :value="item.label" @click.stop="setSelectedItem(item)" />
                                                 </li>
                                             </ul>
+                                            <div>
+                                                <div @click.stop="addX">X</div>
+                                                <div @click.stop="addY">Y</div>
+                                            </div>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -40,7 +44,10 @@
                                         <td class="opt-body scroll no-scrollbar">
                                             <ul>
                                                 <li :key="i" v-for="(data, i) in xAxis">
-                                                    <input type="button" :value="data" @click="removeXAxis($event.target.value)" />
+                                                    <div @click="removeXAxis(data)">
+                                                        {{ data.label }}
+                                                        <span>&times;</span>
+                                                    </div>
                                                 </li>
                                             </ul>
                                         </td>
@@ -50,30 +57,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="category">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th class="opt-head">데이터 항목</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="opt-body">
-                                            <ul class="scroll no-scrollbar">
-                                                <li :key="i" v-for="(item, i) in categories[selectedData]">
-                                                    <input type="button" :class="selectedCategories.indexOf(item) != -1 ? 'on' : ''" :value="item" @click.stop="setSelectedCategory($event.target.value)" />
-                                                </li>
-                                            </ul>
-                                            <div>
-                                                <div @click.stop="addX">X</div>
-                                                <div @click.stop="addY">Y</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
                         <td class="y-axis">
                             <table>
                                 <thead>
@@ -86,7 +69,10 @@
                                         <td class="opt-body scroll no-scrollbar">
                                             <ul>
                                                 <li :key="i" v-for="(data, i) in yAxis">
-                                                    <input type="button" :value="data" @click="removeYAxis($event.target.value)" />
+                                                    <div @click="removeYAxis(data)">
+                                                        {{ data.label }}
+                                                        <span>&times;</span>
+                                                    </div>
                                                 </li>
                                             </ul>
                                         </td>
@@ -98,33 +84,18 @@
                 </tbody>
             </table>
         </div>
-        <div class="chart">
+        <div class="content">
             <table>
                 <thead>
                     <tr>
                         <th colspan="2">
-                            <div :class="['select-chart-btn', selectedChartType == 'line' ? 'on' : '']" @click="setSelectedChartType('line')">
+                            <div :key="i"
+                                 v-for="(chartType, i) in ['Line', 'Bar', 'Area', 'Pie']"
+                                 :class="['select-chart-btn', selectedChartType == chartType.toLowerCase() ? 'on' : '']"
+                                 @click="setSelectedChartType(chartType.toLowerCase())">
                                 <div>
-                                    <font-awesome-icon size="5x" :icon="['fa', 'chart-line']" />
-                                    <div>Line Chart</div>
-                                </div>
-                            </div>
-                            <div :class="['select-chart-btn', selectedChartType == 'bar' ? 'on' : '']" @click="setSelectedChartType('bar')">
-                                <div>
-                                    <font-awesome-icon size="5x" :icon="['fa', 'chart-bar']" />
-                                    <div>Bar Chart</div>
-                                </div>
-                            </div>
-                            <div :class="['select-chart-btn', selectedChartType == 'area' ? 'on' : '']" @click="setSelectedChartType('area')">
-                                <div>
-                                    <font-awesome-icon size="5x" :icon="['fa', 'chart-area']" />
-                                    <div>Area Chart</div>
-                                </div>
-                            </div>
-                            <div :class="['select-chart-btn', selectedChartType == 'pie' ? 'on' : '']" @click="setSelectedChartType('pie')">
-                                <div>
-                                    <font-awesome-icon size="5x" :icon="['fa', 'chart-pie']" />
-                                    <div>Pie Chart</div>
+                                    <font-awesome-icon size="5x" :icon="['fa', 'chart-' + chartType.toLowerCase()]" />
+                                    <div>{{ chartType }} Chart</div>
                                 </div>
                             </div>
                         </th>
@@ -132,11 +103,20 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>
+                        <td class="chart">
 
                         </td>
-                        <td>
-                            <map-component />
+                        <td class="map">
+                            <div class="map-data">
+                                <map-component />
+                            </div>
+                            <div class="data">
+                                <ul>
+                                    <li :key="i" v-for="(obj, i) in data">
+                                        <input type="button" :class="selectedData.value == obj.value ? 'on' : ''" :value="obj.label" @click="setSelectedData(obj)" />
+                                    </li>
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -159,8 +139,8 @@
             ...mapState({
                 data: state => state.data,
                 selectedData: state => state.selectedData,
-                categories: state => state.categories,
-                selectedCategories: state => state.selectedCategories,
+                items: state => state.items,
+                selectedItems: state => state.selectedItems,
                 xAxis: state => state.xAxis,
                 yAxis: state => state.yAxis,
                 selectedChartType: state => state.selectedChartType
@@ -169,9 +149,9 @@
         methods: {
             ...mapActions({
                 setSelectedData: "SET_SELECTED_DATA",
-                setSelectedCategory: "SET_SELECTED_CATEGORY",
-                removeSelectedCategory: "REMOVE_SELECTED_CATEGORY",
-                clearSelectedCategory: "CLEAR_SELECTED_CATEGORY",
+                setSelectedItem: "SET_SELECTED_ITEM",
+                removeSelectedItem: "REMOVE_SELECTED_ITEM",
+                clearSelectedItem: "CLEAR_SELECTED_ITEM",
                 addXAxis: "ADD_X_AXIS",
                 removeXAxis: "REMOVE_X_AXIS",
                 addYAxis: "ADD_Y_AXIS",
@@ -180,15 +160,15 @@
             }),
 
             addX() {
-                this.addXAxis(this.selectedCategories);
-                this.removeSelectedCategory(this.selectedCategories);
-                this.clearSelectedCategory();
+                this.addXAxis(this.selectedItems);
+                this.removeSelectedItem(this.selectedItems);
+                this.clearSelectedItem();
             },
 
             addY() {
-                this.addYAxis(this.selectedCategories);
-                this.removeSelectedCategory(this.selectedCategories);
-                this.clearSelectedCategory();
+                this.addYAxis(this.selectedItems);
+                this.removeSelectedItem(this.selectedItems);
+                this.clearSelectedItem();
             },
 
             moveXAxisToCategories() {
