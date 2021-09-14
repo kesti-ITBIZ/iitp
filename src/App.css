@@ -1,38 +1,242 @@
-.App {
-  text-align: center;
+#layout {
+    display: flex;
+    height: calc(100% - 20px);
+    padding: 10px;
+    font-family: "KoPub Dotum Medium", serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+#layout select,
+#layout input {
+    font-family: "KoPub Dotum Medium", serif;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+#layout input[type=button] {
+    cursor: pointer;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+#layout table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
 }
 
-.App-link {
-  color: #61dafb;
+#layout table tbody td {
+    padding: 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#layout table tbody td,
+#layout table thead th {
+    border: 1px solid #a5a5a5;
+}
+
+#layout ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#layout .header {
+    width: 600px;
+    height: 100%;
+}
+
+#layout .header tbody td {
+    height: 50%;
+}
+
+#layout .header thead th,
+#layout .header tbody td {
+    text-align: center;
+}
+
+#layout .header .opt-head {
+    height: 50px;
+    color: #404040;
+    background-color: #f1f1f1;
+}
+
+#layout .header .opt-body {
+    vertical-align: top;
+    height: calc(100% - 50px);
+}
+
+#layout .header .opt-body ul li {
+    padding: 10px 10px 0;
+}
+
+#layout .header .opt-body ul li > * {
+    width: calc(100% + 0px);
+    height: 100%;
+    padding: 7px 0;
+}
+
+#layout .header .data .opt-body input[type=button] {
+    color: #01947a;
+    border: 1px solid #01947a;
+    background-color: #ecf9f7;
+    transition: color 0.1s, border 0.1s, background-color 0.1s;
+}
+
+#layout .header .data .opt-body input[type=button]:hover {
+    color: #1cad95;
+    border: 1px solid #1cad95;
+    background-color: #faffff;
+}
+
+#layout .header .data .opt-body input[type=button]:active {
+    color: #006f5b;
+    border: 1px solid #006f5b;
+    background-color: #e9fffb;
+}
+
+#layout .header .data .opt-body input[type=button].on {
+    color: #ecf9f7;
+    background-color: #01947a;
+}
+
+#layout .header .category .opt-body input[type=button] {
+    color: #0084de;
+    border: 1px solid #0084de;
+    background-color: #e9f9ff;
+    transition: color 0.1s, border 0.1s, background-color 0.1s;
+}
+
+#layout .header .category .opt-body input[type=button]:hover {
+    color: #42b2ff;
+    border: 1px solid #42b2ff;
+    background-color: #e8f5ff;
+}
+
+#layout .header .category .opt-body input[type=button]:active {
+    color: #0061a5;
+    border: 1px solid #0061a5;
+    background-color: #d4eaff;
+}
+
+#layout .header .category .opt-body input[type=button].on {
+    color: #ecf9f7;
+    background-color: #0084de;
+}
+
+#layout .header .category .opt-body > ul {
+    height: calc(100% - 83px);
+}
+
+#layout .header .category .opt-body > div {
+    display: flex;
+    font-size: 16pt;
+}
+
+#layout .header .category .opt-body > div > div {
+    width: 50%;
+    color: #0dbb00;
+    background-color: #f3fff3;
+    border: 1px solid #0dbb00;
+    padding: 30px 0;
+    transition: background-color 0.4s, color 0.4s;
+    cursor: pointer;
+}
+
+#layout .header .category .opt-body > div > div:hover {
+    color: #f3fff3;
+    background-color: #0dbb00;
+}
+
+#layout .header .category .opt-body > div > div:active {
+    background-color: #006f5b;
+    border: 1px solid #006f5b;
+    transition: background-color 0.1s;
+}
+
+#layout .header .x-axis .opt-body input[type=button] {
+    color: #d75500;
+    border: 1px solid #ff7a5a;
+    background-color: #fffaf9;
+    transition: color 0.1s, border 0.1s, background-color 0.1s;
+}
+
+#layout .header .x-axis .opt-body input[type=button]:hover {
+    color: #ff7a25;
+    border: 1px solid #ffa590;
+    background-color: #ffffff;
+}
+
+#layout .header .x-axis .opt-body input[type=button]:active {
+    color: #af4400;
+    border: 1px solid #ff572e;
+    background-color: #ffebe6;
+}
+
+#layout .header .x-axis .opt-body input[type=button].on {
+    color: #fffaf9;
+    border: 1px solid #d75500;
+    background-color: #d75500;
+}
+
+#layout .header .y-axis .opt-body input[type=button] {
+    color: #6e36ff;
+    border: 1px solid #8053f3;
+    background-color: #ebe3ff;
+    transition: color 0.1s, border 0.1s, background-color 0.1s;
+}
+
+#layout .header .y-axis .opt-body input[type=button]:hover {
+    color: #895cff;
+    border: 1px solid #9a7bf3;
+    background-color: #faf7ff;
+}
+
+#layout .header .y-axis .opt-body input[type=button]:active {
+    color: #541bea;
+    border: 1px solid #6838e2;
+    background-color: #d5c9ff;
+}
+
+#layout .header .y-axis .opt-body input[type=button].on {
+    color: #ebe3ff;
+    border: 1px solid #6e36ff;
+    background-color: #6e36ff;
+}
+
+#layout .chart {
+    width: calc(100% - 600px);
+    height: 100%;
+}
+
+#layout .chart thead th {
+    text-align: left;
+}
+
+#layout .chart thead .select-chart-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    text-align: center;
+    color: #0094c4;
+}
+
+#layout .chart thead .select-chart-btn svg {
+    display: block;
+}
+
+#layout .chart thead .select-chart-btn svg ~ div {
+    padding-top: 10px;
+}
+
+#layout .chart thead .select-chart-btn > div {
+    padding: 7px 30px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#layout .chart thead .select-chart-btn > div:hover {
+    background-color: #def4ff;
+}
+
+#layout .chart tbody td:nth-child(2) > div {
+    height: 100%;
+}
+
+#layout .chart thead .select-chart-btn.on > div {
+    color: white;
+    background-color: #0094c4;
 }
