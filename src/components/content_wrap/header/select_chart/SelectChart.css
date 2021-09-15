@@ -1,0 +1,33 @@
+#select-chart .scroll {
+    overflow-y: hidden;
+}
+
+#select-chart .select-chart-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    text-align: center;
+    color: #0094c4;
+}
+
+#select-chart .select-chart-btn svg {
+    display: block;
+}
+
+#select-chart .select-chart-btn svg ~ div {
+    padding-top: 10px;
+}
+
+#select-chart .select-chart-btn > div {
+    padding: 7px 30px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#select-chart .select-chart-btn > div:hover {
+    background-color: #def4ff;
+}
+
+#select-chart .select-chart-btn.on > div {
+    color: white;
+    background-color: #0094c4;
+}
