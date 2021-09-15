@@ -37,10 +37,17 @@
 
 #layout input.mx-input {
     border-radius: 0;
+    cursor: pointer;
 }
 
 #layout div.vue-slider.vue-slider-ltr {
+    position: relative;
+    left: 10px;
     padding: 0 !important;
+}
+
+#layout div.vue-slider-rail {
+    cursor: pointer;
 }
 
 #layout .header {
@@ -227,21 +234,41 @@
     height: 100%;
 }
 
-#layout .content thead th {
+#layout .content > table > thead > th {
     text-align: left;
     border-left: none;
     border-right: none;
+    height: calc(290px - 36px) !important;
 }
 
-#layout .content thead th:last-child {
+#layout .content > table > thead > tr > th:last-child {
     border-right: 1px solid #a5a5a5;
 }
 
-#layout .content thead .select-datetime {
+#layout .content > table > thead > tr > th > div {
+    height: 100%;
+}
+
+#layout .content > table > thead > tr > th > div > div {
+    display: inline-block;
+    height: 100%;
+}
+
+#layout .content > table > thead > tr > th table,
+#layout .content > table > thead > tr > th table th {
+    border-collapse: collapse;
+    border: none !important;
+}
+
+#layout .content > table > thead > tr > th table th {
+    text-align: left;
+}
+
+#layout .content > table > thead .select-datetime {
     padding: 15px;
 }
 
-#layout .content thead .select-datetime select {
+#layout .content > table > thead .select-datetime select {
     width: 100px;
     border: 1px solid #9c9c9c;
     border-radius: 0;
@@ -250,50 +277,53 @@
     cursor: pointer;
 }
 
-#layout .content thead .select-datetime select:hover {
+#layout .content > table > thead .select-datetime select:hover {
     border: 1px solid #409aff;
 }
 
-#layout .content thead .select-chart-btn {
+#layout .content > table > thead .select-chart .scroll {
+    overflow-y: hidden;
+}
+
+#layout .content > table > thead .select-chart .select-chart-btn {
     display: inline-block;
     padding: 10px 20px;
     text-align: center;
     color: #0094c4;
 }
 
-#layout .content thead .select-chart-btn svg {
+#layout .content > table > thead .select-chart .select-chart-btn svg {
     display: block;
 }
 
-#layout .content thead .select-chart-btn svg ~ div {
+#layout .content > table > thead .select-chart .select-chart-btn svg ~ div {
     padding-top: 10px;
 }
 
-#layout .content thead .select-chart-btn > div {
+#layout .content > table > thead .select-chart .select-chart-btn > div {
     padding: 7px 30px;
     cursor: pointer;
     transition: background-color 0.2s;
 }
 
-#layout .content thead .select-chart-btn > div:hover {
+#layout .content > table > thead .select-chart .select-chart-btn > div:hover {
     background-color: #def4ff;
 }
 
-#layout .content tbody td:nth-child(2) > div {
-    height: 100%;
-}
-
-#layout .content thead .select-chart-btn.on > div {
+#layout .content > table > thead .select-chart .select-chart-btn.on > div {
     color: white;
     background-color: #0094c4;
 }
 
-#layout .content thead .select-constraint h5 {
+#layout .content > table > thead .select-constraint {
+}
+
+#layout .content > table > thead .select-constraint h5 {
     margin-bottom: 10px;
 }
 
-#layout .content thead .select-constraint > div {
-    margin-bottom: 20px;
+#layout .content > table > thead .select-constraint > div {
+    margin: 15px 0 40px;
 }
 
 #layout .content .chart {

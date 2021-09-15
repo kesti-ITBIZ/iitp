@@ -88,63 +88,84 @@
             <table>
                 <thead>
                     <tr>
-                        <th>
-                            <div>
-                                <div class="select-datetime">
-                                    <date-picker
-                                            valueType="format"
-                                            :type="selectedDateType"
-                                            :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format"
-                                            :value="startDatetime"
-                                            @change="setStartDatetime" />
-                                    &nbsp;~&nbsp;
-                                    <date-picker
-                                            valueType="format"
-                                            :type="selectedDateType"
-                                            :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format"
-                                            :value="endDatetime"
-                                            @change="setEndDatetime" />
-                                    <label>
-                                        <select :value="selectedDateType" @change="setSelectedDateType($event.target.value)">
-                                            <option :key="i" v-for="(dateType, i) in dateTypes" :value="dateType.type">{{ dateType.label }}</option>
-                                        </select>
-                                    </label>
-                                </div>
-                                <div class="select-chart">
-                                    <div :key="i"
-                                         v-for="(chartType, i) in ['Line', 'Bar', 'Area', 'Pie', 'Scatter']"
-                                         :class="['select-chart-btn', selectedChartType == chartType.toLowerCase() ? 'on' : '']"
-                                         @click="setSelectedChartType(chartType.toLowerCase())">
-                                        <div>
-                                            <font-awesome-icon size="5x" :icon="['fa', 'chart-' + chartType.toLowerCase()]" />
-                                            <div>{{ chartType }} Chart</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </th>
-                        <th class="select-constraint">
-                            <div>
-                                <h5>미세먼지 농도</h5>
-                                <vue-slider
-                                        v-model="degree"
-                                        v-bind="{ ...options, dataValue: 'degree', min: 1, max: 4 }"
-                                        :data="['좋음', '보통', '나쁨', '매우나쁨']" />
-                            </div>
-                            <div>
-                                <h5>월</h5>
-                                <vue-slider
-                                        v-model="month"
-                                        v-bind="{ ...options, dataValue: 'month', min: 1, max: 12 }"
-                                        :data="['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']" />
-                            </div>
-                            <div>
-                                <h5>계절</h5>
-                                <vue-slider
-                                        v-model="season"
-                                        v-bind="{ ...options, dataValue: 'season', min: 1, max: 4 }"
-                                        :data="['봄', '여름', '가을', '겨울']" />
-                            </div>
+                        <th colspan="2">
+                            <table>
+                                <colgroup>
+                                    <col style="min-width: 600px;" />
+                                    <col style="width: 570px; min-width: 570px;" />
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th class="select-datetime">
+                                            <date-picker
+                                                    valueType="format"
+                                                    :type="selectedDateType"
+                                                    :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format"
+                                                    :value="startDatetime"
+                                                    @change="setStartDatetime" />
+                                            &nbsp;~&nbsp;
+                                            <date-picker
+                                                    valueType="format"
+                                                    :type="selectedDateType"
+                                                    :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format"
+                                                    :value="endDatetime"
+                                                    @change="setEndDatetime" />
+                                            <label>
+                                                <select :value="selectedDateType" @change="setSelectedDateType($event.target.value)">
+                                                    <option :key="i" v-for="(dateType, i) in dateTypes" :value="dateType.type">{{ dateType.label }}</option>
+                                                </select>
+                                            </label>
+                                        </th>
+                                        <th rowspan="2" class="select-constraint">
+                                            <div>
+                                                <h5>미세먼지 농도</h5>
+                                                <vue-slider
+                                                        v-model="degree"
+                                                        v-bind="{ ...options, dataValue: 'degree', min: 1, max: 4 }"
+                                                        :data="['좋음', '보통', '나쁨', '매우나쁨']" />
+                                            </div>
+                                            <hr />
+                                            <div>
+                                                <h5>월</h5>
+                                                <vue-slider
+                                                        v-model="month"
+                                                        v-bind="{ ...options, dataValue: 'month', min: 1, max: 12 }"
+                                                        :data="['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']" />
+                                            </div>
+                                            <hr />
+                                            <div>
+                                                <h5>계절</h5>
+                                                <vue-slider
+                                                        v-model="season"
+                                                        v-bind="{ ...options, dataValue: 'season', min: 1, max: 4 }"
+                                                        :data="['봄', '여름', '가을', '겨울']" />
+                                            </div>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th class="select-chart">
+                                            <div class="scroll">
+                                                <div :class="['select-chart-btn', selectedChartType == 'table' ? 'on' : '']"
+                                                     @click="setSelectedChartType('table')">
+                                                    <div>
+                                                        <font-awesome-icon size="5x" :icon="['fa', 'table']" />
+                                                        <div>Table</div>
+                                                    </div>
+                                                </div>
+                                                <div :key="i"
+                                                     v-for="(chartType, i) in ['Line', 'Bar', 'Area', 'Pie', 'Scatter']"
+                                                     :class="['select-chart-btn', selectedChartType == chartType.toLowerCase() ? 'on' : '']"
+                                                     @click="setSelectedChartType(chartType.toLowerCase())">
+                                                    <div>
+                                                        <font-awesome-icon size="5x" :icon="['fa', 'chart-' + chartType.toLowerCase()]" />
+                                                        <div>{{ chartType }} Chart</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
                         </th>
                     </tr>
                 </thead>
@@ -188,7 +209,7 @@
             season: '봄',
             options: {
                 dotSize: 20,
-                width: 'calc(100% - 100px)',
+                width: 500,
                 height: 15,
                 contained: false,
                 direction: 'ltr',
@@ -212,7 +233,7 @@
                 minRange: undefined,
                 maxRange: undefined,
                 order: true,
-                marks: false,
+                marks: true,
                 dotOptions: undefined,
                 dotAttrs: undefined,
                 process: true,

@@ -9,7 +9,8 @@ import {
     faChartBar,
     faChartArea,
     faChartPie,
-    faChartScatter
+    faChartScatter,
+    faTable
 } from "@fortawesome/free-solid-svg-icons";
 
 import DatePicker from "vue2-datepicker";
@@ -28,7 +29,8 @@ library.add(
     faChartBar,
     faChartArea,
     faChartPie,
-    faChartScatter);
+    faChartScatter,
+    faTable);
 
 Vue.config.productionTip = false;
 
