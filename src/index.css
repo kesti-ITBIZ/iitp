@@ -13,6 +13,36 @@
     src: url('./assets/font/KoPub Dotum Light.ttf') format('truetype');
 }
 
+@font-face {
+    font-family: 'NotoSansKR Black';
+    src: url('./assets/font/NotoSansKR-Black.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'NotoSansKR Bold';
+    src: url('./assets/font/NotoSansKR-Bold.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'NotoSansKR Light';
+    src: url('./assets/font/NotoSansKR-Light.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'NotoSansKR Medium';
+    src: url('./assets/font/NotoSansKR-Medium.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'NotoSansKR Regular';
+    src: url('./assets/font/NotoSansKR-Regular.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'NotoSansKR Thin';
+    src: url('./assets/font/NotoSansKR-Thin.otf') format('opentype');
+}
+
 html, body {
     height: 100%;
     margin: 0;

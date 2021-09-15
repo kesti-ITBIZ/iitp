@@ -1,0 +1,38 @@
+#content-wrap {
+    width: calc(100% - 600px);
+    height: 100%;
+}
+
+#content-wrap > table > thead > th {
+    text-align: left;
+    border-left: none;
+    border-right: none;
+    height: calc(290px - 36px) !important;
+}
+
+#content-wrap > table > thead > tr > th:last-child {
+    border-right: 1px solid #a5a5a5;
+}
+
+#content-wrap > table > thead > tr > th > div {
+    height: 100%;
+}
+
+#content-wrap > table > thead > tr > th > div > div {
+    display: inline-block;
+    height: 100%;
+}
+
+#content-wrap > table > thead > tr > th table,
+#content-wrap > table > thead > tr > th table th {
+    border-collapse: collapse;
+    border: none !important;
+}
+
+#content-wrap > table > thead > tr > th table th {
+    text-align: left;
+}
+
+#content-wrap .map .map-data {
+    height: calc(100% - 48px);
+}

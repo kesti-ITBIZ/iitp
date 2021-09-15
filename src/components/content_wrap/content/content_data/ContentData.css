@@ -1,0 +1,38 @@
+#content-data {
+    height: fit-content;
+}
+
+#content-data ul {
+    display: flex;
+}
+
+#content-data ul li {
+    width: calc(100% / 5);
+}
+
+#content-data input[type=button] {
+    width: calc(100% - 13px);
+    color: #01947a;
+    background-color: #ecf9f7;
+    border: 1px solid #01947a;
+    margin: 6px;
+    padding: 10px;
+    transition: color 0.1s, border 0.1s, background-color 0.1s;
+}
+
+#content-data input[type=button]:hover {
+    color: #1cad95;
+    border: 1px solid #1cad95;
+    background-color: #faffff;
+}
+
+#content-data input[type=button]:active {
+    color: #006f5b;
+    border: 1px solid #006f5b;
+    background-color: #e9fffb;
+}
+
+#content-data input[type=button].on {
+    color: #ecf9f7;
+    background-color: #01947a;
+}

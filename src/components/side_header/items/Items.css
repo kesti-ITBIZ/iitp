@@ -1,0 +1,53 @@
+#items .opt-body input[type=button] {
+    color: #0084de;
+    border: 1px solid #0084de;
+    background-color: #e9f9ff;
+    transition: color 0.1s, border 0.1s, background-color 0.1s;
+}
+
+#items .opt-body input[type=button]:hover {
+    color: #42b2ff;
+    border: 1px solid #42b2ff;
+    background-color: #f9feff;
+}
+
+#items .opt-body input[type=button]:active {
+    color: #0061a5;
+    border: 1px solid #0061a5;
+    background-color: #d4eaff;
+}
+
+#items .opt-body input[type=button].on {
+    color: #ecf9f7;
+    background-color: #0084de;
+}
+
+#items .opt-body > ul {
+    height: calc(100% - 93.5px);
+}
+
+#items .opt-body > div {
+    display: flex;
+    font-size: 16pt;
+}
+
+#items .opt-body > div > div {
+    width: 50%;
+    color: #0dbb00;
+    background-color: #f3fff3;
+    border: 1px solid #0dbb00;
+    padding: 30px 0;
+    transition: background-color 0.2s, color 0.2s;
+    cursor: pointer;
+}
+
+#items .opt-body > div > div:hover {
+    color: #f3fff3;
+    background-color: #0dbb00;
+}
+
+#items .opt-body > div > div:active {
+    background-color: #006f5b;
+    border: 1px solid #006f5b;
+    transition: background-color 0.1s;
+}
