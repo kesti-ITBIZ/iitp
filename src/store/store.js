@@ -7,6 +7,14 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
+        common: {
+            alert: {
+                show: false,
+                title: "",
+                okButtonText: "",
+                onOk: () => null
+            }
+        },
         data: [
             { label: "전체", value: "ALL" },
             { label: "환경부", value: "ME" },
@@ -44,6 +52,8 @@ export default new Vuex.Store({
 
     },
     mutations: {
+        SET_ALERT_INVISIBLE: state => state.common.alert = { show: false, title: "", okButtonText: "", onOk: () => null },
+        SET_ALERT_VISIBLE: (state, alert) => state.common.alert = { ...alert },
         SET_SELECTED_DATA: (state, data) => state.selectedData = Object.freeze(data),
         SET_SELECTED_ITEM: (state, item) => {
             const selectedItems = state.selectedItems.concat();
@@ -108,6 +118,8 @@ export default new Vuex.Store({
         SET_SELECTED_CHART_TYPE: (state, chartType) => state.selectedChartType = chartType
     },
     actions: {
+        SET_ALERT_INVISIBLE: context => context.commit("SET_ALERT_INVISIBLE"),
+        SET_ALERT_VISIBLE: (context, alert) => context.commit("SET_ALERT_VISIBLE", alert),
         SET_SELECTED_DATA: (context, data) => context.commit("SET_SELECTED_DATA", data),
         SET_SELECTED_ITEM: (context, item) => context.commit("SET_SELECTED_ITEM", item),
         REMOVE_SELECTED_ITEM: (context, item) => context.commit("REMOVE_SELECTED_ITEM", item),

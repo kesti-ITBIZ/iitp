@@ -21,6 +21,8 @@ import "vue-slider-component/theme/antd.css";
 
 import "./index.css";
 
+import "animate.css";
+
 Vue.component("date-picker", DatePicker);
 Vue.component("vue-slider", VueSlider);
 Vue.component("font-awesome-icon", FontAwesomeIcon);

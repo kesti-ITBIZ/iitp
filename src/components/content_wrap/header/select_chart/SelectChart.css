@@ -11,6 +11,7 @@
 
 #select-chart .select-chart-btn svg {
     display: block;
+    margin: 0 auto;
 }
 
 #select-chart .select-chart-btn svg ~ div {
