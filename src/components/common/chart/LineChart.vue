@@ -1,5 +1,5 @@
 <template>
-    <div :ref="id"></div>
+    <div id="line-chart" :ref="id"></div>
 </template>
 
 <script>
@@ -21,14 +21,23 @@
             data: Array,
             color: String,
             xAxisLabels: Array,
-            yAxisSuffix: String,
-            ranges: Array
+            yAxisSuffix: String
         },
         data: () => ({
             chart: null
         }),
         watch: {
-            async data() {
+            data() {
+                this.initChart();
+            }
+        },
+        methods: {
+            ...mapActions({
+                addResizeEvent: "ADD_RESIZE_EVENT",
+                clearResizeEvent: "CLEAR_RESIZE_EVENT"
+            }),
+
+            async initChart() {
                 if (this.chart) this.chart.clear();
                 this.chart = init(this.$refs[this.id]);
                 this.chart.setOption({
@@ -70,26 +79,24 @@
                             color: this.color,
                             showSymbol: false
                         }
-                    ].concat(this.ranges.map(obj => ({
-                        type: "line",
-                        color: obj.color,
-                        markArea: {
-                            data: [[
-                                { xAxis: obj.data[0] },
-                                { xAxis: obj.data[1] },
-                            ]]
-                        }
-                    })))
+                    ]
                 });
                 await this.addResizeEvent(() => this.chart.resize());
             }
         },
-        methods: mapActions({
-            addResizeEvent: "ADD_RESIZE_EVENT",
-            clearResizeEvent: "CLEAR_RESIZE_EVENT"
-        }),
+        mounted() {
+            this.initChart();
+        },
         async destroyed() {
             await this.clearResizeEvent();
         }
     }
 </script>
+
+<style>
+    #line-chart {
+        width: 100%;
+        height: 100%;
+        /*display: block;*/
+    }
+</style>

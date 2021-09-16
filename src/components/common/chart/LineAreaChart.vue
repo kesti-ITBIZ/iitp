@@ -19,12 +19,6 @@
             id: String,
             title: String,
             colors: Array,
-            lower2: Array,
-            lower1: Array,
-            upper1: Array,
-            upper2: Array,
-            obsVal: Array,
-            inferVal: Array,
             xAxisLabels: Array,
             yAxisSuffix: String,
             ranges: Array
@@ -42,12 +36,7 @@
                 this.chart.setOption({
                     tooltip: {
                         trigger: "axis",
-                        formatter: params => `
-                                [${params[0].name}]<br />
-                                ±95%: ${Math.round(params[0].value * 100) / 100} ~ ${Math.round((params[0].value + params[1].value + params[2].value + params[3].value) * 100) / 100}<br />
-                                ±85%: ${Math.round((params[0].value + params[1].value) * 100) / 100} ~ ${Math.round((params[0].value + params[1].value + params[2].value) * 100) / 100}<br />
-                                관측값: ${Math.round(params[4].value * 100) / 100}<br />
-                                모델추정값: ${Math.round(params[5].value * 100) / 100}<br />`
+                        formatter: params => `${params}`
                     },
                     toolbox: { feature: { saveAsImage: { type: "png" } } },
                     dataZoom: [{ type: "slider" }],

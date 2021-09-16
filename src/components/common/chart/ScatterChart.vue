@@ -20,8 +20,7 @@
             title: String,
             data: Array,
             color: String,
-            yAxisSuffix: String,
-            ranges: Array
+            yAxisSuffix: String
         },
         data: () => ({
             chart: null
@@ -67,16 +66,7 @@
                             symbolSize: 6,
                             data: this.data
                         },
-                    ].concat(this.ranges.map(obj => ({
-                        type: "scatter",
-                        color: obj.color,
-                        markArea: {
-                            data: [[
-                                { xAxis: obj.data[0] },
-                                { xAxis: obj.data[1] },
-                            ]]
-                        }
-                    })))
+                    ]
                 });
                 await this.addResizeEvent(() => this.chart.resize());
             }

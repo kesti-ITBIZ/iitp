@@ -2,7 +2,7 @@
     <div id="content-data">
         <ul>
             <li :key="i" v-for="(obj, i) in data">
-                <input type="button" :class="selectedData.value == obj.value ? 'on' : ''" :value="obj.label" @click="setSelectedData(obj)" />
+                <input type="button" :class="selectedData == obj.value ? 'on' : ''" :value="obj.label" @click="setSelectedData(obj.value)" />
             </li>
         </ul>
     </div>

@@ -21,16 +21,16 @@
         },
         watch: {
             async selectedData() {
-                this.map.clustering((await axios.get(`/stations/${this.selectedData.toLowerCase()}`).then(response => response.data)).map(obj => ({ latitude: obj.latitude, longitude: obj.longitude })));
+                this.map.clustering((await axios.get(this.selectedData == "ALL" ? "stationsAll" : `/stations/${this.selectedData.toLowerCase()}`).then(response => response.data)).map(obj => ({ latitude: obj.latitude, longitude: obj.longitude })));
                 this.map.setOverlay(this.overlayCallback);
             }
         },
         methods: {
             overlayCallback(latitude, longitude) {
-                const index = this.data.findIndex(obj => Math.abs(obj.latitude - latitude) <= 1e-7 && Math.abs(obj.longitude - longitude) <= 1e-7);
+                const index = this.data.findIndex(obj => Math.abs(obj.latitude - latitude) <= 1e-6 && Math.abs(obj.longitude - longitude) <= 1e-6);
 
                 const title = this.data && index !== -1 ? this.data[index].address : "주소정보가 존재하지 않습니다.";
-                [latitude, longitude] = [Math.round(latitude * 10) / 10, Math.round(longitude * 10) / 10];
+                [latitude, longitude] = [Math.round(latitude * 10000) / 10000, Math.round(longitude * 10000) / 10000];
 
                 return `
                     <div class="overlay">

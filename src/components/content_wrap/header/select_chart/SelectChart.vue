@@ -9,12 +9,19 @@
                 </div>
             </div>
             <div :key="i"
-                 v-for="(chartType, i) in ['Line', 'Bar', 'Area', 'Pie', 'Scatter']"
+                 v-for="(chartType, i) in ['Pie', 'Line', 'Bar', 'Area', 'Scatter']"
                  :class="['select-chart-btn', selectedChartType == chartType.toLowerCase() ? 'on' : '']"
                  @click="setSelectedChartType(chartType.toLowerCase())">
                 <div>
                     <font-awesome-icon size="5x" :icon="['fa', 'chart-' + chartType.toLowerCase()]" />
                     <div>{{ chartType }} Chart</div>
+                </div>
+            </div>
+            <div :class="['select-chart-btn', selectedChartType == 'distribution' ? 'on' : '']"
+                 @click="setSelectedChartType('distribution')">
+                <div>
+                    <font-awesome-icon size="4x" :icon="['fa', 'chart-network']" style="margin: 0 0 0 5px;" />
+                    <div>Distribution</div>
                 </div>
             </div>
         </div>

@@ -5,14 +5,14 @@
                 :type="selectedDateType"
                 :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format"
                 :value="startDatetime"
-                @change="setStartDatetime" />
+                @change="onChangeStartDatetime" />
         &nbsp;~&nbsp;
         <date-picker
                 valueType="format"
                 :type="selectedDateType"
                 :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format"
                 :value="endDatetime"
-                @change="setEndDatetime" />
+                @change="onChangeEndDatetime" />
         <label>
             <select :value="selectedDateType" @change="setSelectedDateType($event.target.value)">
                 <option :key="i" v-for="(dateType, i) in dateTypes" :value="dateType.type">{{ dateType.label }}</option>
@@ -23,6 +23,7 @@
 
 <script>
     import { mapState, mapActions } from "vuex";
+    import { alert } from "@/assets/js/common.utils";
 
     export default {
         name: "SelectDatetime",
@@ -39,7 +40,19 @@
                 setStartDatetime: "SET_START_DATETIME",
                 setEndDatetime: "SET_END_DATETIME",
                 setSelectedDateType: "SET_SELECTED_DATE_TYPE"
-            })
+            }),
+
+            async onChangeStartDatetime(datetime) {
+                if (datetime > this.endDatetime)
+                    await new Promise(resolve => alert("잘못된 시간대 입력입니다.", resolve));
+                else this.setStartDatetime(datetime);
+            },
+
+            async onChangeEndDatetime(datetime) {
+                if (datetime < this.startDatetime)
+                    await new Promise(resolve => alert("잘못된 시간대 입력입니다.", resolve));
+                else this.setEndDatetime(datetime);
+            }
         }
     }
 </script>

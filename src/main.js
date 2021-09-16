@@ -10,6 +10,7 @@ import {
     faChartArea,
     faChartPie,
     faChartScatter,
+    faChartNetwork,
     faTable
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -32,6 +33,7 @@ library.add(
     faChartArea,
     faChartPie,
     faChartScatter,
+    faChartNetwork,
     faTable);
 
 Vue.config.productionTip = false;

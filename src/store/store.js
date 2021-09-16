@@ -8,6 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         common: {
+            resizeEventListeners: [],
             alert: {
                 show: false,
                 title: "",
@@ -52,6 +53,19 @@ export default new Vuex.Store({
 
     },
     mutations: {
+        ADD_RESIZE_EVENT: (state, callback) => {
+            state.common.resizeEventListeners = state.common.resizeEventListeners.concat(callback);
+            // let isResizing;
+            // window.addEventListener("resize", () => {
+            //     if (isResizing) clearTimeout(isResizing);
+            //     isResizing = setTimeout(callback, 200);
+            // });
+            window.addEventListener("resize", callback);
+        },
+        CLEAR_RESIZE_EVENT: state => {
+            state.common.resizeEventListeners.forEach(func => window.removeEventListener("resize", func));
+            state.common.resizeEventListeners = [];
+        },
         SET_ALERT_INVISIBLE: state => state.common.alert = { show: false, title: "", okButtonText: "", onOk: () => null },
         SET_ALERT_VISIBLE: (state, alert) => state.common.alert = { ...alert },
         SET_SELECTED_DATA: (state, data) => state.selectedData = Object.freeze(data),
@@ -118,6 +132,8 @@ export default new Vuex.Store({
         SET_SELECTED_CHART_TYPE: (state, chartType) => state.selectedChartType = chartType
     },
     actions: {
+        ADD_RESIZE_EVENT: (context, callback) => context.commit("ADD_RESIZE_EVENT", callback),
+        CLEAR_RESIZE_EVENT: context => context.commit("CLEAR_RESIZE_EVENT"),
         SET_ALERT_INVISIBLE: context => context.commit("SET_ALERT_INVISIBLE"),
         SET_ALERT_VISIBLE: (context, alert) => context.commit("SET_ALERT_VISIBLE", alert),
         SET_SELECTED_DATA: (context, data) => context.commit("SET_SELECTED_DATA", data),

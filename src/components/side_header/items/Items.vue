@@ -15,8 +15,8 @@
                             </li>
                         </ul>
                         <div>
-                            <div @click.stop="addX">X</div>
-                            <div @click.stop="addY">Y</div>
+                            <div><div @click.stop="addX">X</div></div>
+                            <div><div @click.stop="addY">Y</div></div>
                         </div>
                     </td>
                 </tr>
@@ -28,12 +28,15 @@
 <script>
     import { mapState, mapActions } from "vuex";
 
+    import { alert } from "@/assets/js/common.utils";
+
     export default {
         name: "Items",
         computed: {
             ...mapState({
                 items: state => state.items,
-                selectedItems: state => state.selectedItems
+                selectedItems: state => state.selectedItems,
+                xAxis: state => state.xAxis
             })
         },
         methods: {
@@ -42,13 +45,20 @@
                 removeSelectedItem: "REMOVE_SELECTED_ITEM",
                 clearSelectedItem: "CLEAR_SELECTED_ITEM",
                 addXAxis: "ADD_X_AXIS",
+                removeXAxis: "REMOVE_X_AXIS",
                 addYAxis: "ADD_Y_AXIS"
             }),
 
-            addX() {
-                this.addXAxis(this.selectedItems);
-                this.removeSelectedItem(this.selectedItems);
-                this.clearSelectedItem();
+            async addX() {
+                if (this.selectedItems.length > 1)
+                    await new Promise(resolve => alert("X축 항목은 한 개만 선택해주세요.", resolve));
+                else {
+                    if (this.xAxis.length > 0)
+                        this.removeXAxis(this.xAxis[0]);
+                    this.addXAxis(this.selectedItems);
+                    this.removeSelectedItem(this.selectedItems);
+                    this.clearSelectedItem();
+                }
             },
 
             addY() {
