@@ -20,6 +20,10 @@ public class ApiService {
     private final ObserverRepository observerRepository;
     private final StationRepository stationRepository;
 
+    public List<Station> stationsAll() {
+        return this.stationRepository.findAll();
+    }
+
     public List<Station> stations(final String category) {
         return this.stationRepository.findAllByCategory(category);
     }
