@@ -82,41 +82,19 @@
                 if (this.selectedChartType == "distribution") {
                     registerMap("KOREA", require("../../../../assets/json/korea.json"));
 
-                    // const data = [
-                    //     { name: "강원도", value: Math.round(Math.random() * 10000) },
-                    //     { name: "경기도", value: Math.round(Math.random() * 10000) },
-                    //     { name: "경상남도", value: Math.round(Math.random() * 10000) },
-                    //     { name: "경상북도", value: Math.round(Math.random() * 10000) },
-                    //     { name: "광주광역시", value: Math.round(Math.random() * 10000) },
-                    //     { name: "대구광역시", value: Math.round(Math.random() * 10000) },
-                    //     { name: "대전광역시", value: Math.round(Math.random() * 10000) },
-                    //     { name: "부산광역시", value: Math.round(Math.random() * 10000) },
-                    //     { name: "서울특별시", value: Math.round(Math.random() * 10000) },
-                    //     { name: "세종특별자치시", value: Math.round(Math.random() * 10000) },
-                    //     { name: "울산광역시", value: Math.round(Math.random() * 10000) },
-                    //     { name: "인천광역시", value: Math.round(Math.random() * 10000) },
-                    //     { name: "전라남도", value: Math.round(Math.random() * 10000) },
-                    //     { name: "전라북도", value: Math.round(Math.random() * 10000) },
-                    //     { name: "제주특별자치도", value: Math.round(Math.random() * 10000) },
-                    //     { name: "충청남도", value: Math.round(Math.random() * 10000) },
-                    //     { name: "충청북도", value: Math.round(Math.random() * 10000) },
-                    // ];
-
                     let data = require("../../../../assets/json/data.json").map(obj => obj.name.split("|").map(val => +val).concat([1]));
                     console.log(data);
 
-                    let mapOption = {
-                        animation: false,
-                        bmap: {
-                            center: [30.240018034923, 120.13066322374],
-                            zoom: 14,
+                    this.chart.setOption({
+                        geo: {
+                            map: "KOREA",
                             roam: true
                         },
                         visualMap: {
                             left: "right",
                             min: 0,
-                            max: 5,
-                            seriesIndex: 1,
+                            max: 10,
+                            seriesIndex: 0,
                             calculable: true,
                             inRange: {
                                 color: ["purple", "blue", "green", "yellow", "orange", "red"]
@@ -132,49 +110,16 @@
                         },
                         series: [
                             {
-                                id: "distribution",
-                                type: "map",
-                                roam: true,
-                                map: "KOREA",
-                                animationDurationUpdate: 100,
-                                universalTransition: true,
-                                data
-                            },
-                            {
                                 id: "dist-heatmap",
                                 type: "heatmap",
-                                coordinateSystem: 'bmap',
+                                geoIndex: 0,
+                                coordinateSystem: "geo",
                                 data,
-                                pointSize: 20,
+                                pointSize: 5,
                                 blurSize: 6
                             }
                         ]
-                    };
-
-                    // var barOption = {
-                    //     xAxis: {
-                    //         type: "value"
-                    //     },
-                    //     yAxis: {
-                    //         type: "category",
-                    //         axisLabel: {
-                    //             rotate: 30
-                    //         },
-                    //         data: data.map(item => item.name)
-                    //     },
-                    //     animationDurationUpdate: 1000,
-                    //     series: {
-                    //         type: "bar",
-                    //         id: "population",
-                    //         data: data.map(item => item.value),
-                    //         universalTransition: true
-                    //     }
-                    // };
-
-                    this.chart.setOption(mapOption);
-                    // var bmap = this.chart.getModel().getComponent('bmap').getBMap();
-                    // eslint-disable-next-line no-undef
-                    // bmap.addControl(new BMap.MapTypeControl());
+                    });
                 } else
                     this.chart.setOption({
                         grid: {

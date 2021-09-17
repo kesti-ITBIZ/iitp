@@ -24,6 +24,8 @@ import "./index.css";
 
 import "animate.css";
 
+// import "echarts-bmap";
+
 Vue.component("date-picker", DatePicker);
 Vue.component("vue-slider", VueSlider);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
