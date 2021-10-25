@@ -5,15 +5,15 @@
             <table>
                 <thead>
                     <tr>
-                        <th>{{ xAxis.length === 0 ? "" : xAxis[0].label }}</th>
+                        <th>측정 시간</th>
                         <th :key="i" v-for="(y, i) in yAxis">{{ y.label }}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr :key="i" v-for="(d, i) in data">
+                    <tr :key="i" v-for="(d, i) in dataValues">
                         <td>{{ xAxisLabels[i] }}</td>
                         <td :key="j" v-for="(y, j) in yAxis">
-                            {{ Math.round(+data[i] * 100) / 100 }}{{ yAxisSuffix }}
+                            {{ Math.round(+dataValues[i] * 100) / 100 }}{{ y.unit }}
                         </td>
                     </tr>
                 </tbody>
@@ -24,6 +24,7 @@
 
 <script>
     import { mapState, mapActions } from "vuex";
+    import dayjs from "dayjs";
 
     import { init, registerMap } from "echarts";
 
@@ -33,26 +34,53 @@
             chart: null,
 
             title: "",
-            data: (() => {
-                const _data = [];
-                for (let i = 0, value = Math.random(); i < 100; ++i, value += (Math.round(Math.random() * 100) % 3 === 0 ? 1 : -1) * (Math.random() / 10))
-                    _data.push(value * 100);
-                return _data;
-            })(),
-            xAxisLabels: (() => {
-                const _data = [];
-                for (let i = 0; i < 100; ++i)
-                    _data.push("abc");
-                return _data;
-            })(),
-            yAxisSuffix: "℃"
+
         }),
         computed: {
             ...mapState({
                 selectedChartType: state => state.selectedChartType,
                 xAxis: state => state.xAxis,
-                yAxis: state => state.yAxis
-            })
+                yAxis: state => state.yAxis,
+                startDatetime: state => state.startDatetime,
+                endDatetime: state => state.endDatetime,
+                selectedDateType: state => state.selectedDateType
+            }),
+
+            format() {
+                switch (this.selectedDateType) {
+                case "hour":
+                    return "YYYY.MM.DD HH:00";
+                case "date":
+                    return "YYYY.MM.DD";
+                case "month":
+                    return "YYYY.MM";
+                case "year":
+                    return "YYYY";
+                }
+                return null;
+            },
+
+            dataValues() {
+                let format = this.format;
+                const _data = [];
+                for (let i = 0, value = Math.random();
+                     i < Math.abs(dayjs(this.startDatetime + ":00", format).diff(dayjs(this.endDatetime + ":00", format), "hour")) + 1;
+                     ++i, value += 0.1 * Math.random() * (Math.random() < 0.5 ? -1 : 1))
+                    _data.push(Math.abs(value) * 100);
+                return _data;
+            },
+
+            xAxisLabels() {
+                const _data = [];
+                let format = this.format;
+
+                for (let date = dayjs(this.startDatetime + ":00", format);
+                     date <= dayjs(this.endDatetime + ":00", format);
+                     date = date.add(1, this.selectedDateType)) {
+                    _data.push(date.format(format))
+                }
+                return _data;
+            }
         },
         watch: {
             selectedChartType() {
@@ -83,7 +111,6 @@
                     registerMap("KOREA", require("../../../../assets/json/korea.json"));
 
                     let data = require("../../../../assets/json/data.json").map(obj => obj.name.split("|").map(val => +val).concat([1]));
-                    console.log(data);
 
                     this.chart.setOption({
                         geo: {
@@ -155,7 +182,7 @@
                                 align: "left"
                             },
                             axisLabel: {
-                                formatter: `{value}${this.yAxisSuffix}`
+                                formatter: `{value}`
                             },
                             splitLine: {
                                 show: this.selectedChartType != "pie"
@@ -166,32 +193,32 @@
                                 switch (this.selectedChartType) {
                                 case "pie":
                                     return {
-                                        data: this.data,
+                                        data: this.dataValues,
                                         type: "pie",
                                         showSymbol: false
                                     };
                                 case "line":
                                     return {
-                                        data: this.data,
+                                        data: this.dataValues,
                                         type: "line",
                                         showSymbol: false
                                     };
                                 case "bar":
                                     return {
-                                        data: this.data,
+                                        data: this.dataValues,
                                         type: "bar",
                                         showSymbol: false
                                     };
                                 case "area":
                                     return {
-                                        data: this.data,
+                                        data: this.dataValues,
                                         type: "line",
                                         showSymbol: false,
                                         areaStyle: {}
                                     };
                                 case "scatter":
                                     return {
-                                        data: this.data,
+                                        data: this.dataValues,
                                         type: "scatter",
                                         showSymbol: false
                                     };

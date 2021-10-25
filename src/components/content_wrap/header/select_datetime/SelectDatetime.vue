@@ -2,15 +2,15 @@
     <th id="select-datetime">
         <date-picker
                 valueType="format"
-                :type="selectedDateType"
-                :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format"
+                :type="selectedDateType == 'hour' ? 'datetime' : selectedDateType"
+                :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format == 'YYYY.MM.DD HH:00' ? 'YYYY.MM.DD HH' : dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format"
                 :value="startDatetime"
                 @change="onChangeStartDatetime" />
         &nbsp;~&nbsp;
         <date-picker
                 valueType="format"
-                :type="selectedDateType"
-                :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format"
+                :type="selectedDateType == 'hour' ? 'datetime' : selectedDateType"
+                :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format == 'YYYY.MM.DD HH:00' ? 'YYYY.MM.DD HH' : dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format"
                 :value="endDatetime"
                 @change="onChangeEndDatetime" />
         <label>

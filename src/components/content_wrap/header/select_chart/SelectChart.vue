@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div :key="i"
-                 v-for="(chartType, i) in ['Pie', 'Line', 'Bar', 'Area', 'Scatter']"
+                 v-for="(chartType, i) in ['Line', 'Bar', 'Area', 'Scatter']"
                  :class="['select-chart-btn', selectedChartType == chartType.toLowerCase() ? 'on' : '']"
                  @click="setSelectedChartType(chartType.toLowerCase())">
                 <div>

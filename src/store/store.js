@@ -18,22 +18,21 @@ export default new Vuex.Store({
         },
         data: [
             { label: "전체", value: "ALL" },
-            { label: "환경부", value: "ME" },
-            { label: "에어코리아", value: "AIRKOREA" },
-            { label: "S-DoT", value: "AIRMAP" },
+            { label: "환경부", value: "AIRKOREA" },
+            { label: "KT", value: "AIRMAP" },
+            { label: "S-DoT", value: "" },
             { label: "옵저버", value: "OBSERVER" }
         ],
         selectedData: "AIRKOREA",
         items: [
-            { seq: 0, label: "지점", value: "stn" },
-            { seq: 1, label: "측정 시간", value: "obsTime" },
-            { seq: 2, label: "풍향(˚)", value: "wd" },
-            { seq: 3, label: "PM10(㎍/㎥)", value: "pm10" },
-            { seq: 4, label: "PM2.5(㎍/㎥)", value: "pm25" },
-            { seq: 5, label: "온도(℃)", value: "ta" },
-            { seq: 6, label: "습도(%)", value: "hm" },
-            { seq: 7, label: "풍속(㎧)", value: "ws" },
-            { seq: 8, label: "고농도 일수", value: "highDnstyDays" },
+            { seq: 0, label: "지점", value: "stn", unit: "" },
+            { seq: 1, label: "풍향(˚)", value: "wd", unit: "˚" },
+            { seq: 2, label: "PM10(㎍/㎥)", value: "pm10", unit: "㎍/㎥" },
+            { seq: 3, label: "PM2.5(㎍/㎥)", value: "pm25", unit: "㎍/㎥" },
+            { seq: 4, label: "온도(℃)", value: "ta", unit: "℃" },
+            { seq: 5, label: "습도(%)", value: "hm", unit: "%" },
+            { seq: 6, label: "풍속(㎧)", value: "ws", unit: "㎧" },
+            { seq: 7, label: "고농도 일수", value: "highDnstyDays", unit: "일" }
         ],
         selectedItems: [],
         xAxis: [],
@@ -41,12 +40,12 @@ export default new Vuex.Store({
         startDatetime: dayjs().format("YYYY.MM.DD HH"),
         endDatetime: dayjs().format("YYYY.MM.DD HH"),
         dateTypes: [
-            { label: "시간", type: "datetime", format: "YYYY.MM.DD HH" },
+            { label: "시간", type: "hour", format: "YYYY.MM.DD HH:00" },
             { label: "일", type: "date", format: "YYYY.MM.DD" },
             { label: "월", type: "month", format: "YYYY.MM" },
             { label: "년", type: "year", format: "YYYY" }
         ],
-        selectedDateType: "datetime",
+        selectedDateType: "hour",
         selectedChartType: "line"
     },
     getters: {
