@@ -1,7 +1,7 @@
 spring:
   profiles:
-    active: local
-#    active: dev
+#    active: local
+    active: dev
 #    active: prd
   application:
     name: IITP
@@ -56,18 +56,20 @@ spring:
       on-profile: dev
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: [url]
-    username: [username]
-    password: [password]
+    url: jdbc:postgresql://192.168.1.223:5432/itbiz
+    username: itbiz_owner
+    password: itbiz2021@!
+    hikari:
+      schema: iitp
   jpa:
     properties:
       hibernate:
-        dialect: [dialect]
+        dialect: org.hibernate.dialect.PostgreSQL94Dialect
         show_sql: false
         format_sql: false
 ---
 server:
-  port: 9200
+  port: 8080
 spring:
   config:
     activate:
