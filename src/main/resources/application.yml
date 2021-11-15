@@ -1,11 +1,15 @@
 spring:
   profiles:
-#    active: local
-    active: dev
+    active: local
+#    active: dev
 #    active: prd
   application:
     name: IITP
   datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://211.55.33.242:5432/pm10
+    username: postgres
+    password: test123
     hikari:
       connection-timeout: 1000
   jpa:
@@ -16,6 +20,7 @@ spring:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL94Dialect
         jdbc:
           time_zone: Asia/Seoul
   devtools:
@@ -34,17 +39,9 @@ spring:
   config:
     activate:
       on-profile: local
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://192.168.1.223:5432/itbiz
-    username: itbiz_owner
-    password: itbiz2021@!
-    hikari:
-      schema: iitp
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQL94Dialect
         show_sql: true
         format_sql: true
 ---
@@ -54,17 +51,9 @@ spring:
   config:
     activate:
       on-profile: dev
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://192.168.1.223:5432/itbiz
-    username: itbiz_owner
-    password: itbiz2021@!
-    hikari:
-      schema: iitp
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQL94Dialect
         show_sql: false
         format_sql: false
 ---
@@ -74,14 +63,8 @@ spring:
   config:
     activate:
       on-profile: prd
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: [url]
-    username: [username]
-    password: [password]
   jpa:
     properties:
       hibernate:
-        dialect: [dialect]
         show_sql: false
         format_sql: false
