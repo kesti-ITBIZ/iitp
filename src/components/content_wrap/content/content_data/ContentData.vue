@@ -23,6 +23,9 @@
             ...mapActions({
                 setSelectedData: "SET_SELECTED_DATA"
             })
+        },
+        mounted() {
+
         }
     }
 </script>

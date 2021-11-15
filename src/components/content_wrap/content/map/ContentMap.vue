@@ -5,6 +5,7 @@
 <script>
     import { mapState } from "vuex";
     import axios from "axios";
+    import { execAsync } from "@/assets/js/common.utils";
 
     import KakaoMapUtils from "../../../../assets/js/map.utils";
 
@@ -21,7 +22,17 @@
         },
         watch: {
             async selectedData() {
-                this.map.clustering((await axios.get(this.selectedData == "ALL" ? "stationsAll" : `/stations/${this.selectedData.toLowerCase()}`).then(response => response.data)).map(obj => ({ latitude: obj.latitude, longitude: obj.longitude })));
+                let data;
+                if (this.selectedData == "all") {
+                    data = [];
+                    const results = await execAsync(
+                        () => fetch("/api/airkorea/stations").then(response => response.json()),
+                        () => fetch("/api/kt/stations").then(response => response.json()),
+                        () => fetch("/api/sDoT/stations").then(response => response.json()),
+                        () => fetch("/api/observer/stations").then(response => response.json()));
+                    Object.keys(results).forEach(i => data = data.concat(results[i].map(obj => ({ latitude: obj.latitude, longitude: obj.longitude }))));
+                } else data = (await fetch(`/api/${this.selectedData}/stations`).then(response => response.json())).map(obj => ({ latitude: obj.latitude, longitude: obj.longitude }));
+                this.map.clustering(data);
                 this.map.setOverlay(this.overlayCallback);
             }
         },
@@ -46,7 +57,7 @@
             this.map = new KakaoMapUtils(this.$refs["map"]);
             this.map.setMapType("SKYVIEW");
 
-            const data = (await axios.get(`/stations/${this.selectedData.toLowerCase()}`).then(response => response.data));
+            const data = (await axios.get(`/api/${this.selectedData}/stations`).then(response => response.data));
             this.data = Object.freeze(data);
             this.map.clustering(data.map(obj => ({ latitude: obj.latitude, longitude: obj.longitude })));
             this.map.setOverlay(this.overlayCallback);
