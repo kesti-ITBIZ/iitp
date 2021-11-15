@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/iitp-front.iml" filepath="$PROJECT_DIR$/iitp-front.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iitp-front-prototype.iml" filepath="$PROJECT_DIR$/iitp-front-prototype.iml" />
     </modules>
   </component>
 </project>

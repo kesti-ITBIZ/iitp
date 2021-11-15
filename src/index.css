@@ -1,13 +1,107 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face {
+    font-family: 'KoPub Dotum Bold';
+    src: url('./assets/font/KoPub Dotum Bold.ttf') format('truetype');
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@font-face {
+    font-family: 'KoPub Dotum Medium';
+    src: url('./assets/font/KoPub Dotum Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'KoPub Dotum Light';
+    src: url('./assets/font/KoPub Dotum Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NotoSansKR Black';
+    src: url('./assets/font/NotoSansKR-Black.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'NotoSansKR Bold';
+    src: url('./assets/font/NotoSansKR-Bold.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'NotoSansKR Light';
+    src: url('./assets/font/NotoSansKR-Light.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'NotoSansKR Medium';
+    src: url('./assets/font/NotoSansKR-Medium.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'NotoSansKR Regular';
+    src: url('./assets/font/NotoSansKR-Regular.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'NotoSansKR Thin';
+    src: url('./assets/font/NotoSansKR-Thin.otf') format('opentype');
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+hr {
+    border-top: 0.001em solid #dbdbdb;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    margin: 4px 0;
+}
+
+input,
+select,
+textarea {
+    outline: none;
+}
+
+#app {
+    height: 100%;
+}
+
+.scroll {
+    overflow: scroll;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 13px;
+    height: 13px;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.scroll::-webkit-scrollbar-corner {
+    display: none;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background-color: #bdbdbd;
+    background-clip: padding-box;
+    border: 4px solid transparent;
+    cursor: pointer;
+    -webkit-transition: background-color 0.5s;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.text-no-drag {
+    -ms-user-select: none;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
