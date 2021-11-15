@@ -10,17 +10,17 @@ spring:
     url: jdbc:postgresql://211.55.33.242:5432/pm10
     username: postgres
     password: test123
-    hikari:
-      connection-timeout: 1000
   jpa:
     open-in-view: false
     hibernate:
       ddl-auto: none
       naming:
-        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL94Dialect
+        globally_quoted_identifiers: true
         jdbc:
           time_zone: Asia/Seoul
   devtools:

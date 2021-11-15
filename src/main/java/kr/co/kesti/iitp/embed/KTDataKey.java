@@ -17,9 +17,9 @@ import java.util.Date;
 @AllArgsConstructor
 public class KTDataKey implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EQUIP_DATE")
+    @Column(name = "equip_date")
     private Date equipDate;
 
-    @Column(name = "DEV_ID", length = 20)
+    @Column(name = "dev_id", length = 20)
     private String devId;
 }

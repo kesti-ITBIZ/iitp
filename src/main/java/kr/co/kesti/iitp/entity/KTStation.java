@@ -16,24 +16,24 @@ import javax.persistence.Table;
 @AllArgsConstructor
 public class KTStation {
     @Id
-    @Column(name = "DEV_ID", length = 20)
+    @Column(name = "dev_id", length = 20)
     private String devId;
 
-    @Column(name = "DEV_NM", length = 100)
+    @Column(name = "dev_nm", length = 100)
     private String devNm;
 
-    @Column(name = "ADDR", length = 500)
+    @Column(name = "addr", length = 500)
     private String addr;
 
-    @Column(name = "NEWADDR", length = 500)
+    @Column(name = "newaddr", length = 500)
     private String newaddr;
 
-    @Column(name = "LO", precision = 14, scale = 10)
+    @Column(name = "lo", precision = 14, scale = 10)
     private Float lo;
 
-    @Column(name = "LA", precision = 14, scale = 10)
+    @Column(name = "la", precision = 14, scale = 10)
     private Float la;
 
-    @Column(name = "REGIST_TIME", length = 20)
+    @Column(name = "regist_time", length = 20)
     private String registTime;
 }

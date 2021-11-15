@@ -13,9 +13,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AirkoreaDataKey implements Serializable {
-    @Column(name = "TIME", length = 30)
+    @Column(name = "time", length = 30)
     private String time;
 
-    @Column(name = "STN_NM", length = 30)
+    @Column(name = "stn_nm", length = 30)
     private String stnNm;
 }

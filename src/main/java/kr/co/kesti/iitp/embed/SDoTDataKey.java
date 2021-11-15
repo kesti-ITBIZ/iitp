@@ -13,12 +13,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SDoTDataKey implements Serializable {
-    @Column(name = "REGIST_TIME", length = 30)
+    @Column(name = "regist_time", length = 30)
     private String registTime;
 
-    @Column(name = "MODEL_SR", length = 30)
+    @Column(name = "model_sr", length = 30)
     private String modelSr;
 
-    @Column(name = "DIV")
-    private Long div;
+    @Column(name = "div")
+    private Short div;
 }

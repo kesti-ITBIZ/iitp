@@ -19,15 +19,15 @@ public class KTData {
     @EmbeddedId
     private KTDataKey tbKtDataRawKey;
 
-    @Column(name = "TEMP", precision = 7, scale = 2)
+    @Column(name = "temp", precision = 7, scale = 2)
     private Float temp;
 
-    @Column(name = "HUM", precision = 7, scale = 2)
+    @Column(name = "hum", precision = 7, scale = 2)
     private Float hum;
 
-    @Column(name = "PM10", precision = 7, scale = 2)
+    @Column(name = "pm10", precision = 7, scale = 2)
     private Float pm10;
 
-    @Column(name = "PM25", precision = 7, scale = 2)
+    @Column(name = "pm25", precision = 7, scale = 2)
     private Float pm25;
 }

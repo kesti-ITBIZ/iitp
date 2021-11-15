@@ -17,13 +17,13 @@ import java.util.Date;
 @AllArgsConstructor
 public class ObserverDataKey implements Serializable {
     @Temporal(TemporalType.DATE)
-    @Column(name = "DATA_DATE")
+    @Column(name = "data_date")
     private Date dataDate;
 
     @Temporal(TemporalType.TIME)
-    @Column(name = "DATA_TIME")
+    @Column(name = "data_time")
     private Date dataTime;
 
-    @Column(name = "STN_SERIAL", length = 20)
+    @Column(name = "stn_serial", length = 20)
     private String stnSerial;
 }

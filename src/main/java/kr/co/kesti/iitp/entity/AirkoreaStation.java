@@ -15,28 +15,28 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AirkoreaStation {
-    @Column(name = "RUN_TIME", length = 30, nullable = false)
+    @Column(name = "run_time", length = 30, nullable = false)
     private String runTime;
 
     @Id
-    @Column(name = "STN_NM", length = 30)
+    @Column(name = "stn_nm", length = 30)
     private String stnNm;
 
-    @Column(name = "ADDR", length = 500, nullable = false)
+    @Column(name = "addr", length = 500, nullable = false)
     private String addr;
 
-    @Column(name = "YEAR", length = 4)
+    @Column(name = "year", length = 4)
     private String year;
 
-    @Column(name = "MANG_NM", length = 100, nullable = false)
+    @Column(name = "mang_nm", length = 100, nullable = false)
     private String mangNm;
 
-    @Column(name = "ITEM", length = 30, nullable = false)
+    @Column(name = "item", length = 30, nullable = false)
     private String item;
 
-    @Column(name = "LO", precision = 14, scale = 10, nullable = false)
+    @Column(name = "lo", precision = 14, scale = 10, nullable = false)
     private Float lo;
 
-    @Column(name = "LA", precision = 14, scale = 10, nullable = false)
+    @Column(name = "la", precision = 14, scale = 10, nullable = false)
     private Float la;
 }

@@ -17,21 +17,21 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class SDoTStation implements Serializable {
     @Id
-    @Column(name = "STN_ID", length = 30)
+    @Column(name = "stn_id", length = 30)
     private String stnId;
 
-    @Column(name = "ADDR", length = 500, nullable = false)
+    @Column(name = "addr", length = 500, nullable = false)
     private String addr;
 
-    @Column(name = "YEAR", length = 4, nullable = false)
+    @Column(name = "year", length = 4, nullable = false)
     private String year;
 
-    @Column(name = "HEIGHT", precision = 5, scale = 2)
+    @Column(name = "height", precision = 5, scale = 2)
     private Float height;
 
-    @Column(name = "LO", precision = 14, scale = 10)
+    @Column(name = "lo", precision = 14, scale = 10)
     private Float lo;
 
-    @Column(name = "LA", precision = 14, scale = 10)
+    @Column(name = "la", precision = 14, scale = 10)
     private Float la;
 }

@@ -19,42 +19,42 @@ public class ObserverData {
     @EmbeddedId
     private ObserverDataKey observerDataKey;
 
-    @Column(name = "LO", precision = 14, scale = 10)
+    @Column(name = "lo", precision = 14, scale = 10)
     private Float lo;
 
-    @Column(name = "LA", precision = 14, scale = 10)
+    @Column(name = "la", precision = 14, scale = 10)
     private Float la;
 
-    @Column(name = "PRESS", precision = 6, scale = 1)
+    @Column(name = "press", precision = 6, scale = 1)
     private Float press;
 
-    @Column(name = "TEMP", precision = 6, scale = 1)
+    @Column(name = "temp", precision = 6, scale = 1)
     private Float temp;
 
-    @Column(name = "HUM", precision = 6, scale = 1)
+    @Column(name = "hum", precision = 6, scale = 1)
     private Float hum;
 
-    @Column(name = "QC_PRESS", length = 5)
+    @Column(name = "qc_press", length = 5)
     private String qcPress;
 
-    @Column(name = "QC_TEMP", length = 5)
+    @Column(name = "qc_temp", length = 5)
     private String qcTemp;
 
-    @Column(name = "QC_HUM", length = 5)
+    @Column(name = "qc_hum", length = 5)
     private String qcHum;
 
-    @Column(name = "PM25", precision = 6, scale = 1)
+    @Column(name = "pm25", precision = 6, scale = 1)
     private Float pm25;
 
-    @Column(name = "PM25_R", precision = 8, scale = 3)
+    @Column(name = "pm25_r", precision = 8, scale = 3)
     private Float pm25_R;
 
-    @Column(name = "QC_PM25", length = 5)
+    @Column(name = "qc_pm25", length = 5)
     private String qcPm25;
 
-    @Column(name = "PTY", precision = 6, scale = 1)
+    @Column(name = "pty", precision = 6, scale = 1)
     private Float pty;
 
-    @Column(name = "PTY_R", length = 10)
+    @Column(name = "pty_r", length = 10)
     private String ptyR;
 }
