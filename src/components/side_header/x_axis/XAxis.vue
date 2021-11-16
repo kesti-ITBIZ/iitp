@@ -12,7 +12,7 @@
                         <ul>
                             <li :key="i" v-for="(data, i) in xAxis">
                                 <div @click="removeXAxis(data)">
-                                    {{ data.label }}
+                                    {{ data.label + (data.unit !== "" ? ` (${data.unit})` : "") }}
                                     <span>&times;</span>
                                 </div>
                             </li>
@@ -31,7 +31,7 @@
         name: "XAxis",
         computed: {
             ...mapState({
-                xAxis: state => state.xAxis
+                xAxis: state => state[state.selectedData].xAxis
             })
         },
         methods: {

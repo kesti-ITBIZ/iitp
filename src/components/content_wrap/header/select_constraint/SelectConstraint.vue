@@ -5,7 +5,8 @@
             <vue-slider
                     v-model="degree"
                     v-bind="{ ...options, dataValue: 'degree', min: 1, max: 4 }"
-                    :data="['좋음', '보통', '나쁨', '매우나쁨']" />
+                    :data="['좋음', '보통', '나쁨', '매우나쁨']"
+                    @change="onChangeFineParticleSlider" />
         </div>
         <hr />
         <div>
@@ -29,7 +30,7 @@
 </template>
 
 <script>
-    import { mapActions } from "vuex";
+    import { mapState, mapActions } from "vuex";
     import dayjs from "dayjs";
 
     export default {
@@ -79,14 +80,27 @@
             }
         }),
         computed: {
-
+            ...mapState({
+                fineParticleRanges: state => state.fineParticleRanges
+            })
         },
         methods: {
             ...mapActions({
                 setSelectedDateType: "SET_SELECTED_DATE_TYPE",
                 setStartDatetime: "SET_START_DATETIME",
-                setEndDatetime: "SET_END_DATETIME"
+                setEndDatetime: "SET_END_DATETIME",
+                setSelectedFineParticleRange: "SET_SELECTED_FINE_PARTICLE_RANGE"
             }),
+
+            onChangeFineParticleSlider(fineParticle) {
+                const ranges = ["좋음", "보통", "나쁨", "매우나쁨"];
+                const begin = this.fineParticleRanges[ranges.indexOf(fineParticle[0])];
+                const end = this.fineParticleRanges[ranges.indexOf(fineParticle[1])];
+                this.setSelectedFineParticleRange({
+                    pm10: [begin.pm10[0], end.pm10[1]],
+                    pm25: [begin.pm25[0], end.pm25[1]]
+                });
+            },
 
             onChangeMonthSlider(month) {
                 const year = dayjs().year();

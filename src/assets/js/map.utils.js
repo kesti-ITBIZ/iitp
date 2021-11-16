@@ -81,7 +81,7 @@ export default class KakaoMapUtils {
             averageCenter: true,
             minLevel: 10
         });
-        this.clusterer.addMarkers(data.map(({ latitude, longitude }) => new kakao.maps.Marker({ position: new kakao.maps.LatLng(latitude, longitude) })));
+        this.clusterer.addMarkers(data.map(obj => new kakao.maps.Marker({ position: new kakao.maps.LatLng(obj.latitude, obj.longitude) })));
     }
 
     setOverlay(callback) {
@@ -92,7 +92,7 @@ export default class KakaoMapUtils {
             let content = document.createElement("div");
             content.innerHTML = typeof callback === "function" ? callback(latitude, longitude) : callback.toString();
             content = content.querySelector("div.overlay");
-            content.onmouseleave = () => overlay.setVisible(false);
+
             const overlay = new kakao.maps.CustomOverlay({
                 map: this.map,
                 content,
@@ -100,7 +100,20 @@ export default class KakaoMapUtils {
                 zIndex: 999
             });
             overlay.setVisible(false);
+
+            const parent = overlay.getContent().parentElement;
+            parent.classList.add("overlay-parent");
+
             kakao.maps.event.addListener(marker, "mouseover", () => overlay.setVisible(true));
+            kakao.maps.event.addListener(marker, "mouseout", () => overlay.setVisible(false));
+            content.parentElement.onmouseleave = () => overlay.setVisible(false);
         });
+    }
+
+    addMarkerEventListener(eventListener, callback) {
+        this.clusterer._markers.forEach(marker => kakao.maps.event.addListener(marker, eventListener, () => {
+            const position = marker.getPosition();
+            callback(position.Ma, position.La);
+        }));
     }
 }

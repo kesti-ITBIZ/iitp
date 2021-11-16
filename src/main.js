@@ -2,6 +2,8 @@ import Vue from "vue";
 import App from "./App.vue";
 import store from "./store/store";
 
+import "./index.css";
+
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
@@ -14,20 +16,6 @@ import {
     faTable
 } from "@fortawesome/free-solid-svg-icons";
 
-import DatePicker from "vue2-datepicker";
-import "vue2-datepicker/index.css";
-
-import VueSlider from "vue-slider-component";
-import "vue-slider-component/theme/antd.css";
-
-import "./index.css";
-
-import "animate.css";
-
-// import "echarts-bmap";
-
-Vue.component("date-picker", DatePicker);
-Vue.component("vue-slider", VueSlider);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 library.add(
     faChartLine,
@@ -37,6 +25,18 @@ library.add(
     faChartScatter,
     faChartNetwork,
     faTable);
+
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
+
+Vue.component("date-picker", DatePicker);
+
+import VueSlider from "vue-slider-component";
+import "vue-slider-component/theme/antd.css";
+
+Vue.component("vue-slider", VueSlider);
+
+import "animate.css";
 
 Vue.config.productionTip = false;
 

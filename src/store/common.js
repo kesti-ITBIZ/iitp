@@ -2,12 +2,12 @@ export default {
     state: {
         common: {
             resizeEventListeners: [],
-            alert: {
+            alert: Object.freeze({
                 show: false,
                 title: "",
                 okButtonText: "",
                 onOk: () => null
-            }
+            })
         }
     },
     getters: {

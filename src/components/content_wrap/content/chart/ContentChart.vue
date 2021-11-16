@@ -39,8 +39,8 @@
         computed: {
             ...mapState({
                 selectedChartType: state => state.selectedChartType,
-                xAxis: state => state.xAxis,
-                yAxis: state => state.yAxis,
+                xAxis: state => state[state.selectedData].xAxis,
+                yAxis: state => state[state.selectedData].yAxis,
                 startDatetime: state => state.startDatetime,
                 endDatetime: state => state.endDatetime,
                 selectedDateType: state => state.selectedDateType
