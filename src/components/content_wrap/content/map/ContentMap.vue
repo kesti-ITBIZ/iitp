@@ -33,7 +33,7 @@
                 endDatetime: state => state.endDatetime,
                 xAxis: state => state[state.selectedData].xAxis,
                 yAxis: state => state[state.selectedData].yAxis,
-                selectedFindParticleRange: state => state.selectedFineParticleRange
+                selectedFineParticleRange: state => state.selectedFineParticleRange
             })
         },
         watch: {
@@ -86,18 +86,15 @@
                 else if (this.yAxis.length === 0)
                     await new Promise(resolve => alert("Y축 항목을 추가해주세요.", resolve));
                 else {
-                    console.log(
-                        this.stations.filter(obj => obj.latitude >= latitude - 2e-6
+                    this.$http.post(`/api/${this.selectedData}/getData`, {
+                        startDatetime: this.selectedData == "kt" || this.selectedData == "observer" ? this.startDatetime : this.startDatetime.format("YYYYMMDDHHmmss"),
+                        endDatetime: this.selectedData == "kt" || this.selectedData == "observer" ? this.endDatetime : this.endDatetime.format("YYYYMMDDHHmmss"),
+                        stnNm: this.stations.filter(obj => obj.latitude >= latitude - 2e-6
                             && obj.latitude <= latitude + 2e-6
                             && obj.longitude >= longitude - 2e-6
                             && obj.longitude <= longitude + 2e-6)[0].name,
-                        this.selectedData,
-                        this.startDatetime,
-                        this.endDatetime,
-                        this.xAxis,
-                        this.yAxis,
-                        this.selectedFindParticleRange
-                    );
+                        ...this.selectedFineParticleRange
+                    }).then(console.log);
                 }
             });
 

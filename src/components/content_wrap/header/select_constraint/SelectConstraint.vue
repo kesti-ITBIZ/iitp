@@ -77,10 +77,13 @@
                 stepActiveStyle: undefined,
                 labelStyle: undefined,
                 labelActiveStyle: undefined
-            }
+            },
+            preMonthRange: ["1월", "12월"],
+            preSeasonRange: ["봄", "겨울"]
         }),
         computed: {
             ...mapState({
+                selectedDateType: state => state.selectedDateType,
                 fineParticleRanges: state => state.fineParticleRanges
             })
         },
@@ -103,43 +106,42 @@
             },
 
             onChangeMonthSlider(month) {
+                if (this.selectedDateType != "month")
+                    this.setSelectedDateType("month");
                 const year = dayjs().year();
-                this.setSelectedDateType("month");
-                this.setStartDatetime(year + "." + dayjs(month[0].substring(0, month[0].length - 1), "M").format("MM"));
-                this.setEndDatetime(year + "." + dayjs(month[1].substring(0, month[1].length - 1), "M").format("MM"));
+                if (this.preMonthRange[0] !== month[0])
+                    this.setStartDatetime(dayjs(year + "." + dayjs(month[0].substring(0, month[0].length - 1), "M").format("MM") + ".01", "YYYY.MM.DD"));
+                if (this.preMonthRange[1] !== month[1])
+                    this.setEndDatetime(dayjs(year + "." + dayjs(month[1].substring(0, month[1].length - 1), "M").format("MM") + ".01", "YYYY.MM.DD"));
             },
 
             onChangeSeasonSlider(season) {
                 const year = dayjs().year();
-                this.setSelectedDateType("month");
-                switch (season[0]) {
-                case "봄":
-                    this.setStartDatetime(year + ".03");
-                    break;
-                case "여름":
-                    this.setStartDatetime(year + ".06");
-                    break;
-                case "가을":
-                    this.setStartDatetime(year + ".09");
-                    break;
-                case "겨울":
-                    this.setStartDatetime(year + ".12");
-                    break;
+                if (this.selectedDateType != "month")
+                    this.setSelectedDateType("month");
+                let seasonRange;
+                if (this.preSeasonRange[0] !== season[0] || this.preSeasonRange[1] !== season[1])
+                    seasonRange = this.preSeasonRange.concat();
+                if (this.preSeasonRange[0] !== season[0]) {
+                    switch (season[0]) {
+                    case "봄": this.setStartDatetime(dayjs(year + ".03.01", "YYYY.MM.DD")); break;
+                    case "여름": this.setStartDatetime(dayjs(year + ".06.01", "YYYY.MM.DD")); break;
+                    case "가을": this.setStartDatetime(dayjs(year + ".09.01", "YYYY.MM.DD")); break;
+                    case "겨울": this.setStartDatetime(dayjs(year + ".12.01", "YYYY.MM.DD")); break;
+                    }
+                    if (seasonRange != null) seasonRange[0] = season[0];
                 }
-                switch (season[1]) {
-                case "봄":
-                    this.setEndDatetime(year + ".05");
-                    break;
-                case "여름":
-                    this.setEndDatetime(year + ".08");
-                    break;
-                case "가을":
-                    this.setEndDatetime(year + ".11");
-                    break;
-                case "겨울":
-                    this.setEndDatetime((year + 1) + ".02");
-                    break;
+                if (this.preSeasonRange[1] !== season[1]) {
+                    switch (season[1]) {
+                    case "봄": this.setEndDatetime(dayjs(year + ".05.01", "YYYY.MM.DD")); break;
+                    case "여름": this.setEndDatetime(dayjs(year + ".08.01", "YYYY.MM.DD")); break;
+                    case "가을": this.setEndDatetime(dayjs(year + ".11.01", "YYYY.MM.DD")); break;
+                    case "겨울": this.setEndDatetime(dayjs((year + 1) + ".02.01", "YYYY.MM.DD")); break;
+                    }
+                    if (seasonRange != null) seasonRange[1] = season[1];
                 }
+                if (this.preSeasonRange[0] !== season[0] || this.preSeasonRange[1] !== season[1])
+                    this.preSeasonRange = Object.freeze(seasonRange);
             }
         }
     }

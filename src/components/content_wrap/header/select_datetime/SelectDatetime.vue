@@ -4,14 +4,14 @@
                 valueType="format"
                 :type="selectedDateType == 'hour' ? 'datetime' : selectedDateType"
                 :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format == 'YYYY.MM.DD HH:00' ? 'YYYY.MM.DD HH' : dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format"
-                :value="startDatetime"
+                :value="startDatetime.format(dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format)"
                 @change="onChangeStartDatetime" />
         &nbsp;~&nbsp;
         <date-picker
                 valueType="format"
                 :type="selectedDateType == 'hour' ? 'datetime' : selectedDateType"
                 :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format == 'YYYY.MM.DD HH:00' ? 'YYYY.MM.DD HH' : dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format"
-                :value="endDatetime"
+                :value="endDatetime.format(dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format)"
                 @change="onChangeEndDatetime" />
         <label>
             <select :value="selectedDateType" @change="setSelectedDateType($event.target.value)">
@@ -23,6 +23,8 @@
 
 <script>
     import { mapState, mapActions } from "vuex";
+    import dayjs from "dayjs";
+
     import { alert } from "@/assets/js/common.utils";
 
     export default {
@@ -43,15 +45,19 @@
             }),
 
             async onChangeStartDatetime(datetime) {
-                if (datetime > this.endDatetime)
+                datetime += this.selectedDateType == "hour" ? ":00" : "";
+                const format = this.dateTypes[this.dateTypes.findIndex(obj => obj.type == this.selectedDateType)].format + (this.selectedDateType == "hour" ? ":00" : "");
+                if (datetime > this.endDatetime.format(format))
                     await new Promise(resolve => alert("잘못된 시간대 입력입니다.", resolve));
-                else this.setStartDatetime(datetime);
+                else this.setStartDatetime(dayjs(datetime, format));
             },
 
             async onChangeEndDatetime(datetime) {
-                if (datetime < this.startDatetime)
+                datetime += this.selectedDateType == "hour" ? ":00" : "";
+                const format = this.dateTypes[this.dateTypes.findIndex(obj => obj.type == this.selectedDateType)].format + (this.selectedDateType == "hour" ? ":00" : "");
+                if (datetime < this.startDatetime.format(format))
                     await new Promise(resolve => alert("잘못된 시간대 입력입니다.", resolve));
-                else this.setEndDatetime(datetime);
+                else this.setEndDatetime(dayjs(datetime, format));
             }
         }
     }

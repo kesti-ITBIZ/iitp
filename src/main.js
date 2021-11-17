@@ -40,6 +40,10 @@ import "animate.css";
 
 Vue.config.productionTip = false;
 
+import Ajax from "@/assets/js/ajax";
+
+Vue.prototype.$http = new Ajax();
+
 new Vue({
     store,
     render: h => h(App)

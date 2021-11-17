@@ -2,10 +2,10 @@ import dayjs from "dayjs";
 
 export default {
     state: {
-        startDatetime: dayjs().format("YYYY.MM.DD HH"),
-        endDatetime: dayjs().format("YYYY.MM.DD HH"),
+        startDatetime: dayjs(),
+        endDatetime: dayjs(),
         dateTypes: Object.freeze([
-            { label: "시간", type: "hour", format: "YYYY.MM.DD HH:00" },
+            { label: "시간", type: "hour", format: "YYYY.MM.DD HH" },
             { label: "일", type: "date", format: "YYYY.MM.DD" },
             { label: "월", type: "month", format: "YYYY.MM" },
             { label: "년", type: "year", format: "YYYY" }

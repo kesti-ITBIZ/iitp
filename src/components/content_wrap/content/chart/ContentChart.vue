@@ -49,7 +49,7 @@
             format() {
                 switch (this.selectedDateType) {
                 case "hour":
-                    return "YYYY.MM.DD HH:00";
+                    return "YYYY.MM.DD HH";
                 case "date":
                     return "YYYY.MM.DD";
                 case "month":
@@ -64,7 +64,7 @@
                 let format = this.format;
                 const _data = [];
                 for (let i = 0, value = Math.random();
-                     i < Math.abs(dayjs(this.startDatetime + ":00", format).diff(dayjs(this.endDatetime + ":00", format), "hour")) + 1;
+                     i < Math.abs(dayjs(this.startDatetime.format(format), format).diff(dayjs(this.endDatetime.format(format), format), "hour")) + 1;
                      ++i, value += 0.1 * Math.random() * (Math.random() < 0.5 ? -1 : 1))
                     _data.push(Math.abs(value) * 100);
                 return _data;
@@ -74,8 +74,8 @@
                 const _data = [];
                 let format = this.format;
 
-                for (let date = dayjs(this.startDatetime + ":00", format);
-                     date <= dayjs(this.endDatetime + ":00", format);
+                for (let date = dayjs(this.startDatetime.format(format), format);
+                     date <= dayjs(this.endDatetime.format(format), format);
                      date = date.add(1, this.selectedDateType)) {
                     _data.push(date.format(format))
                 }

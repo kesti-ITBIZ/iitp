@@ -53,7 +53,7 @@
             async addX() {
                 if (this.selectedItems.length > 1)
                     await new Promise(resolve => alert("X축 항목은 한 개만 선택해주세요.", resolve));
-                else if (this.selectedItems[0].value != "stn" && this.selectedItems[0].value != "wd")
+                else if (this.selectedItems[0].value != "station" && this.selectedItems[0].value != "windDirection")
                     await new Promise(resolve => alert("X축은 지점, 풍향만 추가할 수 있습니다.", resolve));
                 else {
                     if (this.xAxis.length > 0)
