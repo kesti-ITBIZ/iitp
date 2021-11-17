@@ -1,8 +1,8 @@
 package kr.co.kesti.iitp.service;
 
+import kr.co.kesti.iitp.dsl.repository.ObserverDataRepositoryDsl;
 import kr.co.kesti.iitp.projection.ObserverDataProjection;
 import kr.co.kesti.iitp.projection.StationProjection;
-import kr.co.kesti.iitp.repository.ObserverDataRepository;
 import kr.co.kesti.iitp.repository.ObserverStationRepository;
 import kr.co.kesti.iitp.vo.ObserverDataParamVO;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class ObserverService {
-    private final ObserverDataRepository observerDataRepository;
+    private final ObserverDataRepositoryDsl observerDataRepositoryDsl;
     private final ObserverStationRepository observerStationRepository;
 
     public List<StationProjection> findAllStations() {
@@ -23,6 +23,6 @@ public class ObserverService {
     }
 
     public List<ObserverDataProjection> getData(final ObserverDataParamVO request) {
-        return this.observerDataRepository.findAllData(request);
+        return this.observerDataRepositoryDsl.findAllData(request);
     }
 }

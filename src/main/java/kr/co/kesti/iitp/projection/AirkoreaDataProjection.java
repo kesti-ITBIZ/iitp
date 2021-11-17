@@ -1,12 +1,19 @@
 package kr.co.kesti.iitp.projection;
 
-public interface AirkoreaDataProjection {
-    String getDatetime();
-    String getStnNm();
-    String getSo2();
-    String getCo();
-    String getO3();
-    String getNo2();
-    String getPm10();
-    String getPm25();
+import lombok.*;
+
+@Data
+@With
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class AirkoreaDataProjection {
+    private String datetime;
+    private String stnNm;
+    private Float so2;
+    private Float co;
+    private Float o3;
+    private Float no2;
+    private Float pm10;
+    private Float pm25;
 }

@@ -1,8 +1,8 @@
 package kr.co.kesti.iitp.service;
 
+import kr.co.kesti.iitp.dsl.repository.SDoTDataRepositoryDsl;
 import kr.co.kesti.iitp.projection.SDoTDataProjection;
 import kr.co.kesti.iitp.projection.StationProjection;
-import kr.co.kesti.iitp.repository.SDoTDataRepository;
 import kr.co.kesti.iitp.repository.SDoTStationRepository;
 import kr.co.kesti.iitp.vo.SDoTDataParamVO;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class SDoTService {
-    private final SDoTDataRepository sDoTDataRepository;
+    private final SDoTDataRepositoryDsl sDoTDataRepositoryDsl;
     private final SDoTStationRepository sDoTStationRepository;
 
     public List<StationProjection> findAllStations() {
@@ -23,6 +23,6 @@ public class SDoTService {
     }
 
     public List<SDoTDataProjection> getData(final SDoTDataParamVO request) {
-        return this.sDoTDataRepository.findAllData(request);
+        return this.sDoTDataRepositoryDsl.findAllData(request);
     }
 }

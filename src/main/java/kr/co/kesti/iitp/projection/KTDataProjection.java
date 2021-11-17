@@ -1,10 +1,17 @@
 package kr.co.kesti.iitp.projection;
 
-public interface KTDataProjection {
-    String getDatetime();
-    String getStnNm();
-    Float getTemperature();
-    Float getHumidity();
-    Float getPm10();
-    Float getPm25();
+import lombok.*;
+
+@Data
+@With
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class KTDataProjection {
+    private String datetime;
+    private String stnNm;
+    private Float temperature;
+    private Float humidity;
+    private Float pm10;
+    private Float pm25;
 }

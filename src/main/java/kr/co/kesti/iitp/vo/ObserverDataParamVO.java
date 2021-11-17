@@ -14,6 +14,7 @@ public class ObserverDataParamVO {
     private Date startDatetime;
     private Date endDatetime;
     private String stnNm;
+    private List<String> items;
     private List<Float> pm10;
     private List<Float> pm25;
 }

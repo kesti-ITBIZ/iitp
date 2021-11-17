@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 public class KTData {
     @EmbeddedId
-    private KTDataKey tbKtDataRawKey;
+    private KTDataKey ktDataKey;
 
     @Column(name = "temp", precision = 7, scale = 2)
     private Float temperature;

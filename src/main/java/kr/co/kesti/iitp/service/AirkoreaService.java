@@ -1,8 +1,8 @@
 package kr.co.kesti.iitp.service;
 
+import kr.co.kesti.iitp.dsl.repository.AirkoreaDataRepositoryDsl;
 import kr.co.kesti.iitp.projection.AirkoreaDataProjection;
 import kr.co.kesti.iitp.projection.StationProjection;
-import kr.co.kesti.iitp.repository.AirkoreaDataRepository;
 import kr.co.kesti.iitp.repository.AirkoreaStationRepository;
 import kr.co.kesti.iitp.vo.AirkoreaDataParamVO;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class AirkoreaService {
-    private final AirkoreaDataRepository airkoreaDataRepository;
+    private final AirkoreaDataRepositoryDsl airkoreaDataRepositoryDsl;
     private final AirkoreaStationRepository airkoreaStationRepository;
 
     public List<StationProjection> findAllStations() {
@@ -23,6 +23,6 @@ public class AirkoreaService {
     }
 
     public List<AirkoreaDataProjection> getData(final AirkoreaDataParamVO request) {
-        return this.airkoreaDataRepository.findAllData(request);
+        return this.airkoreaDataRepositoryDsl.findAllData(request);
     }
 }
