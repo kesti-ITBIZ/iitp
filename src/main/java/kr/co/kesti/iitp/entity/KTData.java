@@ -20,10 +20,10 @@ public class KTData {
     private KTDataKey tbKtDataRawKey;
 
     @Column(name = "temp", precision = 7, scale = 2)
-    private Float temp;
+    private Float temperature;
 
     @Column(name = "hum", precision = 7, scale = 2)
-    private Float hum;
+    private Float humidity;
 
     @Column(name = "pm10", precision = 7, scale = 2)
     private Float pm10;

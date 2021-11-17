@@ -23,16 +23,16 @@ public class KTStation {
     private String devNm;
 
     @Column(name = "addr", length = 500)
-    private String addr;
+    private String address;
 
     @Column(name = "newaddr", length = 500)
-    private String newaddr;
+    private String newAddress;
 
     @Column(name = "lo", precision = 14, scale = 10)
-    private Float lo;
+    private Float longitude;
 
     @Column(name = "la", precision = 14, scale = 10)
-    private Float la;
+    private Float latitude;
 
     @Column(name = "regist_time", length = 20)
     private String registTime;

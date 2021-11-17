@@ -12,12 +12,12 @@ import java.util.List;
 public interface ObserverStationRepository extends JpaRepository<ObserverStation, String> {
     @Query(
             "select distinct " +
-            "   o.la as latitude, " +
-            "   o.lo as longitude, " +
+            "   o.latitude as latitude, " +
+            "   o.longitude as longitude, " +
             "   o.stnNm as name, " +
-            "   o.addr as address " +
+            "   o.address as address " +
             "from ObserverStation o " +
-            "where o.la is not null " +
-            "and o.lo is not null")
+            "where o.latitude is not null " +
+            "and o.longitude is not null")
     List<StationProjection> findAllBy();
 }

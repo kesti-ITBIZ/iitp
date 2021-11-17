@@ -1,7 +1,10 @@
 package kr.co.kesti.iitp.service;
 
+import kr.co.kesti.iitp.projection.ObserverDataProjection;
 import kr.co.kesti.iitp.projection.StationProjection;
+import kr.co.kesti.iitp.repository.ObserverDataRepository;
 import kr.co.kesti.iitp.repository.ObserverStationRepository;
+import kr.co.kesti.iitp.vo.ObserverDataParamVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,9 +15,14 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class ObserverService {
+    private final ObserverDataRepository observerDataRepository;
     private final ObserverStationRepository observerStationRepository;
 
     public List<StationProjection> findAllStations() {
         return this.observerStationRepository.findAllBy();
+    }
+
+    public List<ObserverDataProjection> getData(final ObserverDataParamVO request) {
+        return this.observerDataRepository.findAllData(request);
     }
 }

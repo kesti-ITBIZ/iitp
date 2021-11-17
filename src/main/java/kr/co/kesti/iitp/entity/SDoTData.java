@@ -42,16 +42,16 @@ public class SDoTData {
     private Float pm10;
 
     @Column(name = "temp", precision = 6, scale = 1)
-    private Float temp;
+    private Float temperature;
 
     @Column(name = "rhd", precision = 6, scale = 1)
-    private Float rhd;
+    private Float relativeHumidity;
 
     @Column(name = "w_dir", precision = 6, scale = 1)
-    private Float wDir;
+    private Float windDirection;
 
     @Column(name = "w_spd", precision = 6, scale = 1)
-    private Float wSpd;
+    private Float windSpeed;
 
     @Column(name = "gw_dir", precision = 6, scale = 1)
     private Float gwDir;

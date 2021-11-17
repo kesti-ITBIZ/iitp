@@ -12,12 +12,12 @@ import java.util.List;
 public interface AirkoreaStationRepository extends JpaRepository<AirkoreaStation, String> {
     @Query(
             "select distinct " +
-            "   a.la as latitude, " +
-            "   a.lo as longitude, " +
+            "   a.latitude as latitude, " +
+            "   a.longitude as longitude, " +
             "   a.stnNm as name, " +
             "   a.addr as address " +
             "from AirkoreaStation a " +
-            "where a.la is not null " +
-            "and a.lo is not null")
+            "where a.latitude is not null " +
+            "and a.longitude is not null")
     List<StationProjection> findAllBy();
 }

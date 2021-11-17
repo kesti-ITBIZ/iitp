@@ -23,13 +23,13 @@ public class ObserverStation {
     private String stnNm;
 
     @Column(name = "addr", length = 500, nullable = false)
-    private String addr;
+    private String address;
 
     @Column(name = "lo", precision = 14, scale = 10, nullable = false)
-    private Float lo;
+    private Float longitude;
 
     @Column(name = "la", precision = 14, scale = 10, nullable = false)
-    private Float la;
+    private Float latitude;
 
     @Column(name = "regist_time", length = 20, nullable = false)
     private String registTime;

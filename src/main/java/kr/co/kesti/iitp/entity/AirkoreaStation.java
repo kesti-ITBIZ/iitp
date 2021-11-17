@@ -35,8 +35,8 @@ public class AirkoreaStation {
     private String item;
 
     @Column(name = "lo", precision = 14, scale = 10, nullable = false)
-    private Float lo;
+    private Float longitude;
 
     @Column(name = "la", precision = 14, scale = 10, nullable = false)
-    private Float la;
+    private Float latitude;
 }

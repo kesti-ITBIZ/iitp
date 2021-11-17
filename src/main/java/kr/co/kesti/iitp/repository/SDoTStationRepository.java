@@ -12,12 +12,12 @@ import java.util.List;
 public interface SDoTStationRepository extends JpaRepository<SDoTStation, String> {
     @Query(
             "select distinct " +
-            "   s.la as latitude, " +
-            "   s.lo as longitude, " +
+            "   s.latitude as latitude, " +
+            "   s.longitude as longitude, " +
             "   s.stnId as name, " +
-            "   s.addr as address " +
+            "   s.address as address " +
             "from SDoTStation s " +
-            "where s.la is not null " +
-            "and s.lo is not null")
+            "where s.latitude is not null " +
+            "and s.longitude is not null")
     List<StationProjection> findAllBy();
 }

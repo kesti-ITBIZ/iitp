@@ -13,15 +13,15 @@ import java.util.List;
 public interface KTStationRepository extends JpaRepository<KTStation, String> {
     @Query(
             "select distinct " +
-            "   k.la as latitude, " +
-            "   k.lo as longitude, " +
+            "   k.latitude as latitude, " +
+            "   k.longitude as longitude, " +
             "   k.devNm as name, " +
             "   case " +
-            "       when k.newaddr is null or k.newaddr = '' then k.addr " +
-            "       else k.newaddr " +
+            "       when k.newAddress is null or k.newAddress = '' then k.address " +
+            "       else k.newAddress " +
             "   end as address " +
             "from KTStation k " +
-            "where k.la is not null " +
-            "and k.lo is not null")
+            "where k.latitude is not null " +
+            "and k.longitude is not null")
     List<StationProjection> findAllBy();
 }

@@ -20,28 +20,28 @@ public class ObserverData {
     private ObserverDataKey observerDataKey;
 
     @Column(name = "lo", precision = 14, scale = 10)
-    private Float lo;
+    private Float longitude;
 
     @Column(name = "la", precision = 14, scale = 10)
-    private Float la;
+    private Float latitude;
 
     @Column(name = "press", precision = 6, scale = 1)
-    private Float press;
+    private Float pressure;
 
     @Column(name = "temp", precision = 6, scale = 1)
-    private Float temp;
+    private Float temperature;
 
     @Column(name = "hum", precision = 6, scale = 1)
-    private Float hum;
+    private Float humidity;
 
     @Column(name = "qc_press", length = 5)
-    private String qcPress;
+    private String qcPressure;
 
     @Column(name = "qc_temp", length = 5)
-    private String qcTemp;
+    private String qcTemperature;
 
     @Column(name = "qc_hum", length = 5)
-    private String qcHum;
+    private String qcHumidity;
 
     @Column(name = "pm25", precision = 6, scale = 1)
     private Float pm25;

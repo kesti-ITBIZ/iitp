@@ -21,7 +21,7 @@ public class SDoTStation implements Serializable {
     private String stnId;
 
     @Column(name = "addr", length = 500, nullable = false)
-    private String addr;
+    private String address;
 
     @Column(name = "year", length = 4, nullable = false)
     private String year;
@@ -30,8 +30,8 @@ public class SDoTStation implements Serializable {
     private Float height;
 
     @Column(name = "lo", precision = 14, scale = 10)
-    private Float lo;
+    private Float longitude;
 
     @Column(name = "la", precision = 14, scale = 10)
-    private Float la;
+    private Float latitude;
 }

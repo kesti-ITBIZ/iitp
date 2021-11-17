@@ -1,12 +1,11 @@
 package kr.co.kesti.iitp.controller;
 
 import kr.co.kesti.iitp.service.SDoTService;
+import kr.co.kesti.iitp.vo.SDoTDataParamVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -16,7 +15,12 @@ public class SDoTController {
     private final SDoTService sDoTService;
 
     @GetMapping("/stations")
-    public ResponseEntity<?> findAllStations() {
+    public ResponseEntity<?> stations() {
         return ResponseEntity.ok(this.sDoTService.findAllStations());
+    }
+
+    @PostMapping("/getData")
+    public ResponseEntity<?> getData(@RequestBody final SDoTDataParamVO request) {
+        return ResponseEntity.ok(this.sDoTService.getData(request));
     }
 }
