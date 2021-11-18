@@ -31,7 +31,7 @@
         name: "YAxis",
         computed: {
             ...mapState({
-                yAxis: state => state[state.selectedData].yAxis
+                yAxis: state => state[state.selectedCategory].yAxis
             })
         },
         methods: {

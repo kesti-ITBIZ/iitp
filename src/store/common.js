@@ -1,7 +1,7 @@
 export default {
     state: {
         common: {
-            resizeEventListeners: [],
+            resizeEventListeners: Object.freeze([]),
             alert: Object.freeze({
                 show: false,
                 title: "",

@@ -1,10 +1,10 @@
 <template>
     <div id="map">
-        <div v-show="selectedData == 'airkorea'" class="map" ref="airkorea-map"></div>
-        <div v-show="selectedData == 'kt'" class="map" ref="kt-map"></div>
-        <div v-show="selectedData == 'sDoT'" class="map" ref="sDoT-map"></div>
-        <div v-show="selectedData == 'observer'" class="map" ref="observer-map"></div>
-        <div v-show="selectedData == 'all'" class="map" ref="all-map"></div>
+        <div v-show="selectedCategory == 'airkorea'" class="map" ref="airkorea-map"></div>
+        <div v-show="selectedCategory == 'kt'" class="map" ref="kt-map"></div>
+        <div v-show="selectedCategory == 'sDoT'" class="map" ref="sDoT-map"></div>
+        <div v-show="selectedCategory == 'observer'" class="map" ref="observer-map"></div>
+        <div v-show="selectedCategory == 'all'" class="map" ref="all-map"></div>
     </div>
 </template>
 
@@ -27,30 +27,31 @@
         }),
         computed: {
             ...mapState({
-                selectedData: state => state.selectedData,
-                stations: state => state.stations[state.selectedData],
+                selectedCategory: state => state.selectedCategory,
+                stations: state => state.stations[state.selectedCategory],
                 startDatetime: state => state.startDatetime,
                 endDatetime: state => state.endDatetime,
-                xAxis: state => state[state.selectedData].xAxis,
-                yAxis: state => state[state.selectedData].yAxis,
+                xAxis: state => state[state.selectedCategory].xAxis,
+                yAxis: state => state[state.selectedCategory].yAxis,
                 selectedFineParticleRange: state => state.selectedFineParticleRange
             })
         },
         watch: {
-            async selectedData() {
-                if (!this.maps[this.selectedData]) {
-                    await this.addStations(this.selectedData);
-                    const map = new KakaoMapUtils(this.$refs[this.selectedData + "-map"]);
+            async selectedCategory() {
+                if (!this.maps[this.selectedCategory]) {
+                    await this.addStations(this.selectedCategory);
+                    const map = new KakaoMapUtils(this.$refs[this.selectedCategory + "-map"]);
                     map.setMapType("SKYVIEW");
                     map.clustering(this.stations);
                     map.setOverlay(this.overlayCallback);
-                    this.maps = { ...this.maps, [this.selectedData]: map }
+                    this.maps = { ...this.maps, [this.selectedCategory]: map }
                 }
             }
         },
         methods: {
             ...mapActions({
-                addStations: "ADD_STATIONS"
+                addStations: "ADD_STATIONS",
+                setData: "SET_DATA"
             }),
 
             overlayCallback(latitude, longitude) {
@@ -74,10 +75,10 @@
             }
         },
         async mounted() {
-            const map = new KakaoMapUtils(this.$refs[this.selectedData + "-map"]);
+            const map = new KakaoMapUtils(this.$refs[this.selectedCategory + "-map"]);
             map.setMapType("SKYVIEW");
 
-            await this.addStations(this.selectedData);
+            await this.addStations(this.selectedCategory);
             map.clustering(this.stations);
             map.setOverlay(this.overlayCallback);
             map.addMarkerEventListener("click", async (latitude, longitude) => {
@@ -85,20 +86,19 @@
                     await new Promise(resolve => alert("X축 항목을 추가해주세요.", resolve));
                 else if (this.yAxis.length === 0)
                     await new Promise(resolve => alert("Y축 항목을 추가해주세요.", resolve));
-                else {
-                    this.$http.post(`/api/${this.selectedData}/getData`, {
-                        startDatetime: this.selectedData == "kt" || this.selectedData == "observer" ? this.startDatetime : this.startDatetime.format("YYYYMMDDHHmmss"),
-                        endDatetime: this.selectedData == "kt" || this.selectedData == "observer" ? this.endDatetime : this.endDatetime.format("YYYYMMDDHHmmss"),
+                else
+                    await this.setData(await this.$http.post(`/api/${this.selectedCategory}/getData`, {
+                        startDatetime: this.selectedCategory == "kt" || this.selectedCategory == "observer" ? this.startDatetime : this.startDatetime.format("YYYYMMDDHHmmss"),
+                        endDatetime: this.selectedCategory == "kt" || this.selectedCategory == "observer" ? this.endDatetime : this.endDatetime.format("YYYYMMDDHHmmss"),
                         stnNm: this.stations.filter(obj => obj.latitude >= latitude - 2e-6
                             && obj.latitude <= latitude + 2e-6
                             && obj.longitude >= longitude - 2e-6
                             && obj.longitude <= longitude + 2e-6)[0].name,
                         ...this.selectedFineParticleRange
-                    }).then(console.log);
-                }
+                    }));
             });
 
-            this.maps = { ...this.maps, [this.selectedData]: map };
+            this.maps = { ...this.maps, [this.selectedCategory]: map };
         }
     }
 </script>

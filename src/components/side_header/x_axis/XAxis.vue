@@ -31,7 +31,7 @@
         name: "XAxis",
         computed: {
             ...mapState({
-                xAxis: state => state[state.selectedData].xAxis
+                xAxis: state => state[state.selectedCategory].xAxis
             })
         },
         methods: {

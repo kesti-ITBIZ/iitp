@@ -49,7 +49,7 @@
                 const format = this.dateTypes[this.dateTypes.findIndex(obj => obj.type == this.selectedDateType)].format + (this.selectedDateType == "hour" ? ":00" : "");
                 if (datetime > this.endDatetime.format(format))
                     await new Promise(resolve => alert("잘못된 시간대 입력입니다.", resolve));
-                else this.setStartDatetime(dayjs(datetime, format));
+                else await this.setStartDatetime(dayjs(datetime, format));
             },
 
             async onChangeEndDatetime(datetime) {

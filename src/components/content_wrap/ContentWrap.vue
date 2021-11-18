@@ -14,7 +14,9 @@
                                     <select-datetime />
                                     <select-constraint />
                                 </tr>
-                                <tr><select-chart /></tr>
+                                <tr>
+                                    <select-chart />
+                                </tr>
                             </thead>
                         </table>
                     </th>

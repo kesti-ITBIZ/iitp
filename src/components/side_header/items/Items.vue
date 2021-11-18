@@ -34,10 +34,10 @@
         name: "Items",
         computed: {
             ...mapState({
-                items: state => state[state.selectedData].items,
-                selectedItems: state => state[state.selectedData].selectedItems,
-                xAxis: state => state[state.selectedData].xAxis,
-                yAxis: state => state[state.selectedData].yAxis
+                items: state => state[state.selectedCategory].items,
+                selectedItems: state => state[state.selectedCategory].selectedItems,
+                xAxis: state => state[state.selectedCategory].xAxis,
+                yAxis: state => state[state.selectedCategory].yAxis
             })
         },
         methods: {
@@ -51,7 +51,9 @@
             }),
 
             async addX() {
-                if (this.selectedItems.length > 1)
+                if (this.selectedItems.length === 0)
+                    await new Promise(resolve => alert("X축에 추가할 항목을 선택해주세요.", resolve));
+                else if (this.selectedItems.length > 1)
                     await new Promise(resolve => alert("X축 항목은 한 개만 선택해주세요.", resolve));
                 else if (this.selectedItems[0].value != "station" && this.selectedItems[0].value != "windDirection")
                     await new Promise(resolve => alert("X축은 지점, 풍향만 추가할 수 있습니다.", resolve));
@@ -65,7 +67,9 @@
             },
 
             async addY() {
-                if (this.selectedItems.length > 2 || this.yAxis.length === 2)
+                if (this.selectedItems.length === 0)
+                    await new Promise(resolve => alert("Y축에 추가할 항목을 선택해주세요.", resolve));
+                else if (this.selectedItems.length > 2 || this.yAxis.length === 2)
                     await new Promise(resolve => alert("Y축 항목은 최대 두 개까지 추가할 수 있습니다.", resolve));
                 else {
                     await this.addYAxis(this.selectedItems);

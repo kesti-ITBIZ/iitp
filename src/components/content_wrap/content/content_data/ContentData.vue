@@ -1,8 +1,8 @@
 <template>
     <div id="content-data">
         <ul>
-            <li :key="i" v-for="(obj, i) in data">
-                <input type="button" :class="selectedData == obj.value ? 'on' : ''" :value="obj.label" @click="setSelectedData(obj.value)" />
+            <li :key="i" v-for="(obj, i) in category">
+                <input type="button" :class="selectedCategory == obj.value ? 'on' : ''" :value="obj.label" @click="setselectedCategory(obj.value)" />
             </li>
         </ul>
     </div>
@@ -15,13 +15,13 @@
         name: "ContentData",
         computed: {
             ...mapState({
-                data: state => state.data,
-                selectedData: state => state.selectedData
+                category: state => state.category,
+                selectedCategory: state => state.selectedCategory
             })
         },
         methods: {
             ...mapActions({
-                setSelectedData: "SET_SELECTED_DATA"
+                setselectedCategory: "SET_SELECTED_CATEGORY"
             })
         }
     }

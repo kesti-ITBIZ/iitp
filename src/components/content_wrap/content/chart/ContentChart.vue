@@ -13,7 +13,7 @@
                     <tr :key="i" v-for="(d, i) in dataValues">
                         <td>{{ xAxisLabels[i] }}</td>
                         <td :key="j" v-for="(y, j) in yAxis">
-                            {{ Math.round(+dataValues[i] * 100) / 100 }}{{ y.unit }}
+                            {{ Math.round(+dataValues[j][i] * 100) / 100 }}{{ y.unit }}
                         </td>
                     </tr>
                 </tbody>
@@ -32,54 +32,48 @@
         name: "ContentChart",
         data: () => ({
             chart: null,
-
-            title: "",
-
+            title: ""
         }),
         computed: {
             ...mapState({
                 selectedChartType: state => state.selectedChartType,
-                xAxis: state => state[state.selectedData].xAxis,
-                yAxis: state => state[state.selectedData].yAxis,
+                xAxis: state => state[state.selectedCategory].xAxis,
+                yAxis: state => state[state.selectedCategory].yAxis,
                 startDatetime: state => state.startDatetime,
                 endDatetime: state => state.endDatetime,
-                selectedDateType: state => state.selectedDateType
+                dateTypes: state => state.dateTypes,
+                selectedDateType: state => state.selectedDateType,
+                data: state => state.data
             }),
 
-            format() {
-                switch (this.selectedDateType) {
-                case "hour":
-                    return "YYYY.MM.DD HH";
-                case "date":
-                    return "YYYY.MM.DD";
-                case "month":
-                    return "YYYY.MM";
-                case "year":
-                    return "YYYY";
-                }
-                return null;
-            },
-
             dataValues() {
-                let format = this.format;
-                const _data = [];
-                for (let i = 0, value = Math.random();
-                     i < Math.abs(dayjs(this.startDatetime.format(format), format).diff(dayjs(this.endDatetime.format(format), format), "hour")) + 1;
-                     ++i, value += 0.1 * Math.random() * (Math.random() < 0.5 ? -1 : 1))
-                    _data.push(Math.abs(value) * 100);
-                return _data;
+                if (this.data == null) {
+                    return this.yAxis.map(() => {
+                        const _data = [];
+                        for (let j = 0, value = Math.random();
+                             j < Math.abs(this.startDatetime.diff(this.endDatetime, this.selectedDateType == "date" ? "day" : this.selectedDateType) - 1);
+                             ++j, value += 0.1 * Math.random() * (Math.random() < 0.5 ? -1 : 1)) {
+                            _data.push(Math.abs(value) * 100);
+                        }
+                        return _data;
+                    });
+                } else return this.yAxis.map(obj => this.data.map(_obj => _obj[obj.value]));
             },
 
             xAxisLabels() {
-                const _data = [];
-                let format = this.format;
-
-                for (let date = dayjs(this.startDatetime.format(format), format);
-                     date <= dayjs(this.endDatetime.format(format), format);
-                     date = date.add(1, this.selectedDateType)) {
-                    _data.push(date.format(format))
-                }
-                return _data;
+                if (this.data == null) {
+                    const _data = [];
+                    const format = this.dateTypes[this.dateTypes.findIndex(obj => obj.type == this.selectedDateType)].format + (this.selectedDateType == "hour" ? ":00" : "");
+                    for (let datetime = this.startDatetime.format(format);
+                         datetime <= this.endDatetime.format(format);
+                         datetime = dayjs(
+                             datetime + (this.selectedDateType == "month" ? ".01" : ""),
+                             format + (this.selectedDateType == "month" ? ".DD" : ""))
+                             .add(1, (this.selectedDateType == "date" ? "day" : this.selectedDateType) + "s")
+                             .format(format))
+                        _data.push(datetime);
+                    return _data;
+                } else return this.data.map(obj => obj.datetime);
             }
         },
         watch: {
@@ -93,6 +87,23 @@
 
             yAxis() {
                 this.initChart();
+            },
+
+            startDatetime() {
+                this.initChart();
+            },
+
+            endDatetime() {
+                this.initChart();
+            },
+
+            selectedDateType() {
+                this.initChart();
+            },
+
+            data() {
+                console.log(this.data);
+                this.initChart();
             }
         },
         methods: {
@@ -102,11 +113,8 @@
             }),
 
             async initChart() {
-                if (this.chart) {
-                    this.chart.clear();
-                    this.chart = null;
-                }
-                this.chart = init(this.$refs["chart"]);
+                if (this.chart) this.chart.clear();
+                else this.chart = init(this.$refs["chart"]);
                 if (this.selectedChartType == "distribution") {
                     registerMap("KOREA", require("../../../../assets/json/korea.json"));
 
@@ -188,43 +196,41 @@
                                 show: this.selectedChartType != "pie"
                             }
                         },
-                        series: [
-                            (() => {
-                                switch (this.selectedChartType) {
-                                case "pie":
-                                    return {
-                                        data: this.dataValues,
-                                        type: "pie",
-                                        showSymbol: false
-                                    };
-                                case "line":
-                                    return {
-                                        data: this.dataValues,
-                                        type: "line",
-                                        showSymbol: false
-                                    };
-                                case "bar":
-                                    return {
-                                        data: this.dataValues,
-                                        type: "bar",
-                                        showSymbol: false
-                                    };
-                                case "area":
-                                    return {
-                                        data: this.dataValues,
-                                        type: "line",
-                                        showSymbol: false,
-                                        areaStyle: {}
-                                    };
-                                case "scatter":
-                                    return {
-                                        data: this.dataValues,
-                                        type: "scatter",
-                                        showSymbol: false
-                                    };
-                                }
-                            })()
-                        ]
+                        series: this.yAxis.map((obj, i) => {
+                            switch (this.selectedChartType) {
+                            case "pie":
+                                return {
+                                    data: this.dataValues[i],
+                                    type: "pie",
+                                    showSymbol: false
+                                };
+                            case "line":
+                                return {
+                                    data: this.dataValues[i],
+                                    type: "line",
+                                    showSymbol: false
+                                };
+                            case "bar":
+                                return {
+                                    data: this.dataValues[i],
+                                    type: "bar",
+                                    showSymbol: false
+                                };
+                            case "area":
+                                return {
+                                    data: this.dataValues[i],
+                                    type: "line",
+                                    showSymbol: false,
+                                    areaStyle: {}
+                                };
+                            case "scatter":
+                                return {
+                                    data: this.dataValues[i],
+                                    type: "scatter",
+                                    showSymbol: false
+                                };
+                            }
+                        })
                     });
                 await this.addResizeEvent(() => this.chart.resize());
             }
