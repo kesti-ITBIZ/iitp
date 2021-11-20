@@ -1,7 +1,6 @@
 package kr.co.kesti.iitp.dsl.repository;
 
 import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.co.kesti.iitp.dsl.entity.QAirkoreaData;
 import kr.co.kesti.iitp.dsl.entity.QAirkoreaStation;

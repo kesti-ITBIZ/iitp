@@ -2,17 +2,11 @@ package kr.co.kesti.iitp.dsl.repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.CaseBuilder;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import kr.co.kesti.iitp.dsl.entity.QObserverData;
-import kr.co.kesti.iitp.dsl.entity.QObserverStation;
 import kr.co.kesti.iitp.dsl.entity.QSDoTData;
 import kr.co.kesti.iitp.dsl.entity.QSDoTStation;
-import kr.co.kesti.iitp.entity.ObserverData;
 import kr.co.kesti.iitp.entity.SDoTData;
-import kr.co.kesti.iitp.projection.ObserverDataProjection;
 import kr.co.kesti.iitp.projection.SDoTDataProjection;
-import kr.co.kesti.iitp.vo.ObserverDataParamVO;
 import kr.co.kesti.iitp.vo.SDoTDataParamVO;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
