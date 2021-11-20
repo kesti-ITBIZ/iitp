@@ -20,8 +20,6 @@ public class QObserverDataKey extends BeanPath<ObserverDataKey> {
 
     public static final QObserverDataKey observerDataKey = new QObserverDataKey("observerDataKey");
 
-    public final DatePath<java.util.Date> dataDate = createDate("dataDate", java.util.Date.class);
-
     public final TimePath<java.util.Date> dataTime = createTime("dataTime", java.util.Date.class);
 
     public final StringPath stnSerial = createString("stnSerial");

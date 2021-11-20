@@ -16,11 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ObserverDataKey implements Serializable {
-    @Temporal(TemporalType.DATE)
-    @Column(name = "data_date")
-    private Date dataDate;
-
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "data_time")
     private Date dataTime;
 

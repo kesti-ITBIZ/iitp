@@ -33,8 +33,7 @@ public class ObserverDataRepositoryDsl extends QuerydslRepositorySupport {
 
         return this.jpaQueryFactory
                 .select(Projections.constructor(ObserverDataProjection.class,
-                        Expressions.stringTemplate("to_date({0}, 'YYYYMMDD')", a.observerDataKey.dataDate)
-                                .concat(Expressions.stringTemplate("to_date({0}, 'HH24MISS')", a.observerDataKey.dataTime)).as("datetime"),
+                        Expressions.stringTemplate("to_date({0}, 'YYYYMMDD')", a.observerDataKey.dataTime).as("datetime"),
                         b.stnNm.as("stnNm"),
                         a.temperature.as("temperature"),
                         a.humidity.as("humidity"),
@@ -44,8 +43,7 @@ public class ObserverDataRepositoryDsl extends QuerydslRepositorySupport {
                 .join(b)
                 .on(a.observerDataKey.stnSerial.eq(b.stnSerial))
                 .where(
-                        a.observerDataKey.dataDate.between(params.getStartDatetime(), params.getEndDatetime())
-                        .and(a.observerDataKey.dataTime.between(params.getStartDatetime(), params.getEndDatetime()))
+                        a.observerDataKey.dataTime.between(params.getStartDatetime(), params.getEndDatetime())
                         .and(b.stnNm.eq(params.getStnNm()))
                         .and(params.getPm25().get(1) == null ?
                                 a.pm25.goe(params.getPm25().get(0)) :
