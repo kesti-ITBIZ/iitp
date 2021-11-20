@@ -6,7 +6,7 @@ plugins {
     id 'war'
 }
 
-bootWar{
+bootWar {
     archiveBaseName = '-'
     archiveFileName = 'iitp.war'
     archiveVersion = '0.0.0'
@@ -66,4 +66,9 @@ configurations {
 
 compileQuerydsl {
     options.annotationProcessorPath = configurations.querydsl
+}
+
+compileQuerydsl.doFirst {
+    if (file(querydslSrcDir).exists())
+        delete(file(querydslSrcDir))
 }
