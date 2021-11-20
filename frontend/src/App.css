@@ -1,0 +1,55 @@
+#layout {
+    display: flex;
+    height: calc(100% - 20px);
+    padding: 10px;
+    font-family: "NotoSansKR Medium", serif;
+}
+
+#layout select,
+#layout input {
+    font-family: "NotoSansKR Medium", serif;
+}
+
+#layout input[type=button] {
+    cursor: pointer;
+}
+
+#layout table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+}
+
+#layout table tbody td {
+    padding: 0;
+}
+
+#layout table tbody td,
+#layout table thead th {
+    border: 1px solid #a5a5a5;
+}
+
+#layout ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#layout input.mx-input {
+    border-radius: 0;
+    cursor: pointer;
+}
+
+#layout div.vue-slider.vue-slider-ltr {
+    position: relative;
+    left: 10px;
+    padding: 0 !important;
+}
+
+#layout div.vue-slider-rail {
+    cursor: pointer;
+}
+
+#layout .content .map .map-data {
+    height: calc(100% - 48px);
+}

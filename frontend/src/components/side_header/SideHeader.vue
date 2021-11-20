@@ -1,0 +1,36 @@
+<template>
+    <div id="side_header">
+        <table>
+            <colgroup>
+                <col style="width: 50%;" />
+                <col style="width: 50%;" />
+            </colgroup>
+            <tbody>
+                <tr>
+                    <items />
+                    <x-axis />
+                </tr>
+                <tr><y-axis /></tr>
+            </tbody>
+        </table>
+    </div>
+</template>
+
+<script>
+    import Items from "./items/Items";
+    import XAxis from "./x_axis/XAxis";
+    import YAxis from "./y_axis/YAxis";
+
+    export default {
+        name: "SideHeader",
+        components: {
+            Items,
+            XAxis,
+            YAxis
+        }
+    }
+</script>
+
+<style>
+    @import "./SideHeader.css";
+</style>
