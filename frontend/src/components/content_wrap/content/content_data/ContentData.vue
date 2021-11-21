@@ -11,8 +11,6 @@
 <script>
     import { mapState, mapActions } from "vuex";
 
-    import { gql } from "graphql-tag";
-
     export default {
         name: "ContentData",
         computed: {
@@ -25,20 +23,6 @@
             ...mapActions({
                 setSelectedCategory: "SET_SELECTED_CATEGORY"
             })
-        },
-        apollo: {
-            airkoreaStations: gql`
-                query {
-                    airkoreaStations {
-                        address
-                    }
-                }
-            `
-        },
-        async mounted() {
-            console.log("a");
-            console.log(await this.$apollo.queries.airkoreaStations);
-            console.log("b");
         }
     }
 </script>
