@@ -9,11 +9,10 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SDoTDataParamVO {
+public class RequestDataVO {
     private String startDatetime;
     private String endDatetime;
     private String stnNm;
-    private List<String> items;
     private List<Float> pm10;
     private List<Float> pm25;
 }

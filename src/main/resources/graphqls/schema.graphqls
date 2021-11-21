@@ -1,0 +1,69 @@
+schema {
+    query: Query
+}
+
+type Query {
+    airkoreaData(param: DataParam): [AirkoreaData]
+    airkoreaStations: [Station]
+    ktData(param: DataParam): [KTData]
+    ktStations: [Station]
+    observerData(param: DataParam): [ObserverData]
+    observerStations: [Station]
+    sDoTData(param: DataParam): [SDoTData]
+    sDoTStations: [Station]
+}
+
+type Station {
+    address: String!
+    latitude: Float!
+    longitude: Float!
+    name: String!
+}
+
+type AirkoreaData {
+    datetime: String!
+    stnNm: String!
+    so2: Float!
+    co: Float!
+    o3: Float!
+    no2: Float!
+    pm10: Float!
+    pm25: Float!
+}
+
+type KTData {
+    datetime: String!
+    stnNm: String!
+    temperature: Float!
+    humidity: Float!
+    pm10: Float!
+    pm25: Float!
+}
+
+type ObserverData {
+    datetime: String!
+    stnNm: String!
+    temperature: Float!
+    humidity: Float!
+    pressure: Float!
+    pm25: Float!
+}
+
+type SDoTData {
+    datetime: String!
+    stnNm: String!
+    temperature: Float!
+    relativeHumidity: Float!
+    windDirection: Float!
+    windSpeed: Float!
+    pm10: Float!
+    pm25: Float!
+}
+
+input DataParam {
+    startDatetime: String!
+    endDatetime: String!
+    stnNm: String!
+    pm10: [Float]!
+    pm25: [Float]!
+}

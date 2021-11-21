@@ -1,7 +1,7 @@
 package kr.co.kesti.iitp.controller;
 
 import kr.co.kesti.iitp.service.ObserverService;
-import kr.co.kesti.iitp.vo.ObserverDataParamVO;
+import kr.co.kesti.iitp.vo.RequestDataVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +16,11 @@ public class ObserverController {
 
     @GetMapping("/stations")
     public ResponseEntity<?> stations() {
-        return ResponseEntity.ok(this.observerService.findAllStations());
+        return ResponseEntity.ok(this.observerService.getObserverStations());
     }
 
     @PostMapping("/getData")
-    public ResponseEntity<?> getData(@RequestBody final ObserverDataParamVO request) {
-        return ResponseEntity.ok(this.observerService.getData(request));
+    public ResponseEntity<?> getData(@RequestBody final RequestDataVO request) {
+        return ResponseEntity.ok(this.observerService.getObserverData(request));
     }
 }

@@ -5,8 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.co.kesti.iitp.dsl.entity.QAirkoreaData;
 import kr.co.kesti.iitp.dsl.entity.QAirkoreaStation;
 import kr.co.kesti.iitp.entity.AirkoreaData;
-import kr.co.kesti.iitp.projection.AirkoreaDataProjection;
-import kr.co.kesti.iitp.vo.AirkoreaDataParamVO;
+import kr.co.kesti.iitp.vo.ResponseAirkoreaDataVO;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
@@ -21,12 +20,17 @@ public class AirkoreaDataRepositoryDsl extends QuerydslRepositorySupport {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
-    public List<AirkoreaDataProjection> findAllData(final AirkoreaDataParamVO params) {
+    public List<ResponseAirkoreaDataVO> findAllData(
+            final String startDatetime,
+            final String endDatetime,
+            final String stnNm,
+            final List<Float> pm10,
+            final List<Float> pm25) {
         QAirkoreaData a = QAirkoreaData.airkoreaData;
         QAirkoreaStation b = QAirkoreaStation.airkoreaStation;
 
         return this.jpaQueryFactory
-                .select(Projections.constructor(AirkoreaDataProjection.class,
+                .select(Projections.constructor(ResponseAirkoreaDataVO.class,
                         a.airkoreaDataKey.time.as("datetime"),
                         a.airkoreaDataKey.stnNm.as("stnNm"),
                         a.so2.as("so2"),
@@ -39,14 +43,14 @@ public class AirkoreaDataRepositoryDsl extends QuerydslRepositorySupport {
                 .join(b)
                 .on(a.airkoreaDataKey.stnNm.eq(b.stnNm))
                 .where(
-                        a.airkoreaDataKey.time.between(params.getStartDatetime(), params.getEndDatetime())
-                        .and(a.airkoreaDataKey.stnNm.eq(params.getStnNm()))
-                        .and(params.getPm10().get(1) == null ?
-                                a.pm10.goe(params.getPm10().get(0)) :
-                                a.pm10.between(params.getPm10().get(0), params.getPm10().get(1)))
-                        .and(params.getPm25().get(1) == null ?
-                                a.pm25.goe(params.getPm25().get(0)) :
-                                a.pm25.between(params.getPm25().get(0), params.getPm25().get(1))))
+                        a.airkoreaDataKey.time.between(startDatetime, endDatetime)
+                        .and(a.airkoreaDataKey.stnNm.eq(stnNm))
+                        .and(pm10.get(1) == null ?
+                                a.pm10.goe(pm10.get(0)) :
+                                a.pm10.between(pm10.get(0), pm10.get(1)))
+                        .and(pm25.get(1) == null ?
+                                a.pm25.goe(pm25.get(0)) :
+                                a.pm25.between(pm25.get(0), pm25.get(1))))
                 .fetch();
     }
 }

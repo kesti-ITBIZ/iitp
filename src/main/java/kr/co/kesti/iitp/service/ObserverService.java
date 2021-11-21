@@ -1,28 +1,47 @@
 package kr.co.kesti.iitp.service;
 
+import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import kr.co.kesti.iitp.dsl.repository.ObserverDataRepositoryDsl;
-import kr.co.kesti.iitp.projection.ObserverDataProjection;
-import kr.co.kesti.iitp.projection.StationProjection;
 import kr.co.kesti.iitp.repository.ObserverStationRepository;
-import kr.co.kesti.iitp.vo.ObserverDataParamVO;
+import kr.co.kesti.iitp.vo.RequestDataVO;
+import kr.co.kesti.iitp.vo.ResponseObserverDataVO;
+import kr.co.kesti.iitp.vo.ResponseStationVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class ObserverService {
+public class ObserverService implements GraphQLQueryResolver {
     private final ObserverDataRepositoryDsl observerDataRepositoryDsl;
     private final ObserverStationRepository observerStationRepository;
 
-    public List<StationProjection> findAllStations() {
-        return this.observerStationRepository.findAllBy();
+    public List<ResponseStationVO> getObserverStations() {
+        return this.observerStationRepository.findAllBy()
+                .stream()
+                .map(ResponseStationVO::from)
+                .collect(Collectors.toList());
     }
 
-    public List<ObserverDataProjection> getData(final ObserverDataParamVO request) {
-        return this.observerDataRepositoryDsl.findAllData(request);
+    public List<ResponseObserverDataVO> getObserverData(final RequestDataVO request) {
+        final DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+
+        try {
+            return this.observerDataRepositoryDsl.findAllData(
+                    dateFormat.parse(request.getStartDatetime()),
+                    dateFormat.parse(request.getEndDatetime()),
+                    request.getStnNm(),
+                    request.getPm25());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

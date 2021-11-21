@@ -1,7 +1,7 @@
 package kr.co.kesti.iitp.controller;
 
 import kr.co.kesti.iitp.service.KTService;
-import kr.co.kesti.iitp.vo.KTDataParamVO;
+import kr.co.kesti.iitp.vo.RequestDataVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +16,11 @@ public class KTController {
 
     @GetMapping("/stations")
     public ResponseEntity<?> stations() {
-        return ResponseEntity.ok(this.ktService.findAllStations());
+        return ResponseEntity.ok(this.ktService.getKtStations());
     }
 
     @PostMapping("/getData")
-    public ResponseEntity<?> getData(@RequestBody final KTDataParamVO request) {
-        return ResponseEntity.ok(this.ktService.getData(request));
+    public ResponseEntity<?> getData(@RequestBody final RequestDataVO request) {
+        return ResponseEntity.ok(this.ktService.getKtData(request));
     }
 }

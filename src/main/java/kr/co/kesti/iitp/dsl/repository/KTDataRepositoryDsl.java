@@ -6,11 +6,11 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.co.kesti.iitp.dsl.entity.QKTData;
 import kr.co.kesti.iitp.dsl.entity.QKTStation;
 import kr.co.kesti.iitp.entity.KTData;
-import kr.co.kesti.iitp.projection.KTDataProjection;
-import kr.co.kesti.iitp.vo.KTDataParamVO;
+import kr.co.kesti.iitp.vo.ResponseKTDataVO;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -22,12 +22,17 @@ public class KTDataRepositoryDsl extends QuerydslRepositorySupport {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
-    public List<KTDataProjection> findAllData(final KTDataParamVO params) {
+    public List<ResponseKTDataVO> findAllData(
+            final Date startDatetime,
+            final Date endDatetime,
+            final String stnNm,
+            final List<Float> pm10,
+            final List<Float> pm25) {
         QKTData a = QKTData.kTData;
         QKTStation b = QKTStation.kTStation;
 
         return this.jpaQueryFactory
-                .select(Projections.constructor(KTDataProjection.class,
+                .select(Projections.constructor(ResponseKTDataVO.class,
                         Expressions.stringTemplate("to_date({0}, 'YYYYMMDDHH24MISS')", a.ktDataKey.equipDate).as("datetime"),
                         a.ktDataKey.devId.as("stnNm"),
                         a.temperature.as("temperature"),
@@ -38,14 +43,14 @@ public class KTDataRepositoryDsl extends QuerydslRepositorySupport {
                 .join(b)
                 .on(a.ktDataKey.devId.eq(b.devId))
                 .where(
-                        a.ktDataKey.equipDate.between(params.getStartDatetime(), params.getEndDatetime())
-                        .and(a.ktDataKey.devId.eq(params.getStnNm()))
-                        .and(params.getPm10().get(1) == null ?
-                                a.pm10.goe(params.getPm10().get(0)) :
-                                a.pm10.between(params.getPm10().get(0), params.getPm10().get(1)))
-                        .and(params.getPm25().get(1) == null ?
-                                a.pm25.goe(params.getPm25().get(0)) :
-                                a.pm25.between(params.getPm25().get(0), params.getPm25().get(1))))
+                        a.ktDataKey.equipDate.between(startDatetime, endDatetime)
+                        .and(a.ktDataKey.devId.eq(stnNm))
+                        .and(pm10.get(1) == null ?
+                                a.pm10.goe(pm10.get(0)) :
+                                a.pm10.between(pm10.get(0), pm10.get(1)))
+                        .and(pm25.get(1) == null ?
+                                a.pm25.goe(pm25.get(0)) :
+                                a.pm25.between(pm25.get(0), pm25.get(1))))
                 .fetch();
     }
 }

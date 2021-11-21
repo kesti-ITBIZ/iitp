@@ -6,11 +6,11 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.co.kesti.iitp.dsl.entity.QObserverData;
 import kr.co.kesti.iitp.dsl.entity.QObserverStation;
 import kr.co.kesti.iitp.entity.ObserverData;
-import kr.co.kesti.iitp.projection.ObserverDataProjection;
-import kr.co.kesti.iitp.vo.ObserverDataParamVO;
+import kr.co.kesti.iitp.vo.ResponseObserverDataVO;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -22,12 +22,16 @@ public class ObserverDataRepositoryDsl extends QuerydslRepositorySupport {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
-    public List<ObserverDataProjection> findAllData(final ObserverDataParamVO params) {
+    public List<ResponseObserverDataVO> findAllData(
+            final Date startDatetime,
+            final Date endDatetime,
+            final String stnNm,
+            final List<Float> pm25) {
         QObserverData a = QObserverData.observerData;
         QObserverStation b = QObserverStation.observerStation;
 
         return this.jpaQueryFactory
-                .select(Projections.constructor(ObserverDataProjection.class,
+                .select(Projections.constructor(ResponseObserverDataVO.class,
                         Expressions.stringTemplate("to_date({0}, 'YYYYMMDD')", a.observerDataKey.dataTime).as("datetime"),
                         b.stnNm.as("stnNm"),
                         a.temperature.as("temperature"),
@@ -38,11 +42,11 @@ public class ObserverDataRepositoryDsl extends QuerydslRepositorySupport {
                 .join(b)
                 .on(a.observerDataKey.stnSerial.eq(b.stnSerial))
                 .where(
-                        a.observerDataKey.dataTime.between(params.getStartDatetime(), params.getEndDatetime())
-                        .and(b.stnNm.eq(params.getStnNm()))
-                        .and(params.getPm25().get(1) == null ?
-                                a.pm25.goe(params.getPm25().get(0)) :
-                                a.pm25.between(params.getPm25().get(0), params.getPm25().get(1))))
+                        a.observerDataKey.dataTime.between(startDatetime, endDatetime)
+                        .and(b.stnNm.eq(stnNm))
+                        .and(pm25.get(1) == null ?
+                                a.pm25.goe(pm25.get(0)) :
+                                a.pm25.between(pm25.get(0), pm25.get(1))))
                 .fetch();
     }
 }

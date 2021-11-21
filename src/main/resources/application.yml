@@ -1,3 +1,5 @@
+server:
+  port: 9200
 spring:
   profiles:
     active: local
@@ -29,6 +31,11 @@ spring:
   web:
     resources:
       static-locations: classpath:/static/
+graphql:
+  servlet:
+    cors-enabled: false
+    exception-handlers-enabled: true
+    context-setting: per_query_with_instrumentation
 logging:
   level:
     kr.co.kesti: info
@@ -58,7 +65,7 @@ spring:
         format_sql: false
 ---
 server:
-  port: 8080
+  port: 9200
 spring:
   config:
     activate:

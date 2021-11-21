@@ -1,7 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.5.3'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
+//    id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
     id 'java'
     id 'war'
 }
@@ -31,6 +31,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'com.querydsl:querydsl-jpa'
     implementation 'com.querydsl:querydsl-apt'
+    implementation 'com.graphql-java:graphql-spring-boot-starter:5.0.2'
+    implementation 'com.graphql-java:graphql-java-tools:5.2.4'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
@@ -43,32 +45,32 @@ test {
     useJUnitPlatform()
 }
 
-apply plugin: 'com.ewerk.gradle.plugins.querydsl'
-def querydslSrcDir = 'src/main/generated'
-
-querydsl {
-    library = 'com.querydsl:querydsl-apt'
-    jpa = true
-    querydslSourcesDir = querydslSrcDir
-}
-
-sourceSets {
-    main {
-        java {
-            srcDirs 'src/main/java', querydslSrcDir
-        }
-    }
-}
-
-configurations {
-    querydsl.extendsFrom compileClasspath
-}
-
-compileQuerydsl {
-    options.annotationProcessorPath = configurations.querydsl
-}
+//apply plugin: 'com.ewerk.gradle.plugins.querydsl'
+//def querydslSrcDir = 'src/main/generated'
+//
+//querydsl {
+//    library = 'com.querydsl:querydsl-apt'
+//    jpa = true
+//    querydslSourcesDir = querydslSrcDir
+//}
+//
+//sourceSets {
+//    main {
+//        java {
+//            srcDirs 'src/main/java', querydslSrcDir
+//        }
+//    }
+//}
+//
+//configurations {
+//    querydsl.extendsFrom compileClasspath
+//}
 
 //compileQuerydsl.doFirst {
 //    if (file(querydslSrcDir).exists())
 //        delete(file(querydslSrcDir))
+//}
+
+//compileQuerydsl {
+//    options.annotationProcessorPath = configurations.querydsl
 //}
