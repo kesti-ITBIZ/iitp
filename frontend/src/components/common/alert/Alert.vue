@@ -38,6 +38,6 @@
     }
 </script>
 
-<style>
-    @import "./Alert.css";
+<style lang="scss">
+    @import "./Alert.scss";
 </style>

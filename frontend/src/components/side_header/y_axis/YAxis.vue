@@ -42,6 +42,6 @@
     }
 </script>
 
-<style>
-    @import "./YAxis.css";
+<style lang="scss">
+    @import "./YAxis.scss";
 </style>

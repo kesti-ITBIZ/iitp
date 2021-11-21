@@ -1,0 +1,42 @@
+#y-axis .opt-body ul li {
+    > div {
+        position: relative;
+        font-size: 10pt !important;
+        color: #6e36ff;
+        border: 1px solid #8053f3;
+        background-color: #ebe3ff;
+        transition: color 0.1s, border 0.1s, background-color 0.1s;
+        cursor: pointer;
+
+        &:hover {
+            color: #895cff;
+            border: 1px solid #9a7bf3;
+            background-color: #faf7ff;
+
+            > span {
+                color: #895cff;
+            }
+        }
+        &:active {
+            color: #541bea;
+            border: 1px solid #6838e2;
+            background-color: #d5c9ff;
+        }
+        &.on {
+            color: #ebe3ff;
+            border: 1px solid #6e36ff;
+            background-color: #6e36ff;
+        }
+    }
+
+    span {
+        position: absolute;
+        top: 4px;
+        right: 7px;
+        font-size: 13pt;
+        width: fit-content;
+        height: fit-content;
+        color: #ebe3ff;
+        transition: color 0.1s;
+    }
+}

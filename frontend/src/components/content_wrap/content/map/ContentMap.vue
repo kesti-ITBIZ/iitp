@@ -10,7 +10,7 @@
 
 <script>
     import { mapState, mapActions } from "vuex";
-    import { alert } from "@/assets/js/common.utils";
+    import { alert } from "../../../../assets/js/common.utils";
 
     import KakaoMapUtils from "../../../../assets/js/map.utils";
 
@@ -86,7 +86,33 @@
                     await new Promise(resolve => alert("X축 항목을 추가해주세요.", resolve));
                 else if (this.yAxis.length === 0)
                     await new Promise(resolve => alert("Y축 항목을 추가해주세요.", resolve));
-                else
+                else {
+                    // let data = {};
+                    // switch (this.selectedCategory) {
+                    // case "airkorea":
+                    //     data = gql`
+                    //         query {
+                    //             airkoreaData(param: {
+                    //                 startDatetime: "adf",
+                    //                 endDatetime: "",
+                    //                 stnNm: "",
+                    //                 pm10: [],
+                    //                 pm25: []
+                    //             }) {
+                    //                 datetime
+                    //
+                    //             }
+                    //         }
+                    //     `
+                    //     break;
+                    // case "kt":
+                    //     break;
+                    // case "observer":
+                    //     break;
+                    // case "sDoT":
+                    //     break;
+                    // }
+
                     await this.setData(await this.$http.post(`/api/${this.selectedCategory}/getData`, {
                         startDatetime: this.selectedCategory == "kt" || this.selectedCategory == "observer" ? this.startDatetime : this.startDatetime.format("YYYYMMDDHHmmss"),
                         endDatetime: this.selectedCategory == "kt" || this.selectedCategory == "observer" ? this.endDatetime : this.endDatetime.format("YYYYMMDDHHmmss"),
@@ -96,6 +122,7 @@
                             && obj.longitude <= longitude + 2e-6)[0].name,
                         ...this.selectedFineParticleRange
                     }));
+                }
             });
 
             this.maps = { ...this.maps, [this.selectedCategory]: map };
@@ -103,6 +130,6 @@
     }
 </script>
 
-<style>
-    @import "./ContentMap.css";
+<style lang="scss">
+    @import "./ContentMap.scss";
 </style>

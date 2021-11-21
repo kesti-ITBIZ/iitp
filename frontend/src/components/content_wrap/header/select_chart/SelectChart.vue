@@ -46,6 +46,6 @@
     }
 </script>
 
-<style>
-    @import "./SelectChart.css";
+<style lang="scss">
+    @import "./SelectChart.scss";
 </style>

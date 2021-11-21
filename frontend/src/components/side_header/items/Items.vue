@@ -81,6 +81,6 @@
     }
 </script>
 
-<style>
-    @import "./Items.css";
+<style lang="scss">
+    @import "./Items.scss";
 </style>

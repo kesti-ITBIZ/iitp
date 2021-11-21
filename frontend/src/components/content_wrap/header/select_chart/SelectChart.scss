@@ -1,0 +1,38 @@
+$color: #0094c4;
+
+#select-chart {
+    .scroll {
+        overflow-y: hidden;
+    }
+
+    .select-chart-btn {
+        display: inline-block;
+        text-align: center;
+        color: $color;
+        padding: 10px 20px;
+
+        svg {
+            display: block;
+            margin: 0 auto;
+
+            ~ div {
+                padding-top: 10px;
+            }
+        }
+
+        > div {
+            padding: 7px 30px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+
+            &:hover {
+                background-color: #def4ff;
+            }
+        }
+
+        &.on > div {
+            color: white;
+            background-color: $color;
+        }
+    }
+}

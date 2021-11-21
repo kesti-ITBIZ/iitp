@@ -31,6 +31,6 @@
     }
 </script>
 
-<style>
-    @import "./SideHeader.css";
+<style lang="scss">
+    @import "./SideHeader.scss";
 </style>

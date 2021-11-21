@@ -244,6 +244,6 @@
     }
 </script>
 
-<style>
-    @import "./ContentChart.css";
+<style lang="scss">
+    @import "./ContentChart.scss";
 </style>

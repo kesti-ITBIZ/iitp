@@ -1,0 +1,64 @@
+#items .opt-body {
+    input[type=button] {
+        background-color: #e9f9ff;
+        color: #0084de;
+        border: 1px solid #0084de;
+        transition: color 0.1s, border 0.1s, background-color 0.1s;
+
+        &:hover {
+            color: #42b2ff;
+            border: 1px solid #42b2ff;
+            background-color: #f9feff;
+        }
+        &:active {
+            color: #0061a5;
+            border: 1px solid #0061a5;
+            background-color: #d4eaff;
+        }
+        &.on {
+            color: #ecf9f7;
+            background-color: #0084de;
+        }
+    }
+
+    > ul {
+        height: calc(100% - 93.5px);
+    }
+
+    > div {
+        display: flex;
+        font-size: 16pt;
+
+        > div {
+            width: 50%;
+            padding: 10px;
+
+            > div {
+                color: #00455c;
+                background-color: transparent;
+                border: 1px solid #009bd7;
+                padding: 20px 0;
+                box-shadow: 0 3px 5px 2px rgba(0, 0, 0, 0.24);
+                transition: background-color 0.2s, color 0.2s;
+                cursor: pointer;
+
+                &:hover {
+                    color: white;
+                    background-color: #009bd7;
+                }
+                &:active {
+                    background-color: #0073a0;
+                    border: 1px solid #0073a0;
+                    transition: background-color 0.1s;
+                }
+            }
+
+            &:first-child {
+                padding-right: 5px;
+            }
+            &:last-child {
+                padding-left: 5px;
+            }
+        }
+    }
+}

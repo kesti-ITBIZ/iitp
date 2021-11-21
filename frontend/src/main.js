@@ -2,7 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import store from "./store/store";
 
-import "./index.css";
+import "./index.scss";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -44,7 +44,25 @@ import Ajax from "./assets/js/ajax";
 
 Vue.prototype.$http = new Ajax();
 
+import VueApollo from "vue-apollo";
+
+Vue.use(VueApollo);
+
+import { ApolloClient } from "apollo-client";
+import { createHttpLink } from "apollo-link-http";
+import { InMemoryCache } from "apollo-cache-inmemory";
+
+const apolloProvider = new VueApollo({
+    defaultClient: new ApolloClient({
+        link: createHttpLink({
+            uri: "http://localhost:9200/graphql"
+        }),
+        cache: new InMemoryCache()
+    })
+});
+
 new Vue({
     store,
+    apolloProvider,
     render: h => h(App)
 }).$mount("#app");

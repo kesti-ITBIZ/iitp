@@ -42,6 +42,6 @@
     }
 </script>
 
-<style>
-    @import "./XAxis.css";
+<style lang="scss">
+    @import "./XAxis.scss";
 </style>

@@ -36,6 +36,6 @@
     }
 </script>
 
-<style>
-    @import "./App.css";
+<style lang="scss">
+    @import "./App.scss";
 </style>

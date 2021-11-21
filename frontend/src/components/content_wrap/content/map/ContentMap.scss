@@ -15,10 +15,10 @@ div.map > div:nth-child(2) > div:nth-child(2) {
     cursor: default;
     width: fit-content;
     box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.54);
-}
 
-.overlay p, .overlay h1, .overlay h2, .overlay h3, .overlay h4, .overlay h5, .overlay h6 {
-    margin: 0;
+    p, h1, h2, h3, h4, h5, h6 {
+        margin: 0;
+    }
 }
 
 .overlay-parent {

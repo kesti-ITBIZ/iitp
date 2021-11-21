@@ -147,6 +147,6 @@
     }
 </script>
 
-<style>
-    @import "./SelectConstraint.css";
+<style lang="scss">
+    @import "./SelectConstraint.scss";
 </style>

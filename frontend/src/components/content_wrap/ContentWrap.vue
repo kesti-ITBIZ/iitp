@@ -58,6 +58,6 @@
     }
 </script>
 
-<style>
-    @import "./ContentWrap.css";
+<style lang="scss">
+    @import "./ContentWrap.scss";
 </style>

@@ -63,6 +63,6 @@
     }
 </script>
 
-<style>
-    @import "./SelectDatetime.css";
+<style lang="scss">
+    @import "./SelectDatetime.scss";
 </style>
