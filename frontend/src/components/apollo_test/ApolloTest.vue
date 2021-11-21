@@ -1,7 +1,14 @@
 <template>
     <div>
         <h1>Hello</h1>
-        {{ airkoreaStations }}
+        <input type="button" value="generate" @click="getAirkoreaStations" />
+        <div v-if="airkoreaStations">
+            [<br />
+            <ul>
+                <li :key="i" v-for="(obj, i) in airkoreaStations">&emsp;{ latitude: {{ obj.latitude }}, longitude: {{ obj.longitude }} }</li>
+            </ul>
+            ]
+        </div>
     </div>
 </template>
 
@@ -13,13 +20,27 @@
             airkoreaStations: null
         }),
         apollo: {
-            airkoreaStations: gql`
-                query {
-                    airkoreaStations {
-                        address
+            airkoreaStations: {
+                query: gql`
+                    query {
+                        airkoreaStations {
+                            latitude
+                            longitude
+                        }
                     }
-                }
-            `
+                `,
+                skip: () => true
+            }
+        },
+        methods: {
+            getAirkoreaStations() {
+                const airkoreaStations = this.$apollo.queries.airkoreaStations;
+                airkoreaStations.skip = false;
+                airkoreaStations.refresh();
+            }
+        },
+        mounted() {
+            console.log(this.airkoreaStations);
         }
     }
 </script>
