@@ -36,12 +36,6 @@ public class ObserverService implements GraphQLQueryResolver {
 
     public List<ResponseObserverDataVO> getObserverData(final RequestDataVO request) {
         final DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-
-        try {
-            log.info("{}", this.jacksonObjectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(request));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
         try {
             return this.observerDataRepositoryDsl.findAllData(
                     dateFormat.parse(request.getStartDatetime()),

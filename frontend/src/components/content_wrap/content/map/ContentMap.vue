@@ -42,6 +42,7 @@
             ...mapState({
                 selectedCategory: state => state.selectedCategory,
                 stations: state => state.stations[state.selectedCategory],
+                selectedDateType: state => state.selectedDateType,
                 startDatetime: state => state.startDatetime,
                 endDatetime: state => state.endDatetime,
                 xAxis: state => state[state.selectedCategory].xAxis,
@@ -50,8 +51,8 @@
             })
         },
         watch: {
-            async selectedCategory() {
-                if (!this.maps[this.selectedCategory]) await this.initMap();
+            selectedCategory() {
+                if (!this.maps[this.selectedCategory]) this.initMap();
             }
         },
         apollo: {
@@ -219,10 +220,11 @@
                         let dataQuery = this.$apollo.queries[this.selectedCategory + "Data"];
                         dataQuery.skip = false;
                         await this.setData(await dataQuery.refetch().then(response => response.data[this.selectedCategory + "Data"]));
+                        dataQuery.skip = true;
                     }
                 });
 
-                this.maps = { ...this.maps, [this.selectedCategory]: map };
+                this.maps = Object.freeze({ ...this.maps, [this.selectedCategory]: map });
             },
 
             overlayCallback(latitude, longitude) {
@@ -255,6 +257,7 @@
                         latitude: obj.latitude,
                         longitude: obj.longitude
                     }))));
+                    stationQuery.skip = true;
                 }
 
                 if (this.selectedCategory == "all") {
@@ -263,8 +266,8 @@
                 } else await _fetchStations(this.selectedCategory);
             }
         },
-        async mounted() {
-            await this.initMap();
+        mounted() {
+            this.initMap();
         }
     }
 </script>

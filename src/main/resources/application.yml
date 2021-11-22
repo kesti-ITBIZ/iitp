@@ -34,8 +34,6 @@ spring:
 graphql:
   servlet:
     cors-enabled: false
-    exception-handlers-enabled: true
-    context-setting: per_query_with_instrumentation
 logging:
   level:
     kr.co.kesti: info

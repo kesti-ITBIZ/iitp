@@ -10,7 +10,7 @@ export default class KakaoMapUtils {
         this.map = null;
         this.markers = null;
 
-        const mapInit = () => {
+        const mapInit = async () => {
             kakao = window.kakao;
             this.markers = [];
             this.map = new kakao.maps.Map(dom, {
@@ -18,6 +18,11 @@ export default class KakaoMapUtils {
                 level: 12
             });
             this.map.addOverlayMapTypeId(kakao.maps.MapTypeId.TERRAIN);
+
+            await new Promise(resolve => setTimeout(resolve, 0));
+            this.map.relayout();
+            await new Promise(resolve => setTimeout(resolve, 10));
+            this.map.setCenter(new kakao.maps.LatLng(36.020826, 127.0236867));
         };
 
         window.kakao && window.kakao.maps ? mapInit() : (() => {

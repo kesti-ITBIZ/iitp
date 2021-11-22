@@ -2,6 +2,7 @@ package kr.co.kesti.iitp.dsl.repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.co.kesti.iitp.dsl.entity.QKTData;
 import kr.co.kesti.iitp.dsl.entity.QKTStation;
@@ -33,19 +34,21 @@ public class KTDataRepositoryDsl extends QuerydslRepositorySupport {
         QKTStation b = QKTStation.kTStation;
 
         String format = "";
-        if ("hour".equals(dateType)) format = "YYYY.MM.DD HH24";
-        else if ("date".equals(dateType)) format = "YYYY.MM.DD";
-        else if ("month".equals(dateType)) format = "YYYY.MM";
-        else if ("year".equals(dateType)) format = "YYYY";
+        if (dateType.equals("hour")) format = "YYYY.MM.DD HH24";
+        else if (dateType.equals("date")) format = "YYYY.MM.DD";
+        else if (dateType.equals("month")) format = "YYYY.MM";
+        else if (dateType.equals("year")) format = "YYYY";
+
+        final StringTemplate datetime = Expressions.stringTemplate(String.format("to_char({0}, '%s')", format), a.ktDataKey.equipDate);
 
         return this.jpaQueryFactory
                 .select(Projections.constructor(ResponseKTDataVO.class,
-                        Expressions.stringTemplate("to_char({0}, '{1}')", a.ktDataKey.equipDate, format).as("datetime"),
+                        datetime.as("datetime"),
                         a.ktDataKey.devId.as("stnNm"),
-                        a.temperature.avg().as("temperature"),
-                        a.humidity.avg().as("humidity"),
-                        a.pm10.avg().as("pm10"),
-                        a.pm25.avg().as("pm25")))
+                        a.temperature.avg().floatValue().as("temperature"),
+                        a.humidity.avg().floatValue().as("humidity"),
+                        a.pm10.avg().floatValue().as("pm10"),
+                        a.pm25.avg().floatValue().as("pm25")))
                 .from(a)
                 .join(b)
                 .on(a.ktDataKey.devId.eq(b.devId))
@@ -58,9 +61,7 @@ public class KTDataRepositoryDsl extends QuerydslRepositorySupport {
                         .and(pm25.get(1) == null ?
                                 a.pm25.goe(pm25.get(0)) :
                                 a.pm25.between(pm25.get(0), pm25.get(1))))
-                .groupBy(
-                        Expressions.stringTemplate("to_char({0}, '{1}')", a.ktDataKey.equipDate, format),
-                        a.ktDataKey.devId)
+                .groupBy(datetime, a.ktDataKey.devId)
                 .fetch();
     }
 }
