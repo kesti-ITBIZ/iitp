@@ -219,7 +219,10 @@
                         [this.selectedLatitude, this.selectedLongitude] = [latitude, longitude];
                         let dataQuery = this.$apollo.queries[this.selectedCategory + "Data"];
                         dataQuery.skip = false;
-                        await this.setData(await dataQuery.refetch().then(response => response.data[this.selectedCategory + "Data"]));
+                        await this.setData({
+                            category: this.selectedCategory,
+                            data: await dataQuery.refetch().then(response => response.data[this.selectedCategory + "Data"])
+                        });
                         dataQuery.skip = true;
                     }
                 });

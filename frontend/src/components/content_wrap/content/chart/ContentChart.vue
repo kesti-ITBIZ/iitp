@@ -42,6 +42,7 @@
                 endDatetime: state => state.endDatetime,
                 dateTypes: state => state.dateTypes,
                 selectedDateType: state => state.selectedDateType,
+                selectedCategory: state => state.selectedCategory,
                 data: state => state.data
             }),
 
@@ -56,7 +57,7 @@
                         }
                         return _data;
                     });
-                } else return this.yAxis.map(obj => this.data.map(_obj => _obj[obj.value]));
+                } else return this.yAxis.map(obj => this.data[this.selectedCategory].map(_obj => _obj[obj.value]));
             },
 
             xAxisLabels() {
@@ -68,7 +69,7 @@
                          datetime = datetime.add(1, (this.selectedDateType == "date" ? "day" : this.selectedDateType) + "s"))
                         _data.push(datetime.format(format));
                     return _data;
-                } else return this.data.map(obj => obj.datetime);
+                } else return this.data[this.selectedCategory].map(obj => obj.datetime);
             }
         },
         watch: {
@@ -153,7 +154,7 @@
                 } else
                     this.chart.setOption({
                         title: {
-                            text: this.data && this.data.length > 0 ? this.data[0].stnNm : "",
+                            text: this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0 ? this.data[this.selectedCategory][0].stnNm : "",
                             left: 50
                         },
                         grid: {
