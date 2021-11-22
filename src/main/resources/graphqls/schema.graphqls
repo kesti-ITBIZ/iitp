@@ -23,46 +23,47 @@ type Station {
 type AirkoreaData {
     datetime: String!
     stnNm: String!
-    so2: Float!
-    co: Float!
-    o3: Float!
-    no2: Float!
-    pm10: Float!
-    pm25: Float!
+    so2: Float
+    co: Float
+    o3: Float
+    no2: Float
+    pm10: Float
+    pm25: Float
 }
 
 type KTData {
     datetime: String!
     stnNm: String!
-    temperature: Float!
-    humidity: Float!
-    pm10: Float!
-    pm25: Float!
+    temperature: Float
+    humidity: Float
+    pm10: Float
+    pm25: Float
 }
 
 type ObserverData {
     datetime: String!
     stnNm: String!
-    temperature: Float!
-    humidity: Float!
-    pressure: Float!
-    pm25: Float!
+    temperature: Float
+    humidity: Float
+    pressure: Float
+    pm25: Float
 }
 
 type SDoTData {
     datetime: String!
     stnNm: String!
-    temperature: Float!
-    relativeHumidity: Float!
-    windDirection: Float!
-    windSpeed: Float!
-    pm10: Float!
-    pm25: Float!
+    temperature: Float
+    relativeHumidity: Float
+    windDirection: Float
+    windSpeed: Float
+    pm10: Float
+    pm25: Float
 }
 
 input DataParam {
     startDatetime: String!
     endDatetime: String!
+    dateType: String!
     stnNm: String!
     pm10: [Float]!
     pm25: [Float]!

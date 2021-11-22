@@ -23,6 +23,32 @@
 
     > ul {
         height: calc(100% - 93.5px);
+
+        li input[type=button] {
+            &.obsTime, &.station {
+                background-color: #f8f8f8;
+                color: #404040;
+                border: 1px solid #a5a5a5;
+            }
+
+            &.obsTime:hover, &.station:hover {
+                background-color: white;
+                color: #666666;
+                border-color: #c6c6c6;
+            }
+
+            &.obsTime:active, &.station:active {
+                background-color: #f1f1f1;
+                color: #363636;
+                border: 1px solid #7d7d7d;
+            }
+
+            &.obsTime.on, &.station.on {
+                background-color: #7f7f7f;
+                color: white;
+                border-color: #7f7f7f;
+            }
+        }
     }
 
     > div {

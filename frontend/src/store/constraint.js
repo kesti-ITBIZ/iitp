@@ -2,13 +2,13 @@ import dayjs from "dayjs";
 dayjs().add(1, "")
 export default {
     state: {
-        startDatetime: dayjs(),
-        endDatetime: dayjs(),
+        startDatetime: dayjs(dayjs().subtract(1, "months").format("YYYY.MM.DD 00:00"), "YYYY.MM.DD HH:mm"),
+        endDatetime: dayjs(dayjs().subtract(1, "days").format("YYYY.MM.DD 23:59"), "YYYY.MM.DD HH:mm"),
         dateTypes: Object.freeze([
-            { label: "시간", type: "hour", format: "YYYY.MM.DD HH" },
-            { label: "일", type: "date", format: "YYYY.MM.DD" },
-            { label: "월", type: "month", format: "YYYY.MM" },
-            { label: "년", type: "year", format: "YYYY" }
+            { label: "시간", type: "hour", stringToDayjsFormat: "YYYY.MM.DD HH:mm", dayjsToStringFormat: "YYYY.MM.DD HH" },
+            { label: "일", type: "date", stringToDayjsFormat: "YYYY.MM.DD", dayjsToStringFormat: "YYYY.MM.DD" },
+            { label: "월", type: "month", stringToDayjsFormat: "YYYY.MM.DD", dayjsToStringFormat: "YYYY.MM" },
+            { label: "년", type: "year", stringToDayjsFormat: "YYYY", dayjsToStringFormat: "YYYY" }
         ]),
         selectedDateType: "hour",
 

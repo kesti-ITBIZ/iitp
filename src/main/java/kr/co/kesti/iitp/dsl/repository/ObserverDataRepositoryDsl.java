@@ -25,19 +25,26 @@ public class ObserverDataRepositoryDsl extends QuerydslRepositorySupport {
     public List<ResponseObserverDataVO> findAllData(
             final Date startDatetime,
             final Date endDatetime,
+            final String dateType,
             final String stnNm,
             final List<Float> pm25) {
         QObserverData a = QObserverData.observerData;
         QObserverStation b = QObserverStation.observerStation;
 
+        String format = "";
+        if ("hour".equals(dateType)) format = "YYYY.MM.DD HH24";
+        else if ("date".equals(dateType)) format = "YYYY.MM.DD";
+        else if ("month".equals(dateType)) format = "YYYY.MM";
+        else if ("year".equals(dateType)) format = "YYYY";
+
         return this.jpaQueryFactory
                 .select(Projections.constructor(ResponseObserverDataVO.class,
-                        Expressions.stringTemplate("to_date({0}, 'YYYYMMDD')", a.observerDataKey.dataTime).as("datetime"),
+                        Expressions.stringTemplate("to_char({0}, '{1}')", a.observerDataKey.dataTime, format).as("datetime"),
                         b.stnNm.as("stnNm"),
-                        a.temperature.as("temperature"),
-                        a.humidity.as("humidity"),
-                        a.pressure.as("pressure"),
-                        a.pm25.as("pm25")))
+                        a.temperature.avg().as("temperature"),
+                        a.humidity.avg().as("humidity"),
+                        a.pressure.avg().as("pressure"),
+                        a.pm25.avg().as("pm25")))
                 .from(a)
                 .join(b)
                 .on(a.observerDataKey.stnSerial.eq(b.stnSerial))
@@ -47,6 +54,9 @@ public class ObserverDataRepositoryDsl extends QuerydslRepositorySupport {
                         .and(pm25.get(1) == null ?
                                 a.pm25.goe(pm25.get(0)) :
                                 a.pm25.between(pm25.get(0), pm25.get(1))))
+                .groupBy(
+                        Expressions.stringTemplate("to_char({0}, '{1}')", a.observerDataKey.dataTime, format),
+                        b.stnNm)
                 .fetch();
     }
 }

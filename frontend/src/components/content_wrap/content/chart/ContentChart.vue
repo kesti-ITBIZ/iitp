@@ -1,7 +1,7 @@
 <template>
     <td id="content-chart">
         <div v-show="selectedChartType != 'table'" id="chart" ref="chart" />
-        <div v-show="selectedChartType == 'table'" id="table" class="scroll">
+        <div v-show="selectedChartType == 'table' && dataValues.length > 0" id="table" class="scroll">
             <table>
                 <thead>
                     <tr>
@@ -10,7 +10,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr :key="i" v-for="(d, i) in dataValues">
+                    <tr :key="i" v-for="(d, i) in dataValues[0]">
                         <td>{{ xAxisLabels[i] }}</td>
                         <td :key="j" v-for="(y, j) in yAxis">
                             {{ Math.round(+dataValues[j][i] * 100) / 100 }}{{ y.unit }}
@@ -24,7 +24,6 @@
 
 <script>
     import { mapState, mapActions } from "vuex";
-    import dayjs from "dayjs";
 
     import { init, registerMap } from "echarts";
 
@@ -63,15 +62,11 @@
             xAxisLabels() {
                 if (this.data == null) {
                     const _data = [];
-                    const format = this.dateTypes[this.dateTypes.findIndex(obj => obj.type == this.selectedDateType)].format + (this.selectedDateType == "hour" ? ":00" : "");
-                    for (let datetime = this.startDatetime.format(format);
-                         datetime <= this.endDatetime.format(format);
-                         datetime = dayjs(
-                             datetime + (this.selectedDateType == "month" ? ".01" : ""),
-                             format + (this.selectedDateType == "month" ? ".DD" : ""))
-                             .add(1, (this.selectedDateType == "date" ? "day" : this.selectedDateType) + "s")
-                             .format(format))
-                        _data.push(datetime);
+                    const format = this.dateTypes[this.dateTypes.findIndex(obj => obj.type == this.selectedDateType)].dayjsToStringFormat;
+                    for (let datetime = this.startDatetime;
+                         datetime <= this.endDatetime;
+                         datetime = datetime.add(1, (this.selectedDateType == "date" ? "day" : this.selectedDateType) + "s"))
+                        _data.push(datetime.format(format));
                     return _data;
                 } else return this.data.map(obj => obj.datetime);
             }
@@ -157,6 +152,10 @@
                     });
                 } else
                     this.chart.setOption({
+                        title: {
+                            text: this.data && this.data.length > 0 ? this.data[0].stnNm : "",
+                            left: 50
+                        },
                         grid: {
                             // height: 500
                         },
@@ -175,6 +174,9 @@
                                 type: "slider"
                             }
                         ],
+                        legend: {
+                            data: this.yAxis.map(obj => obj.label)
+                        },
                         xAxis: {
                             type: "category",
                             name: this.xAxis.length === 0 ? "" : this.xAxis[0].label,
@@ -190,7 +192,7 @@
                                 align: "left"
                             },
                             axisLabel: {
-                                formatter: `{value}`
+                                formatter: `{value}${this.yAxis.length === 1 ? this.yAxis[0].unit : ""}`
                             },
                             splitLine: {
                                 show: this.selectedChartType != "pie"
@@ -200,24 +202,28 @@
                             switch (this.selectedChartType) {
                             case "pie":
                                 return {
+                                    name: obj.label,
                                     data: this.dataValues[i],
                                     type: "pie",
                                     showSymbol: false
                                 };
                             case "line":
                                 return {
+                                    name: obj.label,
                                     data: this.dataValues[i],
                                     type: "line",
                                     showSymbol: false
                                 };
                             case "bar":
                                 return {
+                                    name: obj.label,
                                     data: this.dataValues[i],
                                     type: "bar",
                                     showSymbol: false
                                 };
                             case "area":
                                 return {
+                                    name: obj.label,
                                     data: this.dataValues[i],
                                     type: "line",
                                     showSymbol: false,
@@ -225,6 +231,7 @@
                                 };
                             case "scatter":
                                 return {
+                                    name: obj.label,
                                     data: this.dataValues[i],
                                     type: "scatter",
                                     showSymbol: false

@@ -10,6 +10,8 @@
 
 <script>
     import { mapState, mapActions } from "vuex";
+    import gql from "graphql-tag";
+
     import { alert } from "../../../../assets/js/common.utils";
 
     import KakaoMapUtils from "../../../../assets/js/map.utils";
@@ -23,7 +25,18 @@
                 kt: null,
                 sDoT: null,
                 observer: null
-            }
+            },
+            airkoreaStations: null,
+            ktStations: null,
+            observerStations: null,
+            sDoTStations: null,
+            selectedLatitude: null,
+            selectedLongitude: null,
+
+            airkoreaData: null,
+            ktData: null,
+            observerData: null,
+            sDoTData: null
         }),
         computed: {
             ...mapState({
@@ -38,14 +51,149 @@
         },
         watch: {
             async selectedCategory() {
-                if (!this.maps[this.selectedCategory]) {
-                    await this.addStations(this.selectedCategory);
-                    const map = new KakaoMapUtils(this.$refs[this.selectedCategory + "-map"]);
-                    map.setMapType("SKYVIEW");
-                    map.clustering(this.stations);
-                    map.setOverlay(this.overlayCallback);
-                    this.maps = { ...this.maps, [this.selectedCategory]: map }
-                }
+                if (!this.maps[this.selectedCategory]) await this.initMap();
+            }
+        },
+        apollo: {
+            ...(() => {
+                let obj = {};
+                ["airkorea", "kt", "observer", "sDoT"].forEach(category => {
+                    if (category !== "all")
+                        obj[category + "Stations"] = {
+                            query: gql`
+                                query {
+                                    ${category}Stations {
+                                        address
+                                        name
+                                        latitude
+                                        longitude
+                                    }
+                                }
+                            `,
+                            skip: true
+                        };
+                });
+                return obj;
+            })(),
+            airkoreaData: {
+                query: gql`
+                    query airkoreaData($param: DataParam) {
+                        airkoreaData(param: $param) {
+                            datetime
+                            stnNm
+                            so2
+                            no2
+                            o3
+                            co
+                            pm10
+                            pm25
+                        }
+                    }
+                `,
+                variables() {
+                    return {
+                        param: {
+                            startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
+                            endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
+                            dateType: this.selectedDateType,
+                            stnNm: this.stations.filter(obj => obj.latitude >= this.selectedLatitude - 2e-6
+                                && obj.latitude <= this.selectedLatitude + 2e-6
+                                && obj.longitude >= this.selectedLongitude - 2e-6
+                                && obj.longitude <= this.selectedLongitude + 2e-6)[0].name,
+                            ...this.selectedFineParticleRange
+                        }
+                    };
+                },
+                skip: true
+            },
+            ktData: {
+                query: gql`
+                    query ktData($param: DataParam) {
+                        ktData(param: $param) {
+                            datetime
+                            stnNm
+                            temperature
+                            humidity
+                            pm10
+                            pm25
+                        }
+                    }
+                `,
+                variables() {
+                    return {
+                        param: {
+                            startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
+                            endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
+                            dateType: this.selectedDateType,
+                            stnNm: this.stations.filter(obj => obj.latitude >= this.selectedLatitude - 2e-6
+                                && obj.latitude <= this.selectedLatitude + 2e-6
+                                && obj.longitude >= this.selectedLongitude - 2e-6
+                                && obj.longitude <= this.selectedLongitude + 2e-6)[0].name,
+                            ...this.selectedFineParticleRange
+                        }
+                    };
+                },
+                skip: true
+            },
+            observerData: {
+                query: gql`
+                    query observerData($param: DataParam) {
+                        observerData(param: $param) {
+                            datetime
+                            stnNm
+                            temperature
+                            humidity
+                            pressure
+                            pm25
+                        }
+                    }
+                `,
+                variables() {
+                    return {
+                        param: {
+                            startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
+                            endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
+                            dateType: this.selectedDateType,
+                            stnNm: this.stations.filter(obj => obj.latitude >= this.selectedLatitude - 2e-6
+                                && obj.latitude <= this.selectedLatitude + 2e-6
+                                && obj.longitude >= this.selectedLongitude - 2e-6
+                                && obj.longitude <= this.selectedLongitude + 2e-6)[0].name,
+                            ...this.selectedFineParticleRange
+                        }
+                    };
+                },
+                skip: true
+            },
+            sDoTData: {
+                query: gql`
+                    query sDoTData($param: DataParam) {
+                        sDoTData(param: $param) {
+                            datetime
+                            stnNm
+                            temperature
+                            relativeHumidity
+                            windDirection
+                            windSpeed
+                            pm10
+                            pm25
+                        }
+                    }
+                `,
+                variables() {
+                    return {
+                        param: {
+                            startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
+                            endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
+                            dateType: this.selectedDateType,
+                            stnNm: this.stations.filter(obj => obj.latitude >= this.selectedLatitude - 2e-6
+                                && obj.latitude <= this.selectedLatitude + 2e-6
+                                && obj.longitude >= this.selectedLongitude - 2e-6
+                                && obj.longitude <= this.selectedLongitude + 2e-6)[0].name,
+                            ...this.selectedFineParticleRange
+                        }
+                    };
+                },
+                skip: true
             }
         },
         methods: {
@@ -53,6 +201,29 @@
                 addStations: "ADD_STATIONS",
                 setData: "SET_DATA"
             }),
+
+            async initMap() {
+                const map = new KakaoMapUtils(this.$refs[this.selectedCategory + "-map"]);
+                map.setMapType("SKYVIEW");
+
+                await this.fetchStations();
+                map.clustering(this.stations);
+                map.setOverlay(this.overlayCallback);
+                map.addMarkerEventListener("click", async (latitude, longitude) => {
+                    if (this.xAxis.length === 0)
+                        await new Promise(resolve => alert("X축 항목을 추가해주세요.", resolve));
+                    else if (this.yAxis.length === 0)
+                        await new Promise(resolve => alert("Y축 항목을 추가해주세요.", resolve));
+                    else {
+                        [this.selectedLatitude, this.selectedLongitude] = [latitude, longitude];
+                        let dataQuery = this.$apollo.queries[this.selectedCategory + "Data"];
+                        dataQuery.skip = false;
+                        await this.setData(await dataQuery.refetch().then(response => response.data[this.selectedCategory + "Data"]));
+                    }
+                });
+
+                this.maps = { ...this.maps, [this.selectedCategory]: map };
+            },
 
             overlayCallback(latitude, longitude) {
                 const data = this.stations.concat();
@@ -72,60 +243,28 @@
                             </p>
                         </div>`;
                 }
+            },
+
+            async fetchStations() {
+                const _fetchStations = async category => {
+                    const stationQuery = this.$apollo.queries[category + "Stations"];
+                    stationQuery.skip = false;
+                    this.addStations(await stationQuery.refetch().then(response => response.data[category + "Stations"].map(obj => ({
+                        address: obj.address,
+                        name: obj.name,
+                        latitude: obj.latitude,
+                        longitude: obj.longitude
+                    }))));
+                }
+
+                if (this.selectedCategory == "all") {
+                    for (const key of Object.keys({ ...this.stations }))
+                        if (this.stations[key].length === 0) await _fetchStations(key);
+                } else await _fetchStations(this.selectedCategory);
             }
         },
         async mounted() {
-            const map = new KakaoMapUtils(this.$refs[this.selectedCategory + "-map"]);
-            map.setMapType("SKYVIEW");
-
-            await this.addStations(this.selectedCategory);
-            map.clustering(this.stations);
-            map.setOverlay(this.overlayCallback);
-            map.addMarkerEventListener("click", async (latitude, longitude) => {
-                if (this.xAxis.length === 0)
-                    await new Promise(resolve => alert("X축 항목을 추가해주세요.", resolve));
-                else if (this.yAxis.length === 0)
-                    await new Promise(resolve => alert("Y축 항목을 추가해주세요.", resolve));
-                else {
-                    // let data = {};
-                    // switch (this.selectedCategory) {
-                    // case "airkorea":
-                    //     data = gql`
-                    //         query {
-                    //             airkoreaData(param: {
-                    //                 startDatetime: "adf",
-                    //                 endDatetime: "",
-                    //                 stnNm: "",
-                    //                 pm10: [],
-                    //                 pm25: []
-                    //             }) {
-                    //                 datetime
-                    //
-                    //             }
-                    //         }
-                    //     `
-                    //     break;
-                    // case "kt":
-                    //     break;
-                    // case "observer":
-                    //     break;
-                    // case "sDoT":
-                    //     break;
-                    // }
-
-                    await this.setData(await this.$http.post(`/api/${this.selectedCategory}/getData`, {
-                        startDatetime: this.selectedCategory == "kt" || this.selectedCategory == "observer" ? this.startDatetime : this.startDatetime.format("YYYYMMDDHHmmss"),
-                        endDatetime: this.selectedCategory == "kt" || this.selectedCategory == "observer" ? this.endDatetime : this.endDatetime.format("YYYYMMDDHHmmss"),
-                        stnNm: this.stations.filter(obj => obj.latitude >= latitude - 2e-6
-                            && obj.latitude <= latitude + 2e-6
-                            && obj.longitude >= longitude - 2e-6
-                            && obj.longitude <= longitude + 2e-6)[0].name,
-                        ...this.selectedFineParticleRange
-                    }));
-                }
-            });
-
-            this.maps = { ...this.maps, [this.selectedCategory]: map };
+            await this.initMap();
         }
     }
 </script>

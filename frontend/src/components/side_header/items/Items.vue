@@ -11,7 +11,7 @@
                     <td class="opt-body">
                         <ul class="scroll no-scrollbar">
                             <li :key="i" v-for="(item, i) in items">
-                                <input type="button" :class="selectedItems.indexOf(item) != -1 ? 'on' : ''" :value="item.label + (item.unit !== '' ? ` (${item.unit})` : '')" @click.stop="setSelectedItem(item)" />
+                                <input type="button" :class="[item.value, selectedItems.indexOf(item) != -1 ? 'on' : '']" :value="item.label + (item.unit !== '' ? ` (${item.unit})` : '')" @click.stop="setSelectedItem(item)" />
                             </li>
                         </ul>
                         <div>
@@ -55,8 +55,6 @@
                     await new Promise(resolve => alert("X축에 추가할 항목을 선택해주세요.", resolve));
                 else if (this.selectedItems.length > 1)
                     await new Promise(resolve => alert("X축 항목은 한 개만 선택해주세요.", resolve));
-                else if (this.selectedItems[0].value != "station" && this.selectedItems[0].value != "windDirection")
-                    await new Promise(resolve => alert("X축은 지점, 풍향만 추가할 수 있습니다.", resolve));
                 else {
                     if (this.xAxis.length > 0)
                         this.removeXAxis(this.xAxis[0]);
@@ -69,6 +67,8 @@
             async addY() {
                 if (this.selectedItems.length === 0)
                     await new Promise(resolve => alert("Y축에 추가할 항목을 선택해주세요.", resolve));
+                else if (this.selectedItems[0].value == "station" || this.selectedItems[0].value == "windDirection")
+                    await new Promise(resolve => alert("지점, 풍향은 X축에만 추가할 수 있습니다.", resolve));
                 else if (this.selectedItems.length > 2 || this.yAxis.length === 2)
                     await new Promise(resolve => alert("Y축 항목은 최대 두 개까지 추가할 수 있습니다.", resolve));
                 else {

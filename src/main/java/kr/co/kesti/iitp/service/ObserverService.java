@@ -1,6 +1,8 @@
 package kr.co.kesti.iitp.service;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.kesti.iitp.dsl.repository.ObserverDataRepositoryDsl;
 import kr.co.kesti.iitp.repository.ObserverStationRepository;
 import kr.co.kesti.iitp.vo.RequestDataVO;
@@ -30,13 +32,21 @@ public class ObserverService implements GraphQLQueryResolver {
                 .collect(Collectors.toList());
     }
 
+    private final ObjectMapper jacksonObjectMapper;
+
     public List<ResponseObserverDataVO> getObserverData(final RequestDataVO request) {
         final DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 
         try {
+            log.info("{}", this.jacksonObjectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(request));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        try {
             return this.observerDataRepositoryDsl.findAllData(
                     dateFormat.parse(request.getStartDatetime()),
                     dateFormat.parse(request.getEndDatetime()),
+                    request.getDateType(),
                     request.getStnNm(),
                     request.getPm25());
         } catch (ParseException e) {

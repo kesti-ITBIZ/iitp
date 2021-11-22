@@ -7,7 +7,7 @@ export default {
             { label: "S-DoT", value: "sDoT" },
             { label: "옵저버", value: "observer" }
         ]),
-        selectedCategory: "airkorea",
+        selectedCategory: "observer",
         stations: Object.freeze({
             all: [],
             airkorea: [],
@@ -22,9 +22,9 @@ export default {
     },
     mutations: {
         SET_SELECTED_CATEGORY: (state, data) => state.selectedCategory = Object.freeze(data),
-        ADD_STATIONS: (state, { category, stations }) => {
+        ADD_STATIONS: (state, stations) => {
             const _stations = { ...state.stations };
-            _stations[category] = Object.freeze(_stations[category].concat(stations));
+            _stations[state.selectedCategory] = Object.freeze(_stations[state.selectedCategory].concat(stations));
             _stations["all"] = Object.freeze(_stations["all"].concat(stations));
             state.stations = Object.freeze(_stations);
         },
@@ -32,19 +32,7 @@ export default {
     },
     actions: {
         SET_SELECTED_CATEGORY: (context, data) => context.commit("SET_SELECTED_CATEGORY", data),
-        ADD_STATIONS: async (context, category) => {
-            if (category === "all") {
-                for (const key of Object.keys({ ...context.state.stations }))
-                    if (context.state.stations[key].length === 0)
-                        context.commit("ADD_STATIONS", {
-                            category: key,
-                            stations: await fetch(`/api/${key}/stations`).then(response => response.json())
-                        });
-            } else context.commit("ADD_STATIONS", {
-                category,
-                stations: await fetch(`/api/${category}/stations`).then(response => response.json())
-            });
-        },
+        ADD_STATIONS: async (context, stations) => context.commit("ADD_STATIONS", stations),
         SET_DATA: (context, data) => context.commit("SET_DATA", data)
     }
 }

@@ -3,15 +3,15 @@
         <date-picker
                 valueType="format"
                 :type="selectedDateType == 'hour' ? 'datetime' : selectedDateType"
-                :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format == 'YYYY.MM.DD HH:00' ? 'YYYY.MM.DD HH' : dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format"
-                :value="startDatetime.format(dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format)"
+                :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat"
+                :value="startDatetime.format(dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat)"
                 @change="onChangeStartDatetime" />
         &nbsp;~&nbsp;
         <date-picker
                 valueType="format"
                 :type="selectedDateType == 'hour' ? 'datetime' : selectedDateType"
-                :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format == 'YYYY.MM.DD HH:00' ? 'YYYY.MM.DD HH' : dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format"
-                :value="endDatetime.format(dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].format)"
+                :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat"
+                :value="endDatetime.format(dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat)"
                 @change="onChangeEndDatetime" />
         <label>
             <select :value="selectedDateType" @change="setSelectedDateType($event.target.value)">
@@ -45,19 +45,35 @@
             }),
 
             async onChangeStartDatetime(datetime) {
-                datetime += this.selectedDateType == "hour" ? ":00" : "";
-                const format = this.dateTypes[this.dateTypes.findIndex(obj => obj.type == this.selectedDateType)].format + (this.selectedDateType == "hour" ? ":00" : "");
-                if (datetime > this.endDatetime.format(format))
+                const dateType = this.dateTypes[this.dateTypes.findIndex(obj => obj.type == this.selectedDateType)];
+                const [stringToDayjsFormat, dayjsToStringFormat] = [dateType.stringToDayjsFormat, dateType.dayjsToStringFormat];
+                if (this.selectedDateType == "hour") datetime += ":00";
+                else if (this.selectedDateType == "month") datetime += ".01";
+                if (datetime > this.endDatetime.format(dayjsToStringFormat))
                     await new Promise(resolve => alert("잘못된 시간대 입력입니다.", resolve));
-                else await this.setStartDatetime(dayjs(datetime, format));
+                else await this.setStartDatetime(dayjs(datetime, stringToDayjsFormat));
             },
 
             async onChangeEndDatetime(datetime) {
-                datetime += this.selectedDateType == "hour" ? ":00" : "";
-                const format = this.dateTypes[this.dateTypes.findIndex(obj => obj.type == this.selectedDateType)].format + (this.selectedDateType == "hour" ? ":00" : "");
-                if (datetime < this.startDatetime.format(format))
+                let [stringToDayjsFormat, dayjsToStringFormat] = ["", "YYYY.MM.DD HH:mm:ss"];
+                if (this.selectedDateType == "hour") {
+                    stringToDayjsFormat = "YYYY.MM.DD HH:59:59";
+                    datetime += ":59";
+                } else if (this.selectedDateType == "date") {
+                    stringToDayjsFormat = "YYYY.MM.DD 23:59:59";
+                    datetime += " 23:59:59";
+                } else if (this.selectedDateType == "month") {
+                    const daysInMonth = dayjs(datetime + ".01", stringToDayjsFormat).daysInMonth();
+                    stringToDayjsFormat = `YYYY.MM.${daysInMonth} 23:59:59`;
+                    datetime += `.${daysInMonth} 23:59:59`;
+                } else if (this.selectedDateType == "year") {
+                    stringToDayjsFormat = "YYYY.12.31 23:59:59";
+                    datetime += ".12.31 23:59:59";
+                }
+
+                if (datetime < this.startDatetime.format(dayjsToStringFormat))
                     await new Promise(resolve => alert("잘못된 시간대 입력입니다.", resolve));
-                else this.setEndDatetime(dayjs(datetime, format));
+                else await this.setEndDatetime(dayjs(datetime, stringToDayjsFormat));
             }
         }
     }

@@ -2,13 +2,14 @@ export default {
     state: {
         airkorea: {
             items: Object.freeze([
-                { seq: 0, label: "지점", value: "station", unit: "" },
-                { seq: 1, label: "SO2", value: "so2", unit: "ppm" },
-                { seq: 2, label: "CO", value: "co", unit: "ppm" },
-                { seq: 3, label: "O3", value: "o3", unit: "ppm" },
-                { seq: 4, label: "NO2", value: "no2", unit: "ppm" },
-                { seq: 5, label: "PM10", value: "pm10", unit: "㎍/㎥" },
-                { seq: 6, label: "PM2.5", value: "pm25", unit: "㎍/㎥" }
+                { seq: 0, label: "측정 시간", value: "obsTime", unit: "" },
+                { seq: 1, label: "지점", value: "station", unit: "" },
+                { seq: 2, label: "SO2", value: "so2", unit: "ppm" },
+                { seq: 3, label: "CO", value: "co", unit: "ppm" },
+                { seq: 4, label: "O3", value: "o3", unit: "ppm" },
+                { seq: 5, label: "NO2", value: "no2", unit: "ppm" },
+                { seq: 6, label: "PM10", value: "pm10", unit: "㎍/㎥" },
+                { seq: 7, label: "PM2.5", value: "pm25", unit: "㎍/㎥" }
             ]),
             selectedItems: Object.freeze([]),
             xAxis: Object.freeze([]),
@@ -16,11 +17,12 @@ export default {
         },
         kt: {
             items: Object.freeze([
-                { seq: 0, label: "지점", value: "station", unit: "" },
-                { seq: 1, label: "기온", value: "temperature", unit: "℃" },
-                { seq: 2, label: "습도", value: "humidity", unit: "%" },
-                { seq: 3, label: "PM10", value: "pm10", unit: "㎍/㎥" },
-                { seq: 4, label: "PM2.5", value: "pm25", unit: "㎍/㎥" }
+                { seq: 0, label: "측정 시간", value: "obsTime", unit: "" },
+                { seq: 1, label: "지점", value: "station", unit: "" },
+                { seq: 2, label: "기온", value: "temperature", unit: "℃" },
+                { seq: 3, label: "습도", value: "humidity", unit: "%" },
+                { seq: 4, label: "PM10", value: "pm10", unit: "㎍/㎥" },
+                { seq: 5, label: "PM2.5", value: "pm25", unit: "㎍/㎥" }
             ]),
             selectedItems: Object.freeze([]),
             xAxis: Object.freeze([]),
@@ -28,13 +30,14 @@ export default {
         },
         sDoT: {
             items: Object.freeze([
-                { seq: 0, label: "지점", value: "station", unit: "" },
-                { seq: 1, label: "기온", value: "temperature", unit: "℃" },
-                { seq: 2, label: "상대습도", value: "relativeHumidity", unit: "%" },
-                { seq: 3, label: "풍향", value: "windDirection", unit: "˚" },
-                { seq: 4, label: "풍속", value: "windSpeed", unit: "㎧" },
-                { seq: 5, label: "PM10", value: "pm10", unit: "㎍/㎥" },
-                { seq: 6, label: "PM2.5", value: "pm25", unit: "㎍/㎥" }
+                { seq: 0, label: "측정 시간", value: "obsTime", unit: "" },
+                { seq: 1, label: "지점", value: "station", unit: "" },
+                { seq: 2, label: "기온", value: "temperature", unit: "℃" },
+                { seq: 3, label: "상대습도", value: "relativeHumidity", unit: "%" },
+                { seq: 4, label: "풍향", value: "windDirection", unit: "˚" },
+                { seq: 5, label: "풍속", value: "windSpeed", unit: "㎧" },
+                { seq: 6, label: "PM10", value: "pm10", unit: "㎍/㎥" },
+                { seq: 7, label: "PM2.5", value: "pm25", unit: "㎍/㎥" }
             ]),
             selectedItems: Object.freeze([]),
             xAxis: Object.freeze([]),
@@ -42,11 +45,12 @@ export default {
         },
         observer: {
             items: Object.freeze([
-                { seq: 0, label: "지점", value: "station", unit: "" },
-                { seq: 1, label: "기온", value: "temperature", unit: "℃" },
-                { seq: 2, label: "습도", value: "humidity", unit: "%" },
-                { seq: 3, label: "기압", value: "pressure", unit: "㎪" },
-                { seq: 4, label: "PM2.5", value: "pm25", unit: "㎍/㎥" }
+                { seq: 0, label: "측정 시간", value: "obsTime", unit: "" },
+                { seq: 1, label: "지점", value: "station", unit: "" },
+                { seq: 2, label: "기온", value: "temperature", unit: "℃" },
+                { seq: 3, label: "습도", value: "humidity", unit: "%" },
+                { seq: 4, label: "기압", value: "pressure", unit: "㎩" },
+                { seq: 5, label: "PM2.5", value: "pm25", unit: "㎍/㎥" }
             ]),
             selectedItems: Object.freeze([]),
             xAxis: Object.freeze([]),

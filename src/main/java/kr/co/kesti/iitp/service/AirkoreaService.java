@@ -31,6 +31,7 @@ public class AirkoreaService implements GraphQLQueryResolver {
         return this.airkoreaDataRepositoryDsl.findAllData(
                 request.getStartDatetime(),
                 request.getEndDatetime(),
+                request.getDateType(),
                 request.getStnNm(),
                 request.getPm10(),
                 request.getPm25());

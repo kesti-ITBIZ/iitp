@@ -37,6 +37,7 @@ public class KTService implements GraphQLQueryResolver {
             return this.ktDataRepositoryDsl.findAllData(
                     dateFormat.parse(request.getStartDatetime()),
                     dateFormat.parse(request.getEndDatetime()),
+                    request.getDateType(),
                     request.getStnNm(),
                     request.getPm10(),
                     request.getPm25());

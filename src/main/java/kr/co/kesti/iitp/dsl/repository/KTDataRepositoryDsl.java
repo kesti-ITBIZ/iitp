@@ -25,20 +25,27 @@ public class KTDataRepositoryDsl extends QuerydslRepositorySupport {
     public List<ResponseKTDataVO> findAllData(
             final Date startDatetime,
             final Date endDatetime,
+            final String dateType,
             final String stnNm,
             final List<Float> pm10,
             final List<Float> pm25) {
         QKTData a = QKTData.kTData;
         QKTStation b = QKTStation.kTStation;
 
+        String format = "";
+        if ("hour".equals(dateType)) format = "YYYY.MM.DD HH24";
+        else if ("date".equals(dateType)) format = "YYYY.MM.DD";
+        else if ("month".equals(dateType)) format = "YYYY.MM";
+        else if ("year".equals(dateType)) format = "YYYY";
+
         return this.jpaQueryFactory
                 .select(Projections.constructor(ResponseKTDataVO.class,
-                        Expressions.stringTemplate("to_date({0}, 'YYYYMMDDHH24MISS')", a.ktDataKey.equipDate).as("datetime"),
+                        Expressions.stringTemplate("to_char({0}, '{1}')", a.ktDataKey.equipDate, format).as("datetime"),
                         a.ktDataKey.devId.as("stnNm"),
-                        a.temperature.as("temperature"),
-                        a.humidity.as("humidity"),
-                        a.pm10.as("pm10"),
-                        a.pm25.as("pm25")))
+                        a.temperature.avg().as("temperature"),
+                        a.humidity.avg().as("humidity"),
+                        a.pm10.avg().as("pm10"),
+                        a.pm25.avg().as("pm25")))
                 .from(a)
                 .join(b)
                 .on(a.ktDataKey.devId.eq(b.devId))
@@ -51,6 +58,9 @@ public class KTDataRepositoryDsl extends QuerydslRepositorySupport {
                         .and(pm25.get(1) == null ?
                                 a.pm25.goe(pm25.get(0)) :
                                 a.pm25.between(pm25.get(0), pm25.get(1))))
+                .groupBy(
+                        Expressions.stringTemplate("to_char({0}, '{1}')", a.ktDataKey.equipDate, format),
+                        a.ktDataKey.devId)
                 .fetch();
     }
 }

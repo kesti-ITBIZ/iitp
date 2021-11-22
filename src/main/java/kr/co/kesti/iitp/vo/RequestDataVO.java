@@ -12,6 +12,7 @@ import java.util.List;
 public class RequestDataVO {
     private String startDatetime;
     private String endDatetime;
+    private String dateType;
     private String stnNm;
     private List<Float> pm10;
     private List<Float> pm25;
