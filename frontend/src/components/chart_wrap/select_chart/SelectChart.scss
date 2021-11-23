@@ -14,8 +14,17 @@ $color: #0094c4;
             display: block;
             margin: 0 auto;
 
-            ~ div {
+            + div {
                 padding-top: 10px;
+            }
+        }
+
+        svg.fa-chart-network {
+            position: relative;
+            top: 10px;
+
+            + div {
+                padding-top: 27px;
             }
         }
 
