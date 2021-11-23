@@ -1,0 +1,18 @@
+#chart-wrap {
+    width: 50%;
+    height: calc(100% - 2px);
+    border: 1px solid #a5a5a5;
+
+    > div {
+        border: 1px solid #a5a5a5;
+    }
+
+    > div.chart-wrap-header {
+        //height: 250px;
+    }
+
+    > div#content-chart {
+        width: calc(100% - 2px);
+        height: calc(100% - 192px);
+    }
+}

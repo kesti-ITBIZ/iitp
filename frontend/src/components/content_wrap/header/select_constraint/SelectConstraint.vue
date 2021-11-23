@@ -41,7 +41,7 @@
             season: ["봄", "겨울"],
             options: {
                 dotSize: 20,
-                width: 500,
+                width: "calc(100% - 50px)",
                 height: 15,
                 contained: false,
                 direction: "ltr",

@@ -6,17 +6,17 @@
                     <th colspan="2">
                         <table>
                             <colgroup>
-                                <col style="min-width: 600px;" />
-                                <col style="width: 570px; min-width: 570px;" />
+                                <col style="width: 50%;" />
+                                <col style="width: 50%;" />
                             </colgroup>
                             <thead>
                                 <tr>
                                     <select-datetime />
                                     <select-constraint />
                                 </tr>
-                                <tr>
-                                    <select-chart />
-                                </tr>
+<!--                                <tr>-->
+<!--                                    <select-chart />-->
+<!--                                </tr>-->
                             </thead>
                         </table>
                     </th>
@@ -24,7 +24,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <content-chart />
+<!--                    <content-chart />-->
                     <td class="map">
                         <div class="map-data">
                             <content-map />
@@ -40,8 +40,8 @@
 <script>
     import SelectDatetime from "./header/select_datetime/SelectDatetime";
     import SelectConstraint from "./header/select_constraint/SelectConstraint";
-    import SelectChart from "./header/select_chart/SelectChart";
-    import ContentChart from "./content/chart/ContentChart";
+    // import SelectChart from "./header/select_chart/SelectChart";
+    // import ContentChart from "./content/chart/ContentChart";
     import ContentMap from "./content/map/ContentMap";
     import ContentData from "./content/content_data/ContentData";
 
@@ -50,8 +50,8 @@
         components: {
             SelectDatetime,
             SelectConstraint,
-            SelectChart,
-            ContentChart,
+            // SelectChart,
+            // ContentChart,
             ContentMap,
             ContentData
         }

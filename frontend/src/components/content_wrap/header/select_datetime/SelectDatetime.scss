@@ -1,13 +1,23 @@
 #select-datetime {
     padding: 15px;
 
+    table {
+        td {
+            border: none !important;
+            padding: 0 10px !important;
+
+            &:first-child {
+                text-align: right;
+            }
+        }
+    }
+
     select {
         position: relative;
         top: -1px;
         width: 100px;
         border: 1px solid #9c9c9c;
         border-radius: 0;
-        margin-left: 10px;
         padding: 5.5px;
         cursor: pointer;
 

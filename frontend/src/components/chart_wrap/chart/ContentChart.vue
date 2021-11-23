@@ -1,5 +1,5 @@
 <template>
-    <td id="content-chart">
+    <div id="content-chart">
         <div v-show="selectedChartType != 'table'" id="chart" ref="chart" />
         <div v-show="selectedChartType == 'table' && dataValues.length > 0" id="table" class="scroll">
             <table>
@@ -19,7 +19,7 @@
                 </tbody>
             </table>
         </div>
-    </td>
+    </div>
 </template>
 
 <script>
@@ -47,17 +47,7 @@
             }),
 
             dataValues() {
-                if (this.data == null) {
-                    return this.yAxis.map(() => {
-                        const _data = [];
-                        for (let j = 0, value = Math.random();
-                             j < Math.abs(this.startDatetime.diff(this.endDatetime, this.selectedDateType == "date" ? "day" : this.selectedDateType) - 1);
-                             ++j, value += 0.1 * Math.random() * (Math.random() < 0.5 ? -1 : 1)) {
-                            _data.push(Math.abs(value) * 100);
-                        }
-                        return _data;
-                    });
-                } else return this.yAxis.map(obj => this.data[this.selectedCategory].map(_obj => _obj[obj.value]));
+                return this.data[this.selectedCategory] ? this.yAxis.map(obj => this.data[this.selectedCategory].map(_obj => _obj[obj.value])) : [];
             },
 
             xAxisLabels() {
@@ -98,7 +88,7 @@
             },
 
             data() {
-                console.log(this.data);
+                console.log(this.data[this.selectedCategory]);
                 this.initChart();
             }
         },
@@ -112,9 +102,9 @@
                 if (this.chart) this.chart.clear();
                 else this.chart = init(this.$refs["chart"]);
                 if (this.selectedChartType == "distribution") {
-                    registerMap("KOREA", require("../../../../assets/json/korea.json"));
+                    registerMap("KOREA", require("../../../assets/json/korea.json"));
 
-                    let data = require("../../../../assets/json/data.json").map(obj => obj.name.split("|").map(val => +val).concat([1]));
+                    let data = require("../../../assets/json/data.json").map(obj => obj.name.split("|").map(val => +val).concat([1]));
 
                     this.chart.setOption({
                         geo: {
@@ -253,5 +243,5 @@
 </script>
 
 <style lang="scss">
-    @import "./ContentChart.scss";
+    @import "./ContentChart";
 </style>

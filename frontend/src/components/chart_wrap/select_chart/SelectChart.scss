@@ -1,14 +1,13 @@
 $color: #0094c4;
 
 #select-chart {
-    .scroll {
-        overflow-y: hidden;
-    }
+    display: flex;
+    padding: 20px 0;
 
-    .select-chart-btn {
-        display: inline-block;
+    div.select-chart-btn {
         text-align: center;
         color: $color;
+        margin: 0 auto;
         padding: 10px 20px;
 
         svg {

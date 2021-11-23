@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export default {
     state: {
         category: Object.freeze([
@@ -34,7 +36,34 @@ export default {
             _stations["all"] = Object.freeze(_stations["all"].concat(stations));
             state.stations = Object.freeze(_stations);
         },
-        SET_DATA: (state, { category, data }) => state.data[category] = Object.freeze(data)
+        SET_DATA: (state, { category, data }) => {
+            const len = data.length
+            const datetimeUnit = (state.selectedDateType == "date" ? "day" : state.selectedDateType) + "s";
+            const dayjsToStringFormat = state.dateTypes[state.dateTypes.findIndex(obj => obj.type == state.selectedDateType)].dayjsToStringFormat;
+            for (let i = 0; i < len - 1; ++i) {
+                const diff = Math.abs(dayjs(data[i].datetime).diff(dayjs(data[i + 1].datetime), datetimeUnit));
+                if (diff > 1) {
+                    const keys = Object.keys(data[i]);
+                    keys.splice(keys.indexOf("datetime"), 1);
+                    keys.splice(keys.indexOf("__typename"), 1);
+                    keys.splice(keys.indexOf("stnNm"), 1);
+                    for (let datetime = dayjs(data[i].datetime).add(1, datetimeUnit);
+                         datetime <= dayjs(data[i + 1].datetime).subtract(1, datetimeUnit);
+                         datetime = datetime.add(1, datetimeUnit)) {
+                        const item = {
+                            datetime: datetime.format(dayjsToStringFormat),
+                            stnNm: data[i].stnNm,
+                            __typename: data[i].__typename
+                        };
+                        for (const j in keys)
+                            item[keys[j]] = null;
+                        data.push(item);
+                    }
+                }
+            }
+            data.sort((a, b) => a.datetime < b.datetime ? -1 : 1);
+            state.data = Object.freeze({ ...state.data, [category]: data });
+        }
     },
     actions: {
         SET_SELECTED_CATEGORY: (context, category) => context.commit("SET_SELECTED_CATEGORY", category),

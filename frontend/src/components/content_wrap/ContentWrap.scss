@@ -1,5 +1,6 @@
 #content-wrap {
-    width: calc(100% - 600px);
+    width: calc(50% - 600px);
+    min-width: 835px;
     height: 100%;
 
     > table > thead > {

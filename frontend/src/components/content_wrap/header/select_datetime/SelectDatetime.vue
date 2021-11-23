@@ -1,23 +1,45 @@
 <template>
     <th id="select-datetime">
-        <date-picker
-                valueType="format"
-                :type="selectedDateType == 'hour' ? 'datetime' : selectedDateType"
-                :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat"
-                :value="startDatetime.format(dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat)"
-                @change="onChangeStartDatetime" />
-        &nbsp;~&nbsp;
-        <date-picker
-                valueType="format"
-                :type="selectedDateType == 'hour' ? 'datetime' : selectedDateType"
-                :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat"
-                :value="endDatetime.format(dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat)"
-                @change="onChangeEndDatetime" />
-        <label>
-            <select :value="selectedDateType" @change="setSelectedDateType($event.target.value)">
-                <option :key="i" v-for="(dateType, i) in dateTypes" :value="dateType.type">{{ dateType.label }}</option>
-            </select>
-        </label>
+        <table>
+            <colgroup>
+                <col />
+                <col />
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td>단위 :</td>
+                    <td>
+                        <label>
+                            <select :value="selectedDateType" @change="setSelectedDateType($event.target.value)">
+                                <option :key="i" v-for="(dateType, i) in dateTypes" :value="dateType.type">{{ dateType.label }}</option>
+                            </select>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>시작 :</td>
+                    <td>
+                        <date-picker
+                                valueType="format"
+                                :type="selectedDateType == 'hour' ? 'datetime' : selectedDateType"
+                                :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat"
+                                :value="startDatetime.format(dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat)"
+                                @change="onChangeStartDatetime" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>종료 :</td>
+                    <td>
+                        <date-picker
+                                valueType="format"
+                                :type="selectedDateType == 'hour' ? 'datetime' : selectedDateType"
+                                :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat"
+                                :value="endDatetime.format(dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat)"
+                                @change="onChangeEndDatetime" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </th>
 </template>
 
