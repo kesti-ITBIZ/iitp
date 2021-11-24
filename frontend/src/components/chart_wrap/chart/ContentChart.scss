@@ -1,9 +1,11 @@
 $table-color: #00c3dc;
 
-#content-chart {
+div.content-chart {
+    height: calc(100% - 190px) !important;
+    border-top: none;
+
     > div {
         width: 100%;
-        height: 100%;
         overflow-x: hidden;
     }
 
@@ -37,6 +39,21 @@ $table-color: #00c3dc;
             }
             tr:nth-child(even) td {
                 background-color: #f8fdff;
+            }
+        }
+    }
+
+    #no-data {
+        display: table;
+        height: 100%;
+
+        > div {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+
+            h1 {
+                color: #a5a5a5;
             }
         }
     }

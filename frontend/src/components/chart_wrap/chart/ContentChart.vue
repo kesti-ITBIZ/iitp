@@ -1,7 +1,7 @@
 <template>
-    <div id="content-chart">
-        <div v-show="selectedChartType != 'table'" id="chart" ref="chart" />
-        <div v-show="selectedChartType == 'table' && dataValues.length > 0" id="table" class="scroll">
+    <div class="content-chart">
+        <div v-show="data[selectedCategory] && data[selectedCategory].length > 0 && selectedChartType != 'table'" id="chart" ref="chart" />
+        <div v-show="data[selectedCategory] && data[selectedCategory].length > 0 && selectedChartType == 'table' && dataValues.length > 0" id="table" class="scroll">
             <table>
                 <thead>
                     <tr>
@@ -18,6 +18,12 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div v-show="data[selectedCategory] == null || data[selectedCategory].length === 0" id="no-data">
+            <div>
+
+                <h1>데이터가 없습니다.</h1>
+            </div>
         </div>
     </div>
 </template>
@@ -64,32 +70,38 @@
         },
         watch: {
             selectedChartType() {
-                this.initChart();
+                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0)
+                    setTimeout(this.initChart, 0);
             },
 
             xAxis() {
-                this.initChart();
+                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0)
+                    setTimeout(this.initChart, 0);
             },
 
             yAxis() {
-                this.initChart();
+                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0)
+                    setTimeout(this.initChart, 0);
             },
 
             startDatetime() {
-                this.initChart();
+                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0)
+                    setTimeout(this.initChart, 0);
             },
 
             endDatetime() {
-                this.initChart();
+                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0)
+                    setTimeout(this.initChart, 0);
             },
 
             selectedDateType() {
-                this.initChart();
+                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0)
+                    setTimeout(this.initChart, 0);
             },
 
             data() {
-                console.log(this.data[this.selectedCategory]);
-                this.initChart();
+                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0)
+                    setTimeout(this.initChart, 0);
             }
         },
         methods: {
@@ -98,8 +110,8 @@
                 clearResizeEvent: "CLEAR_RESIZE_EVENT"
             }),
 
-            async initChart() {
-                if (this.chart) this.chart.clear();
+            initChart() {
+                if (this.chart != null) this.chart.clear();
                 else this.chart = init(this.$refs["chart"]);
                 if (this.selectedChartType == "distribution") {
                     registerMap("KOREA", require("../../../assets/json/korea.json"));
@@ -230,11 +242,11 @@
                             }
                         })
                     });
-                await this.addResizeEvent(() => this.chart.resize());
+                this.addResizeEvent(() => this.chart.resize());
             }
         },
         mounted() {
-            this.initChart();
+            // this.initChart();
         },
         destroyed() {
             this.clearResizeEvent();

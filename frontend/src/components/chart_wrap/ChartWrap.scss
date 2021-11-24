@@ -2,7 +2,7 @@
     width: 50%;
     min-width: 1132px;
     height: calc(100% - 2px);
-    border: 1px solid #a5a5a5;
+    //border: 1px solid #a5a5a5;
 
     > div {
         border: 1px solid #a5a5a5;
@@ -10,6 +10,7 @@
 
     > div.chart-wrap-header {
         //height: 250px;
+        border-bottom: none;
     }
 
     > div#content-chart {

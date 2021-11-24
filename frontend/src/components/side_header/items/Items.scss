@@ -1,89 +1,99 @@
-#items .opt-body {
-    input[type=button] {
-        background-color: #e9f9ff;
-        color: #0084de;
-        border: 1px solid #0084de;
-        transition: color 0.1s, border 0.1s, background-color 0.1s;
-
-        &:hover {
-            color: #42b2ff;
-            border: 1px solid #42b2ff;
-            background-color: #f9feff;
-        }
-        &:active {
-            color: #0061a5;
-            border: 1px solid #0061a5;
-            background-color: #d4eaff;
-        }
-        &.on {
-            color: #ecf9f7;
-            background-color: #0084de;
-        }
+#items {
+    .opt-head {
+        border-top: 1px solid #a5a5a5;
+        border-right: 1px solid #a5a5a5;
     }
 
-    > ul {
-        height: calc(100% - 93.5px);
+    .opt-body {
+        border: 1px solid #a5a5a5;
+        border-left: none;
 
-        li input[type=button] {
-            &.obsTime, &.station {
-                background-color: #f8f8f8;
-                color: #404040;
-                border: 1px solid #a5a5a5;
+        input[type=button] {
+            background-color: #e9f9ff;
+            color: #0084de;
+            border: 1px solid #0084de;
+            transition: color 0.1s, border 0.1s, background-color 0.1s;
+
+            &:hover {
+                color: #42b2ff;
+                border: 1px solid #42b2ff;
+                background-color: #f9feff;
             }
-
-            &.obsTime:hover, &.station:hover {
-                background-color: white;
-                color: #666666;
-                border-color: #c6c6c6;
+            &:active {
+                color: #0061a5;
+                border: 1px solid #0061a5;
+                background-color: #d4eaff;
             }
-
-            &.obsTime:active, &.station:active {
-                background-color: #f1f1f1;
-                color: #363636;
-                border: 1px solid #7d7d7d;
-            }
-
-            &.obsTime.on, &.station.on {
-                background-color: #7f7f7f;
-                color: white;
-                border-color: #7f7f7f;
+            &.on {
+                color: #ecf9f7;
+                background-color: #0084de;
             }
         }
-    }
 
-    > div {
-        display: flex;
-        font-size: 16pt;
+        > ul {
+            height: calc(100% - 93.5px);
+
+            li input[type=button] {
+                &.obsTime, &.station {
+                    background-color: #f8f8f8;
+                    color: #404040;
+                    border: 1px solid #a5a5a5;
+                }
+
+                &.obsTime:hover, &.station:hover {
+                    background-color: white;
+                    color: #666666;
+                    border-color: #c6c6c6;
+                }
+
+                &.obsTime:active, &.station:active {
+                    background-color: #f1f1f1;
+                    color: #363636;
+                    border: 1px solid #7d7d7d;
+                }
+
+                &.obsTime.on, &.station.on {
+                    background-color: #7f7f7f;
+                    color: white;
+                    border-color: #7f7f7f;
+                }
+            }
+        }
 
         > div {
-            width: 50%;
-            padding: 10px;
+            display: flex;
+            font-size: 16pt;
 
             > div {
-                color: #00455c;
-                background-color: transparent;
-                border: 1px solid #009bd7;
-                padding: 20px 0;
-                box-shadow: 0 3px 5px 2px rgba(0, 0, 0, 0.24);
-                transition: background-color 0.2s, color 0.2s;
-                cursor: pointer;
+                width: 50%;
+                padding: 10px;
 
-                &:hover {
-                    color: white;
-                    background-color: #009bd7;
-                }
-                &:active {
-                    background-color: #0073a0;
-                    border: 1px solid #0073a0;
-                    transition: background-color 0.1s;
-                }
-            }
+                > div {
+                    color: #00455c;
+                    background-color: transparent;
+                    border: 1px solid #009bd7;
+                    padding: 20px 0;
+                    box-shadow: 0 3px 5px 2px rgba(0, 0, 0, 0.24);
+                    transition: background-color 0.2s, color 0.2s;
+                    cursor: pointer;
 
-            &:first-child {
-                padding-right: 5px;
-            }
-            &:last-child {
-                padding-left: 5px;
+                    &:hover {
+                        color: white;
+                        background-color: #009bd7;
+                    }
+                    &:active {
+                        background-color: #0073a0;
+                        border: 1px solid #0073a0;
+                        transition: background-color 0.1s;
+                    }
+                }
+
+                &:first-child {
+                    padding-right: 5px;
+                }
+                &:last-child {
+                    padding-left: 5px;
+                }
             }
         }
     }

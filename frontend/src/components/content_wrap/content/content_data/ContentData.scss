@@ -5,6 +5,8 @@ $active: #006f5b;
 
 #content-data {
     height: fit-content;
+    border: 1px solid #a5a5a5;
+    border-top: none;
 
     ul {
         display: flex;
