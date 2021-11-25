@@ -3,7 +3,7 @@ module.exports = {
     devServer: {
         port: 8085,
         proxy: {
-            "/": { target: "http://127.0.0.1:9200" }
+            "/": { target: "http://localhost:9200" }
         }
     }
 }
