@@ -24,7 +24,7 @@ public class ObserverDataRepositoryDsl extends QuerydslRepositorySupport {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
-    public List<ResponseObserverDataVO> findAllData(
+    public List<ResponseObserverDataVO> findAllDataByDatetime(
             final Date startDatetime,
             final Date endDatetime,
             final String dateType,
@@ -34,10 +34,12 @@ public class ObserverDataRepositoryDsl extends QuerydslRepositorySupport {
         QObserverStation b = QObserverStation.observerStation;
 
         String format = "";
-        if (dateType.equals("hour")) format = "YYYY.MM.DD HH24";
-        else if (dateType.equals("date")) format = "YYYY.MM.DD";
-        else if (dateType.equals("month")) format = "YYYY.MM";
-        else if (dateType.equals("year")) format = "YYYY";
+        switch (dateType) {
+        case "hour": format = "YYYY.MM.DD HH24"; break;
+        case "date": format = "YYYY.MM.DD"; break;
+        case "month": format = "YYYY.MM"; break;
+        case "year": format = "YYYY"; break;
+        }
 
         final StringTemplate datetime = Expressions.stringTemplate(String.format("to_char({0}, '%s')", format), a.observerDataKey.dataTime);
 
@@ -59,6 +61,33 @@ public class ObserverDataRepositoryDsl extends QuerydslRepositorySupport {
                                 a.pm25.goe(pm25.get(0)) :
                                 a.pm25.between(pm25.get(0), pm25.get(1))))
                 .groupBy(datetime, b.stnNm)
+                .fetch();
+    }
+
+    public List<ResponseObserverDataVO> findAllDataByItem(
+            final Date startDatetime,
+            final Date endDatetime,
+            final String stnNm,
+            final List<Float> pm25) {
+        QObserverData a = QObserverData.observerData;
+        QObserverStation b = QObserverStation.observerStation;
+
+        return this.jpaQueryFactory
+                .select(Projections.constructor(ResponseObserverDataVO.class,
+                        b.stnNm.as("stnNm"),
+                        a.temperature.as("temperature"),
+                        a.humidity.as("humidity"),
+                        a.pressure.as("pressure"),
+                        a.pm25.as("pm25")))
+                .from(a)
+                .join(b)
+                .on(a.observerDataKey.stnSerial.eq(b.stnSerial))
+                .where(
+                        a.observerDataKey.dataTime.between(startDatetime, endDatetime)
+                        .and(b.stnNm.eq(stnNm))
+                        .and(pm25.get(1) == null ?
+                                a.pm25.goe(pm25.get(0)) :
+                                a.pm25.between(pm25.get(0), pm25.get(1))))
                 .fetch();
     }
 }

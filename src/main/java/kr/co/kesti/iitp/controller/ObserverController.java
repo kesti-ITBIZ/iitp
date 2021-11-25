@@ -19,8 +19,13 @@ public class ObserverController {
         return ResponseEntity.ok(this.observerService.getObserverStations());
     }
 
-    @PostMapping("/getData")
-    public ResponseEntity<?> getData(@RequestBody final RequestDataVO request) {
-        return ResponseEntity.ok(this.observerService.getObserverData(request));
+    @PostMapping("/getDataByDatetime")
+    public ResponseEntity<?> getDataByDatetime(@RequestBody final RequestDataVO request) {
+        return ResponseEntity.ok(this.observerService.getObserverDataByDatetime(request));
+    }
+
+    @PostMapping("/getDataByItem")
+    public ResponseEntity<?> getDataByItem(@RequestBody final RequestDataVO request) {
+        return ResponseEntity.ok(this.observerService.getObserverDataByItem(request));
     }
 }

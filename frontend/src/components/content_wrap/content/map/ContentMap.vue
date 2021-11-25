@@ -10,9 +10,9 @@
 
 <script>
     import { mapState, mapActions } from "vuex";
-    import gql from "graphql-tag";
 
     import KakaoMapUtils from "../../../../assets/js/map.utils";
+    import { stationApi } from "../../../../assets/js/api";
 
     export default {
         name: "ContentMap",
@@ -23,15 +23,7 @@
                 kt: null,
                 sDoT: null,
                 observer: null
-            },
-            airkoreaStations: null,
-            ktStations: null,
-            observerStations: null,
-            sDoTStations: null,
-            airkoreaData: null,
-            ktData: null,
-            observerData: null,
-            sDoTData: null
+            }
         }),
         computed: {
             ...mapState({
@@ -45,28 +37,7 @@
                 if (!this.maps[this.selectedCategory]) this.initMap();
             }
         },
-        apollo: {
-            ...(() => {
-                let obj = {};
-                ["airkorea", "kt", "observer", "sDoT"].forEach(category => {
-                    if (category !== "all")
-                        obj[category + "Stations"] = {
-                            query: gql`
-                                query {
-                                    ${category}Stations {
-                                        address
-                                        name
-                                        latitude
-                                        longitude
-                                    }
-                                }
-                            `,
-                            skip: true
-                        };
-                });
-                return obj;
-            })(),
-        },
+        ...stationApi,
         methods: {
             ...mapActions({
                 addStations: "ADD_STATIONS",

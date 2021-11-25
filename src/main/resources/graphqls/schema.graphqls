@@ -3,13 +3,17 @@ schema {
 }
 
 type Query {
-    airkoreaData(param: DataParam): [AirkoreaData]
+    airkoreaDataByDatetime(param: DataParam): [AirkoreaData]
+    airkoreaDataByItem(param: DataParam): [AirkoreaData]
     airkoreaStations: [Station]
-    ktData(param: DataParam): [KTData]
+    ktDataByDatetime(param: DataParam): [KTData]
+    ktDataByItem(param: DataParam): [KTData]
     ktStations: [Station]
-    observerData(param: DataParam): [ObserverData]
+    observerDataByDatetime(param: DataParam): [ObserverData]
+    observerDataByItem(param: DataParam): [ObserverData]
     observerStations: [Station]
-    sDoTData(param: DataParam): [SDoTData]
+    sDoTDataByDatetime(param: DataParam): [SDoTData]
+    sDoTDataByItem(param: DataParam): [SDoTData]
     sDoTStations: [Station]
 }
 
@@ -21,7 +25,7 @@ type Station {
 }
 
 type AirkoreaData {
-    datetime: String!
+    datetime: String
     stnNm: String!
     so2: Float
     co: Float
@@ -32,7 +36,7 @@ type AirkoreaData {
 }
 
 type KTData {
-    datetime: String!
+    datetime: String
     stnNm: String!
     temperature: Float
     humidity: Float
@@ -41,7 +45,7 @@ type KTData {
 }
 
 type ObserverData {
-    datetime: String!
+    datetime: String
     stnNm: String!
     temperature: Float
     humidity: Float
@@ -50,7 +54,7 @@ type ObserverData {
 }
 
 type SDoTData {
-    datetime: String!
+    datetime: String
     stnNm: String!
     temperature: Float
     relativeHumidity: Float
@@ -63,7 +67,7 @@ type SDoTData {
 input DataParam {
     startDatetime: String!
     endDatetime: String!
-    dateType: String!
+    dateType: String
     stnNm: String!
     pm10: [Float]!
     pm25: [Float]!

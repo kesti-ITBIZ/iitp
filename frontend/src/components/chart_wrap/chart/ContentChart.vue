@@ -5,7 +5,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>측정 시간</th>
+                        <th v-if="xAxis.length > 0">{{ xAxis[0].label }}</th>
                         <th :key="i" v-for="(y, i) in yAxis">{{ y.label }}</th>
                     </tr>
                 </thead>
@@ -65,7 +65,15 @@
                          datetime = datetime.add(1, (this.selectedDateType == "date" ? "day" : this.selectedDateType) + "s"))
                         _data.push(datetime.format(format));
                     return _data;
-                } else return this.data[this.selectedCategory].map(obj => obj.datetime);
+                } else if (this.xAxis.length === 0)
+                    return [];
+                else if (this.xAxis[0].value === "obsTime")
+                    return this.data[this.selectedCategory].map(obj => obj.datetime);
+                else {
+                    const xLabels = this.data[this.selectedCategory].map(obj => obj[this.xAxis[0].value]).filter(value => value != null);
+                    xLabels.sort((a, b) => +a < +b ? -1 : 1);
+                    return xLabels.map(value => Math.round(value * 100) / 100);
+                }
             }
         },
         watch: {
@@ -100,6 +108,7 @@
             },
 
             data() {
+                console.log(this.data[this.selectedCategory]);
                 if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0)
                     setTimeout(this.initChart, 0);
             }
@@ -244,9 +253,6 @@
                     });
                 this.addResizeEvent(() => this.chart.resize());
             }
-        },
-        mounted() {
-            // this.initChart();
         },
         destroyed() {
             this.clearResizeEvent();
