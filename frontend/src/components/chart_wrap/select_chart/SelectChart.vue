@@ -37,6 +37,12 @@
                 xAxis: state => state[state.selectedCategory].xAxis
             })
         },
+        watch: {
+            xAxis() {
+                if (this.xAxis.length === 0 || (this.xAxis[0].value !== "obsTime" && this.selectedChartType != "table" && this.selectedChartType != "scatter"))
+                    this.setSelectedChartType("");
+            }
+        },
         methods: {
             ...mapActions({
                 setSelectedChartType: "SET_SELECTED_CHART_TYPE"
