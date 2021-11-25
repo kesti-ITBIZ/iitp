@@ -39,8 +39,10 @@
         },
         watch: {
             xAxis() {
-                if (this.xAxis.length === 0 || (this.xAxis[0].value !== "obsTime" && this.selectedChartType != "table" && this.selectedChartType != "scatter"))
+                if (this.xAxis.length === 0)
                     this.setSelectedChartType("");
+                else if (this.xAxis[0].value !== "obsTime" && this.selectedChartType != "table" && this.selectedChartType != "scatter")
+                    this.setSelectedChartType("scatter");
             }
         },
         methods: {

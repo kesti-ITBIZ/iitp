@@ -21,7 +21,7 @@ export const stationApi = {
                     };
             });
             return obj;
-        })(),
+        })()
     }
 };
 
