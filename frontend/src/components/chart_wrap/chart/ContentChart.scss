@@ -33,10 +33,16 @@ div.content-chart {
                 color: #044b52;
                 border: 1px solid $table-color;
                 padding: 5px;
+
+                &[rowspan] {
+                    background-color: #f8fdff !important;
+                }
             }
+
             tr:nth-child(odd) td {
                 background-color: white;
             }
+
             tr:nth-child(even) td {
                 background-color: #f8fdff;
             }

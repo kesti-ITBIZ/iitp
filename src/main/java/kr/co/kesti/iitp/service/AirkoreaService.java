@@ -27,11 +27,20 @@ public class AirkoreaService implements GraphQLQueryResolver {
                 .collect(Collectors.toList());
     }
 
-    public List<ResponseAirkoreaDataVO> getAirkoreaData(final RequestDataVO request) {
-        return this.airkoreaDataRepositoryDsl.findAllData(
+    public List<ResponseAirkoreaDataVO> getAirkoreaDataByDatetime(final RequestDataVO request) {
+        return this.airkoreaDataRepositoryDsl.findAllDataByDatetime(
                 request.getStartDatetime(),
                 request.getEndDatetime(),
                 request.getDateType(),
+                request.getStnNm(),
+                request.getPm10(),
+                request.getPm25());
+    }
+
+    public List<ResponseAirkoreaDataVO> getAirkoreaDataByItem(final RequestDataVO request) {
+        return this.airkoreaDataRepositoryDsl.findAllDataByItem(
+                request.getStartDatetime(),
+                request.getEndDatetime(),
                 request.getStnNm(),
                 request.getPm10(),
                 request.getPm25());

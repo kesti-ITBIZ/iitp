@@ -1,27 +1,25 @@
 <template>
-    <td id="y-axis">
-        <table>
-            <thead>
-                <tr>
-                    <th class="opt-head">Y축</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="opt-body scroll no-scrollbar">
-                        <ul>
-                            <li :key="i" v-for="(data, i) in yAxis">
-                                <div @click="removeYAxis(data)">
-                                    {{ data.label + (data.unit !== "" ? ` (${data.unit})` : "") }}
-                                    <span>&times;</span>
-                                </div>
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </td>
+    <table id="y-axis">
+        <thead>
+            <tr>
+                <th class="opt-head">Y축</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="opt-body scroll no-scrollbar">
+                    <ul>
+                        <li :key="i" v-for="(data, i) in yAxis">
+                            <div @click="removeYAxis(data)">
+                                {{ data.label + (data.unit !== "" ? ` (${data.unit})` : "") }}
+                                <span>&times;</span>
+                            </div>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </template>
 
 <script>

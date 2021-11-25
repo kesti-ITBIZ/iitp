@@ -1,27 +1,26 @@
 <template>
     <div class="content-chart">
         <div v-show="data[selectedCategory] && data[selectedCategory].length > 0 && selectedChartType != 'table'" id="chart" ref="chart" />
-        <div v-show="data[selectedCategory] && data[selectedCategory].length > 0 && selectedChartType == 'table' && dataValues.length > 0" id="table" class="scroll">
-            <table>
+        <div v-show="data[selectedCategory] && data[selectedCategory].length > 0 && selectedChartType == 'table' && tableCount > 0" id="table" class="scroll">
+            <table v-if="xAxis.length > 0 && yAxis.length > 0">
                 <thead>
                     <tr>
-                        <th>측정 시간</th>
+                        <th>{{ xAxis[0].label }}</th>
                         <th :key="i" v-for="(y, i) in yAxis">{{ y.label }}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr :key="i" v-for="(d, i) in dataValues[0]">
-                        <td>{{ xAxisLabels[i] }}</td>
-                        <td :key="j" v-for="(y, j) in yAxis">
-                            {{ Math.round(+dataValues[j][i] * 100) / 100 }}{{ y.unit }}
-                        </td>
-                    </tr>
+                    <template v-for="(label, i) in xAxis[0].value === 'obsTime' ? Object.keys(tableData) : sorted(Object.keys(tableData).map(key => +key))">
+                        <tr :key="`${i}-${j}`" v-for="(yData, j) in tableData[label]">
+                            <td v-if="j === 0" :rowspan="tableData[label].length">{{ xAxis[0].value === 'obsTime' ? label : round(label) }}{{ xAxis[0].unit }}</td>
+                            <td :key="k" v-for="(y, k) in yData">{{ y ? round(y) + yAxis[k].unit : "-" }}</td>
+                        </tr>
+                    </template>
                 </tbody>
             </table>
         </div>
         <div v-show="data[selectedCategory] == null || data[selectedCategory].length === 0" id="no-data">
             <div>
-
                 <h1>데이터가 없습니다.</h1>
             </div>
         </div>
@@ -52,8 +51,65 @@
                 data: state => state.data
             }),
 
-            dataValues() {
-                return this.data[this.selectedCategory] ? this.yAxis.map(obj => this.data[this.selectedCategory].map(_obj => _obj[obj.value])) : [];
+            tableData() {
+                if (this.data[this.selectedCategory]) {
+                    const data = this.data[this.selectedCategory];
+
+                    const datasets = {};
+                    for (let i = 0; i < data.length; ++i) {
+                        const xLabel = data[i][this.xAxis[0].value === "obsTime" ? "datetime" : this.xAxis[0].value];
+                        if (xLabel == null) continue;
+                        if (!(xLabel in datasets))
+                            datasets[xLabel] = [];
+                        let yData = [];
+                        for (let j = 0; j < this.yAxis.length; ++j)
+                            yData.push(data[i][this.yAxis[j].value]);
+                        datasets[xLabel].push(yData);
+                    }
+
+                    const compare = (a, b) => {
+                        let acc = [false];
+                        for (let i = 0; i < this.yAxis.length; ++i) {
+                            let cur = true;
+                            for (let j = 0; j <= i; ++j)
+                                cur &&= i === 0 || (i > 0 && j > 0) ? a[j] < b[j] : a[j] === b[j];
+                            if (cur) return -1;
+                            else acc.push(cur);
+                        }
+                        return acc.reduce((a, b) => a || b) ? -1 : 1;
+                    }
+
+                    Object.keys(datasets).forEach(x => {
+                        datasets[x].sort(compare);
+                        for (let i = datasets[x].length - 1; i > 0; --i) {
+                            let compareValues = [];
+                            for (let j = 0; j < this.yAxis.length; ++j)
+                                if (datasets[x][i][j] === datasets[x][i - 1][j])
+                                    compareValues.push(true);
+                            if (compareValues.length > 0 && compareValues.reduce((acc, cur) => acc && cur))
+                                datasets[x].splice(i, 1);
+                        }
+                    });
+
+                    return datasets;
+                } else return {};
+            },
+
+            tableCount() {
+                return Object.keys(this.tableData).length === 0 ? 0 : Object.keys(this.tableData).reduce((acc, cur) => typeof acc !== "object" ? this.tableData[acc] : acc.concat(this.tableData[cur])).length;
+            },
+
+            chartData() {
+                if (this.data[this.selectedCategory]) {
+                    return this.xAxis[0].value !== "obsTime" ?
+                        this.yAxis.map(y => {
+                            let data = this.data[this.selectedCategory].map(obj => [obj[this.xAxis[0].value], obj[y.value]]);
+                            data.sort((a, b) => a[0] < b[0] ? -1 : a[0] === b[0] && a[1] < b[1] ? -1 : 1);
+                            for (let i = data.length - 1; i > 0; --i)
+                                if (data[i][0] === data[i - 1][0] && data[i][1] === data[i - 1][1]) data.splice(i, 1);
+                            return data.filter(d => d[0] != null && d[1] != null).map(d => [this.round(d[0]).toString(), d[1]]);
+                        }) : this.yAxis.map(obj => this.data[this.selectedCategory].map(_obj => _obj[obj.value]));
+                } else return [];
             },
 
             xAxisLabels() {
@@ -65,7 +121,15 @@
                          datetime = datetime.add(1, (this.selectedDateType == "date" ? "day" : this.selectedDateType) + "s"))
                         _data.push(datetime.format(format));
                     return _data;
-                } else return this.data[this.selectedCategory].map(obj => obj.datetime);
+                } else if (this.xAxis.length === 0)
+                    return [];
+                else if (this.xAxis[0].value === "obsTime")
+                    return this.data[this.selectedCategory].map(obj => obj.datetime);
+                else {
+                    const xLabels = this.data[this.selectedCategory].map(obj => obj[this.xAxis[0].value]).filter(value => value != null);
+                    xLabels.sort((a, b) => +a < +b ? -1 : 1);
+                    return [...new Set(xLabels)].map(value => this.round(value).toString());
+                }
             }
         },
         watch: {
@@ -206,28 +270,28 @@
                             case "pie":
                                 return {
                                     name: obj.label,
-                                    data: this.dataValues[i],
+                                    data: this.chartData[i],
                                     type: "pie",
                                     showSymbol: false
                                 };
                             case "line":
                                 return {
                                     name: obj.label,
-                                    data: this.dataValues[i],
+                                    data: this.chartData[i],
                                     type: "line",
                                     showSymbol: false
                                 };
                             case "bar":
                                 return {
                                     name: obj.label,
-                                    data: this.dataValues[i],
+                                    data: this.chartData[i],
                                     type: "bar",
                                     showSymbol: false
                                 };
                             case "area":
                                 return {
                                     name: obj.label,
-                                    data: this.dataValues[i],
+                                    data: this.chartData[i],
                                     type: "line",
                                     showSymbol: false,
                                     areaStyle: {}
@@ -235,7 +299,7 @@
                             case "scatter":
                                 return {
                                     name: obj.label,
-                                    data: this.dataValues[i],
+                                    data: this.chartData[i],
                                     type: "scatter",
                                     showSymbol: false
                                 };
@@ -243,10 +307,22 @@
                         })
                     });
                 this.addResizeEvent(() => this.chart.resize());
+            },
+
+            sorted(arr, compare = undefined) {
+                const newArr = arr.concat();
+                newArr.sort(compare);
+                return newArr;
+            },
+
+            round(value) {
+                let v = value, cnt = 0;
+                while (Math.round(v) === 0) {
+                    v *= 10;
+                    ++cnt;
+                }
+                return Math.round(value * (10 ** (cnt + 2))) / (10 ** (cnt + 2));
             }
-        },
-        mounted() {
-            // this.initChart();
         },
         destroyed() {
             this.clearResizeEvent();

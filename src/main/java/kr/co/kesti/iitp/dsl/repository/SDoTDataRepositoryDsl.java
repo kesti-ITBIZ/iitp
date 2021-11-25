@@ -25,7 +25,7 @@ public class SDoTDataRepositoryDsl extends QuerydslRepositorySupport {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
-    public List<ResponseSDoTDataVO> findAllData(
+    public List<ResponseSDoTDataVO> findAllDataByDatetime(
             final String startDatetime,
             final String endDatetime,
             final String dateType,
@@ -36,10 +36,12 @@ public class SDoTDataRepositoryDsl extends QuerydslRepositorySupport {
         QSDoTStation b = QSDoTStation.sDoTStation;
 
         String format = "";
-        if (dateType.equals("hour")) format = "YYYY.MM.DD HH24";
-        else if (dateType.equals("date")) format = "YYYY.MM.DD";
-        else if (dateType.equals("month")) format = "YYYY.MM";
-        else if (dateType.equals("year")) format = "YYYY";
+        switch (dateType) {
+        case "hour": format = "YYYY.MM.DD HH24"; break;
+        case "date": format = "YYYY.MM.DD"; break;
+        case "month": format = "YYYY.MM"; break;
+        case "year": format = "YYYY"; break;
+        }
 
         final StringTemplate datetime = Expressions.stringTemplate(String.format("to_char(to_timestamp({0}, 'YYYY-MM-DD HH24:MI'), '%s')", format), a.sDoTDataKey.registTime);
         System.out.println("\n" + datetime + "\n");
@@ -68,6 +70,40 @@ public class SDoTDataRepositoryDsl extends QuerydslRepositorySupport {
                                 a.pm25.goe(pm25.get(0)) :
                                 a.pm25.between(pm25.get(0), pm25.get(1))))
                 .groupBy(datetime, b.stnId)
+                .fetch();
+    }
+
+    public List<ResponseSDoTDataVO> findAllDataByItem(
+            final String startDatetime,
+            final String endDatetime,
+            final String stnNm,
+            final List<Float> pm10,
+            final List<Float> pm25) {
+        QSDoTData a = QSDoTData.sDoTData;
+        QSDoTStation b = QSDoTStation.sDoTStation;
+
+        return this.jpaQueryFactory
+                .select(Projections.constructor(ResponseSDoTDataVO.class,
+                        b.stnId.as("stnNm"),
+                        a.temperature.as("temperature"),
+                        a.relativeHumidity.as("relativeHumidity"),
+                        a.windDirection.as("windDirection"),
+                        a.windSpeed.as("windSpeed"),
+                        a.pm10.as("pm10"),
+                        a.pm25.as("pm25")))
+                .from(a)
+                .join(b)
+                .on(a.sDoTDataKey.modelSr.eq(b.stnId))
+                .where(
+                        a.sDoTDataKey.registTime.between(startDatetime, endDatetime)
+                        .and(a.sDoTDataKey.modelSr.eq(stnNm))
+                        .and(a.sDoTDataKey.div.eq((short) 1))
+                        .and(pm10.get(1) == null ?
+                                a.pm25.goe(pm10.get(0)) :
+                                a.pm25.between(pm10.get(0), pm10.get(1)))
+                        .and(pm25.get(1) == null ?
+                                a.pm25.goe(pm25.get(0)) :
+                                a.pm25.between(pm25.get(0), pm25.get(1))))
                 .fetch();
     }
 }
