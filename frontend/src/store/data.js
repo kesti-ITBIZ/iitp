@@ -9,7 +9,7 @@ export default {
             { label: "S-DoT", value: "sDoT" },
             { label: "옵저버", value: "observer" }
         ]),
-        selectedCategory: "sDoT",
+        selectedCategory: "airkorea",
         stations: Object.freeze({
             all: [],
             airkorea: [],

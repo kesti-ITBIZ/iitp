@@ -2,14 +2,13 @@ server:
   port: 9200
 spring:
   profiles:
-    active: local
+#    active: local
 #    active: dev
-#    active: prd
+    active: prd
   application:
     name: IITP
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://211.55.33.242:5432/pm10
     username: postgres
     password: test123
   jpa:
@@ -44,6 +43,8 @@ spring:
   config:
     activate:
       on-profile: local
+  datasource:
+    url: jdbc:postgresql://211.55.33.242:5432/pm10
   jpa:
     properties:
       hibernate:
@@ -56,6 +57,8 @@ spring:
   config:
     activate:
       on-profile: dev
+  datasource:
+    url: jdbc:postgresql://211.55.33.242:5432/pm10
   jpa:
     properties:
       hibernate:
@@ -68,6 +71,8 @@ spring:
   config:
     activate:
       on-profile: prd
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/pm10
   jpa:
     properties:
       hibernate:
