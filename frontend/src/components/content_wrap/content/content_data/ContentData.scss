@@ -4,9 +4,13 @@ $hover: #1cad95;
 $active: #006f5b;
 
 #content-data {
+    position: relative;
+    left: -0.5px;
+    width: calc(100% - 1px);
     height: fit-content;
     border: 1px solid #a5a5a5;
-    border-top: none;
+    border-top: none !important;
+    border-bottom: none !important;
 
     ul {
         display: flex;

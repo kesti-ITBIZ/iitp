@@ -9,6 +9,7 @@ $color: #0094c4;
         color: $color;
         margin: 0 auto;
         padding: 10px 20px;
+        transition: color 0.2s;
 
         svg {
             display: block;
@@ -41,6 +42,18 @@ $color: #0094c4;
         &.on > div {
             color: white;
             background-color: $color;
+        }
+
+        &.disabled {
+            color: #bdbdbd;
+            cursor: default;
+
+            > div {
+                &:hover {
+                    background-color: transparent;
+                    cursor: default;
+                }
+            }
         }
     }
 }

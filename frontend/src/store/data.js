@@ -17,13 +17,20 @@ export default {
             sDoT: [],
             observer: []
         }),
-        data: {
-            all: Object.freeze([]),
-            airkorea: Object.freeze([]),
-            kt: Object.freeze([]),
-            sDoT: Object.freeze([]),
-            observer: Object.freeze([])
-        }
+        selectedStation: Object.freeze({
+            all: [],
+            airkorea: [],
+            kt: [],
+            sDoT: [],
+            observer: []
+        }),
+        data: Object.freeze({
+            all: [],
+            airkorea: [],
+            kt: [],
+            sDoT: [],
+            observer: []
+        })
     },
     getters: {
 
@@ -35,6 +42,20 @@ export default {
             _stations[state.selectedCategory] = Object.freeze(_stations[state.selectedCategory].concat(stations));
             _stations["all"] = Object.freeze(_stations["all"].concat(stations));
             state.stations = Object.freeze(_stations);
+        },
+        SET_SELECTED_STATION: (state, { category, station }) => {
+            const selectedStation = { ...state.selectedStation };
+            selectedStation[category] = [station];
+            state.selectedStation = Object.freeze(selectedStation);
+        },
+        REMOVE_SELECTED_STATION: (state, { category, station }) => {
+            const selectedStation = { ...state.selectedStation };
+            selectedStation[category].splice(selectedStation[category].findIndex(obj =>
+                obj.name === station.name
+                && obj.address === station.address
+                && obj.latitude === station.latitude
+                && obj.longitude === station.longitude), 1);
+            state.selectedStation = Object.freeze(selectedStation);
         },
         SET_DATA: (state, { category, data }) => {
             const len = data.length
@@ -80,7 +101,9 @@ export default {
     },
     actions: {
         SET_SELECTED_CATEGORY: (context, category) => context.commit("SET_SELECTED_CATEGORY", category),
-        ADD_STATIONS: async (context, stations) => context.commit("ADD_STATIONS", stations),
+        ADD_STATIONS: (context, stations) => context.commit("ADD_STATIONS", stations),
+        SET_SELECTED_STATION: (context, { category, station }) => context.commit("SET_SELECTED_STATION", { category, station }),
+        REMOVE_SELECTED_STATION: (context, { category, station }) => context.commit("REMOVE_SELECTED_STATION", { category, station }),
         SET_DATA: (context, { category, data }) => context.commit("SET_DATA", { category, data })
     }
 }

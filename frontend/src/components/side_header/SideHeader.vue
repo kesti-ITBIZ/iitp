@@ -7,10 +7,13 @@
             </colgroup>
             <tbody>
                 <tr>
-                    <items />
-                    <x-axis />
+                    <td><items /></td>
+                    <td><x-axis /></td>
                 </tr>
-                <tr><y-axis /></tr>
+                <tr>
+                    <td><selected-stations /></td>
+                    <td><y-axis /></td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -18,6 +21,7 @@
 
 <script>
     import Items from "./items/Items";
+    import SelectedStations from "./selected_stations/SelectedStations";
     import XAxis from "./x_axis/XAxis";
     import YAxis from "./y_axis/YAxis";
 
@@ -25,6 +29,7 @@
         name: "SideHeader",
         components: {
             Items,
+            SelectedStations,
             XAxis,
             YAxis
         }
