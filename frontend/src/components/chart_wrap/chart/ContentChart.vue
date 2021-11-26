@@ -170,11 +170,13 @@
             },
 
             data() {
-                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0)
+                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0) {
+                    console.log(this.data[this.selectedCategory]);
                     setTimeout(async () => {
                         await this.initChart();
                         await this.setLoadingInvisible();
                     }, 0);
+                }
             }
         },
         methods: {

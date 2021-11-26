@@ -1,0 +1,66 @@
+$border: 1px solid #a5a5a5;
+
+#selected-stations {
+    height: 178px !important;
+
+    .opt-head {
+        background-color: #f1f1f1;
+        color: #404040;
+        border: {
+            left: $border;
+            bottom: $border;
+            right: $border;
+        };
+        padding: 10px;
+    }
+
+    .opt-body {
+        height: fit-content;
+        border: {
+            left: $border;
+            right: $border;
+        };
+
+        ul {
+            height: fit-content;
+            padding: 10px;
+
+            li {
+                position: relative;
+                text-align: left;
+                font-size: 14px;
+                color: #404040;
+                border: $border;
+                border-radius: 10px;
+                padding: 10px !important;
+                cursor: pointer;
+                transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s, color 0.2s;
+
+                * {
+                    padding: 0 !important;
+                }
+
+                span.close {
+                    position: absolute;
+                    left: calc(100% - 25px);
+                    color: transparent;
+                    transition: color 0.2s;
+                }
+
+                &:hover {
+                    color: black;
+                    border-color: #59acff;
+                    box-shadow: 0 0 3px 2px #59acff;
+
+                    span.close {
+                        color: black;
+                    }
+                }
+
+                &:active {
+                    background-color: #e8e8e8;
+                }
+            }
+        }
+    }
+}

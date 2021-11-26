@@ -1,19 +1,10 @@
 <template>
     <div id="side_header">
         <table>
-            <colgroup>
-                <col style="width: 50%;" />
-                <col style="width: 50%;" />
-            </colgroup>
             <tbody>
-                <tr>
-                    <td><items /></td>
-                    <td><x-axis /></td>
-                </tr>
-                <tr>
-                    <td><selected-stations /></td>
-                    <td><y-axis /></td>
-                </tr>
+                <tr><td><items /></td></tr>
+                <tr><td><x-axis /></td></tr>
+                <tr><td><y-axis /></td></tr>
             </tbody>
         </table>
     </div>
@@ -21,7 +12,6 @@
 
 <script>
     import Items from "./items/Items";
-    import SelectedStations from "./selected_stations/SelectedStations";
     import XAxis from "./x_axis/XAxis";
     import YAxis from "./y_axis/YAxis";
 
@@ -29,7 +19,6 @@
         name: "SideHeader",
         components: {
             Items,
-            SelectedStations,
             XAxis,
             YAxis
         }

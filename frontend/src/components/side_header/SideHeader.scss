@@ -1,6 +1,6 @@
 #side_header {
-    width: 600px;
-    min-width: 500px;
+    width: 300px;
+    min-width: 200px;
     height: 100%;
 
     thead th,
@@ -9,7 +9,13 @@
     }
 
     tbody td {
-        height: 50%;
+        &:first-child {
+            height: 100%;
+        }
+
+        &:not(:first-child) {
+            height: fit-content;
+        }
     }
 
     .opt-head {

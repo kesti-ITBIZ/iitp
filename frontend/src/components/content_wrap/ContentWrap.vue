@@ -28,6 +28,7 @@
                         </div>
                     </td>
                 </tr>
+                <tr><td><selected-stations /></td></tr>
                 <tr>
                     <td>
                         <input type="button" value="조회" @click="fetchData" />
@@ -48,6 +49,7 @@
     import SelectConstraint from "./header/select_constraint/SelectConstraint";
     import ContentMap from "./content/map/ContentMap";
     import ContentData from "./content/content_data/ContentData";
+    import SelectedStations from "./content/selected_stations/SelectedStations";
 
     export default {
         name: "ContentWrap",
@@ -55,7 +57,8 @@
             SelectDatetime,
             SelectConstraint,
             ContentMap,
-            ContentData
+            ContentData,
+            SelectedStations
         },
         computed: {
             ...mapState({
