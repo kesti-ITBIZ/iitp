@@ -65,7 +65,7 @@
             async addY() {
                 if (this.selectedItems.length === 0)
                     await new Promise(resolve => alert("Y축에 추가할 항목을 선택해주세요.", resolve));
-                else if (this.selectedItems[0].value == "obsTime")
+                else if (this.selectedItems[0].value == "datetime")
                     await new Promise(resolve => alert("측정 시간은 X축에만 추가할 수 있습니다.", resolve));
                 else if (this.selectedItems[0].value == "windDirection")
                     await new Promise(resolve => alert("풍향은 X축에만 추가할 수 있습니다.", resolve));

@@ -1,6 +1,7 @@
 $table-color: #00c3dc;
 
 div.content-chart {
+    position: relative;
     height: calc(100% - 190px) !important;
     border-top: none;
 

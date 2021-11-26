@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
-dayjs().add(1, "")
+
 export default {
     state: {
-        startDatetime: dayjs(dayjs().subtract(1, "months").format("YYYY.MM.DD 00:00"), "YYYY.MM.DD HH:mm"),
-        endDatetime: dayjs(dayjs().subtract(1, "days").format("YYYY.MM.DD 23:59"), "YYYY.MM.DD HH:mm"),
+        startDatetime: dayjs(dayjs().subtract(6, "days").format("YYYY.MM.DD 00:00"), "YYYY.MM.DD HH:mm"),
+        endDatetime: dayjs(),
         dateTypes: Object.freeze([
             { label: "시간", type: "hour", stringToDayjsFormat: "YYYY.MM.DD HH:mm", dayjsToStringFormat: "YYYY.MM.DD HH" },
             { label: "일", type: "date", stringToDayjsFormat: "YYYY.MM.DD", dayjsToStringFormat: "YYYY.MM.DD" },

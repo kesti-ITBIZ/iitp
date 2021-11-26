@@ -35,27 +35,32 @@ public class SDoTDataRepositoryDsl extends QuerydslRepositorySupport {
         QSDoTData a = QSDoTData.sDoTData;
         QSDoTStation b = QSDoTStation.sDoTStation;
 
-        String format = "";
-        switch (dateType) {
-        case "hour": format = "YYYY.MM.DD HH24"; break;
-        case "date": format = "YYYY.MM.DD"; break;
-        case "month": format = "YYYY.MM"; break;
-        case "year": format = "YYYY"; break;
-        }
-
-        final StringTemplate datetime = Expressions.stringTemplate(String.format("to_char(to_timestamp({0}, 'YYYY-MM-DD HH24:MI'), '%s')", format), a.sDoTDataKey.registTime);
-        System.out.println("\n" + datetime + "\n");
+//        String format = "";
+//        switch (dateType) {
+//        case "hour": format = "YYYY.MM.DD HH24"; break;
+//        case "date": format = "YYYY.MM.DD"; break;
+//        case "month": format = "YYYY.MM"; break;
+//        case "year": format = "YYYY"; break;
+//        }
+//
+//        final StringTemplate datetime = Expressions.stringTemplate(String.format("to_char(to_timestamp({0}, 'YYYY-MM-DD HH24:MI'), '%s')", format), a.sDoTDataKey.registTime);
 
         return this.jpaQueryFactory
                 .select(Projections.constructor(ResponseSDoTDataVO.class,
-                        datetime.as("datetime"),
+                        a.sDoTDataKey.registTime.as("datetime"),
                         b.stnId.as("stnNm"),
-                        a.temperature.avg().floatValue().as("temperature"),
-                        a.relativeHumidity.avg().floatValue().as("relativeHumidity"),
-                        a.windDirection.avg().floatValue().as("windDirection"),
-                        a.windSpeed.avg().floatValue().as("windSpeed"),
-                        a.pm10.avg().floatValue().as("pm10"),
-                        a.pm25.avg().floatValue().as("pm25")))
+                        a.temperature.as("temperature"),
+                        a.relativeHumidity.as("relativeHumidity"),
+                        a.windDirection.as("windDirection"),
+                        a.windSpeed.as("windSpeed"),
+                        a.pm10.as("pm10"),
+                        a.pm25.as("pm25")))
+//                        a.temperature.avg().floatValue().as("temperature"),
+//                        a.relativeHumidity.avg().floatValue().as("relativeHumidity"),
+//                        a.windDirection.avg().floatValue().as("windDirection"),
+//                        a.windSpeed.avg().floatValue().as("windSpeed"),
+//                        a.pm10.avg().floatValue().as("pm10"),
+//                        a.pm25.avg().floatValue().as("pm25")))
                 .from(a)
                 .join(b)
                 .on(a.sDoTDataKey.modelSr.eq(b.stnId))
@@ -69,7 +74,7 @@ public class SDoTDataRepositoryDsl extends QuerydslRepositorySupport {
                         .and(pm25.get(1) == null ?
                                 a.pm25.goe(pm25.get(0)) :
                                 a.pm25.between(pm25.get(0), pm25.get(1))))
-                .groupBy(datetime, b.stnId)
+//                .groupBy(a.sDoTDataKey.registTime, b.stnId)
                 .fetch();
     }
 

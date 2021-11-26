@@ -22,10 +22,10 @@
             <tbody>
                 <tr>
                     <td class="map">
+                        <content-data />
                         <div class="map-data">
                             <content-map />
                         </div>
-                        <content-data />
                     </td>
                 </tr>
                 <tr>
@@ -73,7 +73,8 @@
         ...dataApi,
         methods: {
             ...mapActions({
-                setData: "SET_DATA"
+                setData: "SET_DATA",
+                setLoadingVisible: "SET_LOADING_VISIBLE"
             }),
 
             async fetchData() {
@@ -84,7 +85,8 @@
                 else if (this.yAxis.length === 0)
                     await new Promise(resolve => alert("Y축 항목을 추가해주세요.", resolve));
                 else {
-                    const constraint = this.xAxis[0].value === "obsTime" ? "Datetime" : "Item";
+                    await this.setLoadingVisible();
+                    const constraint = this.xAxis[0].value === "datetime" ? "Datetime" : "Item";
                     let dataQuery = this.$apollo.queries[this.selectedCategory + "DataBy" + constraint];
                     dataQuery.skip = false;
                     await this.setData(JSON.parse(JSON.stringify({

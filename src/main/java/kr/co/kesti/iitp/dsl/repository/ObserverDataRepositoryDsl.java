@@ -33,13 +33,13 @@ public class ObserverDataRepositoryDsl extends QuerydslRepositorySupport {
         QObserverData a = QObserverData.observerData;
         QObserverStation b = QObserverStation.observerStation;
 
-        String format = "";
-        switch (dateType) {
-        case "hour": format = "YYYY.MM.DD HH24"; break;
-        case "date": format = "YYYY.MM.DD"; break;
-        case "month": format = "YYYY.MM"; break;
-        case "year": format = "YYYY"; break;
-        }
+        String format = "YYYY.MM.DD HH24:MI:SS";
+//        switch (dateType) {
+//        case "hour": format = "YYYY.MM.DD HH24"; break;
+//        case "date": format = "YYYY.MM.DD"; break;
+//        case "month": format = "YYYY.MM"; break;
+//        case "year": format = "YYYY"; break;
+//        }
 
         final StringTemplate datetime = Expressions.stringTemplate(String.format("to_char({0}, '%s')", format), a.observerDataKey.dataTime);
 
@@ -47,10 +47,14 @@ public class ObserverDataRepositoryDsl extends QuerydslRepositorySupport {
                 .select(Projections.constructor(ResponseObserverDataVO.class,
                         datetime.as("datetime"),
                         b.stnNm.as("stnNm"),
-                        a.temperature.avg().floatValue().as("temperature"),
-                        a.humidity.avg().floatValue().as("humidity"),
-                        a.pressure.avg().floatValue().as("pressure"),
-                        a.pm25.avg().floatValue().as("pm25")))
+                        a.temperature.as("temperature"),
+                        a.humidity.as("humidity"),
+                        a.pressure.as("pressure"),
+                        a.pm25.as("pm25")))
+//                        a.temperature.avg().floatValue().as("temperature"),
+//                        a.humidity.avg().floatValue().as("humidity"),
+//                        a.pressure.avg().floatValue().as("pressure"),
+//                        a.pm25.avg().floatValue().as("pm25")))
                 .from(a)
                 .join(b)
                 .on(a.observerDataKey.stnSerial.eq(b.stnSerial))
@@ -60,7 +64,7 @@ public class ObserverDataRepositoryDsl extends QuerydslRepositorySupport {
                         .and(pm25.get(1) == null ?
                                 a.pm25.goe(pm25.get(0)) :
                                 a.pm25.between(pm25.get(0), pm25.get(1))))
-                .groupBy(datetime, b.stnNm)
+//                .groupBy(datetime, b.stnNm)
                 .fetch();
     }
 

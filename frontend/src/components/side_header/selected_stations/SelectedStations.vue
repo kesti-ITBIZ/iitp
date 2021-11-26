@@ -31,7 +31,7 @@
         computed: {
             ...mapState({
                 selectedCategory: state => state.selectedCategory,
-                obsItems: state => state[state.selectedCategory].items.filter(obj => obj.value !== "obsTime"),
+                obsItems: state => state[state.selectedCategory].items.filter(obj => obj.value !== "datetime"),
                 selectedStation: state => state.selectedStation[state.selectedCategory]
             })
         },

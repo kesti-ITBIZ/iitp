@@ -4,7 +4,6 @@
         <div v-show="selectedCategory == 'kt'" class="map" ref="kt-map"></div>
         <div v-show="selectedCategory == 'sDoT'" class="map" ref="sDoT-map"></div>
         <div v-show="selectedCategory == 'observer'" class="map" ref="observer-map"></div>
-        <div v-show="selectedCategory == 'all'" class="map" ref="all-map"></div>
     </div>
 </template>
 
@@ -18,17 +17,21 @@
         name: "ContentMap",
         data: () => ({
             maps: {
-                all: null,
                 airkorea: null,
                 kt: null,
                 sDoT: null,
                 observer: null
+            },
+            items: {
+                airkorea: [],
+                kt: [],
+                sDoT: [],
+                observer: []
             }
         }),
         computed: {
             ...mapState({
                 selectedCategory: state => state.selectedCategory,
-                obsItems: state => state[state.selectedCategory].items.filter(obj => obj.value !== "obsTime"),
                 stations: state => state.stations[state.selectedCategory]
             })
         },
@@ -81,7 +84,7 @@
                                 <div>위도: ${latitude}</div>
                                 <div>경도: ${longitude}</div>
                                 <div>주소: ${address}</div>
-                                <div>측정항목: ${this.obsItems.map(obj => obj.label).join(", ")}</div>
+                                <div>측정항목: ${this.items[this.selectedCategory].join(", ")}</div>
                             </p>
                         </div>`;
                 }
@@ -100,13 +103,11 @@
                     stationQuery.skip = true;
                 }
 
-                if (this.selectedCategory == "all") {
-                    for (const key of Object.keys({ ...this.stations }))
-                        if (this.stations[key].length === 0) await _fetchStations(key);
-                } else await _fetchStations(this.selectedCategory);
+                await _fetchStations(this.selectedCategory);
             }
         },
         mounted() {
+            Object.keys(this.items).forEach(key => this.items = Object.freeze({ ...this.items, [key]: this.$store.state[key].items.map(obj => obj.label) }));
             this.initMap();
         }
     }

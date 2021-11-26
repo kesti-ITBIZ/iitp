@@ -41,8 +41,9 @@
             xAxis() {
                 if (this.xAxis.length === 0)
                     this.setSelectedChartType("");
-                else if (this.xAxis[0].value !== "obsTime" && this.selectedChartType != "table" && this.selectedChartType != "scatter")
+                else if (this.xAxis[0].value !== "datetime" && this.selectedChartType != "table" && this.selectedChartType != "scatter")
                     this.setSelectedChartType("scatter");
+                else this.setSelectedChartType("line");
             }
         },
         methods: {
@@ -52,7 +53,7 @@
 
             isDisabled(chartType) {
                 if (this.xAxis.length === 0) return true;
-                else if (this.xAxis[0].value === "obsTime") return false;
+                else if (this.xAxis[0].value === "datetime") return false;
                 else return chartType !== "scatter" && chartType !== "table";
             }
         }

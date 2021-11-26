@@ -1,6 +1,6 @@
 $color: #01947a;
-$background: #ecf9f7;
-$hover: #1cad95;
+$background: #ebfcf8;
+$hover: #53d4bd;
 $active: #006f5b;
 
 #content-data {
@@ -16,7 +16,8 @@ $active: #006f5b;
         display: flex;
 
         li {
-            width: calc(100% / 5);
+            margin: 0 auto;
+            width: 100%;
         }
     }
 

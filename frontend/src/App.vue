@@ -7,7 +7,7 @@
                :title="alert.title"
                :ok-button-text="alert.okButtonText"
                @ok="alert.onOk" />
-    </div>
+|    </div>
 </template>
 
 <script>

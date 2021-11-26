@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 export default {
     state: {
         category: Object.freeze([
-            { label: "전체", value: "all" },
             { label: "환경부", value: "airkorea" },
             { label: "KT", value: "kt" },
             { label: "S-DoT", value: "sDoT" },
@@ -11,21 +10,18 @@ export default {
         ]),
         selectedCategory: "airkorea",
         stations: Object.freeze({
-            all: [],
             airkorea: [],
             kt: [],
             sDoT: [],
             observer: []
         }),
         selectedStation: Object.freeze({
-            all: [],
             airkorea: [],
             kt: [],
             sDoT: [],
             observer: []
         }),
         data: Object.freeze({
-            all: [],
             airkorea: [],
             kt: [],
             sDoT: [],
@@ -40,7 +36,6 @@ export default {
         ADD_STATIONS: (state, stations) => {
             const _stations = { ...state.stations };
             _stations[state.selectedCategory] = Object.freeze(_stations[state.selectedCategory].concat(stations));
-            _stations["all"] = Object.freeze(_stations["all"].concat(stations));
             state.stations = Object.freeze(_stations);
         },
         SET_SELECTED_STATION: (state, { category, station }) => {

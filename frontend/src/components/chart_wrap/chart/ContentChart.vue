@@ -10,36 +10,42 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <template v-for="(label, i) in xAxis[0].value === 'obsTime' ? Object.keys(tableData) : sorted(Object.keys(tableData).map(key => +key))">
+                    <template v-for="(label, i) in xAxis[0].value === 'datetime' ? Object.keys(tableData) : sorted(Object.keys(tableData).map(key => +key))">
                         <tr :key="`${i}-${j}`" v-for="(yData, j) in tableData[label]">
-                            <td v-if="j === 0" :rowspan="tableData[label].length">{{ xAxis[0].value === 'obsTime' ? label : round(label) }}{{ xAxis[0].unit }}</td>
+                            <td v-if="j === 0" :rowspan="tableData[label].length">{{ xAxis[0].value === 'datetime' ? label : round(label) }}{{ xAxis[0].unit }}</td>
                             <td :key="k" v-for="(y, k) in yData">{{ y ? round(y) + yAxis[k].unit : "-" }}</td>
                         </tr>
                     </template>
                 </tbody>
             </table>
         </div>
-        <div v-show="data[selectedCategory] == null || data[selectedCategory].length === 0" id="no-data">
+        <div v-show="(data[selectedCategory] == null || data[selectedCategory].length === 0) && !loading" id="no-data">
             <div>
                 <h1>데이터가 없습니다.</h1>
             </div>
         </div>
+        <loading />
     </div>
 </template>
 
 <script>
     import { mapState, mapActions } from "vuex";
-
     import { init, registerMap } from "echarts";
+
+    import Loading from "../../../components/common/loading/Loading";
 
     export default {
         name: "ContentChart",
+        components: {
+            Loading
+        },
         data: () => ({
             chart: null,
             title: ""
         }),
         computed: {
             ...mapState({
+                loading: state => state.common.loading,
                 selectedChartType: state => state.selectedChartType,
                 xAxis: state => state[state.selectedCategory].xAxis,
                 yAxis: state => state[state.selectedCategory].yAxis,
@@ -57,7 +63,7 @@
 
                     const datasets = {};
                     for (let i = 0; i < data.length; ++i) {
-                        const xLabel = data[i][this.xAxis[0].value === "obsTime" ? "datetime" : this.xAxis[0].value];
+                        const xLabel = data[i][this.xAxis[0].value];
                         if (xLabel == null) continue;
                         if (!(xLabel in datasets))
                             datasets[xLabel] = [];
@@ -101,7 +107,7 @@
 
             chartData() {
                 if (this.data[this.selectedCategory]) {
-                    return this.xAxis[0].value !== "obsTime" ?
+                    return this.xAxis[0].value !== "datetime" ?
                         this.yAxis.map(y => {
                             let data = this.data[this.selectedCategory].map(obj => [obj[this.xAxis[0].value], obj[y.value]]);
                             data.sort((a, b) => a[0] < b[0] ? -1 : a[0] === b[0] && a[1] < b[1] ? -1 : 1);
@@ -123,7 +129,7 @@
                     return _data;
                 } else if (this.xAxis.length === 0)
                     return [];
-                else if (this.xAxis[0].value === "obsTime")
+                else if (this.xAxis[0].value === "datetime")
                     return this.data[this.selectedCategory].map(obj => obj.datetime);
                 else {
                     const xLabels = this.data[this.selectedCategory].map(obj => obj[this.xAxis[0].value]).filter(value => value != null);
@@ -165,13 +171,17 @@
 
             data() {
                 if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0)
-                    setTimeout(this.initChart, 0);
+                    setTimeout(async () => {
+                        await this.initChart();
+                        await this.setLoadingInvisible();
+                    }, 0);
             }
         },
         methods: {
             ...mapActions({
                 addResizeEvent: "ADD_RESIZE_EVENT",
-                clearResizeEvent: "CLEAR_RESIZE_EVENT"
+                clearResizeEvent: "CLEAR_RESIZE_EVENT",
+                setLoadingInvisible: "SET_LOADING_INVISIBLE"
             }),
 
             initChart() {
@@ -249,36 +259,40 @@
                             name: this.xAxis.length === 0 ? "" : this.xAxis[0].label,
                             data: this.xAxisLabels,
                             splitLine: {
-                                show: this.selectedChartType != "pie"
+                                show: true
                             }
                         },
-                        yAxis: {
+                        yAxis: this.yAxis.map(y => ({
                             type: "value",
-                            name: this.yAxis.length === 0 ? "" : this.yAxis.map(y => y.label).join(", "),
+                            name: `${y.label} (${y.unit})`,
+                            min(item) {
+                                // const avg = (item.min + item.max) / 2;
+                                // return avg - 1.2 * Math.abs(avg - item.min);
+                                return item.min - 1;
+                            },
+                            max(item) {
+                                // const avg = (item.min + item.max) / 2;
+                                // return avg + 1.2 * Math.abs(avg - item.max);
+                                return item.max + 1;
+                            },
                             nameTextStyle: {
                                 align: "left"
                             },
                             axisLabel: {
-                                formatter: `{value}${this.yAxis.length === 1 ? this.yAxis[0].unit : ""}`
+                                formatter: `{value}`
                             },
                             splitLine: {
-                                show: this.selectedChartType != "pie"
+                                show: true
                             }
-                        },
+                        })),
                         series: this.yAxis.map((obj, i) => {
                             switch (this.selectedChartType) {
-                            case "pie":
-                                return {
-                                    name: obj.label,
-                                    data: this.chartData[i],
-                                    type: "pie",
-                                    showSymbol: false
-                                };
                             case "line":
                                 return {
                                     name: obj.label,
                                     data: this.chartData[i],
                                     type: "line",
+                                    yAxisIndex: i,
                                     showSymbol: false
                                 };
                             case "bar":
@@ -286,6 +300,7 @@
                                     name: obj.label,
                                     data: this.chartData[i],
                                     type: "bar",
+                                    yAxisIndex: i,
                                     showSymbol: false
                                 };
                             case "area":
@@ -293,6 +308,7 @@
                                     name: obj.label,
                                     data: this.chartData[i],
                                     type: "line",
+                                    yAxisIndex: i,
                                     showSymbol: false,
                                     areaStyle: {}
                                 };
@@ -301,6 +317,7 @@
                                     name: obj.label,
                                     data: this.chartData[i],
                                     type: "scatter",
+                                    yAxisIndex: i,
                                     showSymbol: false
                                 };
                             }
