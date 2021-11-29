@@ -2,7 +2,7 @@ $color: #0094c4;
 
 #select-chart {
     display: flex;
-    padding: 20px 0;
+    padding: 6px 0;
 
     div.select-chart-btn {
         text-align: center;
@@ -16,6 +16,7 @@ $color: #0094c4;
             margin: 0 auto;
 
             + div {
+                font-size: 12px;
                 padding-top: 10px;
             }
         }
@@ -30,7 +31,7 @@ $color: #0094c4;
         }
 
         > div {
-            padding: 7px 30px;
+            padding: 7px 20px;
             cursor: pointer;
             transition: background-color 0.2s;
 

@@ -3,7 +3,7 @@
         <div :class="['select-chart-btn', selectedChartType == 'table' && !isDisabled('table') ? 'on' : '', isDisabled('table') ? 'disabled' : '']"
              @click="isDisabled('table') ? null : setSelectedChartType('table')">
             <div>
-                <font-awesome-icon size="5x" :icon="['fa', 'table']" />
+                <font-awesome-icon size="4x" :icon="['fa', 'table']" />
                 <div>Table</div>
             </div>
         </div>
@@ -12,14 +12,14 @@
              :class="['select-chart-btn', selectedChartType == chartType.toLowerCase() && !isDisabled(chartType.toLowerCase()) ? 'on' : '', isDisabled(chartType.toLowerCase()) ? 'disabled' : '']"
              @click="isDisabled(chartType.toLowerCase()) ? null : setSelectedChartType(chartType.toLowerCase())">
             <div>
-                <font-awesome-icon size="5x" :icon="['fa', 'chart-' + chartType.toLowerCase()]" />
+                <font-awesome-icon size="4x" :icon="['fa', 'chart-' + chartType.toLowerCase()]" />
                 <div>{{ chartType }} Chart</div>
             </div>
         </div>
         <div :class="['select-chart-btn', selectedChartType == 'distribution' && !isDisabled('distribution') ? 'on' : '', isDisabled('distribution') ? 'disabled' : '']"
              @click="isDisabled('distribution') ? null : setSelectedChartType('distribution')">
             <div>
-                <font-awesome-icon size="4x" :icon="['fa', 'chart-network']" style="margin: 0 0 0 5px;" />
+                <font-awesome-icon size="3x" :icon="['fa', 'chart-network']" style="margin: 0 0 0 5px;" />
                 <div>Distribution</div>
             </div>
         </div>

@@ -1,7 +1,8 @@
 #x-axis {
-    height: 110px !important;
+    height: 89px !important;
 
     .opt-head {
+        font-size: 12px;
         border-top: 1px solid #a5a5a5;
         border-bottom: 1px solid #a5a5a5;
     }
@@ -12,7 +13,7 @@
         ul li {
             > div {
                 position: relative;
-                font-size: 10pt !important;
+                font-size: 10px !important;
                 color: #d75500;
                 border: 1px solid #ff7a5a;
                 background-color: #fffaf9;

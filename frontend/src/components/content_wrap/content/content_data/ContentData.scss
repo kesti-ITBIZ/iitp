@@ -22,12 +22,13 @@ $active: #006f5b;
     }
 
     input[type=button] {
-        width: calc(100% - 13px);
-        color: $color;
+        font-size: 12px;
         background-color: $background;
+        color: $color;
+        width: calc(100% - 13px);
         border: 1px solid $color;
         margin: 6px;
-        padding: 10px;
+        padding: 7px;
         transition: color 0.1s, border 0.1s, background-color 0.1s;
 
         &:hover {

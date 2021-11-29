@@ -1,17 +1,18 @@
 $border: 1px solid #a5a5a5;
 
 #selected-stations {
-    height: 178px !important;
+    height: 150px !important;
 
     .opt-head {
+        font-size: 12px;
         background-color: #f1f1f1;
         color: #404040;
+        height: 35px;
         border: {
             left: $border;
             bottom: $border;
             right: $border;
         };
-        padding: 10px;
     }
 
     .opt-body {
@@ -28,7 +29,7 @@ $border: 1px solid #a5a5a5;
             li {
                 position: relative;
                 text-align: left;
-                font-size: 14px;
+                font-size: 10px;
                 color: #404040;
                 border: $border;
                 border-radius: 10px;

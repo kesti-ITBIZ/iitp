@@ -1,5 +1,6 @@
 #items {
     .opt-head {
+        font-size: 12px;
         border-top: 1px solid #a5a5a5;
     }
 
@@ -9,6 +10,7 @@
         border-bottom: none;
 
         input[type=button] {
+            font-size: 10px;
             background-color: #e9f9ff;
             color: #0084de;
             border: 1px solid #0084de;
@@ -31,7 +33,7 @@
         }
 
         > ul {
-            height: calc(100% - 93.5px);
+            height: calc(100% - 73.5px);
 
             li input[type=button] {
                 &.datetime, &.station, &.windDirection {
@@ -72,7 +74,7 @@
                     color: #00455c;
                     background-color: transparent;
                     border: 1px solid #009bd7;
-                    padding: 20px 0;
+                    padding: 10px 0;
                     box-shadow: 0 3px 5px 2px rgba(0, 0, 0, 0.24);
                     transition: background-color 0.2s, color 0.2s;
                     cursor: pointer;
