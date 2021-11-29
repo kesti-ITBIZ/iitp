@@ -48,8 +48,7 @@ export const dataApi = {
                         startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
                         endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
                         dateType: this.selectedDateType,
-                        stnNm: this.selectedStation[0].name,
-                        ...this.selectedFineParticleRange
+                        stnNm: this.selectedStation[0].name
                     }
                 };
             },
@@ -74,8 +73,7 @@ export const dataApi = {
                     param: {
                         startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
                         endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
-                        stnNm: this.selectedStation[0].name,
-                        ...this.selectedFineParticleRange
+                        stnNm: this.selectedStation[0].name
                     }
                 };
             },
@@ -100,8 +98,7 @@ export const dataApi = {
                         startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
                         endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
                         dateType: this.selectedDateType,
-                        stnNm: this.selectedStation[0].name,
-                        ...this.selectedFineParticleRange
+                        stnNm: this.selectedStation[0].name
                     }
                 };
             },
@@ -124,8 +121,7 @@ export const dataApi = {
                     param: {
                         startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
                         endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
-                        stnNm: this.selectedStation[0].name,
-                        ...this.selectedFineParticleRange
+                        stnNm: this.selectedStation[0].name
                     }
                 };
             },
@@ -150,8 +146,7 @@ export const dataApi = {
                         startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
                         endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
                         dateType: this.selectedDateType,
-                        stnNm: this.selectedStation[0].name,
-                        ...this.selectedFineParticleRange
+                        stnNm: this.selectedStation[0].name
                     }
                 };
             },
@@ -174,8 +169,7 @@ export const dataApi = {
                     param: {
                         startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
                         endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
-                        stnNm: this.selectedStation[0].name,
-                        ...this.selectedFineParticleRange
+                        stnNm: this.selectedStation[0].name
                     }
                 };
             },
@@ -202,8 +196,7 @@ export const dataApi = {
                         startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
                         endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
                         dateType: this.selectedDateType,
-                        stnNm: this.selectedStation[0].name,
-                        ...this.selectedFineParticleRange
+                        stnNm: this.selectedStation[0].name
                     }
                 };
             },
@@ -228,8 +221,7 @@ export const dataApi = {
                     param: {
                         startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
                         endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
-                        stnNm: this.selectedStation[0].name,
-                        ...this.selectedFineParticleRange
+                        stnNm: this.selectedStation[0].name
                     }
                 };
             },
