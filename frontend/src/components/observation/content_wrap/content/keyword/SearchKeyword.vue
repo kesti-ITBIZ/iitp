@@ -24,7 +24,7 @@
             </colgroup>
             <thead>
                 <tr>
-                    <th>선택</th>
+                    <th>No.</th>
                     <th>생산기관</th>
                     <th>지점명</th>
                     <th>주소</th>
@@ -42,8 +42,8 @@
                                     <col />
                                 </colgroup>
                                 <tbody>
-                                    <tr :key="i" v-for="(station, i) in searchedStations">
-                                        <td><input type="radio" name="station" /></td>
+                                    <tr :key="i" v-for="(station, i) in searchedStations" @click="select({ name: station.name, address: station.address })">
+                                        <td>{{ i + 1 }}</td>
                                         <td>{{ station.category }}</td>
                                         <td>{{ station.name }}</td>
                                         <td>{{ station.address }}</td>
@@ -94,6 +94,8 @@
                                     category
                                     name
                                     address
+                                    latitude
+                                    longitude
                                 }
                             }
                         `,
@@ -108,7 +110,8 @@
         },
         methods: {
             ...mapActions({
-                setSearchedStations: "SET_SEARCHED_STATIONS"
+                setSearchedStations: "SET_SEARCHED_STATIONS",
+                setSelectedStation: "SET_SELECTED_STATION"
             }),
 
             async search() {
@@ -120,12 +123,21 @@
                         .map(obj => ({
                             category: obj.category,
                             name: obj.name,
-                            address: obj.address
+                            address: obj.address,
+                            latitude: obj.latitude,
+                            longitude: obj.longitude
                         })));
                     dataQuery.skip = true;
 
                     this.prevKeyword = this.keyword;
                 }
+            },
+
+            select({ name, address }) {
+                this.setSelectedStation({
+                    category: this.selectedCategory,
+                    station: this.searchedStations.filter(obj => obj.name === name && obj.address === address)[0]
+                });
             }
         }
     }

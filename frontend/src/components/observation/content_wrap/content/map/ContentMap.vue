@@ -55,16 +55,14 @@
                 await this.fetchStations();
                 map.clustering(this.stations);
                 map.setOverlay(this.overlayCallback);
-                map.addMarkerEventListener("click", async (latitude, longitude) => {
-                    await this.setSelectedStation({
-                        category: this.selectedCategory,
-                        station: this.stations.filter(obj =>
-                            obj.latitude >= latitude - 2e-6
-                            && obj.latitude <= latitude + 2e-6
-                            && obj.longitude >= longitude - 2e-6
-                            && obj.longitude <= longitude + 2e-6)[0]
-                    });
-                });
+                map.addMarkerEventListener("click", (latitude, longitude) => this.setSelectedStation({
+                    category: this.selectedCategory,
+                    station: this.stations.filter(obj =>
+                        obj.latitude >= latitude - 2e-6
+                        && obj.latitude <= latitude + 2e-6
+                        && obj.longitude >= longitude - 2e-6
+                        && obj.longitude <= longitude + 2e-6)[0]
+                }));
 
                 this.maps = Object.freeze({ ...this.maps, [this.selectedCategory]: map });
             },

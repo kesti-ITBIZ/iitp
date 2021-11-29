@@ -28,7 +28,6 @@ public class AirkoreaService implements GraphQLQueryResolver {
     }
 
     public List<ResponseStationVO> getAirkoreaStationsByKeyword(final String keyword) {
-        log.info("keyword: {}", keyword);
         return this.airkoreaStationRepository.findAllByKeyword(keyword)
                 .stream()
                 .map(ResponseStationVO::from)
