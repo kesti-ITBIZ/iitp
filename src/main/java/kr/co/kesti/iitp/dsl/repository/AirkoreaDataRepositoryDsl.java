@@ -26,9 +26,7 @@ public class AirkoreaDataRepositoryDsl extends QuerydslRepositorySupport {
             final String startDatetime,
             final String endDatetime,
             final String dateType,
-            final String stnNm,
-            final List<Float> pm10,
-            final List<Float> pm25) {
+            final String stnNm) {
         QAirkoreaData a = QAirkoreaData.airkoreaData;
         QAirkoreaStation b = QAirkoreaStation.airkoreaStation;
 
@@ -52,34 +50,19 @@ public class AirkoreaDataRepositoryDsl extends QuerydslRepositorySupport {
                         a.no2.floatValue().as("no2"),
                         a.pm10.floatValue().as("pm10"),
                         a.pm25.floatValue().as("pm25")))
-//                        a.so2.avg().floatValue().as("so2"),
-//                        a.co.avg().floatValue().as("co"),
-//                        a.o3.avg().floatValue().as("o3"),
-//                        a.no2.avg().floatValue().as("no2"),
-//                        a.pm10.avg().floatValue().as("pm10"),
-//                        a.pm25.avg().floatValue().as("pm25")))
                 .from(a)
                 .join(b)
                 .on(a.airkoreaDataKey.stnNm.eq(b.stnNm))
                 .where(
                         a.airkoreaDataKey.time.between(startDatetime, endDatetime)
-                        .and(a.airkoreaDataKey.stnNm.eq(stnNm))
-                        .and(pm10.get(1) == null ?
-                                a.pm10.goe(pm10.get(0)) :
-                                a.pm10.between(pm10.get(0), pm10.get(1)))
-                        .and(pm25.get(1) == null ?
-                                a.pm25.goe(pm25.get(0)) :
-                                a.pm25.between(pm25.get(0), pm25.get(1))))
-//                .groupBy(a.airkoreaDataKey.time, a.airkoreaDataKey.stnNm)
+                        .and(a.airkoreaDataKey.stnNm.eq(stnNm)))
                 .fetch();
     }
 
     public List<ResponseAirkoreaDataVO> findAllDataByItem(
             final String startDatetime,
             final String endDatetime,
-            final String stnNm,
-            final List<Float> pm10,
-            final List<Float> pm25) {
+            final String stnNm) {
         QAirkoreaData a = QAirkoreaData.airkoreaData;
         QAirkoreaStation b = QAirkoreaStation.airkoreaStation;
 
@@ -97,13 +80,7 @@ public class AirkoreaDataRepositoryDsl extends QuerydslRepositorySupport {
                 .on(a.airkoreaDataKey.stnNm.eq(b.stnNm))
                 .where(
                         a.airkoreaDataKey.time.between(startDatetime, endDatetime)
-                        .and(a.airkoreaDataKey.stnNm.eq(stnNm))
-                        .and(pm10.get(1) == null ?
-                                a.pm10.goe(pm10.get(0)) :
-                                a.pm10.between(pm10.get(0), pm10.get(1)))
-                        .and(pm25.get(1) == null ?
-                                a.pm25.goe(pm25.get(0)) :
-                                a.pm25.between(pm25.get(0), pm25.get(1))))
+                        .and(a.airkoreaDataKey.stnNm.eq(stnNm)))
                 .fetch();
     }
 }

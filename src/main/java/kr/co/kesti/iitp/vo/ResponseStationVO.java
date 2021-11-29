@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseStationVO {
+    private String category;
     private Float latitude;
     private Float longitude;
     private String name;
@@ -16,6 +17,7 @@ public class ResponseStationVO {
 
     public static ResponseStationVO from(StationProjection projection) {
         return ResponseStationVO.builder()
+                .category(projection.getCategory())
                 .latitude(projection.getLatitude())
                 .longitude(projection.getLongitude())
                 .name(projection.getName())

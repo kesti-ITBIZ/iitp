@@ -14,6 +14,4 @@ public class RequestDataVO {
     private String endDatetime;
     private String dateType;
     private String stnNm;
-    private List<Float> pm10;
-    private List<Float> pm25;
 }

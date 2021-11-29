@@ -29,9 +29,7 @@ public class SDoTDataRepositoryDsl extends QuerydslRepositorySupport {
             final String startDatetime,
             final String endDatetime,
             final String dateType,
-            final String stnNm,
-            final List<Float> pm10,
-            final List<Float> pm25) {
+            final String stnNm) {
         QSDoTData a = QSDoTData.sDoTData;
         QSDoTStation b = QSDoTStation.sDoTStation;
 
@@ -55,35 +53,20 @@ public class SDoTDataRepositoryDsl extends QuerydslRepositorySupport {
                         a.windSpeed.as("windSpeed"),
                         a.pm10.as("pm10"),
                         a.pm25.as("pm25")))
-//                        a.temperature.avg().floatValue().as("temperature"),
-//                        a.relativeHumidity.avg().floatValue().as("relativeHumidity"),
-//                        a.windDirection.avg().floatValue().as("windDirection"),
-//                        a.windSpeed.avg().floatValue().as("windSpeed"),
-//                        a.pm10.avg().floatValue().as("pm10"),
-//                        a.pm25.avg().floatValue().as("pm25")))
                 .from(a)
                 .join(b)
                 .on(a.sDoTDataKey.modelSr.eq(b.stnId))
                 .where(
                         a.sDoTDataKey.registTime.between(startDatetime, endDatetime)
                         .and(a.sDoTDataKey.modelSr.eq(stnNm))
-                        .and(a.sDoTDataKey.div.eq((short) 1))
-                        .and(pm10.get(1) == null ?
-                                a.pm25.goe(pm10.get(0)) :
-                                a.pm25.between(pm10.get(0), pm10.get(1)))
-                        .and(pm25.get(1) == null ?
-                                a.pm25.goe(pm25.get(0)) :
-                                a.pm25.between(pm25.get(0), pm25.get(1))))
-//                .groupBy(a.sDoTDataKey.registTime, b.stnId)
+                        .and(a.sDoTDataKey.div.eq((short) 1)))
                 .fetch();
     }
 
     public List<ResponseSDoTDataVO> findAllDataByItem(
             final String startDatetime,
             final String endDatetime,
-            final String stnNm,
-            final List<Float> pm10,
-            final List<Float> pm25) {
+            final String stnNm) {
         QSDoTData a = QSDoTData.sDoTData;
         QSDoTStation b = QSDoTStation.sDoTStation;
 
@@ -102,13 +85,7 @@ public class SDoTDataRepositoryDsl extends QuerydslRepositorySupport {
                 .where(
                         a.sDoTDataKey.registTime.between(startDatetime, endDatetime)
                         .and(a.sDoTDataKey.modelSr.eq(stnNm))
-                        .and(a.sDoTDataKey.div.eq((short) 1))
-                        .and(pm10.get(1) == null ?
-                                a.pm25.goe(pm10.get(0)) :
-                                a.pm25.between(pm10.get(0), pm10.get(1)))
-                        .and(pm25.get(1) == null ?
-                                a.pm25.goe(pm25.get(0)) :
-                                a.pm25.between(pm25.get(0), pm25.get(1))))
+                        .and(a.sDoTDataKey.div.eq((short) 1)))
                 .fetch();
     }
 }

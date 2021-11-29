@@ -19,6 +19,11 @@ public class SDoTController {
         return ResponseEntity.ok(this.sDoTService.getSDoTStations());
     }
 
+    @GetMapping("/searchStations")
+    public ResponseEntity<?> stations(@RequestParam("keyword") final String keyword) {
+        return ResponseEntity.ok(this.sDoTService.getSDoTStationsByKeyword(keyword));
+    }
+
     @PostMapping("/getDataByDatetime")
     public ResponseEntity<?> getDataByDatetime(@RequestBody final RequestDataVO request) {
         return ResponseEntity.ok(this.sDoTService.getSDoTDataByDatetime(request));

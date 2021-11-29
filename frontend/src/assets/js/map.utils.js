@@ -84,7 +84,8 @@ export default class KakaoMapUtils {
         this.clusterer = new kakao.maps.MarkerClusterer({
             map: this.map,
             averageCenter: true,
-            minLevel: 10
+            minLevel: 10,
+            texts: value => value + "곳"
         });
         this.clusterer.addMarkers(data.map(obj => new kakao.maps.Marker({ position: new kakao.maps.LatLng(obj.latitude, obj.longitude) })));
     }

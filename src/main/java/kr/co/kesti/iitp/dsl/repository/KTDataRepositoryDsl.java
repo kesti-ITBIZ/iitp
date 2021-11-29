@@ -27,9 +27,7 @@ public class KTDataRepositoryDsl extends QuerydslRepositorySupport {
             final Date startDatetime,
             final Date endDatetime,
             final String dateType,
-            final String stnNm,
-            final List<Float> pm10,
-            final List<Float> pm25) {
+            final String stnNm) {
         QKTData a = QKTData.kTData;
         QKTStation b = QKTStation.kTStation;
 
@@ -51,32 +49,19 @@ public class KTDataRepositoryDsl extends QuerydslRepositorySupport {
                         a.humidity.as("humidity"),
                         a.pm10.as("pm10"),
                         a.pm25.as("pm25")))
-//                        a.temperature.avg().floatValue().as("temperature"),
-//                        a.humidity.avg().floatValue().as("humidity"),
-//                        a.pm10.avg().floatValue().as("pm10"),
-//                        a.pm25.avg().floatValue().as("pm25")))
                 .from(a)
                 .join(b)
                 .on(a.ktDataKey.devId.eq(b.devId))
                 .where(
                         a.ktDataKey.equipDate.between(startDatetime, endDatetime)
-                        .and(a.ktDataKey.devId.eq(stnNm))
-                        .and(pm10.get(1) == null ?
-                                a.pm10.goe(pm10.get(0)) :
-                                a.pm10.between(pm10.get(0), pm10.get(1)))
-                        .and(pm25.get(1) == null ?
-                                a.pm25.goe(pm25.get(0)) :
-                                a.pm25.between(pm25.get(0), pm25.get(1))))
-//                .groupBy(datetime, a.ktDataKey.devId)
+                        .and(a.ktDataKey.devId.eq(stnNm)))
                 .fetch();
     }
 
     public List<ResponseKTDataVO> findAllDataByItem(
             final Date startDatetime,
             final Date endDatetime,
-            final String stnNm,
-            final List<Float> pm10,
-            final List<Float> pm25) {
+            final String stnNm) {
         QKTData a = QKTData.kTData;
         QKTStation b = QKTStation.kTStation;
 
@@ -92,13 +77,7 @@ public class KTDataRepositoryDsl extends QuerydslRepositorySupport {
                 .on(a.ktDataKey.devId.eq(b.devId))
                 .where(
                         a.ktDataKey.equipDate.between(startDatetime, endDatetime)
-                            .and(a.ktDataKey.devId.eq(stnNm))
-                            .and(pm10.get(1) == null ?
-                                    a.pm10.goe(pm10.get(0)) :
-                                    a.pm10.between(pm10.get(0), pm10.get(1)))
-                            .and(pm25.get(1) == null ?
-                                    a.pm25.goe(pm25.get(0)) :
-                                    a.pm25.between(pm25.get(0), pm25.get(1))))
+                        .and(a.ktDataKey.devId.eq(stnNm)))
                 .fetch();
     }
 }

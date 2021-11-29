@@ -4,7 +4,6 @@ export default {
             items: (() => {
                 let items = [
                     { label: "측정 시간", value: "datetime", unit: "" },
-                    // { label: "지점", value: "station", unit: "" },
                     { label: "SO2", value: "so2", unit: "ppm" },
                     { label: "CO", value: "co", unit: "ppm" },
                     { label: "O3", value: "o3", unit: "ppm" },
@@ -23,7 +22,6 @@ export default {
             items: (() => {
                 let items = [
                     { label: "측정 시간", value: "datetime", unit: "" },
-                    // { label: "지점", value: "station", unit: "" },
                     { label: "기온", value: "temperature", unit: "℃" },
                     { label: "습도", value: "humidity", unit: "%" },
                     { label: "PM10", value: "pm10", unit: "㎍/㎥" },
@@ -40,7 +38,6 @@ export default {
             items: (() => {
                 let items = [
                     { label: "측정 시간", value: "datetime", unit: "" },
-                    // { label: "지점", value: "station", unit: "" },
                     { label: "풍향", value: "windDirection", unit: "˚" },
                     { label: "기온", value: "temperature", unit: "℃" },
                     { label: "상대습도", value: "relativeHumidity", unit: "%" },
@@ -59,7 +56,6 @@ export default {
             items: (() => {
                 let items = [
                     { label: "측정 시간", value: "datetime", unit: "" },
-                    // { label: "지점", value: "station", unit: "" },
                     { label: "기온", value: "temperature", unit: "℃" },
                     { label: "습도", value: "humidity", unit: "%" },
                     { label: "기압", value: "pressure", unit: "㎩" },

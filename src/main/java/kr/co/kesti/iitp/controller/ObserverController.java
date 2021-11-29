@@ -19,6 +19,11 @@ public class ObserverController {
         return ResponseEntity.ok(this.observerService.getObserverStations());
     }
 
+    @GetMapping("/searchStations")
+    public ResponseEntity<?> stations(@RequestParam("keyword") final String keyword) {
+        return ResponseEntity.ok(this.observerService.getObserverStationsByKeyword(keyword));
+    }
+
     @PostMapping("/getDataByDatetime")
     public ResponseEntity<?> getDataByDatetime(@RequestBody final RequestDataVO request) {
         return ResponseEntity.ok(this.observerService.getObserverDataByDatetime(request));
