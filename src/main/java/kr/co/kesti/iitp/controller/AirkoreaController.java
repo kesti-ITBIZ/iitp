@@ -19,6 +19,11 @@ public class AirkoreaController {
         return ResponseEntity.ok(this.airkoreaService.getAirkoreaStations());
     }
 
+    @GetMapping("/searchStations")
+    public ResponseEntity<?> stations(@RequestParam("keyword") final String keyword) {
+        return ResponseEntity.ok(this.airkoreaService.getAirkoreaStationsByKeyword(keyword));
+    }
+
     @PostMapping("/getDataByDatetime")
     public ResponseEntity<?> getDataByDatetime(@RequestBody final RequestDataVO request) {
         return ResponseEntity.ok(this.airkoreaService.getAirkoreaDataByDatetime(request));

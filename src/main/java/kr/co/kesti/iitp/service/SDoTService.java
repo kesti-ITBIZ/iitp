@@ -27,14 +27,19 @@ public class SDoTService implements GraphQLQueryResolver {
                 .collect(Collectors.toList());
     }
 
+    public List<ResponseStationVO> getSDoTStationsByKeyword(final String keyword) {
+        return this.sDoTStationRepository.findAllByKeyword(keyword)
+                .stream()
+                .map(ResponseStationVO::from)
+                .collect(Collectors.toList());
+    }
+
     public List<ResponseSDoTDataVO> getSDoTDataByDatetime(final RequestDataVO request) {
         return this.sDoTDataRepositoryDsl.findAllDataByDatetime(
                 request.getStartDatetime(),
                 request.getEndDatetime(),
                 request.getDateType(),
-                request.getStnNm(),
-                request.getPm10(),
-                request.getPm25())
+                request.getStnNm())
                 .stream()
                 .map(data -> ResponseSDoTDataVO.builder()
                         .datetime(data.getDatetime())
@@ -53,9 +58,7 @@ public class SDoTService implements GraphQLQueryResolver {
         return this.sDoTDataRepositoryDsl.findAllDataByItem(
                 request.getStartDatetime(),
                 request.getEndDatetime(),
-                request.getStnNm(),
-                request.getPm10(),
-                request.getPm25())
+                request.getStnNm())
                 .stream()
                 .map(data -> ResponseSDoTDataVO.builder()
                         .datetime(data.getDatetime())

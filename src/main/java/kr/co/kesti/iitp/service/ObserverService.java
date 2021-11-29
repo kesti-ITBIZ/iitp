@@ -31,6 +31,13 @@ public class ObserverService implements GraphQLQueryResolver {
                 .collect(Collectors.toList());
     }
 
+    public List<ResponseStationVO> getObserverStationsByKeyword(final String keyword) {
+        return this.observerStationRepository.findAllByKeyword(keyword)
+                .stream()
+                .map(ResponseStationVO::from)
+                .collect(Collectors.toList());
+    }
+
     public List<ResponseObserverDataVO> getObserverDataByDatetime(final RequestDataVO request) {
         final DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         try {
@@ -38,8 +45,7 @@ public class ObserverService implements GraphQLQueryResolver {
                     dateFormat.parse(request.getStartDatetime()),
                     dateFormat.parse(request.getEndDatetime()),
                     request.getDateType(),
-                    request.getStnNm(),
-                    request.getPm25());
+                    request.getStnNm());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -52,8 +58,7 @@ public class ObserverService implements GraphQLQueryResolver {
             return this.observerDataRepositoryDsl.findAllDataByItem(
                     dateFormat.parse(request.getStartDatetime()),
                     dateFormat.parse(request.getEndDatetime()),
-                    request.getStnNm(),
-                    request.getPm25());
+                    request.getStnNm());
         } catch (ParseException e) {
             e.printStackTrace();
         }

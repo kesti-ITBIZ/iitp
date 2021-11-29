@@ -1,8 +1,9 @@
 <template>
     <div id="layout" class="text-no-drag" @click="clearSelectedItem">
-        <content-wrap />
-        <side-header />
-        <chart-wrap />
+        <observation />
+<!--        <content-wrap />-->
+<!--        <side-header />-->
+<!--        <chart-wrap />-->
         <alert v-show="alert.show"
                :title="alert.title"
                :ok-button-text="alert.okButtonText"
@@ -13,17 +14,19 @@
 <script>
     import { mapState, mapActions } from "vuex";
 
-    import SideHeader from "./components/side_header/SideHeader";
-    import ContentWrap from "./components/content_wrap/ContentWrap";
-    import ChartWrap from "./components/chart_wrap/ChartWrap";
-    import Alert from "./components/common/alert/Alert";
+    import Observation from "./components/observation/Observation";
+    // import SideHeader from "./components/observation/side_header/SideHeader";
+    // import ContentWrap from "./components/observation/content_wrap/ContentWrap";
+    // import ChartWrap from "./components/observation/chart_wrap/ChartWrap";
+    import Alert from "./components/observation/common/alert/Alert";
 
     export default {
         name: "App",
         components: {
-            SideHeader,
-            ContentWrap,
-            ChartWrap,
+            Observation,
+            // SideHeader,
+            // ContentWrap,
+            // ChartWrap,
             Alert
         },
         computed: {

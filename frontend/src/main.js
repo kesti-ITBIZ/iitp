@@ -13,7 +13,8 @@ import {
     faChartPie,
     faChartScatter,
     faChartNetwork,
-    faTable
+    faTable,
+    faSpinner
 } from "@fortawesome/free-solid-svg-icons";
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
@@ -24,7 +25,8 @@ library.add(
     faChartPie,
     faChartScatter,
     faChartNetwork,
-    faTable);
+    faTable,
+    faSpinner);
 
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
