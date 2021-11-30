@@ -39,13 +39,11 @@
         },
         watch: {
             xAxis() {
-                console.log("xAxis start");
                 if (this.xAxis.length === 0)
                     this.setSelectedChartType("");
                 else if (this.xAxis[0].value !== "datetime" && this.selectedChartType != "table" && this.selectedChartType != "scatter")
                     this.setSelectedChartType("scatter");
                 else if (this.xAxis[0].value === "datetime") this.setSelectedChartType("line");
-                console.log("xAxis end");
             }
         },
         methods: {
