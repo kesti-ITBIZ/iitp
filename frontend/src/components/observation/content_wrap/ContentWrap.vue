@@ -32,11 +32,9 @@
 <script>
     import { mapState, mapActions } from "vuex";
 
-    import { alert } from "../../../assets/js/common.utils";
     import { dataApi } from "../../../assets/js/api";
 
     import SelectDatetime from "./header/select_datetime/SelectDatetime";
-    // import SelectConstraint from "./header/select_constraint/SelectConstraint";
     import Category from "./content/category/Category";
     import ContentMap from "./content/map/ContentMap";
     import SearchKeyword from "./content/keyword/SearchKeyword";
@@ -46,7 +44,6 @@
         name: "ContentWrap",
         components: {
             SelectDatetime,
-            // SelectConstraint,
             Category,
             ContentMap,
             SearchKeyword,
@@ -71,26 +68,7 @@
             ...mapActions({
                 setData: "SET_DATA",
                 setLoadingVisible: "SET_LOADING_VISIBLE"
-            }),
-
-            async fetchData() {
-                if (this.selectedStation.length === 0)
-                    await new Promise(resolve => alert("조회할 지점을 선택해주세요.", resolve));
-                else if (this.xAxis.length === 0)
-                    await new Promise(resolve => alert("X축 항목을 추가해주세요.", resolve));
-                else if (this.yAxis.length === 0)
-                    await new Promise(resolve => alert("Y축 항목을 추가해주세요.", resolve));
-                else {
-                    await this.setLoadingVisible();
-                    let dataQuery = this.$apollo.queries[this.selectedCategory + "Data"];
-                    dataQuery.skip = false;
-                    await this.setData(JSON.parse(JSON.stringify({
-                        category: this.selectedCategory,
-                        data: await dataQuery.refetch().then(response => response.data[this.selectedCategory + "Data"])
-                    })));
-                    dataQuery.skip = true;
-                }
-            }
+            })
         }
     }
 </script>
