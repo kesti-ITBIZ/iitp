@@ -11,10 +11,12 @@
                 </thead>
                 <tbody>
                     <template v-for="(label, i) in xAxis[0].value === 'datetime' ? Object.keys(tableData) : sorted(Object.keys(tableData).map(key => +key))">
-                        <tr :key="`${i}-${j}`" v-for="(yData, j) in tableData[label]">
-                            <td v-if="j === 0" :rowspan="tableData[label].length">{{ xAxis[0].value === 'datetime' ? label : round(label) }}{{ xAxis[0].unit }}</td>
-                            <td :key="k" v-for="(y, k) in yData">{{ !isNaN(y) ? round(y) + yAxis[k].unit : "-" }}</td>
-                        </tr>
+                        <template v-if="label != null">
+                            <tr :key="`${i}-${j}`" v-for="(yData, j) in tableData[label]">
+                                <td v-if="j === 0" :rowspan="tableData[label].length">{{ xAxis[0].value === 'datetime' ? label : round(label) }}{{ xAxis[0].unit }}</td>
+                                <td :key="k" v-for="(y, k) in yData">{{ !isNaN(y) ? round(y) + yAxis[k].unit : "-" }}</td>
+                            </tr>
+                        </template>
                     </template>
                 </tbody>
             </table>
@@ -168,7 +170,7 @@
         },
         watch: {
             selectedChartType() {
-                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0)
+                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0 && this.selectedChartType != "table")
                     setTimeout(this.initChart, 0);
             },
 
