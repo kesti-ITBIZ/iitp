@@ -65,8 +65,6 @@ export default {
 
             if (len > 0) {
                 const datetimeUnit = (state.selectedDateType == "date" ? "day" : state.selectedDateType) + "s";
-                const dayjsToStringFormat = state.dateTypes[state.dateTypes.findIndex(obj => obj.type == state.selectedDateType)].dayjsToStringFormat;
-                const stringToDayjsFormat = state.dateTypes[state.dateTypes.findIndex(obj => obj.type == state.selectedDateType)].stringToDayjsFormat;
 
                 const padding = (_data, index, start, end) => {
                     const keys = Object.keys(_data[index]);
@@ -75,7 +73,7 @@ export default {
                     keys.splice(keys.indexOf("stnNm"), 1);
                     for (let datetime = start; datetime < end; datetime = datetime.add(1, datetimeUnit)) {
                         let item = {
-                            datetime: datetime.format(dayjsToStringFormat),
+                            datetime,
                             stnNm: _data[index].stnNm,
                             __typename: _data[index].__typename
                         };
@@ -83,19 +81,21 @@ export default {
                             item[keys[j]] = null;
                         _data.push(item);
                     }
-                }
+                };
+
+                data = data.map(obj => ({ ...obj, datetime: dayjs(obj.datetime) }));
 
                 for (let i = 0; i < len - 1; ++i)
-                    if (Math.abs(dayjs(data[i].datetime).diff(dayjs(data[i + 1].datetime), datetimeUnit)) > 1)
-                        padding(data, i, dayjs(data[i].datetime).add(1, datetimeUnit), dayjs(data[i + 1].datetime));
+                    if (Math.abs(data[i].datetime.diff(data[i + 1].datetime, datetimeUnit)) > 1)
+                        padding(data, i, data[i].datetime.add(1, datetimeUnit), data[i + 1].datetime);
                 data.sort((a, b) => a.datetime < b.datetime ? -1 : 1);
 
-                if (Math.abs(dayjs(data[0].datetime, stringToDayjsFormat).diff(state.startDatetime, datetimeUnit)) > 0)
-                    padding(data, 0, state.startDatetime, dayjs(data[0].datetime, stringToDayjsFormat));
+                if (Math.abs(data[0].datetime.diff(state.startDatetime, datetimeUnit)) > 0)
+                    padding(data, 0, state.startDatetime, data[0].datetime);
                 data.sort((a, b) => a.datetime < b.datetime ? -1 : 1);
 
-                if (Math.abs(dayjs(data[data.length - 1].datetime, stringToDayjsFormat).diff(state.endDatetime, datetimeUnit)) > 0)
-                    padding(data, data.length - 1, dayjs(data[data.length - 1].datetime, stringToDayjsFormat), state.endDatetime.add(1, datetimeUnit));
+                if (Math.abs(data[data.length - 1].datetime.diff(state.endDatetime, datetimeUnit)) > 0)
+                    padding(data, data.length - 1, data[data.length - 1].datetime, state.endDatetime.add(1, datetimeUnit));
                 data.sort((a, b) => a.datetime < b.datetime ? -1 : 1);
 
                 state.data = Object.freeze({ ...state.data, [category]: data });

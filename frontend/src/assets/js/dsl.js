@@ -14,6 +14,9 @@ export default class MapDsl {
         return this;
     }
 
+    /**
+     * @param data : object[]
+     * */
     static from(data) {
         console.log("from");
         this.prototype._from = true;

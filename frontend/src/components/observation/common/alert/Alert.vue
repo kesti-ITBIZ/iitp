@@ -1,5 +1,5 @@
 <template>
-    <div id="alert">
+    <div id="alert" @keyup="e => { if (e.key === 'Enter') onOk(); }">
         <div>
             <div>
                 <div>

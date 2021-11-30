@@ -30,6 +30,7 @@
 
 <script>
     import { mapState, mapActions } from "vuex";
+    // import dayjs from "dayjs";
     import { init, registerMap } from "echarts";
 
     import Loading from "../../common/loading/Loading";
@@ -107,31 +108,43 @@
 
             chartData() {
                 if (this.data[this.selectedCategory]) {
-                    return this.xAxis[0].value !== "datetime" ?
-                        this.yAxis.map(y => {
-                            let data = this.data[this.selectedCategory].map(obj => [obj[this.xAxis[0].value], obj[y.value]]);
-                            data.sort((a, b) => a[0] < b[0] ? -1 : a[0] === b[0] && a[1] < b[1] ? -1 : 1);
-                            for (let i = data.length - 1; i > 0; --i)
-                                if (data[i][0] === data[i - 1][0] && data[i][1] === data[i - 1][1]) data.splice(i, 1);
-                            return data.filter(d => d[0] != null && d[1] != null).map(d => [this.round(d[0]).toString(), d[1]]);
-                        }) : this.yAxis.map(obj => this.data[this.selectedCategory].map(_obj => _obj[obj.value]));
+                    const data = this.data[this.selectedCategory];
+                    if (this.xAxis[0].value === "datetime") {
+                        return this.yAxis.map(obj => {
+                            const format = this.dateTypes[this.dateTypes.findIndex(dateType => dateType.type == this.selectedDateType)].dayjsToStringFormat;
+                            const _data = {};
+                            data.forEach(_obj => {
+                                const key = _obj["datetime"].format(format);
+                                if (!(key in _data)) _data[key] = [];
+                                _data[key].push(_obj[obj.value]);
+                            });
+                            return Object.keys(_data).map(datetime => {
+                                const values = _data[datetime].filter(value => value != null);
+                                return values.length === 0 ? null : values.reduce((acc, cur) => acc + cur) / _data[datetime].length;
+                            });
+                        });
+                    } else {
+                        return this.yAxis.map(obj => {
+                            const _data = data.map(_obj => [_obj[this.xAxis[0].value], _obj[obj.value]]);
+                            _data.sort((a, b) => a[0] < b[0] ? -1 : a[0] === b[0] && a[1] < b[1] ? -1 : 1);
+                            for (let i = _data.length - 1; i > 0; --i)
+                                if (_data[i][0] === _data[i - 1][0] && _data[i][1] === _data[i - 1][1]) _data.splice(i, 1);
+                            return _data.filter(arr => arr[0] != null && arr[1] != null).map(arr => [arr[0].toString(), arr[1]]);
+                        });
+                    }
                 } else return [];
             },
 
             xAxisLabels() {
-                if (this.data == null) {
-                    const _data = [];
-                    const format = this.dateTypes[this.dateTypes.findIndex(obj => obj.type == this.selectedDateType)].dayjsToStringFormat;
-                    for (let datetime = this.startDatetime;
-                         datetime <= this.endDatetime;
-                         datetime = datetime.add(1, (this.selectedDateType == "date" ? "day" : this.selectedDateType) + "s"))
-                        _data.push(datetime.format(format));
-                    return _data;
-                } else if (this.xAxis.length === 0)
+                if (this.xAxis.length === 0)
                     return [];
-                else if (this.xAxis[0].value === "datetime")
-                    return this.data[this.selectedCategory].map(obj => obj.datetime);
-                else {
+                else if (this.xAxis[0].value === "datetime") {
+                    const xLabels = this.data[this.selectedCategory].map(obj => obj.datetime.format(this.dateTypes[this.dateTypes.findIndex(_obj => _obj.type == this.selectedDateType)].dayjsToStringFormat));
+                    xLabels.sort();
+                    for (let i = xLabels.length - 1; i > 0; --i)
+                        if (xLabels[i] === xLabels[i - 1]) xLabels.splice(i, 1);
+                    return xLabels;
+                } else {
                     const xLabels = this.data[this.selectedCategory].map(obj => obj[this.xAxis[0].value]).filter(value => value != null);
                     xLabels.sort((a, b) => +a < +b ? -1 : 1);
                     return [...new Set(xLabels)].map(value => this.round(value).toString());
@@ -170,13 +183,11 @@
             },
 
             data() {
-                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0) {
-                    console.log(this.data[this.selectedCategory]);
+                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0)
                     setTimeout(async () => {
                         await this.initChart();
                         await this.setLoadingInvisible();
                     }, 0);
-                }
             }
         },
         methods: {
@@ -187,6 +198,7 @@
             }),
 
             initChart() {
+                console.log(this.chartData);
                 if (this.chart != null) this.chart.clear();
                 else this.chart = init(this.$refs["chart"]);
                 if (this.selectedChartType == "distribution") {
@@ -267,16 +279,16 @@
                         yAxis: this.yAxis.map(y => ({
                             type: "value",
                             name: `${y.label} (${y.unit})`,
-                            min(item) {
-                                // const avg = (item.min + item.max) / 2;
-                                // return avg - 1.2 * Math.abs(avg - item.min);
-                                return item.min - 1;
-                            },
-                            max(item) {
-                                // const avg = (item.min + item.max) / 2;
-                                // return avg + 1.2 * Math.abs(avg - item.max);
-                                return item.max + 1;
-                            },
+                            // min(item) {
+                            //     // const avg = (item.min + item.max) / 2;
+                            //     // return avg - 1.2 * Math.abs(avg - item.min);
+                            //     return item.min - 1;
+                            // },
+                            // max(item) {
+                            //     // const avg = (item.min + item.max) / 2;
+                            //     // return avg + 1.2 * Math.abs(avg - item.max);
+                            //     return item.max + 1;
+                            // },
                             nameTextStyle: {
                                 align: "left"
                             },
