@@ -9,14 +9,18 @@ export default new VueRouter({
     routes: [
         {
             path: "/",
-            redirect: "/observation"
+            redirect: "/view"
         },
         {
-            path: "/observation",
+            path: "/view",
+            redirect: "/view/observation"
+        },
+        {
+            path: "/view/observation",
             component: () => import("../components/observation/Observation")
         },
         {
-            path: "/statistics",
+            path: "/view/statistics",
             component: () => import("../components/statistics/Statistics")
         },
     ]
