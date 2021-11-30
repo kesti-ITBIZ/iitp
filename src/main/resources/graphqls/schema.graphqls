@@ -3,20 +3,16 @@ schema {
 }
 
 type Query {
-    airkoreaDataByDatetime(param: DataParam): [AirkoreaData]
-    airkoreaDataByItem(param: DataParam): [AirkoreaData]
+    airkoreaData(param: DataParam): [AirkoreaData]
     airkoreaStations: [Station]
     airkoreaStationsByKeyword(param: String): [Station]
-    ktDataByDatetime(param: DataParam): [KTData]
-    ktDataByItem(param: DataParam): [KTData]
+    ktData(param: DataParam): [KTData]
     ktStations: [Station]
     ktStationsByKeyword(param: String): [Station]
-    observerDataByDatetime(param: DataParam): [ObserverData]
-    observerDataByItem(param: DataParam): [ObserverData]
+    observerData(param: DataParam): [ObserverData]
     observerStations: [Station]
     observerStationsByKeyword(param: String): [Station]
-    sDoTDataByDatetime(param: DataParam): [SDoTData]
-    sDoTDataByItem(param: DataParam): [SDoTData]
+    sDoTData(param: DataParam): [SDoTData]
     sDoTStations: [Station]
     sDoTStationsByKeyword(param: String): [Station]
 }
