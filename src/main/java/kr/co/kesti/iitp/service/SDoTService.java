@@ -34,28 +34,8 @@ public class SDoTService implements GraphQLQueryResolver {
                 .collect(Collectors.toList());
     }
 
-    public List<ResponseSDoTDataVO> getSDoTDataByDatetime(final RequestDataVO request) {
-        return this.sDoTDataRepositoryDsl.findAllDataByDatetime(
-                request.getStartDatetime(),
-                request.getEndDatetime(),
-                request.getDateType(),
-                request.getStnNm())
-                .stream()
-                .map(data -> ResponseSDoTDataVO.builder()
-                        .datetime(data.getDatetime())
-                        .stnNm(data.getStnNm())
-                        .temperature(data.getTemperature())
-                        .relativeHumidity(data.getRelativeHumidity())
-                        .windDirection(data.getWindDirection() == -2.f ? null : data.getWindDirection())
-                        .windSpeed(data.getWindSpeed() == -2.f ? null : data.getWindSpeed())
-                        .pm10(data.getPm10())
-                        .pm25(data.getPm25())
-                        .build())
-                .collect(Collectors.toList());
-    }
-
-    public List<ResponseSDoTDataVO> getSDoTDataByItem(final RequestDataVO request) {
-        return this.sDoTDataRepositoryDsl.findAllDataByItem(
+    public List<ResponseSDoTDataVO> getSDoTData(final RequestDataVO request) {
+        return this.sDoTDataRepositoryDsl.findAllData(
                 request.getStartDatetime(),
                 request.getEndDatetime(),
                 request.getStnNm())
