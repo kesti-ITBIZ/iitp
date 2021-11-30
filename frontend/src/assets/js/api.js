@@ -27,10 +27,10 @@ export const stationApi = {
 
 export const dataApi = {
     apollo: {
-        airkoreaDataByDatetime: {
+        airkoreaData: {
             query: gql`
-                query airkoreaDataByDatetime($param: DataParam) {
-                    airkoreaDataByDatetime(param: $param) {
+                query airkoreaData($param: DataParam) {
+                    airkoreaData(param: $param) {
                         datetime
                         stnNm
                         so2
@@ -53,35 +53,10 @@ export const dataApi = {
             },
             skip: true
         },
-        airkoreaDataByItem: {
+        ktData: {
             query: gql`
-                query airkoreaDataByItem($param: DataParam) {
-                    airkoreaDataByItem(param: $param) {
-                        stnNm
-                        so2
-                        no2
-                        o3
-                        co
-                        pm10
-                        pm25
-                    }
-                }
-            `,
-            variables() {
-                return {
-                    param: {
-                        startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
-                        endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
-                        stnNm: this.selectedStation[0].name
-                    }
-                };
-            },
-            skip: true
-        },
-        ktDataByDatetime: {
-            query: gql`
-                query ktDataByDatetime($param: DataParam) {
-                    ktDataByDatetime(param: $param) {
+                query ktData($param: DataParam) {
+                    ktData(param: $param) {
                         datetime
                         stnNm
                         temperature
@@ -102,33 +77,10 @@ export const dataApi = {
             },
             skip: true
         },
-        ktDataByItem: {
+        observerData: {
             query: gql`
-                query ktDataByItem($param: DataParam) {
-                    ktDataByItem(param: $param) {
-                        stnNm
-                        temperature
-                        humidity
-                        pm10
-                        pm25
-                    }
-                }
-            `,
-            variables() {
-                return {
-                    param: {
-                        startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
-                        endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
-                        stnNm: this.selectedStation[0].name
-                    }
-                };
-            },
-            skip: true
-        },
-        observerDataByDatetime: {
-            query: gql`
-                query observerDataByDatetime($param: DataParam) {
-                    observerDataByDatetime(param: $param) {
+                query observerData($param: DataParam) {
+                    observerData(param: $param) {
                         datetime
                         stnNm
                         temperature
@@ -149,59 +101,11 @@ export const dataApi = {
             },
             skip: true
         },
-        observerDataByItem: {
+        sDoTData: {
             query: gql`
-                query observerDataByItem($param: DataParam) {
-                    observerDataByItem(param: $param) {
-                        stnNm
-                        temperature
-                        humidity
-                        pressure
-                        pm25
-                    }
-                }
-            `,
-            variables() {
-                return {
-                    param: {
-                        startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
-                        endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
-                        stnNm: this.selectedStation[0].name
-                    }
-                };
-            },
-            skip: true
-        },
-        sDoTDataByDatetime: {
-            query: gql`
-                query sDoTDataByDatetime($param: DataParam) {
-                    sDoTDataByDatetime(param: $param) {
+                query sDoTData($param: DataParam) {
+                    sDoTData(param: $param) {
                         datetime
-                        stnNm
-                        temperature
-                        relativeHumidity
-                        windDirection
-                        windSpeed
-                        pm10
-                        pm25
-                    }
-                }
-            `,
-            variables() {
-                return {
-                    param: {
-                        startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
-                        endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
-                        stnNm: this.selectedStation[0].name
-                    }
-                };
-            },
-            skip: true
-        },
-        sDoTDataByItem: {
-            query: gql`
-                query sDoTDataByItem($param: DataParam) {
-                    sDoTDataByItem(param: $param) {
                         stnNm
                         temperature
                         relativeHumidity

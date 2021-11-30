@@ -82,13 +82,11 @@
                     await new Promise(resolve => alert("Y축 항목을 추가해주세요.", resolve));
                 else {
                     await this.setLoadingVisible();
-                    // const constraint = this.xAxis[0].value === "datetime" ? "Datetime" : "Item";
-                    const constraint = "Datetime";
-                    let dataQuery = this.$apollo.queries[this.selectedCategory + "DataBy" + constraint];
+                    let dataQuery = this.$apollo.queries[this.selectedCategory + "Data"];
                     dataQuery.skip = false;
                     await this.setData(JSON.parse(JSON.stringify({
                         category: this.selectedCategory,
-                        data: await dataQuery.refetch().then(response => response.data[this.selectedCategory + "DataBy" + constraint])
+                        data: await dataQuery.refetch().then(response => response.data[this.selectedCategory + "Data"])
                     })));
                     dataQuery.skip = true;
                 }
