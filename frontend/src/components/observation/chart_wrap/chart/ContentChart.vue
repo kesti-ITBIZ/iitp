@@ -110,7 +110,7 @@
                         };
 
                         Object.keys(datasets).forEach(key => {
-                            const valueArr = datasets[key];
+                            const valueArr = datasets[key].filter(arr => arr[0] != null || arr[1] != null);
                             valueArr.sort(compare);
                             for (let i = valueArr.length - 1; i > 0; --i)
                                 if (valueArr[i][0] === valueArr[i - 1][0] && valueArr[i][1] === valueArr[i - 1][1])
@@ -126,7 +126,7 @@
             chartData() {
                 if (this.data[this.selectedCategory]) {
                     const data = this.data[this.selectedCategory];
-                    if (this.xAxis[0].value === "datetime") {
+                    if (this.xAxis[0].value === "datetime")
                         return this.yAxis.map(obj => {
                             const format = this.dateTypes[this.dateTypes.findIndex(dateType => dateType.type == this.selectedDateType)].dayjsToStringFormat;
                             const _data = {};
@@ -140,15 +140,14 @@
                                 return values.length === 0 ? null : values.reduce((acc, cur) => acc + cur) / _data[datetime].length;
                             });
                         });
-                    } else {
-                        return this.yAxis.map(obj => {
+                    else
+                        return  this.yAxis.map(obj => {
                             const _data = data.map(_obj => [_obj[this.xAxis[0].value], _obj[obj.value]]);
                             _data.sort((a, b) => a[0] < b[0] ? -1 : a[0] === b[0] && a[1] < b[1] ? -1 : 1);
                             for (let i = _data.length - 1; i > 0; --i)
                                 if (_data[i][0] === _data[i - 1][0] && _data[i][1] === _data[i - 1][1]) _data.splice(i, 1);
                             return _data.filter(arr => arr[0] != null && arr[1] != null).map(arr => [arr[0].toString(), arr[1]]);
                         });
-                    }
                 } else return [];
             },
 
@@ -164,47 +163,72 @@
                 } else {
                     const xLabels = this.data[this.selectedCategory].map(obj => obj[this.xAxis[0].value]).filter(value => value != null);
                     xLabels.sort((a, b) => +a < +b ? -1 : 1);
-                    return [...new Set(xLabels)].map(value => this.round(value).toString());
+                    return [...new Set(xLabels)].filter(value => value != null && !isNaN(value)).map(value => this.round(value).toString());
                 }
             }
         },
         watch: {
             selectedChartType() {
-                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0 && this.selectedChartType != "table")
+                if (this.data[this.selectedCategory]
+                    && this.data[this.selectedCategory].length > 0
+                    && this.xAxis.length > 0
+                    && this.yAxis.length > 0
+                    && this.selectedChartType != "table")
                     setTimeout(this.initChart, 0);
             },
 
             xAxis() {
-                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0)
+                if (this.data[this.selectedCategory]
+                    && this.data[this.selectedCategory].length > 0
+                    && this.xAxis.length > 0
+                    && this.yAxis.length > 0
+                    && this.selectedChartType != "table")
                     setTimeout(this.initChart, 0);
             },
 
             yAxis() {
-                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0)
+                if (this.data[this.selectedCategory]
+                    && this.data[this.selectedCategory].length > 0
+                    && this.xAxis.length > 0
+                    && this.yAxis.length > 0
+                    && this.selectedChartType != "table")
                     setTimeout(this.initChart, 0);
             },
 
-            startDatetime() {
-                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0)
-                    setTimeout(this.initChart, 0);
-            },
-
-            endDatetime() {
-                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0)
-                    setTimeout(this.initChart, 0);
-            },
+            // startDatetime() {
+            //     if (this.data[this.selectedCategory]
+            //         && this.data[this.selectedCategory].length > 0
+            //         && this.xAxis.length > 0
+            //         && this.yAxis.length > 0
+            //         && this.selectedChartType != "table")
+            //         setTimeout(this.initChart, 0);
+            // },
+            //
+            // endDatetime() {
+            //     if (this.data[this.selectedCategory]
+            //         && this.data[this.selectedCategory].length > 0
+            //         && this.xAxis.length > 0
+            //         && this.yAxis.length > 0
+            //         && this.selectedChartType != "table")
+            //         setTimeout(this.initChart, 0);
+            // },
 
             selectedDateType() {
-                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0)
+                if (this.data[this.selectedCategory]
+                    && this.data[this.selectedCategory].length > 0
+                    && this.xAxis.length > 0
+                    && this.yAxis.length > 0
+                    && this.selectedChartType != "table")
                     setTimeout(this.initChart, 0);
             },
 
             data() {
-                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0)
-                    setTimeout(async () => {
-                        await this.initChart();
-                        await this.setLoadingInvisible();
-                    }, 0);
+                if (this.data[this.selectedCategory]
+                    && this.data[this.selectedCategory].length > 0
+                    && this.xAxis.length > 0
+                    && this.yAxis.length > 0
+                    && this.selectedChartType != "table")
+                    setTimeout(this.initChart, 0);
             }
         },
         methods: {
@@ -407,7 +431,8 @@
             },
 
             round(value) {
-                if (value === 0) return 0;
+                if (value == null) return null;
+                else if (value === 0) return 0;
                 let v = value, cnt = 0;
                 while (Math.round(v) === 0) {
                     v *= 10;

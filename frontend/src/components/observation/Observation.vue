@@ -53,7 +53,8 @@
         methods: {
             ...mapActions({
                 setData: "SET_DATA",
-                setLoadingVisible: "SET_LOADING_VISIBLE"
+                setLoadingVisible: "SET_LOADING_VISIBLE",
+                setLoadingInvisible: "SET_LOADING_INVISIBLE"
             }),
 
             async fetchData() {
@@ -71,6 +72,7 @@
                         category: this.selectedCategory,
                         data: await dataQuery.refetch().then(response => response.data[this.selectedCategory + "Data"])
                     })));
+                    await this.setLoadingInvisible();
                     dataQuery.skip = true;
                 }
             }
