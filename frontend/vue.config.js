@@ -3,7 +3,8 @@ module.exports = {
     devServer: {
         port: 8085,
         proxy: {
-            "/": { target: "http://localhost:9200" }
+            "/api": { target: "http://localhost:9200" },
+            "/graphql": { target: "http://localhost:9200" },
         }
     },
     chainWebpack: config => {
