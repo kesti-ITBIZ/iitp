@@ -14,7 +14,7 @@
                         <template v-if="label != null">
                             <tr :key="`${i}-${j}`" v-for="(yData, j) in tableData[label]">
                                 <td v-if="j === 0" :rowspan="tableData[label].length">{{ xAxis[0].value === 'datetime' ? label : round(label) }}{{ xAxis[0].unit }}</td>
-                                <td :key="k" v-for="(y, k) in yData">{{ !isNaN(y) ? round(y) + yAxis[k].unit : "-" }}</td>
+                                <td :key="k" v-for="(y, k) in yData">{{ y != null && !isNaN(y) ? round(y) + yAxis[k].unit : "-" }}</td>
                             </tr>
                         </template>
                     </template>
