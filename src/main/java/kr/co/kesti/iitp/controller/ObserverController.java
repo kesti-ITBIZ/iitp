@@ -19,13 +19,13 @@ public class ObserverController {
         return ResponseEntity.ok(this.observerService.getObserverStations());
     }
 
-    @PostMapping("/getDataByDatetime")
-    public ResponseEntity<?> getDataByDatetime(@RequestBody final RequestDataVO request) {
-        return ResponseEntity.ok(this.observerService.getObserverDataByDatetime(request));
+    @GetMapping("/searchStations")
+    public ResponseEntity<?> stations(@RequestParam("keyword") final String keyword) {
+        return ResponseEntity.ok(this.observerService.getObserverStationsByKeyword(keyword));
     }
 
-    @PostMapping("/getDataByItem")
-    public ResponseEntity<?> getDataByItem(@RequestBody final RequestDataVO request) {
-        return ResponseEntity.ok(this.observerService.getObserverDataByItem(request));
+    @PostMapping("/getData")
+    public ResponseEntity<?> getData(@RequestBody final RequestDataVO request) {
+        return ResponseEntity.ok(this.observerService.getObserverData(request));
     }
 }

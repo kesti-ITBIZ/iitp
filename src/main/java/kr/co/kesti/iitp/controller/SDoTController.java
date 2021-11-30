@@ -19,13 +19,13 @@ public class SDoTController {
         return ResponseEntity.ok(this.sDoTService.getSDoTStations());
     }
 
-    @PostMapping("/getDataByDatetime")
-    public ResponseEntity<?> getDataByDatetime(@RequestBody final RequestDataVO request) {
-        return ResponseEntity.ok(this.sDoTService.getSDoTDataByDatetime(request));
+    @GetMapping("/searchStations")
+    public ResponseEntity<?> stations(@RequestParam("keyword") final String keyword) {
+        return ResponseEntity.ok(this.sDoTService.getSDoTStationsByKeyword(keyword));
     }
 
-    @PostMapping("/getDataByItem")
-    public ResponseEntity<?> getDataByItem(@RequestBody final RequestDataVO request) {
-        return ResponseEntity.ok(this.sDoTService.getSDoTDataByItem(request));
+    @PostMapping("/getData")
+    public ResponseEntity<?> getData(@RequestBody final RequestDataVO request) {
+        return ResponseEntity.ok(this.sDoTService.getSDoTData(request));
     }
 }

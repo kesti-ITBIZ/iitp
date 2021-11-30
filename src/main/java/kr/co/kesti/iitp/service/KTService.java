@@ -30,31 +30,20 @@ public class KTService implements GraphQLQueryResolver {
                 .collect(Collectors.toList());
     }
 
-    public List<ResponseKTDataVO> getKtDataByDatetime(final RequestDataVO request) {
-        final DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-        try {
-            return this.ktDataRepositoryDsl.findAllDataByDatetime(
-                    dateFormat.parse(request.getStartDatetime()),
-                    dateFormat.parse(request.getEndDatetime()),
-                    request.getDateType(),
-                    request.getStnNm(),
-                    request.getPm10(),
-                    request.getPm25());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public List<ResponseStationVO> getKtStationsByKeyword(final String keyword) {
+        return this.ktStationRepository.findAllByKeyword(keyword)
+                .stream()
+                .map(ResponseStationVO::from)
+                .collect(Collectors.toList());
     }
 
-    public List<ResponseKTDataVO> getKtDataByItem(final RequestDataVO request) {
+    public List<ResponseKTDataVO> getKtData(final RequestDataVO request) {
         final DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         try {
-            return this.ktDataRepositoryDsl.findAllDataByItem(
+            return this.ktDataRepositoryDsl.findAllData(
                     dateFormat.parse(request.getStartDatetime()),
                     dateFormat.parse(request.getEndDatetime()),
-                    request.getStnNm(),
-                    request.getPm10(),
-                    request.getPm25());
+                    request.getStnNm());
         } catch (ParseException e) {
             e.printStackTrace();
         }

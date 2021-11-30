@@ -1,0 +1,60 @@
+$color: #0094c4;
+
+#select-chart {
+    display: flex;
+    padding: 6px 0;
+
+    div.select-chart-btn {
+        text-align: center;
+        color: $color;
+        margin: 0 auto;
+        padding: 10px 20px;
+        transition: color 0.2s;
+
+        svg {
+            display: block;
+            margin: 0 auto;
+
+            + div {
+                font-size: 12px;
+                padding-top: 10px;
+            }
+        }
+
+        svg.fa-chart-network {
+            position: relative;
+            top: 10px;
+
+            + div {
+                padding-top: 27px;
+            }
+        }
+
+        > div {
+            padding: 7px 20px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+
+            &:hover {
+                background-color: #def4ff;
+            }
+        }
+
+        &.on > div {
+            color: white;
+            background-color: $color;
+        }
+
+        &.disabled {
+            color: #bdbdbd;
+            cursor: default;
+
+            > div {
+                &:hover {
+                    background-color: transparent;
+                    cursor: default;
+                }
+            }
+        }
+    }
+}

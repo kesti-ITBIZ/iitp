@@ -13,7 +13,8 @@ import {
     faChartPie,
     faChartScatter,
     faChartNetwork,
-    faTable
+    faTable,
+    faFileDownload
 } from "@fortawesome/free-solid-svg-icons";
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
@@ -24,7 +25,8 @@ library.add(
     faChartPie,
     faChartScatter,
     faChartNetwork,
-    faTable);
+    faTable,
+    faFileDownload);
 
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
@@ -51,6 +53,7 @@ Vue.use(VueApollo);
 import { ApolloClient } from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
+import router from './router'
 
 const apolloProvider = new VueApollo({
     defaultClient: new ApolloClient({
@@ -64,5 +67,6 @@ const apolloProvider = new VueApollo({
 new Vue({
     store,
     apolloProvider,
+    router,
     render: h => h(App)
 }).$mount("#app");

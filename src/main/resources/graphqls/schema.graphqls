@@ -3,21 +3,22 @@ schema {
 }
 
 type Query {
-    airkoreaDataByDatetime(param: DataParam): [AirkoreaData]
-    airkoreaDataByItem(param: DataParam): [AirkoreaData]
+    airkoreaData(param: DataParam): [AirkoreaData]
     airkoreaStations: [Station]
-    ktDataByDatetime(param: DataParam): [KTData]
-    ktDataByItem(param: DataParam): [KTData]
+    airkoreaStationsByKeyword(param: String): [Station]
+    ktData(param: DataParam): [KTData]
     ktStations: [Station]
-    observerDataByDatetime(param: DataParam): [ObserverData]
-    observerDataByItem(param: DataParam): [ObserverData]
+    ktStationsByKeyword(param: String): [Station]
+    observerData(param: DataParam): [ObserverData]
     observerStations: [Station]
-    sDoTDataByDatetime(param: DataParam): [SDoTData]
-    sDoTDataByItem(param: DataParam): [SDoTData]
+    observerStationsByKeyword(param: String): [Station]
+    sDoTData(param: DataParam): [SDoTData]
     sDoTStations: [Station]
+    sDoTStationsByKeyword(param: String): [Station]
 }
 
 type Station {
+    category: String!
     address: String!
     latitude: Float!
     longitude: Float!
@@ -67,8 +68,5 @@ type SDoTData {
 input DataParam {
     startDatetime: String!
     endDatetime: String!
-    dateType: String
     stnNm: String!
-    pm10: [Float]!
-    pm25: [Float]!
 }

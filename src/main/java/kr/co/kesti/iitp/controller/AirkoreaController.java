@@ -19,13 +19,13 @@ public class AirkoreaController {
         return ResponseEntity.ok(this.airkoreaService.getAirkoreaStations());
     }
 
-    @PostMapping("/getDataByDatetime")
-    public ResponseEntity<?> getDataByDatetime(@RequestBody final RequestDataVO request) {
-        return ResponseEntity.ok(this.airkoreaService.getAirkoreaDataByDatetime(request));
+    @GetMapping("/searchStations")
+    public ResponseEntity<?> stations(@RequestParam("keyword") final String keyword) {
+        return ResponseEntity.ok(this.airkoreaService.getAirkoreaStationsByKeyword(keyword));
     }
 
-    @PostMapping("/getDataByItem")
-    public ResponseEntity<?> getDataByItem(@RequestBody final RequestDataVO request) {
-        return ResponseEntity.ok(this.airkoreaService.getAirkoreaDataByItem(request));
+    @PostMapping("/getData")
+    public ResponseEntity<?> getData(@RequestBody final RequestDataVO request) {
+        return ResponseEntity.ok(this.airkoreaService.getAirkoreaData(request));
     }
 }

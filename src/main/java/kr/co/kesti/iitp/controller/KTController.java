@@ -19,13 +19,13 @@ public class KTController {
         return ResponseEntity.ok(this.ktService.getKtStations());
     }
 
-    @PostMapping("/getDataByDatetime")
-    public ResponseEntity<?> getDataByDatetime(@RequestBody final RequestDataVO request) {
-        return ResponseEntity.ok(this.ktService.getKtDataByDatetime(request));
+    @GetMapping("/searchStations")
+    public ResponseEntity<?> stations(@RequestParam("keyword") final String keyword) {
+        return ResponseEntity.ok(this.ktService.getKtStationsByKeyword(keyword));
     }
 
-    @PostMapping("/getDataByItem")
-    public ResponseEntity<?> getDataByItem(@RequestBody final RequestDataVO request) {
-        return ResponseEntity.ok(this.ktService.getKtDataByItem(request));
+    @PostMapping("/getData")
+    public ResponseEntity<?> getData(@RequestBody final RequestDataVO request) {
+        return ResponseEntity.ok(this.ktService.getKtData(request));
     }
 }
