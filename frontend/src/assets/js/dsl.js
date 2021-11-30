@@ -14,6 +14,9 @@ export default class MapDsl {
         return this;
     }
 
+    /**
+     * @param data : object[]
+     * */
     static from(data) {
         console.log("from");
         this.prototype._from = true;
@@ -54,16 +57,16 @@ export default class MapDsl {
         return this;
     }
 
-    static fetch() {
-        let data = this.prototype.whereFunction();
-        data = this.prototype.groupByFunction();
-        data = this.prototype.selectFunction();
-        data = this.prototype.orderByFunction();
-
-        this.prototype._select = false;
-        this.prototype._from = false;
-        this.prototype._where = false;
-        this.prototype._groupBy = false;
-        this.prototype._orderBy = false;
-    }
+    // static fetch() {
+    //     let data = this.prototype.whereFunction();
+    //     data = this.prototype.groupByFunction();
+    //     data = this.prototype.selectFunction();
+    //     data = this.prototype.orderByFunction();
+    //
+    //     this.prototype._select = false;
+    //     this.prototype._from = false;
+    //     this.prototype._where = false;
+    //     this.prototype._groupBy = false;
+    //     this.prototype._orderBy = false;
+    // }
 }

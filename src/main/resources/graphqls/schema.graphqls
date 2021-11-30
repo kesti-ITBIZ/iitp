@@ -72,6 +72,5 @@ type SDoTData {
 input DataParam {
     startDatetime: String!
     endDatetime: String!
-    dateType: String
     stnNm: String!
 }

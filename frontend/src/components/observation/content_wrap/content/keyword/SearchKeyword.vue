@@ -71,6 +71,8 @@
     import { mapState, mapActions } from "vuex";
     import gql from "graphql-tag";
 
+    import { alert } from "../../../../../assets/js/common.utils";
+
     export default {
         name: "SearchKeyword",
         data: () => ({
@@ -115,7 +117,9 @@
             }),
 
             async search() {
-                if (this.prevKeyword !== this.keyword) {
+                if (this.keyword === "")
+                    await new Promise(resolve => alert("검색할 지점명 또는 주소를 입력하세요.", resolve));
+                else if (this.prevKeyword !== this.keyword) {
                     const dataQuery = this.$apollo.queries[this.selectedCategory + "StationsByKeyword"];
                     dataQuery.skip = false;
                     this.setSearchedStations((await dataQuery.refetch()

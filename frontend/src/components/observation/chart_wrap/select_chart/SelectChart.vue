@@ -43,7 +43,7 @@
                     this.setSelectedChartType("");
                 else if (this.xAxis[0].value !== "datetime" && this.selectedChartType != "table" && this.selectedChartType != "scatter")
                     this.setSelectedChartType("scatter");
-                else this.setSelectedChartType("line");
+                else if (this.selectedChartType != "table") this.setSelectedChartType("line");
             }
         },
         methods: {

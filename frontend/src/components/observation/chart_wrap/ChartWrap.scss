@@ -1,15 +1,13 @@
 #chart-wrap {
     width: 50%;
     min-width: 900px;
-    height: calc(100% - 2px);
-    //border: 1px solid #a5a5a5;
+    height: calc(100% - 1px);
 
     > div {
         border: 1px solid #a5a5a5;
     }
 
     > div.chart-wrap-header {
-        //height: 250px;
         border-bottom: none;
     }
 
