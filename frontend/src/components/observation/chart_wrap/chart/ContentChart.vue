@@ -1,7 +1,7 @@
 <template>
     <div class="content-chart">
         <div v-show="data[selectedCategory] && data[selectedCategory].length > 0 && selectedChartType != 'table'" id="chart" ref="chart" />
-        <div v-show="data[selectedCategory] && data[selectedCategory].length > 0 && selectedChartType == 'table' && tableCount > 0" id="table" class="scroll">
+        <div v-show="data[selectedCategory] && data[selectedCategory].length > 0 && selectedChartType == 'table' && Object.keys(tableData).length > 0" id="table" class="scroll">
             <table v-if="xAxis.length > 0 && yAxis.length > 0">
                 <thead>
                     <tr>
@@ -13,11 +13,14 @@
                     <template v-for="(label, i) in xAxis[0].value === 'datetime' ? Object.keys(tableData) : sorted(Object.keys(tableData).map(key => +key))">
                         <tr :key="`${i}-${j}`" v-for="(yData, j) in tableData[label]">
                             <td v-if="j === 0" :rowspan="tableData[label].length">{{ xAxis[0].value === 'datetime' ? label : round(label) }}{{ xAxis[0].unit }}</td>
-                            <td :key="k" v-for="(y, k) in yData">{{ y ? round(y) + yAxis[k].unit : "-" }}</td>
+                            <td :key="k" v-for="(y, k) in yData">{{ !isNaN(y) ? round(y) + yAxis[k].unit : "-" }}</td>
                         </tr>
                     </template>
                 </tbody>
             </table>
+        </div>
+        <div v-show="data[selectedCategory] && data[selectedCategory].length > 0 && selectedChartType == 'table' && Object.keys(tableData).length > 0" class="csv-download" @click="csvDownload">
+            <font-awesome-icon size="lg" :icon="['fa', 'file-download']" />
         </div>
         <div v-show="(data[selectedCategory] == null || data[selectedCategory].length === 0) && !loading" id="no-data">
             <div>
@@ -30,7 +33,8 @@
 
 <script>
     import { mapState, mapActions } from "vuex";
-    // import dayjs from "dayjs";
+    import xlsx from "xlsx";
+    import dayjs from "dayjs";
     import { init, registerMap } from "echarts";
 
     import Loading from "../../common/loading/Loading";
@@ -61,49 +65,60 @@
             tableData() {
                 if (this.data[this.selectedCategory]) {
                     const data = this.data[this.selectedCategory];
+                    const xLabel = this.xAxis[0].value;
+                    let datasets = {};
 
-                    const datasets = {};
-                    for (let i = 0; i < data.length; ++i) {
-                        const xLabel = data[i][this.xAxis[0].value];
-                        if (xLabel == null) continue;
-                        if (!(xLabel in datasets))
-                            datasets[xLabel] = [];
-                        let yData = [];
-                        for (let j = 0; j < this.yAxis.length; ++j)
-                            yData.push(data[i][this.yAxis[j].value]);
-                        datasets[xLabel].push(yData);
+                    if (xLabel === "datetime") {
+                        const format = this.dateTypes[this.dateTypes.findIndex(dateType => dateType.type == this.selectedDateType)].dayjsToStringFormat;
+                        data.forEach(obj => {
+                            const key = obj.datetime.format(format), valueArr = [];
+                            this.yAxis.forEach(y => {
+                                valueArr.push(obj[y.value] == null ? NaN : obj[y.value]);
+                            });
+                            if (!(key in datasets)) datasets[key] = [];
+                            datasets[key].push(valueArr);
+                        });
+
+                        const transpose = arr => {
+                            let newArr = [];
+                            arr[0].forEach(() => newArr.push([]));
+                            for (let i = 0; i < arr.length; ++i)
+                                for (let j = 0; j < arr[i].length; ++j)
+                                    newArr[j].push(arr[i][j]);
+                            return newArr;
+                        };
+
+                        Object.keys(datasets).forEach(key => {
+                            const valueArr = datasets[key];
+                            datasets[key] = [transpose(valueArr).map(arr => arr.reduce((acc, cur) => acc + cur) / valueArr.length)];
+                        });
+                    } else {
+                        data.forEach(obj => {
+                            const key = obj[xLabel], valueArr = [];
+                            this.yAxis.forEach(y => valueArr.push(obj[y.value]));
+                            if (!(key in datasets)) datasets[key] = [];
+                            datasets[key].push(valueArr);
+                        });
+
+                        const compare = (a, b) => {
+                            if (this.yAxis.length === 1)
+                                return a[0] < b[0] ? -1 : 1;
+                            else if (this.yAxis.length === 2)
+                                return a[0] < b[0] ? -1 : a[0] === b[0] && a[1] < b[1] ? -1 : 1;
+                        };
+
+                        Object.keys(datasets).forEach(key => {
+                            const valueArr = datasets[key];
+                            valueArr.sort(compare);
+                            for (let i = valueArr.length - 1; i > 0; --i)
+                                if (valueArr[i][0] === valueArr[i - 1][0] && valueArr[i][1] === valueArr[i - 1][1])
+                                    valueArr.splice(i, 1);
+                            datasets[key] = valueArr;
+                        });
                     }
-
-                    const compare = (a, b) => {
-                        let acc = [false];
-                        for (let i = 0; i < this.yAxis.length; ++i) {
-                            let cur = true;
-                            for (let j = 0; j <= i; ++j)
-                                cur &&= i === 0 || (i > 0 && j > 0) ? a[j] < b[j] : a[j] === b[j];
-                            if (cur) return -1;
-                            else acc.push(cur);
-                        }
-                        return acc.reduce((a, b) => a || b) ? -1 : 1;
-                    }
-
-                    Object.keys(datasets).forEach(x => {
-                        datasets[x].sort(compare);
-                        for (let i = datasets[x].length - 1; i > 0; --i) {
-                            let compareValues = [];
-                            for (let j = 0; j < this.yAxis.length; ++j)
-                                if (datasets[x][i][j] === datasets[x][i - 1][j])
-                                    compareValues.push(true);
-                            if (compareValues.length > 0 && compareValues.reduce((acc, cur) => acc && cur))
-                                datasets[x].splice(i, 1);
-                        }
-                    });
 
                     return datasets;
                 } else return {};
-            },
-
-            tableCount() {
-                return Object.keys(this.tableData).length === 0 ? 0 : Object.keys(this.tableData).reduce((acc, cur) => typeof acc !== "object" ? this.tableData[acc] : acc.concat(this.tableData[cur])).length;
             },
 
             chartData() {
@@ -198,7 +213,6 @@
             }),
 
             initChart() {
-                console.log(this.chartData);
                 if (this.chart != null) this.chart.clear();
                 else this.chart = init(this.$refs["chart"]);
                 if (this.selectedChartType == "distribution") {
@@ -340,6 +354,50 @@
                 this.addResizeEvent(() => this.chart.resize());
             },
 
+            csvDownload() {
+                const book = xlsx.utils.book_new();
+                const csvTable = [], merges = [];
+                let i = 1, start, end;
+
+                if (this.xAxis[0].value === "datetime") {
+                    this.sorted(Object.keys(this.tableData)).forEach(key =>
+                        this.tableData[key].forEach((obj, j) => {
+                            const csvData = { [this.xAxis[0].label]: key };
+                            this.yAxis.forEach((y, k) => csvData[y.label] = isNaN(obj[k]) ? "-" : obj[k] + y.unit);
+                            csvTable.push(csvData);
+                            if (j === 0) start = i;
+                            else if (j === this.tableData[key].length - 1) {
+                                end = i;
+                                merges.push({ s: { r: start, c: 0 }, e: { r: end, c: 0 } });
+                                start = end = null;
+                            }
+                            ++i;
+                        }));
+                } else {
+                    this.sorted(Object.keys(this.tableData).filter(key => !isNaN(+key)).map(key => +key)).forEach(key =>
+                        this.tableData[key].forEach((obj, j) => {
+                            const csvData = { [this.xAxis[0].label.split(" ").join("_")]: key + this.xAxis[0].unit };
+                            this.yAxis.forEach((y, k) => csvData[y.label.split(" ").join("_")] = isNaN(obj[k]) ? "-" : obj[k] + y.unit);
+                            csvTable.push(csvData);
+                            if (j === 0) start = i;
+                            else if (j === this.tableData[key].length - 1) {
+                                end = i;
+                                merges.push({ s: { r: start, c: 0 }, e: { r: end, c: 0 } });
+                                start = end = null;
+                            }
+                            ++i;
+                        }));
+                }
+
+                let sheet = xlsx.utils.json_to_sheet(csvTable);
+                sheet["!merges"] = merges;
+                xlsx.utils.book_append_sheet(
+                    book,
+                    sheet,
+                    "데이터");
+                xlsx.writeFile(book, `${this.xAxis[0].label}_${this.yAxis.map(y => y.label).join("_")}_${dayjs().format("YYYYMMDDHHmmss")}.xlsx`);
+            },
+
             sorted(arr, compare = undefined) {
                 const newArr = arr.concat();
                 newArr.sort(compare);
@@ -347,6 +405,7 @@
             },
 
             round(value) {
+                if (value === 0) return 0;
                 let v = value, cnt = 0;
                 while (Math.round(v) === 0) {
                     v *= 10;
