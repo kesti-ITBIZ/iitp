@@ -59,14 +59,8 @@ export default {
                 && obj.longitude === station.longitude), 1);
             state.selectedStation = Object.freeze(selectedStation);
         },
-        SET_SEARCHED_STATIONS: (state, stations) => {
-            console.log("stations:", stations);
-            state.searchedStations = Object.freeze(stations);
-        },
-        APPEND_SEARCHED_STATIONS: (state, stations) => {
-            console.log("stations:", stations);
-            state.searchedStations = Object.freeze(state.searchedStations.concat(stations));
-        },
+        SET_SEARCHED_STATIONS: (state, stations) => state.searchedStations = Object.freeze(stations),
+        APPEND_SEARCHED_STATIONS: (state, stations) => state.searchedStations = Object.freeze(state.searchedStations.concat(stations)),
         SET_DATA: (state, { category, data }) => {
             const len = data.length
 
