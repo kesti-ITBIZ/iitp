@@ -1,6 +1,10 @@
 <template>
     <div id="observation">
         <table>
+            <colgroup>
+                <col style="width: calc(50% - 200px);" />
+                <col style="width: 200px;" />
+            </colgroup>
             <tbody>
                 <tr>
                     <td><content-wrap /></td>

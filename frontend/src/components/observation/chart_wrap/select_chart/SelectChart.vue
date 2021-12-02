@@ -16,13 +16,6 @@
                 <div>{{ chartType }} Chart</div>
             </div>
         </div>
-<!--        <div :class="['select-chart-btn', selectedChartType == 'distribution' && !isDisabled('distribution') ? 'on' : '', isDisabled('distribution') ? 'disabled' : '']"-->
-<!--             @click="isDisabled('distribution') ? null : setSelectedChartType('distribution')">-->
-<!--            <div>-->
-<!--                <font-awesome-icon size="3x" :icon="['fa', 'chart-network']" style="margin: 0 0 0 5px;" />-->
-<!--                <div>Distribution</div>-->
-<!--            </div>-->
-<!--        </div>-->
     </div>
 </template>
 

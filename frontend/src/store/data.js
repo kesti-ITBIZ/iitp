@@ -59,7 +59,14 @@ export default {
                 && obj.longitude === station.longitude), 1);
             state.selectedStation = Object.freeze(selectedStation);
         },
-        SET_SEARCHED_STATIONS: (state, stations) => state.searchedStations = Object.freeze(stations),
+        SET_SEARCHED_STATIONS: (state, stations) => {
+            console.log("stations:", stations);
+            state.searchedStations = Object.freeze(stations);
+        },
+        APPEND_SEARCHED_STATIONS: (state, stations) => {
+            console.log("stations:", stations);
+            state.searchedStations = Object.freeze(state.searchedStations.concat(stations));
+        },
         SET_DATA: (state, { category, data }) => {
             const len = data.length
 
@@ -109,6 +116,7 @@ export default {
         SET_SELECTED_STATION: (context, { category, station }) => context.commit("SET_SELECTED_STATION", { category, station }),
         REMOVE_SELECTED_STATION: (context, { category, station }) => context.commit("REMOVE_SELECTED_STATION", { category, station }),
         SET_SEARCHED_STATIONS: (context, stations) => context.commit("SET_SEARCHED_STATIONS", stations),
+        APPEND_SEARCHED_STATIONS: (context, stations) => context.commit("APPEND_SEARCHED_STATIONS", stations),
         SET_DATA: (context, { category, data }) => context.commit("SET_DATA", { category, data })
     }
 }

@@ -50,6 +50,11 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <infinite-loading v-if="searchedStations.length >= 100" @infinite="infiniteHandler" spinner="waveDots">
+                                <div slot="no-results" class="no-results">
+                                    더 이상 데이터가 없어요. ( ͡° ͜ʖ ͡°)
+                                </div>
+                            </infinite-loading>
                         </div>
                         <div class="no-data" v-show="searchedStations.length === 0">
                             <table>
@@ -77,7 +82,9 @@
         name: "SearchKeyword",
         data: () => ({
             keyword: "",
-            prevKeyword: null
+            prevKeyword: null,
+            pageIndex: 0,
+            infiniteState: null
         }),
         computed: {
             ...mapState({
@@ -91,8 +98,8 @@
                 ["airkorea", "kt", "observer", "sDoT"].forEach(category => {
                     queries[category + "StationsByKeyword"] = {
                         query: gql`
-                            query ${category}StationsByKeyword($param: String) {
-                                ${category}StationsByKeyword(param: $param) {
+                            query ${category}StationsByKeyword($keyword: String!, $page: Int!, $size: Int!) {
+                                ${category}StationsByKeyword(keyword: $keyword, page: $page, size: $size) {
                                     category
                                     name
                                     address
@@ -103,7 +110,11 @@
                         `,
                         skip: true,
                         variables() {
-                            return { param: this.keyword };
+                            return {
+                                keyword: this.prevKeyword,
+                                page: this.pageIndex,
+                                size: 100
+                            };
                         }
                     };
                 });
@@ -113,6 +124,7 @@
         methods: {
             ...mapActions({
                 setSearchedStations: "SET_SEARCHED_STATIONS",
+                appendSearchedStations: "APPEND_SEARCHED_STATIONS",
                 setSelectedStation: "SET_SELECTED_STATION"
             }),
 
@@ -121,6 +133,9 @@
                     await new Promise(resolve => alert("검색할 지점명 또는 주소를 입력하세요.", resolve));
                 else if (this.prevKeyword !== this.keyword) {
                     const dataQuery = this.$apollo.queries[this.selectedCategory + "StationsByKeyword"];
+                    console.log("dataQuery:", dataQuery);
+                    this.prevKeyword = this.keyword;
+                    this.pageIndex = 0;
                     dataQuery.skip = false;
                     this.setSearchedStations((await dataQuery.refetch()
                         .then(response => response.data[this.selectedCategory + "StationsByKeyword"]))
@@ -132,9 +147,36 @@
                             longitude: obj.longitude
                         })));
                     dataQuery.skip = true;
+                    this.pageIndex = this.pageIndex + 1;
 
-                    this.prevKeyword = this.keyword;
+                    if (this.infiniteState) this.infiniteState.reset();
                 }
+            },
+
+            infiniteHandler($state) {
+                console.log("infiniteHandler");
+                this.infiniteState = $state;
+
+                setTimeout(async () => {
+                    const dataQuery = this.$apollo.queries[this.selectedCategory + "StationsByKeyword"];
+                    dataQuery.skip = false;
+                    const stations = (await dataQuery.refetch()
+                        .then(response => response.data[this.selectedCategory + "StationsByKeyword"]))
+                        .map(obj => ({
+                            category: obj.category,
+                            name: obj.name,
+                            address: obj.address,
+                            latitude: obj.latitude,
+                            longitude: obj.longitude
+                        }));
+                    dataQuery.skip = true;
+
+                    if (stations != null) {
+                        this.appendSearchedStations(stations);
+                        if (stations.length < 100) $state.complete();
+                        else $state.loaded();
+                    }
+                }, 600);
             },
 
             select({ name, address }) {

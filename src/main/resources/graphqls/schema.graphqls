@@ -5,16 +5,16 @@ schema {
 type Query {
     airkoreaData(param: DataParam): [AirkoreaData]
     airkoreaStations: [Station]
-    airkoreaStationsByKeyword(param: String): [Station]
+    airkoreaStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
     ktData(param: DataParam): [KTData]
     ktStations: [Station]
-    ktStationsByKeyword(param: String): [Station]
+    ktStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
     observerData(param: DataParam): [ObserverData]
     observerStations: [Station]
-    observerStationsByKeyword(param: String): [Station]
+    observerStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
     sDoTData(param: DataParam): [SDoTData]
     sDoTStations: [Station]
-    sDoTStationsByKeyword(param: String): [Station]
+    sDoTStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
 }
 
 type Station {
