@@ -2,6 +2,7 @@ package kr.co.kesti.iitp.repository;
 
 import kr.co.kesti.iitp.entity.ObserverStation;
 import kr.co.kesti.iitp.projection.StationProjection;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -36,5 +37,5 @@ public interface ObserverStationRepository extends JpaRepository<ObserverStation
             "and ( " +
             "   (o.stnNm is not null and o.stnNm like concat('%', :keyword, '%')) " +
             "   or (o.address is not null and o.address like concat('%', :keyword, '%')))")
-    List<StationProjection> findAllByKeyword(@Param("keyword") final String keyword);
+    List<StationProjection> findAllByKeyword(@Param("keyword") final String keyword, final Pageable pageable);
 }

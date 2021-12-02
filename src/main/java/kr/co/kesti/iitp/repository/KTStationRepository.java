@@ -2,6 +2,7 @@ package kr.co.kesti.iitp.repository;
 
 import kr.co.kesti.iitp.entity.KTStation;
 import kr.co.kesti.iitp.projection.StationProjection;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -43,5 +44,5 @@ public interface KTStationRepository extends JpaRepository<KTStation, String> {
             "   (k.devNm is not null and k.devNm like concat('%', :keyword, '%')) " +
             "   or (k.devNm is not null and k.devNm like concat('%', :keyword, '%')) " +
             "   or (k.newAddress is not null and k.newAddress like concat('%', :keyword, '%')))")
-    List<StationProjection> findAllByKeyword(@Param("keyword") final String keyword);
+    List<StationProjection> findAllByKeyword(@Param("keyword") final String keyword, final Pageable pageable);
 }

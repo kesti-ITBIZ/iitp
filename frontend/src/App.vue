@@ -1,5 +1,5 @@
 <template>
-    <div id="layout" class="text-no-drag" @click="clearSelectedItem">
+    <div id="layout" class="text-no-drag" :style="{ backgroundColor: 'white' }" @click="clearSelectedItem">
         <router-view />
         <alert v-show="alert.show"
                :title="alert.title"

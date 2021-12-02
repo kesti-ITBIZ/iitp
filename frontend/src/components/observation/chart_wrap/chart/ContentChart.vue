@@ -92,7 +92,7 @@
 
                         Object.keys(datasets).forEach(key => {
                             const valueArr = datasets[key];
-                            datasets[key] = [transpose(valueArr).map(arr => arr.reduce((acc, cur) => acc + cur) / valueArr.length)];
+                            datasets[key] = [transpose(valueArr).map(arr => arr.reduce((acc, cur) => (isNaN(acc) ? 0 : acc) + (isNaN(cur) ? 0 : cur)) / valueArr.length)];
                         });
                     } else {
                         data.forEach(obj => {
@@ -195,24 +195,6 @@
                     setTimeout(this.initChart, 0);
             },
 
-            // startDatetime() {
-            //     if (this.data[this.selectedCategory]
-            //         && this.data[this.selectedCategory].length > 0
-            //         && this.xAxis.length > 0
-            //         && this.yAxis.length > 0
-            //         && this.selectedChartType != "table")
-            //         setTimeout(this.initChart, 0);
-            // },
-            //
-            // endDatetime() {
-            //     if (this.data[this.selectedCategory]
-            //         && this.data[this.selectedCategory].length > 0
-            //         && this.xAxis.length > 0
-            //         && this.yAxis.length > 0
-            //         && this.selectedChartType != "table")
-            //         setTimeout(this.initChart, 0);
-            // },
-
             selectedDateType() {
                 if (this.data[this.selectedCategory]
                     && this.data[this.selectedCategory].length > 0
@@ -291,7 +273,7 @@
                             // height: 500
                         },
                         tooltip: {
-                            formatter: "{a} {b} {c}"
+                            formatter: data => `항목: ${data.seriesName}<br />X: ${data.name}<br />Y: ${Math.round(data.value * 100) / 100}`
                         },
                         toolbox: {
                             feature: {

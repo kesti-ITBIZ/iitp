@@ -8,6 +8,8 @@ import kr.co.kesti.iitp.vo.ResponseSDoTDataVO;
 import kr.co.kesti.iitp.vo.ResponseStationVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,8 +29,8 @@ public class SDoTService implements GraphQLQueryResolver {
                 .collect(Collectors.toList());
     }
 
-    public List<ResponseStationVO> getSDoTStationsByKeyword(final String keyword) {
-        return this.sDoTStationRepository.findAllByKeyword(keyword)
+    public List<ResponseStationVO> getSDoTStationsByKeyword(final String keyword, final int page, final int size) {
+        return this.sDoTStationRepository.findAllByKeyword(keyword, PageRequest.of(page, size))
                 .stream()
                 .map(ResponseStationVO::from)
                 .collect(Collectors.toList());

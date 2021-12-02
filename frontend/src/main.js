@@ -33,6 +33,10 @@ import "vue2-datepicker/index.css";
 
 Vue.component("date-picker", DatePicker);
 
+import InfiniteLoading from "vue-infinite-loading";
+
+Vue.component("infinite-loading", InfiniteLoading);
+
 import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/antd.css";
 

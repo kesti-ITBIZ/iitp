@@ -8,6 +8,8 @@ import kr.co.kesti.iitp.vo.ResponseObserverDataVO;
 import kr.co.kesti.iitp.vo.ResponseStationVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -30,8 +32,8 @@ public class ObserverService implements GraphQLQueryResolver {
                 .collect(Collectors.toList());
     }
 
-    public List<ResponseStationVO> getObserverStationsByKeyword(final String keyword) {
-        return this.observerStationRepository.findAllByKeyword(keyword)
+    public List<ResponseStationVO> getObserverStationsByKeyword(final String keyword, final int page, final int size) {
+        return this.observerStationRepository.findAllByKeyword(keyword, PageRequest.of(page, size))
                 .stream()
                 .map(ResponseStationVO::from)
                 .collect(Collectors.toList());

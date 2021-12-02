@@ -20,8 +20,11 @@ public class SDoTController {
     }
 
     @GetMapping("/searchStations")
-    public ResponseEntity<?> stations(@RequestParam("keyword") final String keyword) {
-        return ResponseEntity.ok(this.sDoTService.getSDoTStationsByKeyword(keyword));
+    public ResponseEntity<?> searchStations(
+            @RequestParam("keyword") final String keyword,
+            @RequestParam("page") final int page,
+            @RequestParam("size") final int size) {
+        return ResponseEntity.ok(this.sDoTService.getSDoTStationsByKeyword(keyword, page, size));
     }
 
     @PostMapping("/getData")

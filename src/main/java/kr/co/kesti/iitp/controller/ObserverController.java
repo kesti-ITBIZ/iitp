@@ -20,8 +20,11 @@ public class ObserverController {
     }
 
     @GetMapping("/searchStations")
-    public ResponseEntity<?> stations(@RequestParam("keyword") final String keyword) {
-        return ResponseEntity.ok(this.observerService.getObserverStationsByKeyword(keyword));
+    public ResponseEntity<?> searchStations(
+            @RequestParam("keyword") final String keyword,
+            @RequestParam("page") final int page,
+            @RequestParam("size") final int size) {
+        return ResponseEntity.ok(this.observerService.getObserverStationsByKeyword(keyword, page, size));
     }
 
     @PostMapping("/getData")
