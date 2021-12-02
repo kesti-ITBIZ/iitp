@@ -92,7 +92,7 @@
 
                         Object.keys(datasets).forEach(key => {
                             const valueArr = datasets[key];
-                            datasets[key] = [transpose(valueArr).map(arr => arr.reduce((acc, cur) => (isNaN(acc) ? 0 : acc) + (isNaN(cur) ? 0 : cur)) / valueArr.length)];
+                            datasets[key] = [transpose(valueArr).map(arr => arr.filter(value => !isNaN(value)).length === 0 ? NaN : arr.reduce((acc, cur) => (isNaN(acc) ? 0 : acc) + (isNaN(cur) ? 0 : cur)) / valueArr.length)];
                         });
                     } else {
                         data.forEach(obj => {
@@ -209,8 +209,10 @@
                     && this.data[this.selectedCategory].length > 0
                     && this.xAxis.length > 0
                     && this.yAxis.length > 0
-                    && this.selectedChartType != "table")
+                    && this.selectedChartType != "table") {
+                    console.log("data:", this.data);
                     setTimeout(this.initChart, 0);
+                }
             }
         },
         methods: {
@@ -301,16 +303,8 @@
                         yAxis: this.yAxis.map(y => ({
                             type: "value",
                             name: `${y.label} (${y.unit})`,
-                            // min(item) {
-                            //     // const avg = (item.min + item.max) / 2;
-                            //     // return avg - 1.2 * Math.abs(avg - item.min);
-                            //     return item.min - 1;
-                            // },
-                            // max(item) {
-                            //     // const avg = (item.min + item.max) / 2;
-                            //     // return avg + 1.2 * Math.abs(avg - item.max);
-                            //     return item.max + 1;
-                            // },
+                            min: item => y.value === "temperature" ? (item.min < 0 ? item.min - 1 : 0) : 0,
+                            // max: item => y.value === "windDirection" ?
                             nameTextStyle: {
                                 align: "left"
                             },
