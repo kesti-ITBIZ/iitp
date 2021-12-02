@@ -133,7 +133,6 @@
                     await new Promise(resolve => alert("검색할 지점명 또는 주소를 입력하세요.", resolve));
                 else if (this.prevKeyword !== this.keyword) {
                     const dataQuery = this.$apollo.queries[this.selectedCategory + "StationsByKeyword"];
-                    console.log("dataQuery:", dataQuery);
                     this.prevKeyword = this.keyword;
                     this.pageIndex = 0;
                     dataQuery.skip = false;
@@ -154,7 +153,6 @@
             },
 
             infiniteHandler($state) {
-                console.log("infiniteHandler");
                 this.infiniteState = $state;
 
                 setTimeout(async () => {

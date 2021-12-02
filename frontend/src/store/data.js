@@ -59,26 +59,21 @@ export default {
                 && obj.longitude === station.longitude), 1);
             state.selectedStation = Object.freeze(selectedStation);
         },
-        SET_SEARCHED_STATIONS: (state, stations) => {
-            console.log("stations:", stations);
-            state.searchedStations = Object.freeze(stations);
-        },
-        APPEND_SEARCHED_STATIONS: (state, stations) => {
-            console.log("stations:", stations);
-            state.searchedStations = Object.freeze(state.searchedStations.concat(stations));
-        },
+        SET_SEARCHED_STATIONS: (state, stations) => state.searchedStations = Object.freeze(stations),
+        APPEND_SEARCHED_STATIONS: (state, stations) => state.searchedStations = Object.freeze(state.searchedStations.concat(stations)),
         SET_DATA: (state, { category, data }) => {
             const len = data.length
 
             if (len > 0) {
-                const datetimeUnit = (state.selectedDateType == "date" ? "day" : state.selectedDateType) + "s";
+                // const datetimeUnit = (state.selectedDateType == "date" ? "day" : state.selectedDateType) + "s";
+                const datetimeUnit = "hours";
 
                 const padding = (_data, index, start, end) => {
                     const keys = Object.keys(_data[index]);
                     keys.splice(keys.indexOf("datetime"), 1);
                     keys.splice(keys.indexOf("__typename"), 1);
                     keys.splice(keys.indexOf("stnNm"), 1);
-                    for (let datetime = start; datetime < end; datetime = datetime.add(1, datetimeUnit)) {
+                    for (let datetime = start; datetime <= end; datetime = datetime.add(1, datetimeUnit)) {
                         let item = {
                             datetime,
                             stnNm: _data[index].stnNm,
@@ -97,16 +92,18 @@ export default {
                         padding(data, i, data[i].datetime.add(1, datetimeUnit), data[i + 1].datetime);
                 data.sort((a, b) => a.datetime < b.datetime ? -1 : 1);
 
+                console.log("start datetime diff:", `${state.startDatetime.format("YYYY.MM.DD HH")} ~ ${data[0].datetime.format("YYYY.MM.DD HH")}`, Math.abs(data[0].datetime.diff(state.startDatetime, datetimeUnit)));
                 if (Math.abs(data[0].datetime.diff(state.startDatetime, datetimeUnit)) > 0)
-                    padding(data, 0, state.startDatetime, data[0].datetime);
+                    padding(data, 0, state.startDatetime, data[0].datetime.subtract(1, datetimeUnit));
                 data.sort((a, b) => a.datetime < b.datetime ? -1 : 1);
 
+                console.log("end datetime diff:", `${data[data.length - 1].datetime.format("YYYY.MM.DD HH")} ~ ${state.endDatetime.format("YYYY.MM.DD HH")}`, Math.abs(data[data.length - 1].datetime.diff(state.endDatetime, datetimeUnit)));
                 if (Math.abs(data[data.length - 1].datetime.diff(state.endDatetime, datetimeUnit)) > 0)
-                    padding(data, data.length - 1, data[data.length - 1].datetime, state.endDatetime.add(1, datetimeUnit));
+                    padding(data, data.length - 1, data[data.length - 1].datetime.add(1, datetimeUnit), state.endDatetime);
                 data.sort((a, b) => a.datetime < b.datetime ? -1 : 1);
 
                 state.data = Object.freeze({ ...state.data, [category]: data });
-            }
+            } else state.data = Object.freeze([]);
         }
     },
     actions: {
