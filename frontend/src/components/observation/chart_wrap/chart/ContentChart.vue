@@ -209,10 +209,8 @@
                     && this.data[this.selectedCategory].length > 0
                     && this.xAxis.length > 0
                     && this.yAxis.length > 0
-                    && this.selectedChartType != "table") {
-                    console.log("data:", this.data);
+                    && this.selectedChartType != "table")
                     setTimeout(this.initChart, 0);
-                }
             }
         },
         methods: {

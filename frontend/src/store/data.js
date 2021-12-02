@@ -92,12 +92,10 @@ export default {
                         padding(data, i, data[i].datetime.add(1, datetimeUnit), data[i + 1].datetime);
                 data.sort((a, b) => a.datetime < b.datetime ? -1 : 1);
 
-                console.log("start datetime diff:", `${state.startDatetime.format("YYYY.MM.DD HH")} ~ ${data[0].datetime.format("YYYY.MM.DD HH")}`, Math.abs(data[0].datetime.diff(state.startDatetime, datetimeUnit)));
                 if (Math.abs(data[0].datetime.diff(state.startDatetime, datetimeUnit)) > 0)
                     padding(data, 0, state.startDatetime, data[0].datetime.subtract(1, datetimeUnit));
                 data.sort((a, b) => a.datetime < b.datetime ? -1 : 1);
 
-                console.log("end datetime diff:", `${data[data.length - 1].datetime.format("YYYY.MM.DD HH")} ~ ${state.endDatetime.format("YYYY.MM.DD HH")}`, Math.abs(data[data.length - 1].datetime.diff(state.endDatetime, datetimeUnit)));
                 if (Math.abs(data[data.length - 1].datetime.diff(state.endDatetime, datetimeUnit)) > 0)
                     padding(data, data.length - 1, data[data.length - 1].datetime.add(1, datetimeUnit), state.endDatetime);
                 data.sort((a, b) => a.datetime < b.datetime ? -1 : 1);
