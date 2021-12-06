@@ -32,12 +32,17 @@
         computed: {
             ...mapState({
                 selectedCategory: state => state.observation.selectedCategory,
-                stations: state => state.observation.stations[state.observation.selectedCategory]
+                stations: state => state.observation.stations[state.observation.selectedCategory],
+                selectedSearchOption: state => state.observation.selectedSearchOption
             })
         },
         watch: {
             selectedCategory() {
-                if (!this.maps[this.selectedCategory]) this.initMap();
+                if (this.selectedSearchOption == "map" && this.maps[this.selectedCategory] == null) this.initMap();
+            },
+
+            selectedSearchOption() {
+                if (this.selectedSearchOption == "map" && this.maps[this.selectedCategory] == null) this.initMap();
             }
         },
         ...stationApi,
@@ -49,6 +54,7 @@
             }),
 
             async initMap() {
+                console.log("init map");
                 const map = new KakaoMapUtils(this.$refs[this.selectedCategory + "-map"]);
                 map.setMapType("SKYVIEW");
 
