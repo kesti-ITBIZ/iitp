@@ -52,7 +52,7 @@ public class QKTData extends EntityPathBase<KTData> {
 
     public QKTData(Class<? extends KTData> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.ktDataKey = inits.isInitialized("tbKtDataRawKey") ? new QKTDataKey(forProperty("tbKtDataRawKey")) : null;
+        this.ktDataKey = inits.isInitialized("ktDataKey") ? new QKTDataKey(forProperty("ktDataKey")) : null;
     }
 
 }
