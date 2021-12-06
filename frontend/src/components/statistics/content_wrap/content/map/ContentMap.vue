@@ -31,18 +31,13 @@
         }),
         computed: {
             ...mapState({
-                selectedCategory: state => state.observation.selectedCategory,
-                stations: state => state.observation.stations[state.observation.selectedCategory],
-                selectedSearchOption: state => state.observation.selectedSearchOption
+                selectedCategory: state => state.selectedCategory,
+                stations: state => state.stations[state.selectedCategory]
             })
         },
         watch: {
             selectedCategory() {
-                if (this.selectedSearchOption == "map" && this.maps[this.selectedCategory] == null) this.initMap();
-            },
-
-            selectedSearchOption() {
-                if (this.selectedSearchOption == "map" && this.maps[this.selectedCategory] == null) this.initMap();
+                if (!this.maps[this.selectedCategory]) this.initMap();
             }
         },
         ...stationApi,
@@ -54,7 +49,6 @@
             }),
 
             async initMap() {
-                console.log("init map");
                 const map = new KakaoMapUtils(this.$refs[this.selectedCategory + "-map"]);
                 map.setMapType("SKYVIEW");
 

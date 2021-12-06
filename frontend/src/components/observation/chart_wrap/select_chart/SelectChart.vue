@@ -26,8 +26,8 @@
         name: "SelectChart",
         computed: {
             ...mapState({
-                selectedChartType: state => state.selectedChartType,
-                xAxis: state => state[state.selectedCategory].xAxis
+                selectedChartType: state => state.observation.selectedChartType,
+                xAxis: state => state.observation[state.observation.selectedCategory].xAxis
             })
         },
         watch: {
@@ -41,7 +41,7 @@
         },
         methods: {
             ...mapActions({
-                setSelectedChartType: "SET_SELECTED_CHART_TYPE"
+                setSelectedChartType: "SET_OBSERVATION_SELECTED_CHART_TYPE"
             }),
 
             isDisabled(chartType) {

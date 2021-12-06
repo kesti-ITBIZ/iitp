@@ -58,7 +58,7 @@
         }),
         computed: {
             ...mapState({
-                fineParticleRanges: state => state.observation.fineParticleRanges
+                fineParticleRanges: state => state.fineParticleRanges
             })
         },
         methods: {

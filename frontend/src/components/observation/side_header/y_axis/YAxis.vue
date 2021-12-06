@@ -29,7 +29,7 @@
         name: "YAxis",
         computed: {
             ...mapState({
-                yAxis: state => state[state.selectedCategory].yAxis
+                yAxis: state => state.observation[state.observation.selectedCategory].yAxis
             })
         },
         methods: {

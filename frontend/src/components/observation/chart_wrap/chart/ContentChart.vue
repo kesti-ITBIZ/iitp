@@ -53,15 +53,15 @@
         computed: {
             ...mapState({
                 loading: state => state.common.loading,
-                selectedChartType: state => state.selectedChartType,
-                xAxis: state => state[state.selectedCategory].xAxis,
-                yAxis: state => state[state.selectedCategory].yAxis,
-                startDatetime: state => state.startDatetime,
-                endDatetime: state => state.endDatetime,
-                dateTypes: state => state.dateTypes,
-                selectedDateType: state => state.selectedDateType,
-                selectedCategory: state => state.selectedCategory,
-                data: state => state.data
+                selectedChartType: state => state.observation.selectedChartType,
+                xAxis: state => state.observation[state.observation.selectedCategory].xAxis,
+                yAxis: state => state.observation[state.observation.selectedCategory].yAxis,
+                startDatetime: state => state.observation.startDatetime,
+                endDatetime: state => state.observation.endDatetime,
+                dateTypes: state => state.observation.dateTypes,
+                selectedDateType: state => state.observation.selectedDateType,
+                selectedCategory: state => state.observation.selectedCategory,
+                data: state => state.observation.data
             }),
 
             tableData() {

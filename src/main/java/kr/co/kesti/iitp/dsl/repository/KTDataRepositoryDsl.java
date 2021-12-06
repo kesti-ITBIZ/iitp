@@ -45,7 +45,7 @@ public class KTDataRepositoryDsl extends QuerydslRepositorySupport {
                 .on(a.ktDataKey.devId.eq(b.devId))
                 .where(
                         a.ktDataKey.equipDate.between(startDatetime, endDatetime)
-                        .and(a.ktDataKey.devId.eq(stnNm)))
+                        .and(b.devNm.eq(stnNm)))
                 .fetch();
     }
 }

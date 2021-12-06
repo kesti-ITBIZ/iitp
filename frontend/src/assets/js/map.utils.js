@@ -122,6 +122,10 @@ export default class KakaoMapUtils {
         });
     }
 
+    relayout() {
+        this.map.relayout();
+    }
+
     addMarkerEventListener(eventListener, callback) {
         this.clusterer._markers.forEach(marker => kakao.maps.event.addListener(marker, eventListener, () => {
             const position = marker.getPosition();

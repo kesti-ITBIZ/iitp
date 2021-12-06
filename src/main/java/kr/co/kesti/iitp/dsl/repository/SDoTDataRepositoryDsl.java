@@ -43,7 +43,7 @@ public class SDoTDataRepositoryDsl extends QuerydslRepositorySupport {
                 .where(
                         a.sDoTDataKey.registTime.between(startDatetime, endDatetime)
                         .and(a.sDoTDataKey.modelSr.eq(stnNm))
-                        .and(a.sDoTDataKey.div.eq((short) 1)))
+                        .and(a.sDoTDataKey.div.eq((short) 3)))
                 .fetch();
     }
 }

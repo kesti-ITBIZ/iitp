@@ -38,29 +38,29 @@ export default {
 
     },
     mutations: {
-        SET_SELECTED_SEARCH_OPTION: (state, option) => state.selectedSearchOption = option,
-        SET_SELECTED_CATEGORY: (state, category) => state.selectedCategory = category,
+        SET_SELECTED_SEARCH_OPTION: (state, option) => state.observation.selectedSearchOption = option,
+        SET_SELECTED_CATEGORY: (state, category) => state.observation.selectedCategory = category,
         ADD_STATIONS: (state, stations) => {
-            const _stations = { ...state.stations };
-            _stations[state.selectedCategory] = Object.freeze(_stations[state.selectedCategory].concat(stations));
-            state.stations = Object.freeze(_stations);
+            const _stations = { ...state.observation.stations };
+            _stations[state.observation.selectedCategory] = Object.freeze(_stations[state.observation.selectedCategory].concat(stations));
+            state.observation.stations = Object.freeze(_stations);
         },
         SET_SELECTED_STATION: (state, { category, station }) => {
-            const selectedStation = { ...state.selectedStation };
+            const selectedStation = { ...state.observation.selectedStation };
             selectedStation[category] = [station];
-            state.selectedStation = Object.freeze(selectedStation);
+            state.observation.selectedStation = Object.freeze(selectedStation);
         },
         REMOVE_SELECTED_STATION: (state, { category, station }) => {
-            const selectedStation = { ...state.selectedStation };
+            const selectedStation = { ...state.observation.selectedStation };
             selectedStation[category].splice(selectedStation[category].findIndex(obj =>
                 obj.name === station.name
                 && obj.address === station.address
                 && obj.latitude === station.latitude
                 && obj.longitude === station.longitude), 1);
-            state.selectedStation = Object.freeze(selectedStation);
+            state.observation.selectedStation = Object.freeze(selectedStation);
         },
-        SET_SEARCHED_STATIONS: (state, stations) => state.searchedStations = Object.freeze(stations),
-        APPEND_SEARCHED_STATIONS: (state, stations) => state.searchedStations = Object.freeze(state.searchedStations.concat(stations)),
+        SET_SEARCHED_STATIONS: (state, stations) => state.observation.searchedStations = Object.freeze(stations),
+        APPEND_SEARCHED_STATIONS: (state, stations) => state.observation.searchedStations = Object.freeze(state.observation.searchedStations.concat(stations)),
         SET_DATA: (state, { category, data }) => {
             const len = data.length
 
@@ -92,16 +92,16 @@ export default {
                         padding(data, i, data[i].datetime.add(1, datetimeUnit), data[i + 1].datetime);
                 data.sort((a, b) => a.datetime < b.datetime ? -1 : 1);
 
-                if (Math.abs(data[0].datetime.diff(state.startDatetime, datetimeUnit)) > 0)
-                    padding(data, 0, state.startDatetime, data[0].datetime.subtract(1, datetimeUnit));
+                if (Math.abs(data[0].datetime.diff(state.observation.startDatetime, datetimeUnit)) > 0)
+                    padding(data, 0, state.observation.startDatetime, data[0].datetime.subtract(1, datetimeUnit));
                 data.sort((a, b) => a.datetime < b.datetime ? -1 : 1);
 
-                if (Math.abs(data[data.length - 1].datetime.diff(state.endDatetime, datetimeUnit)) > 0)
-                    padding(data, data.length - 1, data[data.length - 1].datetime.add(1, datetimeUnit), state.endDatetime);
+                if (Math.abs(data[data.length - 1].datetime.diff(state.observation.endDatetime, datetimeUnit)) > 0)
+                    padding(data, data.length - 1, data[data.length - 1].datetime.add(1, datetimeUnit), state.observation.endDatetime);
                 data.sort((a, b) => a.datetime < b.datetime ? -1 : 1);
 
-                state.data = Object.freeze({ ...state.data, [category]: data });
-            } else state.data = Object.freeze([]);
+                state.observation.data = Object.freeze({ ...state.observation.data, [category]: data });
+            } else state.observation.data = Object.freeze([]);
         }
     },
     actions: {

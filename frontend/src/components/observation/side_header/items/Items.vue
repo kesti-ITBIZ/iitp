@@ -32,10 +32,10 @@
         name: "Items",
         computed: {
             ...mapState({
-                items: state => state[state.selectedCategory].items,
-                selectedItems: state => state[state.selectedCategory].selectedItems,
-                xAxis: state => state[state.selectedCategory].xAxis,
-                yAxis: state => state[state.selectedCategory].yAxis
+                items: state => state.observation[state.observation.selectedCategory].items,
+                selectedItems: state => state.observation[state.observation.selectedCategory].selectedItems,
+                xAxis: state => state.observation[state.observation.selectedCategory].xAxis,
+                yAxis: state => state.observation[state.observation.selectedCategory].yAxis
             })
         },
         methods: {
