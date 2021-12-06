@@ -39,14 +39,14 @@ export default {
 
     },
     mutations: {
-        SET_START_DATETIME: (state, datetime) => state.startDatetime = datetime,
-        SET_END_DATETIME: (state, datetime) => state.endDatetime = datetime,
-        SET_SELECTED_DATE_TYPE: (state, dateType) => state.selectedDateType = dateType,
-        SET_SELECTED_FINE_PARTICLE_RANGE: (state, range) => state.selectedFineParticleRange = Object.freeze(range)
+        SET_OBSERVATION_START_DATETIME: (state, datetime) => state.observation.startDatetime = datetime,
+        SET_OBSERVATION_END_DATETIME: (state, datetime) => state.observation.endDatetime = datetime,
+        SET_SELECTED_DATE_TYPE: (state, dateType) => state.observation.selectedDateType = dateType,
+        SET_SELECTED_FINE_PARTICLE_RANGE: (state, range) => state.observation.selectedFineParticleRange = Object.freeze(range)
     },
     actions: {
-        SET_START_DATETIME: (context, datetime) => context.commit("SET_START_DATETIME", datetime),
-        SET_END_DATETIME: (context, datetime) => context.commit("SET_END_DATETIME", datetime),
+        SET_OBSERVATION_START_DATETIME: (context, datetime) => context.commit("SET_OBSERVATION_START_DATETIME", datetime),
+        SET_OBSERVATION_END_DATETIME: (context, datetime) => context.commit("SET_OBSERVATION_END_DATETIME", datetime),
         SET_SELECTED_DATE_TYPE: (context, dateType) => context.commit("SET_SELECTED_DATE_TYPE", dateType),
         SET_SELECTED_FINE_PARTICLE_RANGE: (context, range) => context.commit("SET_SELECTED_FINE_PARTICLE_RANGE", range)
     }

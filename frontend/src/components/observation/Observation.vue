@@ -42,15 +42,15 @@
         },
         computed: {
             ...mapState({
-                selectedCategory: state => state.selectedCategory,
-                startDatetime: state => state.startDatetime,
-                endDatetime: state => state.endDatetime,
-                stations: state => state.stations[state.selectedCategory],
-                selectedStation: state => state.selectedStation[state.selectedCategory],
-                selectedDateType: state => state.selectedDateType,
-                xAxis: state => state[state.selectedCategory].xAxis,
-                yAxis: state => state[state.selectedCategory].yAxis,
-                selectedFineParticleRange: state => state.selectedFineParticleRange
+                selectedCategory: state => state.observation.selectedCategory,
+                startDatetime: state => state.observation.startDatetime,
+                endDatetime: state => state.observation.endDatetime,
+                stations: state => state.observation.stations[state.observation.selectedCategory],
+                selectedStation: state => state.observation.selectedStation[state.observation.selectedCategory],
+                selectedDateType: state => state.observation.selectedDateType,
+                xAxis: state => state.observation[state.observation.selectedCategory].xAxis,
+                yAxis: state => state.observation[state.observation.selectedCategory].yAxis,
+                selectedFineParticleRange: state => state.observation.selectedFineParticleRange
             })
         },
         ...dataApi,

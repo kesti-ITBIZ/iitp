@@ -20,10 +20,10 @@
         name: "Category",
         computed: {
             ...mapState({
-                searchOptions: state => state.observation.searchOptions,
-                selectedSearchOption: state => state.observation.selectedSearchOption,
-                category: state => state.observation.category,
-                selectedCategory: state => state.observation.selectedCategory
+                searchOptions: state => state.searchOptions,
+                selectedSearchOption: state => state.selectedSearchOption,
+                category: state => state.category,
+                selectedCategory: state => state.selectedCategory
             })
         },
         methods: {

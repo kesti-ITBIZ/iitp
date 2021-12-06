@@ -31,8 +31,8 @@
         }),
         computed: {
             ...mapState({
-                selectedCategory: state => state.observation.selectedCategory,
-                stations: state => state.observation.stations[state.observation.selectedCategory]
+                selectedCategory: state => state.selectedCategory,
+                stations: state => state.stations[state.selectedCategory]
             })
         },
         watch: {

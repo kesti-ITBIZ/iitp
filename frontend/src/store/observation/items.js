@@ -74,67 +74,67 @@ export default {
     },
     mutations: {
         SET_SELECTED_ITEM: (state, item) => {
-            const category = state.selectedCategory;
-            const selectedItems = state[category].selectedItems.concat();
+            const category = state.observation.selectedCategory;
+            const selectedItems = state.observation[category].selectedItems.concat();
             const index = selectedItems.indexOf(item);
             if (index === -1)
                 selectedItems.push(item);
             else selectedItems.splice(index, 1);
-            state[category].selectedItems = Object.freeze(selectedItems);
+            state.observation[category].selectedItems = Object.freeze(selectedItems);
         },
         REMOVE_SELECTED_ITEM: (state, removeItems) => {
-            const category = state.selectedCategory;
-            const items = state[category].items.concat();
+            const category = state.observation.selectedCategory;
+            const items = state.observation[category].items.concat();
             removeItems.forEach(item => {
                 const index = items.findIndex(obj => obj.label === item.label && obj.value === item.value);
                 if (index !== -1) items.splice(index, 1);
             });
-            state[category].items = Object.freeze(items);
+            state.observation[category].items = Object.freeze(items);
         },
-        CLEAR_SELECTED_ITEM: state => state[state.selectedCategory].selectedItems = Object.freeze([]),
+        CLEAR_SELECTED_ITEM: state => state.observation[state.observation.selectedCategory].selectedItems = Object.freeze([]),
         ADD_X_AXIS: (state, items) => {
-            const category = state.selectedCategory;
-            const xAxis = state[category].xAxis.concat();
+            const category = state.observation.selectedCategory;
+            const xAxis = state.observation[category].xAxis.concat();
             items.forEach(item => {
                 if (xAxis.indexOf(item) === -1)
                     xAxis.push(item);
             });
             xAxis.sort();
-            state[category].xAxis = Object.freeze(xAxis);
+            state.observation[category].xAxis = Object.freeze(xAxis);
         },
         REMOVE_X_AXIS: (state, item) => {
-            const category = state.selectedCategory;
-            const xAxis = state[category].xAxis.concat();
+            const category = state.observation.selectedCategory;
+            const xAxis = state.observation[category].xAxis.concat();
             const index = xAxis.findIndex(obj => obj.label === item.label && obj.value === item.value);
             if (index !== -1) {
                 xAxis.splice(index, 1);
-                const items = state[category].items.concat(item);
+                const items = state.observation[category].items.concat(item);
                 items.sort((a, b) => a.seq < b.seq ? -1 : 1);
-                state[category].items = Object.freeze(items);
+                state.observation[category].items = Object.freeze(items);
             }
-            state[category].xAxis = Object.freeze(xAxis);
+            state.observation[category].xAxis = Object.freeze(xAxis);
         },
         ADD_Y_AXIS: (state, items) => {
-            const category = state.selectedCategory;
-            const yAxis = state[category].yAxis.concat();
+            const category = state.observation.selectedCategory;
+            const yAxis = state.observation[category].yAxis.concat();
             items.forEach(item => {
                 if (yAxis.indexOf(item) === -1)
                     yAxis.push(item);
             });
             yAxis.sort();
-            state[category].yAxis = Object.freeze(yAxis);
+            state.observation[category].yAxis = Object.freeze(yAxis);
         },
         REMOVE_Y_AXIS: (state, item) => {
-            const category = state.selectedCategory;
-            const yAxis = state[category].yAxis.concat();
+            const category = state.observation.selectedCategory;
+            const yAxis = state.observation[category].yAxis.concat();
             const index = yAxis.findIndex(obj => obj.label === item.label && obj.value === item.value);
             if (index !== -1) {
                 yAxis.splice(index, 1);
-                const items = state[category].items.concat(item);
+                const items = state.observation[category].items.concat(item);
                 items.sort((a, b) => a.seq < b.seq ? -1 : 1);
-                state[category].items = Object.freeze(items);
+                state.observation[category].items = Object.freeze(items);
             }
-            state[category].yAxis = Object.freeze(yAxis);
+            state.observation[category].yAxis = Object.freeze(yAxis);
         }
     },
     actions: {

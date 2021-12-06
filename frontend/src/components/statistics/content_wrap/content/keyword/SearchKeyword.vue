@@ -88,8 +88,8 @@
         }),
         computed: {
             ...mapState({
-                selectedCategory: state => state.observation.selectedCategory,
-                searchedStations: state => state.observation.searchedStations
+                selectedCategory: state => state.selectedCategory,
+                searchedStations: state => state.searchedStations
             })
         },
         apollo: {

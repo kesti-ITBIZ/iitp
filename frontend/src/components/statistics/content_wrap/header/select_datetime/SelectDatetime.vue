@@ -47,10 +47,10 @@
         name: "SelectDatetime",
         computed: {
             ...mapState({
-                startDatetime: state => state.observation.startDatetime,
-                endDatetime: state => state.observation.endDatetime,
-                dateTypes: state => state.observation.dateTypes,
-                selectedDateType: state => state.observation.selectedDateType
+                startDatetime: state => state.startDatetime,
+                endDatetime: state => state.endDatetime,
+                dateTypes: state => state.dateTypes,
+                selectedDateType: state => state.selectedDateType
             })
         },
         methods: {
