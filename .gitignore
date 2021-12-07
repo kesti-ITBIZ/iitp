@@ -39,15 +39,17 @@ out/
 generated/
 
 .DS_Store
-frontend/node_modules/**
-!frontend/node_modules/@fortawesome/free-soild-svg-icons/faChartNetwork.js
-!frontend/node_modules/@fortawesome/free-soild-svg-icons/faChartNetwork.d.ts
-!frontend/node_modules/@fortawesome/free-soild-svg-icons/faChartScatter.js
-!frontend/node_modules/@fortawesome/free-soild-svg-icons/faChartScatter.d.ts
-!frontend/node_modules/@fortawesome/free-soild-svg-icons/index.js
-!frontend/node_modules/@fortawesome/free-soild-svg-icons/index.es.js
-!frontend/node_modules/@fortawesome/free-soild-svg-icons/index.d.ts
-dist
+**/node_modules/
+!**/node_modules/@fortawesome/free-soild-svg-icons/faChartNetwork.js
+!**/node_modules/@fortawesome/free-soild-svg-icons/faChartNetwork.d.ts
+!**/node_modules/@fortawesome/free-soild-svg-icons/faChartScatter.js
+!**/node_modules/@fortawesome/free-soild-svg-icons/faChartScatter.d.ts
+!**/node_modules/@fortawesome/free-soild-svg-icons/faSpinnerGradient.js
+!**/node_modules/@fortawesome/free-soild-svg-icons/faSpinnerGradient.d.ts
+!**/node_modules/@fortawesome/free-soild-svg-icons/index.js
+!**/node_modules/@fortawesome/free-soild-svg-icons/index.es.js
+!**/node_modules/@fortawesome/free-soild-svg-icons/index.d.ts
+**/dist/
 
 
 # local env files
