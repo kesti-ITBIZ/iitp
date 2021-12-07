@@ -54,7 +54,6 @@
             }),
 
             async initMap() {
-                console.log("init map");
                 const map = new KakaoMapUtils(this.$refs[this.selectedCategory + "-map"]);
                 map.setMapType("SKYVIEW");
 
