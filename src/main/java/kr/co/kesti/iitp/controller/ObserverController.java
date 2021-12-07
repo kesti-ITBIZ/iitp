@@ -31,4 +31,9 @@ public class ObserverController {
     public ResponseEntity<?> getData(@RequestBody final RequestDataVO request) {
         return ResponseEntity.ok(this.observerService.getObserverData(request));
     }
+
+    @GetMapping("/getAvailableDatetimes")
+    public ResponseEntity<?> getAvailableDatetimes() {
+        return ResponseEntity.ok(this.observerService.getObserverAvailableDatetimes());
+    }
 }

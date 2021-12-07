@@ -4,15 +4,19 @@ schema {
 
 type Query {
     airkoreaData(param: DataParam): [AirkoreaData]
+    airkoreaAvailableDatetimes: [String]
     airkoreaStations: [Station]
     airkoreaStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
     ktData(param: DataParam): [KTData]
+    ktAvailableDatetimes: [String]
     ktStations: [Station]
     ktStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
     observerData(param: DataParam): [ObserverData]
+    observerAvailableDatetimes: [String]
     observerStations: [Station]
     observerStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
     sDoTData(param: DataParam): [SDoTData]
+    sDoTAvailableDatetimes: [String]
     sDoTStations: [Station]
     sDoTStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
 }

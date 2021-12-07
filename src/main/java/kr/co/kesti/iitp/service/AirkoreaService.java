@@ -2,6 +2,7 @@ package kr.co.kesti.iitp.service;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import kr.co.kesti.iitp.dsl.repository.AirkoreaDataRepositoryDsl;
+import kr.co.kesti.iitp.repository.AirkoreaDataRepository;
 import kr.co.kesti.iitp.repository.AirkoreaStationRepository;
 import kr.co.kesti.iitp.vo.RequestDataVO;
 import kr.co.kesti.iitp.vo.ResponseAirkoreaDataVO;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 public class AirkoreaService implements GraphQLQueryResolver {
     private final AirkoreaDataRepositoryDsl airkoreaDataRepositoryDsl;
     private final AirkoreaStationRepository airkoreaStationRepository;
+    private final AirkoreaDataRepository airkoreaDataRepository;
 
     public List<ResponseStationVO> getAirkoreaStations() {
         return this.airkoreaStationRepository.findAllBy()
@@ -41,5 +44,11 @@ public class AirkoreaService implements GraphQLQueryResolver {
                 request.getStartDatetime(),
                 request.getEndDatetime(),
                 request.getStnNm());
+    }
+
+    public List<String> getAirkoreaAvailableDatetimes() {
+        final List<String> result = this.airkoreaDataRepository.findDistinctAllByOrderByDatetime();
+        Collections.sort(result);
+        return result;
     }
 }
