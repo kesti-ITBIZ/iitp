@@ -10,12 +10,12 @@
                 <td class="opt-body">
                     <ul class="scroll no-scrollbar">
                         <li :key="i" v-for="(item, i) in items">
-                            <input type="button" :class="[item.value, selectedItems.indexOf(item) != -1 ? 'on' : '']" :value="item.label + (item.unit !== '' ? ` (${item.unit})` : '')" @click.stop="setSelectedItem(item)" />
+                            <input type="button" :class="item.value" :value="item.label + (item.unit !== '' ? ` (${item.unit})` : '')" @click.stop="e => onClickItem(e, item)" />
                         </li>
                     </ul>
-                    <div>
-                        <div><div @click.stop="addX">X</div></div>
-                        <div><div @click.stop="addY">Y</div></div>
+                    <div class="item-tooltip" v-show="showItemTooltip" :style="{ top: itemTooltip.top, left: itemTooltip.left }">
+                        <div @click="addX">X축 추가</div><hr />
+                        <div :class="selectedItem && (selectedItem.value === 'datetime' || selectedItem.value === 'windDirection') ? 'disabled' : ''" @click="addY">Y축 추가</div>
                     </div>
                 </td>
             </tr>
@@ -30,52 +30,59 @@
 
     export default {
         name: "Items",
+        data: () => ({
+            showItemTooltip: false,
+            itemTooltip: {
+                top: 0,
+                left: 0
+            }
+        }),
         computed: {
             ...mapState({
+                selectedCategory: state => state.observation.selectedCategory,
                 items: state => state.observation[state.observation.selectedCategory].items,
-                selectedItems: state => state.observation[state.observation.selectedCategory].selectedItems,
+                selectedItem: state => state.observation[state.observation.selectedCategory].selectedItem,
                 xAxis: state => state.observation[state.observation.selectedCategory].xAxis,
                 yAxis: state => state.observation[state.observation.selectedCategory].yAxis
             })
         },
+        watch: {
+            selectedCategory() {
+                this.showItemTooltip = false;
+            }
+        },
         methods: {
             ...mapActions({
                 setSelectedItem: "SET_SELECTED_ITEM",
-                removeSelectedItem: "REMOVE_SELECTED_ITEM",
-                clearSelectedItem: "CLEAR_SELECTED_ITEM",
                 addXAxis: "ADD_X_AXIS",
                 removeXAxis: "REMOVE_X_AXIS",
                 addYAxis: "ADD_Y_AXIS"
             }),
 
+            async onClickItem(e, item) {
+                this.itemTooltip = Object.freeze({
+                    top: `${e.layerY + 2}px !important`,
+                    left: `${e.layerX + 2}px !important`
+                });
+                await this.setSelectedItem(item);
+                this.showItemTooltip = this.selectedItem != null;
+            },
+
             async addX() {
-                if (this.selectedItems.length === 0)
-                    await new Promise(resolve => alert("X축에 추가할 항목을 선택해주세요.", resolve));
-                else if (this.selectedItems.length > 1)
-                    await new Promise(resolve => alert("X축 항목은 한 개만 선택해주세요.", resolve));
-                else {
-                    if (this.xAxis.length > 0)
-                        this.removeXAxis(this.xAxis[0]);
-                    this.addXAxis(this.selectedItems);
-                    this.removeSelectedItem(this.selectedItems);
-                    this.clearSelectedItem();
-                }
+                if (this.xAxis.length > 0)
+                    this.removeXAxis(this.xAxis[0]);
+                this.addXAxis(this.selectedItem);
+                await this.setSelectedItem(null);
+                this.showItemTooltip = false;
             },
 
             async addY() {
-                if (this.selectedItems.length === 0)
-                    await new Promise(resolve => alert("Y축에 추가할 항목을 선택해주세요.", resolve));
-                else if (this.selectedItems[0].value == "datetime")
-                    await new Promise(resolve => alert("측정 시간은 X축에만 추가할 수 있습니다.", resolve));
-                else if (this.selectedItems[0].value == "windDirection")
-                    await new Promise(resolve => alert("풍향은 X축에만 추가할 수 있습니다.", resolve));
-                else if (this.selectedItems.length > 2 || this.yAxis.length === 2)
+                if (this.selectedItem.value === "datetime" || this.selectedItem.value === "windDirection") return;
+                if (this.yAxis.length === 2)
                     await new Promise(resolve => alert("Y축 항목은 최대 두 개까지 추가할 수 있습니다.", resolve));
-                else {
-                    await this.addYAxis(this.selectedItems);
-                    await this.removeSelectedItem(this.selectedItems);
-                    await this.clearSelectedItem();
-                }
+                else await this.addYAxis(this.selectedItem);
+                await this.setSelectedItem(null);
+                this.showItemTooltip = false;
             }
         }
     }
