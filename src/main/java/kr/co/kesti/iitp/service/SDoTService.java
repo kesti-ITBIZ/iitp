@@ -2,6 +2,7 @@ package kr.co.kesti.iitp.service;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import kr.co.kesti.iitp.dsl.repository.SDoTDataRepositoryDsl;
+import kr.co.kesti.iitp.repository.SDoTDataRepository;
 import kr.co.kesti.iitp.repository.SDoTStationRepository;
 import kr.co.kesti.iitp.vo.RequestDataVO;
 import kr.co.kesti.iitp.vo.ResponseSDoTDataVO;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 public class SDoTService implements GraphQLQueryResolver {
     private final SDoTDataRepositoryDsl sDoTDataRepositoryDsl;
     private final SDoTStationRepository sDoTStationRepository;
+    private final SDoTDataRepository sDoTDataRepository;
 
     public List<ResponseStationVO> getSDoTStations() {
         return this.sDoTStationRepository.findAllBy()
@@ -53,5 +56,11 @@ public class SDoTService implements GraphQLQueryResolver {
                         .pm25(data.getPm25())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    public List<String> getSDoTAvailableDatetimes() {
+        final List<String> result = this.sDoTDataRepository.findDistinctAllByOrderByDatetime();
+        Collections.sort(result);
+        return result;
     }
 }

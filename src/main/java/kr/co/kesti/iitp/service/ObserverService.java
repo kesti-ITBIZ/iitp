@@ -2,6 +2,7 @@ package kr.co.kesti.iitp.service;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import kr.co.kesti.iitp.dsl.repository.ObserverDataRepositoryDsl;
+import kr.co.kesti.iitp.repository.ObserverDataRepository;
 import kr.co.kesti.iitp.repository.ObserverStationRepository;
 import kr.co.kesti.iitp.vo.RequestDataVO;
 import kr.co.kesti.iitp.vo.ResponseObserverDataVO;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 public class ObserverService implements GraphQLQueryResolver {
     private final ObserverDataRepositoryDsl observerDataRepositoryDsl;
     private final ObserverStationRepository observerStationRepository;
+    private final ObserverDataRepository observerDataRepository;
 
     public List<ResponseStationVO> getObserverStations() {
         return this.observerStationRepository.findAllBy()
@@ -50,5 +53,11 @@ public class ObserverService implements GraphQLQueryResolver {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<String> getObserverAvailableDatetimes() {
+        final List<String> result = this.observerDataRepository.findDistinctAllByOrderByDatetime();
+        Collections.sort(result);
+        return result;
     }
 }

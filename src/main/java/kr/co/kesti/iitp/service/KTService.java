@@ -3,6 +3,7 @@ package kr.co.kesti.iitp.service;
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import kr.co.kesti.iitp.dsl.repository.KTDataRepositoryDsl;
 import kr.co.kesti.iitp.repository.KTStationRepository;
+import kr.co.kesti.iitp.repository.KtDataRepository;
 import kr.co.kesti.iitp.vo.RequestDataVO;
 import kr.co.kesti.iitp.vo.ResponseKTDataVO;
 import kr.co.kesti.iitp.vo.ResponseStationVO;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 public class KTService implements GraphQLQueryResolver {
     private final KTDataRepositoryDsl ktDataRepositoryDsl;
     private final KTStationRepository ktStationRepository;
+    private final KtDataRepository ktDataRepository;
 
     public List<ResponseStationVO> getKtStations() {
         return this.ktStationRepository.findAllBy()
@@ -50,5 +53,11 @@ public class KTService implements GraphQLQueryResolver {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<String> getKtAvailableDatetimes() {
+        final List<String> result = this.ktDataRepository.findDistinctAllByOrderByDatetime();
+        Collections.sort(result);
+        return result;
     }
 }

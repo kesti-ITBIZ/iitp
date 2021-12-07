@@ -31,4 +31,9 @@ public class AirkoreaController {
     public ResponseEntity<?> getData(@RequestBody final RequestDataVO request) {
         return ResponseEntity.ok(this.airkoreaService.getAirkoreaData(request));
     }
+
+    @GetMapping("/getAvailableDatetimes")
+    public ResponseEntity<?> getAvailableDatetimes() {
+        return ResponseEntity.ok(this.airkoreaService.getAirkoreaAvailableDatetimes());
+    }
 }

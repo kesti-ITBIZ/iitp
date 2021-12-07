@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export default {
     state: {
         airkorea: {
@@ -16,7 +18,8 @@ export default {
             })(),
             selectedItems: Object.freeze([]),
             xAxis: Object.freeze([]),
-            yAxis: Object.freeze([])
+            yAxis: Object.freeze([]),
+            available: []
         },
         kt: {
             items: (() => {
@@ -32,7 +35,8 @@ export default {
             })(),
             selectedItems: Object.freeze([]),
             xAxis: Object.freeze([]),
-            yAxis: Object.freeze([])
+            yAxis: Object.freeze([]),
+            available: []
         },
         sDoT: {
             items: (() => {
@@ -50,7 +54,8 @@ export default {
             })(),
             selectedItems: Object.freeze([]),
             xAxis: Object.freeze([]),
-            yAxis: Object.freeze([])
+            yAxis: Object.freeze([]),
+            available: []
         },
         observer: {
             items: (() => {
@@ -66,7 +71,8 @@ export default {
             })(),
             selectedItems: Object.freeze([]),
             xAxis: Object.freeze([]),
-            yAxis: Object.freeze([])
+            yAxis: Object.freeze([]),
+            available: []
         },
     },
     getters: {
@@ -135,6 +141,21 @@ export default {
                 state.observation[category].items = Object.freeze(items);
             }
             state.observation[category].yAxis = Object.freeze(yAxis);
+        },
+        SET_AVAILABLE: (state, { category, available }) => {
+            const format = "YYYY년 MM월 DD일 HH시";
+            let availableDatetimes = available.map(dayjs), availableList = [];
+            for (let i = 0; i < availableDatetimes.length - 1; ++i) {
+                if (i === 0 || (i > 0 && Math.abs(availableDatetimes[i - 1].diff(availableDatetimes[i], "hours")) > 1))
+                    availableList.push([availableDatetimes[i].format(format)]);
+                else availableList[availableList.length - 1].push(availableDatetimes[i].format(format));
+            }
+            if (availableDatetimes.length > 0) {
+                if (Math.abs(availableDatetimes[availableDatetimes.length - 2].diff(availableDatetimes[availableDatetimes.length - 1], "hours")) > 1)
+                    availableList.push([availableDatetimes[availableDatetimes.length - 1].format(format)]);
+                else availableList[availableList.length - 1].push(availableDatetimes[availableDatetimes.length - 1].format(format));
+            }
+            state.observation[category].available = availableList.map(datetimes => datetimes.length === 1 ? datetimes[0] : `${datetimes[0]} ~ ${datetimes[datetimes.length - 1]}`);
         }
     },
     actions: {
@@ -144,6 +165,7 @@ export default {
         ADD_X_AXIS: (context, items) => context.commit("ADD_X_AXIS", items),
         REMOVE_X_AXIS: (context, item) => context.commit("REMOVE_X_AXIS", item),
         ADD_Y_AXIS: (context, items) => context.commit("ADD_Y_AXIS", items),
-        REMOVE_Y_AXIS: (context, item) => context.commit("REMOVE_Y_AXIS", item)
+        REMOVE_Y_AXIS: (context, item) => context.commit("REMOVE_Y_AXIS", item),
+        SET_AVAILABLE: (context, { category, available }) => context.commit("SET_AVAILABLE", { category, available })
     }
 }

@@ -31,4 +31,9 @@ public class KTController {
     public ResponseEntity<?> getData(@RequestBody final RequestDataVO request) {
         return ResponseEntity.ok(this.ktService.getKtData(request));
     }
+
+    @GetMapping("/getAvailableDatetimes")
+    public ResponseEntity<?> getAvailableDatetimes() {
+        return ResponseEntity.ok(this.ktService.getKtAvailableDatetimes());
+    }
 }
