@@ -15,12 +15,8 @@
                     </ul>
                     <div class="item-tooltip" v-show="showItemTooltip" :style="{ top: itemTooltip.top, left: itemTooltip.left }">
                         <div @click="addX">X축 추가</div><hr />
-                        <div :class="selectedItem == 'datetime' || selectedItem == 'windDirection' ? 'disabled' : ''" @click="addY">Y축 추가</div>
+                        <div :class="selectedItem && (selectedItem.value === 'datetime' || selectedItem.value === 'windDirection') ? 'disabled' : ''" @click="addY">Y축 추가</div>
                     </div>
-<!--                    <div>-->
-<!--                        <div><div @click.stop="addX">X</div></div>-->
-<!--                        <div><div @click.stop="addY">Y</div></div>-->
-<!--                    </div>-->
                 </td>
             </tr>
         </tbody>
@@ -43,11 +39,17 @@
         }),
         computed: {
             ...mapState({
+                selectedCategory: state => state.observation.selectedCategory,
                 items: state => state.observation[state.observation.selectedCategory].items,
                 selectedItem: state => state.observation[state.observation.selectedCategory].selectedItem,
                 xAxis: state => state.observation[state.observation.selectedCategory].xAxis,
                 yAxis: state => state.observation[state.observation.selectedCategory].yAxis
             })
+        },
+        watch: {
+            selectedCategory() {
+                this.showItemTooltip = false;
+            }
         },
         methods: {
             ...mapActions({
@@ -75,6 +77,7 @@
             },
 
             async addY() {
+                if (this.selectedItem.value === "datetime" || this.selectedItem.value === "windDirection") return;
                 if (this.yAxis.length === 2)
                     await new Promise(resolve => alert("Y축 항목은 최대 두 개까지 추가할 수 있습니다.", resolve));
                 else await this.addYAxis(this.selectedItem);
