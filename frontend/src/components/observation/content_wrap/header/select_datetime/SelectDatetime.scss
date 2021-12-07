@@ -1,5 +1,6 @@
 #select-datetime {
     td {
+        position: relative;
         border: none !important;
         padding: 0 10px !important;
 
@@ -11,6 +12,53 @@
         &:last-child input.mx-input {
             font-size: 12px;
             height: 30px;
+        }
+
+        svg.fa-question-circle {
+            position: relative;
+            top: 2px;
+            color: #005fb4;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        input[type=button].now-btn {
+            font-weight: normal;
+            background-color: #005fb4;
+            color: white;
+            border: none;
+            padding: 5px 9px;
+            transition: background-color 0.15s;
+
+            &:hover {
+                background-color: #2479c6;
+            }
+            &:active {
+                background-color: #004686;
+            }
+        }
+
+        div.help-tooltip {
+            position: absolute;
+            top: 25px;
+            left: 495px;
+            font-size: 12px;
+            font-weight: normal;
+            background-color: white;
+            color: #444444;
+            z-index: 99999;
+            width: fit-content;
+            border: 1px solid #a5a5a5;
+            padding: 7px;
+
+            ul {
+                margin-top: 5px;
+
+                li {
+                    font-size: 11px;
+                }
+            }
         }
     }
 

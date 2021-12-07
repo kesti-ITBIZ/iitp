@@ -27,7 +27,7 @@
     import { mapState, mapActions } from "vuex";
 
     import { dataApi } from "../../assets/js/api";
-    import { alert } from "../../assets/js/common.utils";
+    import { alert, execAsync } from "../../assets/js/common.utils";
 
     import ContentWrap from "./content_wrap/ContentWrap";
     import SideHeader from "./side_header/SideHeader";
@@ -58,7 +58,8 @@
             ...mapActions({
                 setData: "SET_DATA",
                 setLoadingVisible: "SET_LOADING_VISIBLE",
-                setLoadingInvisible: "SET_LOADING_INVISIBLE"
+                setLoadingInvisible: "SET_LOADING_INVISIBLE",
+                setAvailable: "SET_AVAILABLE"
             }),
 
             async fetchData() {
@@ -80,6 +81,46 @@
                     dataQuery.skip = true;
                 }
             }
+        },
+        mounted() {
+            execAsync(
+                async () => {
+                    const dataQuery = this.$apollo.queries.airkoreaAvailableDatetimes;
+                    dataQuery.skip = false;
+                    await this.setAvailable({
+                        category: "airkorea",
+                        available: await dataQuery.refetch().then(response => response.data.airkoreaAvailableDatetimes)
+                    });
+                    dataQuery.skip = true;
+                },
+                async () => {
+                    const dataQuery = this.$apollo.queries.ktAvailableDatetimes;
+                    dataQuery.skip = false;
+                    await this.setAvailable({
+                        category: "kt",
+                        available: await dataQuery.refetch().then(response => response.data.ktAvailableDatetimes)
+                    });
+                    dataQuery.skip = true;
+                },
+                async () => {
+                    const dataQuery = this.$apollo.queries.observerAvailableDatetimes;
+                    dataQuery.skip = false;
+                    await this.setAvailable({
+                        category: "observer",
+                        available: await dataQuery.refetch().then(response => response.data.observerAvailableDatetimes)
+                    });
+                    dataQuery.skip = true;
+                },
+                async () => {
+                    const dataQuery = this.$apollo.queries.sDoTAvailableDatetimes;
+                    dataQuery.skip = false;
+                    await this.setAvailable({
+                        category: "sDoT",
+                        available: await dataQuery.refetch().then(response => response.data.sDoTAvailableDatetimes)
+                    });
+                    dataQuery.skip = true;
+                }
+            )
         }
     }
 </script>

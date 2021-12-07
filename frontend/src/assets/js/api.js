@@ -126,6 +126,39 @@ export const dataApi = {
                 };
             },
             skip: true
-        }
+        },
+
+        airkoreaAvailableDatetimes: {
+            query: gql`
+                query airkoreaAvailableDatetimes {
+                    airkoreaAvailableDatetimes
+                }
+            `,
+            skip: true
+        },
+        ktAvailableDatetimes: {
+            query: gql`
+                query ktAvailableDatetimes {
+                    ktAvailableDatetimes
+                }
+            `,
+            skip: true
+        },
+        observerAvailableDatetimes: {
+            query: gql`
+                query observerAvailableDatetimes {
+                    observerAvailableDatetimes
+                }
+            `,
+            skip: true
+        },
+        sDoTAvailableDatetimes: {
+            query: gql`
+                query sDoTAvailableDatetimes {
+                    sDoTAvailableDatetimes
+                }
+            `,
+            skip: true
+        },
     }
 }

@@ -23,6 +23,7 @@
                             :type="selectedDateType == 'hour' ? 'datetime' : selectedDateType"
                             :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat"
                             :value="startDatetime.format(dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat)"
+                            :disabled-date="date => date.getTime() > new Date().getTime()"
                             @change="onChangeStartDatetime" />
                     &nbsp;~&nbsp;
                     <date-picker
@@ -30,7 +31,28 @@
                             :type="selectedDateType == 'hour' ? 'datetime' : selectedDateType"
                             :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat"
                             :value="endDatetime.format(dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat)"
+                            :disabled-date="date => date.getTime() > new Date().getTime()"
                             @change="onChangeEndDatetime" />
+                    &nbsp;
+                    <input type="button" class="now-btn" value="NOW" @click="onMoveNowDatetime" />
+                    &nbsp;&nbsp;
+                    <font-awesome-icon size="1x" :icon="['fa' + (isClickedHelpIcon ? 'r' : ''), 'question-circle']" @click="isClickedHelpIcon = !isClickedHelpIcon" />
+                    <div class="help-tooltip" v-show="isClickedHelpIcon && selectedCategory == 'airkorea'">
+                        환경부의 현재 조회 가능한 기간은 다음과 같습니다.
+                        <ul><li :key="i" v-for="(datetime, i) in available">{{ datetime }}</li></ul>
+                    </div>
+                    <div class="help-tooltip" v-show="isClickedHelpIcon && selectedCategory == 'kt'">
+                        KT의 현재 조회 가능한 기간은 다음과 같습니다.
+                        <ul><li :key="i" v-for="(datetime, i) in available">{{ datetime }}</li></ul>
+                    </div>
+                    <div class="help-tooltip" v-show="isClickedHelpIcon && selectedCategory == 'sDoT'">
+                        S-DoT의 현재 조회 가능한 기간은 다음과 같습니다.
+                        <ul><li :key="i" v-for="(datetime, i) in available">{{ datetime }}</li></ul>
+                    </div>
+                    <div class="help-tooltip" v-show="isClickedHelpIcon && selectedCategory == 'observer'">
+                        옵저버의 현재 조회 가능한 기간은 다음과 같습니다.
+                        <ul><li :key="i" v-for="(datetime, i) in available">{{ datetime }}</li></ul>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -45,12 +67,17 @@
 
     export default {
         name: "SelectDatetime",
+        data: () => ({
+            isClickedHelpIcon: false
+        }),
         computed: {
             ...mapState({
+                selectedCategory: state => state.observation.selectedCategory,
                 startDatetime: state => state.observation.startDatetime,
                 endDatetime: state => state.observation.endDatetime,
                 dateTypes: state => state.observation.dateTypes,
-                selectedDateType: state => state.observation.selectedDateType
+                selectedDateType: state => state.observation.selectedDateType,
+                available: state => state.observation[state.observation.selectedCategory].available
             })
         },
         methods: {
@@ -90,6 +117,11 @@
                 if (datetime < this.startDatetime.format(dayjsToStringFormat))
                     await new Promise(resolve => alert("잘못된 시간대 입력입니다.", resolve));
                 else await this.setEndDatetime(dayjs(datetime, stringToDayjsFormat));
+            },
+
+            onMoveNowDatetime() {
+                this.setStartDatetime(dayjs());
+                this.setEndDatetime(dayjs());
             }
         }
     }
