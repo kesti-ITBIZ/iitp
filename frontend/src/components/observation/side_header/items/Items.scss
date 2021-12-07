@@ -5,6 +5,7 @@
     }
 
     .opt-body {
+        position: relative;
         border-top: 1px solid #a5a5a5;
 
         input[type=button] {
@@ -57,6 +58,39 @@
                     color: white;
                     border-color: #7f7f7f;
                 }
+            }
+        }
+
+        div.item-tooltip {
+            position: absolute;
+            flex-direction: column;
+            background-color: white;
+            border: 1px solid #a5a5a5;
+            opacity: 1;
+            z-index: 999;
+
+            > div {
+                display: block;
+                font-size: 13px;
+                width: 80px;
+                padding: 7px 15px !important;
+                cursor: pointer;
+                transition: background-color 0.15s, color 0.15s, opacity 0.15s;
+
+                &:hover {
+                    background-color: #2e85cb;
+                    color: white;
+                }
+
+                &.disabled {
+                    color: #b3b3b3;
+                    background-color: white;
+                    cursor: default;
+                }
+            }
+
+            > hr {
+                margin: 0;
             }
         }
 

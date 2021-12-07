@@ -1,5 +1,5 @@
 <template>
-    <div id="layout" class="text-no-drag" :style="{ backgroundColor: 'white' }" @click="clearSelectedItem">
+    <div id="layout" class="text-no-drag" :style="{ backgroundColor: 'white' }">
         <router-view />
         <alert v-show="alert.show"
                :title="alert.title"
@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import { mapState, mapActions } from "vuex";
+    import { mapState } from "vuex";
 
     import Alert from "./components/observation/common/alert/Alert";
 
@@ -21,11 +21,6 @@
         computed: {
             ...mapState({
                 alert: state => state.common.alert
-            })
-        },
-        methods: {
-            ...mapActions({
-                clearSelectedItem: "CLEAR_SELECTED_ITEM"
             })
         }
     }
