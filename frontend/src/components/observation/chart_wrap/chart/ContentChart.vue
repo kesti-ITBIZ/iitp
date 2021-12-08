@@ -269,9 +269,6 @@
                             text: this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0 ? this.data[this.selectedCategory][0].stnNm : "",
                             left: 50
                         },
-                        grid: {
-                            // height: 500
-                        },
                         tooltip: {
                             formatter: data => `항목: ${data.seriesName}<br />X: ${data.name}<br />Y: ${Math.round(data.value * 100) / 100}`
                         },
@@ -298,21 +295,35 @@
                                 show: true
                             }
                         },
-                        yAxis: this.yAxis.map(y => ({
-                            type: "value",
-                            name: `${y.label} (${y.unit})`,
-                            min: item => y.value === "temperature" ? (item.min < 0 ? item.min - 1 : 0) : 0,
-                            // max: item => y.value === "windDirection" ?
-                            nameTextStyle: {
-                                align: "left"
-                            },
-                            axisLabel: {
-                                formatter: `{value}`
-                            },
-                            splitLine: {
-                                show: true
-                            }
-                        })),
+                        yAxis: this.yAxis.findIndex(y => y.value === "pm10") !== -1 && this.yAxis.findIndex(y => y.value === "pm25") !== -1 ?
+                            {
+                                type: "value",
+                                name: this.yAxis.map(y => `${y.label} (${y.unit})`).join(", "),
+                                min: 0,
+                                nameTextStyle: {
+                                    align: "left"
+                                },
+                                axisLabel: {
+                                    formatter: `{value}`
+                                },
+                                splitLine: {
+                                    show: true
+                                }
+                            } :
+                            this.yAxis.map(y => ({
+                                type: "value",
+                                name: `${y.label} (${y.unit})`,
+                                min: item => y.value === "temperature" ? (item.min < 0 ? item.min - 1 : 0) : 0,
+                                nameTextStyle: {
+                                    align: "left"
+                                },
+                                axisLabel: {
+                                    formatter: `{value}`
+                                },
+                                splitLine: {
+                                    show: true
+                                }
+                            })),
                         series: this.yAxis.map((obj, i) => {
                             switch (this.selectedChartType) {
                             case "line":
@@ -320,15 +331,15 @@
                                     name: obj.label,
                                     data: this.chartData[i],
                                     type: "line",
-                                    yAxisIndex: i,
-                                    showSymbol: false
+                                    ...(this.yAxis.findIndex(y => y.value === "pm10") !== -1 && this.yAxis.findIndex(y => y.value === "pm25") !== -1 ? null : { yAxisIndex: i }),
+                                    showSymbol: true
                                 };
                             case "bar":
                                 return {
                                     name: obj.label,
                                     data: this.chartData[i],
                                     type: "bar",
-                                    yAxisIndex: i,
+                                    ...(this.yAxis.findIndex(y => y.value === "pm10") !== -1 && this.yAxis.findIndex(y => y.value === "pm25") !== -1 ? null : { yAxisIndex: i }),
                                     showSymbol: false
                                 };
                             case "area":
@@ -336,7 +347,7 @@
                                     name: obj.label,
                                     data: this.chartData[i],
                                     type: "line",
-                                    yAxisIndex: i,
+                                    ...(this.yAxis.findIndex(y => y.value === "pm10") !== -1 && this.yAxis.findIndex(y => y.value === "pm25") !== -1 ? null : { yAxisIndex: i }),
                                     showSymbol: false,
                                     areaStyle: {}
                                 };
@@ -345,7 +356,7 @@
                                     name: obj.label,
                                     data: this.chartData[i],
                                     type: "scatter",
-                                    yAxisIndex: i,
+                                    ...(this.yAxis.findIndex(y => y.value === "pm10") !== -1 && this.yAxis.findIndex(y => y.value === "pm25") !== -1 ? null : { yAxisIndex: i }),
                                     showSymbol: false
                                 };
                             }
