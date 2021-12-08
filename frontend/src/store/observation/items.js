@@ -5,7 +5,6 @@ export default {
         airkorea: {
             items: (() => {
                 let items = [
-                    { label: "측정 시간", value: "datetime", unit: "" },
                     { label: "SO2", value: "so2", unit: "ppm" },
                     { label: "CO", value: "co", unit: "ppm" },
                     { label: "O3", value: "o3", unit: "ppm" },
@@ -13,35 +12,33 @@ export default {
                     { label: "PM10", value: "pm10", unit: "㎍/㎥" },
                     { label: "PM2.5", value: "pm25", unit: "㎍/㎥" }
                 ];
-                for (let i = 0; i < items.length; ++i) items[i]["seq"] = i;
+                for (let i = 0; i < items.length; ++i) items[i]["seq"] = i + 1;
                 return Object.freeze(items);
             })(),
             selectedItem: null,
-            xAxis: Object.freeze([]),
+            xAxis: Object.freeze([{ label: "측정 시간", seq: 0, value: "datetime", unit: "" }]),
             yAxis: Object.freeze([]),
             available: []
         },
         kt: {
             items: (() => {
                 let items = [
-                    { label: "측정 시간", value: "datetime", unit: "" },
                     { label: "기온", value: "temperature", unit: "℃" },
                     { label: "습도", value: "humidity", unit: "%" },
                     { label: "PM10", value: "pm10", unit: "㎍/㎥" },
                     { label: "PM2.5", value: "pm25", unit: "㎍/㎥" }
                 ];
-                for (let i = 0; i < items.length; ++i) items[i]["seq"] = i;
+                for (let i = 0; i < items.length; ++i) items[i]["seq"] = i + 1;
                 return Object.freeze(items);
             })(),
             selectedItem: null,
-            xAxis: Object.freeze([]),
+            xAxis: Object.freeze([{ label: "측정 시간", seq: 0, value: "datetime", unit: "" }]),
             yAxis: Object.freeze([]),
             available: []
         },
         sDoT: {
             items: (() => {
                 let items = [
-                    { label: "측정 시간", value: "datetime", unit: "" },
                     { label: "풍향", value: "windDirection", unit: "˚" },
                     { label: "기온", value: "temperature", unit: "℃" },
                     { label: "상대습도", value: "relativeHumidity", unit: "%" },
@@ -49,28 +46,27 @@ export default {
                     { label: "PM10", value: "pm10", unit: "㎍/㎥" },
                     { label: "PM2.5", value: "pm25", unit: "㎍/㎥" }
                 ];
-                for (let i = 0; i < items.length; ++i) items[i]["seq"] = i;
+                for (let i = 0; i < items.length; ++i) items[i]["seq"] = i + 1;
                 return Object.freeze(items);
             })(),
             selectedItem: null,
-            xAxis: Object.freeze([]),
+            xAxis: Object.freeze([{ label: "측정 시간", seq: 0, value: "datetime", unit: "" }]),
             yAxis: Object.freeze([]),
             available: []
         },
         observer: {
             items: (() => {
                 let items = [
-                    { label: "측정 시간", value: "datetime", unit: "" },
                     { label: "기온", value: "temperature", unit: "℃" },
                     { label: "습도", value: "humidity", unit: "%" },
                     { label: "기압", value: "pressure", unit: "㎩" },
                     { label: "PM2.5", value: "pm25", unit: "㎍/㎥" }
                 ];
-                for (let i = 0; i < items.length; ++i) items[i]["seq"] = i;
+                for (let i = 0; i < items.length; ++i) items[i]["seq"] = i + 1;
                 return Object.freeze(items);
             })(),
             selectedItem: null,
-            xAxis: Object.freeze([]),
+            xAxis: Object.freeze([{ label: "측정 시간", seq: 0, value: "datetime", unit: "" }]),
             yAxis: Object.freeze([]),
             available: []
         },
