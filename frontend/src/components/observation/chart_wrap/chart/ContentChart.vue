@@ -270,7 +270,10 @@
                             left: 50
                         },
                         tooltip: {
-                            formatter: data => `항목: ${data.seriesName}<br />X: ${data.name}<br />Y: ${Math.round(data.value * 100) / 100}`
+                            formatter: data => {
+                                console.log(data.value);
+                                return `항목: ${data.seriesName}<br />X: ${data.name}<br />Y: ${this.xAxis[0].value === "datetime" ? data.value : Math.round(data.value[1] * 100) / 100}`;
+                            }
                         },
                         toolbox: {
                             feature: {
