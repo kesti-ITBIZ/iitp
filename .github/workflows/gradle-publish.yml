@@ -2,7 +2,7 @@ name: IITP
 
 on:
   push:
-    branches: [main]
+    branches: [dev]
   release:
     types: [created]
 
@@ -19,20 +19,26 @@ jobs:
           username: ${{ secrets.REMOTE_IITP_SSH_USERNAME }}
           password: ${{ secrets.REMOTE_IITP_SSH_PASSWORD }}
           script: |
+            DEPLOY_PORT=8888
             cd /home/iitp
+            if [ -d iitp ]; then rm -rf iitp; fi
             git clone https://github.com/kesti-ITBIZ/iitp.git
-            cd iitp
-            git checkout main
-            cd frontend
+            cd iitp/frontend
             npm i
             cp ./font-awesome-pro-icons/* ./node_modules/@fortawesome/free-solid-svg-icons
             npm run build
             cd ..
-            chmod +x gradlew
+            chmod +x ./gradlew
             ./gradlew bootWar
-            docker stop iitp
-            docker rm iitp
-            docker rmi tomcat/iitp
-            docker build -t tomcat/iitp:latest .
+            if [ `docker ps | grep -c 'tomcat/iitp'` != 0 ]; then
+              docker stop iitp
+              docker rm iitp
+            fi
+            if [ `docker images | grep -c 'tomcat/iitp'` != 0 ]; then
+              docker rmi tomcat/iitp
+            fi
+            docker build -t tomcat/iitp .
             docker rmi java:8
-            docker run -d --name iitp -p 8888:9200 tomcat/iitp:latest
+            docker run -d --name iitp -p $DEPLOY_PORT:9200 tomcat/iitp
+            cd ..
+            if [ -d iitp ]; then rm -rf iitp; fi
