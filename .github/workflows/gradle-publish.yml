@@ -27,8 +27,10 @@ jobs:
             npm i
             npm run build
             cd ..
+            chmod +x ./gradlew
             ./gradlew bootWar
             docker build -t tomcat/iitp:latest .
+            docker rmi java:8
             docker run -d --name iitp -p 9200:9200 tomcat/iitp:latest
             cd ..
             rm -rf iitp
