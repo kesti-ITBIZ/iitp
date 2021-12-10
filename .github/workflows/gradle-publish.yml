@@ -21,8 +21,9 @@ jobs:
           script: |
             cd /home/iitp
             git clone https://github.com/kesti-ITBIZ/iitp.git
+            cd ./iitp
             git checkout main
-            cd frontend
+            cd ./frontend
             npm i
             npm run build
             cd ..
