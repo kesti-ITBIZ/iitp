@@ -2,7 +2,7 @@ name: IITP
 
 on:
   push:
-    branches: [dev]
+    branches: [main]
   release:
     types: [created]
 
