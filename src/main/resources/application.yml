@@ -5,7 +5,7 @@ spring:
     name: IITP
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://127.0.0.1:5432/pm10
+    url: jdbc:postgresql://211.55.33.242:5432/pm10
     username: postgres
     password: test123
   jpa:
