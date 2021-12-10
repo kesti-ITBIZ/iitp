@@ -33,6 +33,7 @@
     "xlsx": "^0.17.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.16.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
