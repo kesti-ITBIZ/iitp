@@ -29,8 +29,11 @@ jobs:
             cd ..
             chmod +x gradlew
             ./gradlew bootWar
+            docker stop iitp
+            docker rm iitp
+            docker rmi tomcat/iitp
             docker build -t tomcat/iitp:latest .
             docker rmi java:8
-            docker run -d --name iitp -p 9200:9200 tomcat/iitp:latest
+            docker run -d --name iitp -p 8888:9200 tomcat/iitp:latest
             cd ..
             rm -rf iitp
