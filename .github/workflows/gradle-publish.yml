@@ -24,11 +24,11 @@ jobs:
       - name: Change directory to frontend
         run: cd frontend
 
-      - name: Build front-end codes
+      - name: Node
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-        run: npm run build
+      - run: npm run build
 
       - name: Change to parent directory
         run: cd ..
