@@ -9,7 +9,7 @@ name: IITP
 
 on:
   push:
-    branches: [main]
+    branches: [dev]
   release:
     types: [created]
 
@@ -23,7 +23,7 @@ jobs:
       - name: Node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16'
 
       - name: Change directory to frontend
         run: |
