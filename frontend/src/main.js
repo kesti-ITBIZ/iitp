@@ -12,7 +12,6 @@ import {
     faChartArea,
     faChartPie,
     faChartScatter,
-    faChartNetwork,
     faTable,
     faFileDownload,
     faQuestionCircle
@@ -28,7 +27,6 @@ library.add(
     faChartArea,
     faChartPie,
     faChartScatter,
-    faChartNetwork,
     faTable,
     faFileDownload,
     faQuestionCircle,
