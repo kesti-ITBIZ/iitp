@@ -27,5 +27,6 @@ jobs:
 
       - name: Change directory to frontend
         run: |
+          npm i -g @vue/cli
           cd frontend
           npm run build
