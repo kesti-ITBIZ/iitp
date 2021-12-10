@@ -45,9 +45,7 @@ generated/
 frontend/node_modules/@fortawesome/**
 !frontend/node_modules/@fortawesome/free-*-svg-icons/
 frontend/node_modules/@fortawesome/free-*-svg-icons/*
-!frontend/node_modules/@fortawesome/free-solid-svg-icons/faChartNetwork.*
 !frontend/node_modules/@fortawesome/free-solid-svg-icons/faChartScatter.*
-!frontend/node_modules/@fortawesome/free-solid-svg-icons/faSpinnerGradient.*
 !frontend/node_modules/@fortawesome/free-solid-svg-icons/index.*
 **/dist/
 
