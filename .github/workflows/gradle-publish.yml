@@ -35,5 +35,3 @@ jobs:
             docker build -t tomcat/iitp:latest .
             docker rmi java:8
             docker run -d --name iitp -p 8888:9200 tomcat/iitp:latest
-            cd ..
-            rm -rf iitp
