@@ -25,6 +25,7 @@ jobs:
             git checkout main
             cd frontend
             npm i
+            cp ./font-awesome-pro-icons/* ./node_modules/@fortawesome/free-solid-svg-icons
             npm run build
             cd ..
             chmod +x gradlew
