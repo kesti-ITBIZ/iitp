@@ -1,6 +1,6 @@
 export default {
     state: {
-        selectedChartType: ""
+        selectedChartType: "line"
     },
     getters: {
 
