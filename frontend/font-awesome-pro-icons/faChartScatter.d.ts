@@ -1,6 +1,6 @@
 import { IconDefinition, IconPrefix, IconName } from "@fortawesome/fontawesome-common-types";
 export const definition: IconDefinition;
-export const faSpinnerGradient: IconDefinition;
+export const faChartScatter: IconDefinition;
 export const prefix: IconPrefix;
 export const iconName: IconName;
 export const width: number;
