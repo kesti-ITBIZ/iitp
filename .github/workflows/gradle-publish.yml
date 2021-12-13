@@ -24,7 +24,7 @@ jobs:
             if [ -d iitp ]; then rm -rf iitp; fi
             git clone https://github.com/kesti-ITBIZ/iitp.git
             cd iitp
-            git checkout dev
+            git checkout test
             cd frontend
             npm i
             cp ./font-awesome-pro-icons/* ./node_modules/@fortawesome/free-solid-svg-icons
@@ -33,14 +33,14 @@ jobs:
             chmod +x ./gradlew
             ./gradlew bootWar
             if [ `docker ps | grep -c 'tomcat/iitp:beta'` != 0 ]; then
-              docker stop iitp-dev
-              docker rm iitp-dev
+              docker stop iitp-test
+              docker rm iitp-test
             fi
             if [ `docker images | grep -c 'tomcat/iitp:beta'` != 0 ]; then
-              docker rmi tomcat/iitp:beta
+              docker rmi tomcat/iitp:test
             fi
             docker build -t tomcat/iitp:beta .
             docker rmi java:8
-            docker run -d --name iitp-dev -p $DEPLOY_PORT:9200 tomcat/iitp:beta
+            docker run -d --name iitp-test -p $DEPLOY_PORT:9200 tomcat/iitp:beta
             cd ..
             if [ -d iitp ]; then rm -rf iitp; fi
