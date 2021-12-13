@@ -7,7 +7,10 @@
         </ul>
         <ul>
             <li :key="i" v-for="(obj, i) in category">
-                <input type="button" :class="selectedCategory == obj.value ? 'on' : ''" :value="obj.label" @click="setSelectedCategory(obj.value)" />
+                <button :class="[selectedCategory == obj.value ? 'on' : '']" @click="setSelectedCategory(obj.value)">
+                    <span :class="obj.value"></span>
+                    <span>{{ obj.label }}</span>
+                </button>
             </li>
         </ul>
     </div>

@@ -48,6 +48,41 @@
     src: url('./assets/font/NanumSquare_acB.ttf') format('truetype');
 }
 
+@font-face {
+    font-family: 'NanumSquare_ac Extra Bold';
+    src: url('./assets/font/NanumSquare_acEB.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumSquare_ac Light';
+    src: url('./assets/font/NanumSquare_acL.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumSquare_ac Regular';
+    src: url('./assets/font/NanumSquare_acR.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumSquare Bold';
+    src: url('./assets/font/NanumSquareB.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumSquare Extra Bold';
+    src: url('./assets/font/NanumSquareEB.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumSquare Light';
+    src: url('./assets/font/NanumSquareL.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumSquare Regular';
+    src: url('./assets/font/NanumSquareR.ttf') format('truetype');
+}
+
 html, body {
     height: 100%;
     margin: 0;

@@ -4,8 +4,8 @@ export default {
     state: {
         category: Object.freeze([
             { label: "환경부", value: "airkorea" },
-            { label: "KT", value: "kt" },
-            { label: "S-DoT", value: "sDoT" },
+            { label: "KT AirMap", value: "kt" },
+            { label: "서울시", value: "sDoT" },
             { label: "옵저버", value: "observer" }
         ]),
         selectedCategory: "airkorea",

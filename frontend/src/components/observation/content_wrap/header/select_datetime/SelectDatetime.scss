@@ -1,4 +1,6 @@
 #select-datetime {
+    padding: 20px 0;
+
     td {
         position: relative;
         border: none !important;
@@ -10,8 +12,14 @@
         }
 
         &:last-child input.mx-input {
-            font-size: 12px;
+            font: 13px 'NanumSquare Bold';
             height: 30px;
+            border-color: #9c9c9c;
+            transform: rotate(0.03deg);
+
+            &:hover {
+                border: 1px solid #409aff;
+            }
         }
 
         svg.fa-question-circle {
@@ -65,13 +73,14 @@
     select {
         position: relative;
         top: -1px;
-        font-size: 12px;
+        font: 12px 'NanumSquare Bold';
         width: 100px;
         height: 30px;
         border: 1px solid #9c9c9c;
         border-radius: 0;
         padding: 5.5px;
         cursor: pointer;
+        transform: rotate(0.03deg);
 
         &:hover {
             border: 1px solid #409aff;
