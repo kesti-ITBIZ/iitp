@@ -19,7 +19,7 @@ jobs:
           username: ${{ secrets.REMOTE_IITP_SSH_USERNAME }}
           password: ${{ secrets.REMOTE_IITP_SSH_PASSWORD }}
           script: |
-            DEPLOY_PORT=9200
+            DEPLOY_PORT=9100
             cd /home/iitp
             if [ -d iitp ]; then rm -rf iitp; fi
             git clone https://github.com/kesti-ITBIZ/iitp.git
