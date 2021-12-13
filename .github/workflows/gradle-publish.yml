@@ -24,7 +24,7 @@ jobs:
             if [ -d iitp ]; then rm -rf iitp; fi
             git clone https://github.com/kesti-ITBIZ/iitp.git
             cd iitp
-            git branch dev
+            git checkout dev
             cd frontend
             npm i
             cp ./font-awesome-pro-icons/* ./node_modules/@fortawesome/free-solid-svg-icons
