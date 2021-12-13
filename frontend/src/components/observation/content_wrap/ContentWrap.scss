@@ -7,12 +7,8 @@
         text-align: left;
         width: calc(100% - 1px);
         height: 120px !important;
-        border: {
-            top: 1px solid #a5a5a5;
-            left: 1px solid #a5a5a5;
-            right: 1px solid #a5a5a5;
-        };
         margin: 0;
+        padding: 10px;
 
         > div {
             height: 100%;
@@ -23,21 +19,41 @@
             }
         }
 
-        table {
-            border-collapse: collapse;
-            border: none !important;
+        > div {
+            background-color: white;
+            height: calc(100% - 30px);
+            box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
 
-            th {
+            > table {
                 border-collapse: collapse;
-                border: none !important;
-                text-align: left;
+
+                thead tr {
+                    th {
+                        border-collapse: collapse;
+                        border: none !important;
+                        text-align: left;
+                    }
+
+                    &:first-child th {
+                        padding: 20px 0;
+                    }
+                }
             }
         }
     }
 
     .map {
-        height: 100%;
-        border: 1px solid #a5a5a5;
+        height: calc(100% - 20px);
+        border-radius: 10px;
+        padding: 10px;
+
+        > * {
+            box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
     }
 
     > tbody > tr:last-child > td {

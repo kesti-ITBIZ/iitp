@@ -16,8 +16,9 @@ $color: #0094c4;
             margin: 0 auto;
 
             + div {
-                font-size: 12px;
+                font: 16px 'NanumSquare Bold';
                 padding-top: 10px;
+                transform: rotate(0.03deg);
             }
         }
 

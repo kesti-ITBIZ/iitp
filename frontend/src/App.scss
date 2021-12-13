@@ -1,11 +1,12 @@
 #layout {
     display: flex;
-    font-family: "NotoSansKR Medium", serif;
+    font-family: 'NanumSquare_ac Regular', serif;
+    background-color: #f9f9f9 !important;
     height: calc(100% - 20px);
     padding: 10px;
 
     select, input {
-        font-family: "NotoSansKR Medium", serif;
+        font-family: 'NanumSquare_ac Regular', serif;
     }
 
     input[type=button] {
