@@ -30,7 +30,7 @@ export default class KakaoMapUtils {
 
             const script = document.createElement("script");
             script.onload = () => kakao.maps.load(mapInit);
-            script.src = "http://dapi.kakao.com/v2/maps/sdk.js?appkey=70577d992680982a29613694fba5407f&libraries=services,clusterer,drawing";
+            script.src = "http://dapi.kakao.com/v2/maps/sdk.js?appkey=5baf2658eb6ff4b1384697fbc66d2030&libraries=services,clusterer,drawing";
             document.head.appendChild(script);
         })();
     }
