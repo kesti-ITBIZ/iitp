@@ -37,9 +37,9 @@ jobs:
               docker rm iitp-test
             fi
             if [ `docker images | grep -c 'tomcat/iitp:beta'` != 0 ]; then
-              docker rmi tomcat/iitp:test
+              docker rmi tomcat/iitp:beta
             fi
-            docker build -t tomcat/iitp:release .
+            docker build -t tomcat/iitp:beta .
             docker rmi java:8
             docker run -d --name iitp-test -p $DEPLOY_PORT:9200 tomcat/iitp:beta
             cd ..
