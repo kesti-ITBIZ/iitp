@@ -23,6 +23,7 @@ jobs:
             cd /home/iitp
             if [ -d iitp ]; then rm -rf iitp; fi
             git clone https://github.com/kesti-ITBIZ/iitp.git
+            cp .iitp/datasource.yml iitp/src/main/resources
             cd iitp
             git checkout test
             cd frontend
