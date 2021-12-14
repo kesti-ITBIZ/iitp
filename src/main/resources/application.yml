@@ -2,7 +2,7 @@ server:
   port: 9200
 spring:
   config:
-    import: file:/home/iitp/.iitp/datasource.yml
+    import: file:///home/iitp/.iitp/datasource.yml
   application:
     name: IITP
   datasource:
