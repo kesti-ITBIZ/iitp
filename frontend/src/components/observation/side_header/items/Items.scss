@@ -1,132 +1,160 @@
 #items {
-    .opt-head {
-        font-size: 12px;
-        border-top: 1px solid #a5a5a5;
-    }
+    height: calc(100% - 20px);
+    padding: 10px;
 
-    .opt-body {
-        position: relative;
-        border-top: 1px solid #a5a5a5;
+    > div {
+        box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+        height: 100%;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
 
-        input[type=button] {
-            font: 10px 'NanumSquare Bold';
-            background-color: #e9f9ff;
-            color: #0084de;
-            border: 1px solid #0084de;
-            transition: color 0.1s, border 0.1s, background-color 0.1s;
-
-            &:hover {
-                color: #42b2ff;
-                border: 1px solid #42b2ff;
-                background-color: #f9feff;
+        > table {
+            .opt-head {
+                text-align: left;
+                border-bottom: 1px solid #e0e0e0;
             }
-            &:active {
-                color: #0061a5;
-                border: 1px solid #0061a5;
-                background-color: #d4eaff;
-            }
-            &.on {
-                color: #ecf9f7;
-                background-color: #0084de;
-            }
-        }
 
-        > ul {
-            height: calc(100% - 73.5px);
+            .opt-body {
+                position: relative;
+                background-color: white;
+                border-bottom: {
+                    left-radius: 10px;
+                    right-radius: 10px;
+                };
 
-            li input[type=button] {
-                &.datetime, &.station, &.windDirection {
-                    background-color: #f8f8f8;
-                    color: #404040;
-                    border: 1px solid #a5a5a5;
-                }
-
-                &.datetime:hover, &.station:hover, &.windDirection:hover {
-                    background-color: white;
-                    color: #666666;
-                    border-color: #c6c6c6;
-                }
-
-                &.datetime:active, &.station:active, &.windDirection:active {
-                    background-color: #f1f1f1;
-                    color: #363636;
-                    border: 1px solid #7d7d7d;
-                }
-
-                &.datetime.on, &.station.on, &.windDirection.on {
-                    background-color: #7f7f7f;
+                input[type=button] {
+                    font: 10px 'NanumSquare Bold';
+                    background-color: #0084de;
                     color: white;
-                    border-color: #7f7f7f;
-                }
-            }
-        }
-
-        div.item-tooltip {
-            position: absolute;
-            flex-direction: column;
-            background-color: white;
-            border: 1px solid #a5a5a5;
-            opacity: 1;
-            z-index: 999;
-
-            > div {
-                display: block;
-                font-size: 13px;
-                width: 80px;
-                padding: 7px 15px !important;
-                cursor: pointer;
-                transition: background-color 0.15s, color 0.15s, opacity 0.15s;
-
-                &:hover {
-                    background-color: #2e85cb;
-                    color: white;
-                }
-
-                &.disabled {
-                    color: #b3b3b3;
-                    background-color: white;
-                    cursor: default;
-                }
-            }
-
-            > hr {
-                margin: 0;
-            }
-        }
-
-        > div {
-            display: flex;
-            font-size: 16pt;
-
-            > div {
-                width: 50%;
-                padding: 10px;
-
-                > div {
-                    color: #00455c;
-                    background-color: transparent;
-                    border: 1px solid #009bd7;
-                    padding: 10px 0;
-                    box-shadow: 0 3px 5px 2px rgba(0, 0, 0, 0.24);
-                    transition: background-color 0.2s, color 0.2s;
-                    cursor: pointer;
+                    border: none;
+                    border-radius: 5px;
+                    transition: color 0.1s, background-color 0.1s;
 
                     &:hover {
-                        color: white;
-                        background-color: #009bd7;
+                        background-color: #41a7ef;
                     }
+
                     &:active {
-                        background-color: #0073a0;
-                        border: 1px solid #0073a0;
-                        transition: background-color 0.1s;
+                        background-color: #0069af;
                     }
                 }
 
-                &:first-child {
-                    padding-right: 5px;
+                > ul {
+                    height: calc(100% - 73.5px);
+
+                    li input[type=button] {
+                        &.datetime, &.station, &.windDirection {
+                            background-color: #f8f8f8;
+                            color: #404040;
+                            border: 1px solid #a5a5a5;
+                        }
+
+                        &.datetime:hover, &.station:hover, &.windDirection:hover {
+                            background-color: white;
+                            color: #666666;
+                            border-color: #c6c6c6;
+                        }
+
+                        &.datetime:active, &.station:active, &.windDirection:active {
+                            background-color: #f1f1f1;
+                            color: #363636;
+                            border: 1px solid #7d7d7d;
+                        }
+
+                        &.datetime.on, &.station.on, &.windDirection.on {
+                            background-color: #7f7f7f;
+                            color: white;
+                            border-color: #7f7f7f;
+                        }
+                    }
                 }
-                &:last-child {
-                    padding-left: 5px;
+
+                div.item-tooltip {
+                    position: absolute;
+                    flex-direction: column;
+                    background-color: white;
+                    box-shadow: 2px 2px 4px 1px #aaaaaa;
+                    border: 1px solid #e0e0e0;
+                    border-radius: 10px;
+                    opacity: 1;
+                    z-index: 999;
+
+                    > div {
+                        display: block;
+                        font-size: 13px;
+                        width: 80px;
+                        padding: 7px 15px !important;
+                        cursor: pointer;
+                        transition: background-color 0.15s, color 0.15s, opacity 0.15s;
+
+                        &:hover {
+                            background-color: #2e85cb;
+                            color: white;
+                        }
+
+                        &.disabled {
+                            color: #b3b3b3;
+                            background-color: white;
+                            cursor: default;
+                        }
+
+                        &:first-child {
+                            border-top: {
+                                left-radius: 10px;
+                                right-radius: 10px;
+                            };
+                        }
+
+                        &:last-child {
+                            border-bottom: {
+                                left-radius: 10px;
+                                right-radius: 10px;
+                            };
+                        }
+                    }
+
+                    > hr {
+                        margin: 0;
+                    }
+                }
+
+                > div {
+                    display: flex;
+                    font-size: 16pt;
+
+                    > div {
+                        width: 50%;
+                        padding: 10px;
+
+                        > div {
+                            color: #00455c;
+                            background-color: transparent;
+                            border: 1px solid #009bd7;
+                            padding: 10px 0;
+                            box-shadow: 0 3px 5px 2px rgba(0, 0, 0, 0.24);
+                            transition: background-color 0.2s, color 0.2s;
+                            cursor: pointer;
+
+                            &:hover {
+                                color: white;
+                                background-color: #009bd7;
+                            }
+
+                            &:active {
+                                background-color: #0073a0;
+                                border: 1px solid #0073a0;
+                                transition: background-color 0.1s;
+                            }
+                        }
+
+                        &:first-child {
+                            padding-right: 5px;
+                        }
+
+                        &:last-child {
+                            padding-left: 5px;
+                        }
+                    }
                 }
             }
         }

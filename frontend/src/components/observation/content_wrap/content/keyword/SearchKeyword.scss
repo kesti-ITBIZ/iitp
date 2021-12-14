@@ -1,32 +1,24 @@
 #search-keyword {
-    color: #404040;
+    background-color: white;
+    color: black;
     height: 100%;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
 
-    > table {
-        font-size: 12px;
-        border-collapse: collapse;
+    > div {
+        height: 100%;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
 
-        colgroup {
-            col:nth-child(1) {
-                width: 70px;
-            }
-
-            col:nth-child(2) {
-                width: 110px;
-            }
-
-            col:nth-child(3) {
-                width: 180px;
-            }
-        }
-
-        &:first-child {
+        > table {
+            font-size: 12px;
+            border-collapse: collapse;
             height: 50px;
 
             tbody td {
-                background-color: #f8f8f8;
+                background-color: white;
+                border-top: {
+                    left-radius: 10px;
+                    right-radius: 10px;
+                };
                 padding: 10px 15px;
 
                 &:first-child {
@@ -42,7 +34,9 @@
                             font-size: 12px;
                             color: #404040;
                             width: calc(100% - 87px);
+                            height: 19px;
                             border: 1px solid #a5a5a5;
+                            border-radius: 5px;
                         }
 
                         &[type=button] {
@@ -51,10 +45,10 @@
                             font-size: 12px;
                             background-color: #0072d7;
                             color: white;
-                            height: 100%;
                             border: none;
+                            border-radius: 5px;
                             margin-left: 10px;
-                            padding: 6px 15px;
+                            padding: 8px 15px;
                             transition: background-color 0.15s;
 
                             &:hover {
@@ -70,79 +64,105 @@
             }
         }
 
-        &:last-child {
-            height: calc(100% - 50px);
+        > div {
+            font-size: 12px;
+            height: calc(100% - 70px);
+            padding: 10px;
 
-            thead th {
-                background-color: #f8f8f8;
-                border: 1px solid #a5a5a5;
-                padding: 10px 15px;
+            > table {
+                height: 100%;
+                border-collapse: collapse;
 
-                &:first-child {
-                    border-left: none;
+                colgroup {
+                    col:nth-child(1) {
+                        width: 70px;
+                    }
+
+                    col:nth-child(2) {
+                        width: 110px;
+                    }
+
+                    col:nth-child(3) {
+                        width: 180px;
+                    }
                 }
 
-                &:last-child {
-                    border-right: none;
+                thead th {
+                    background-color: #f8f8f8;
+                    border: 1px solid #a5a5a5;
+                    padding: 10px 15px;
+
+                    &:first-child {
+                        border-left: none;
+                    }
+
+                    &:last-child {
+                        border-right: none;
+                    }
                 }
-            }
 
-            tbody td {
-                div {
-                    overflow-x: hidden;
-                    height: 100%;
+                tbody td {
+                    div {
+                        overflow-x: hidden;
+                        height: 100%;
 
-                    &.scroll {
-                        table {
-                            height: fit-content;
-                            border-collapse: collapse;
+                        &.scroll {
+                            table {
+                                height: fit-content;
+                                border-collapse: collapse;
 
-                            tbody {
-                                tr:hover td {
-                                    background-color: #f5f5f5;
-                                    cursor: pointer;
+                                tbody {
+                                    tr:hover td {
+                                        background-color: #f5f5f5;
+                                        cursor: pointer;
+                                    }
+
+                                    tr:active td {
+                                        background-color: #e3e3e3;
+                                        transition: background-color 0.1s !important;
+                                    }
+
+                                    td {
+                                        text-align: center;
+                                        border: {
+                                            bottom: 1px solid #d5d5d5;
+                                            right: 1px solid #d5d5d5;
+                                        };
+                                        padding: 10px 15px;
+                                        transition: background-color 0.2s;
+                                        transform: rotate(0.03deg);
+
+                                        &:last-child {
+                                            text-align: left;
+                                        }
+                                    }
                                 }
+                            }
 
-                                tr:active td {
-                                    background-color: #e3e3e3;
-                                    transition: background-color 0.1s !important;
-                                }
+                            div.infinite-loading-container {
+                                overflow: hidden !important;
+                                height: 50px;
 
-                                td {
-                                    text-align: center;
-                                    border: {
-                                        bottom: 1px solid #d5d5d5;
-                                        right: 1px solid #d5d5d5;
-                                    };
-                                    padding: 10px 15px;
-                                    transition: background-color 0.2s;
+                                div.infinite-status-prompt {
+                                    overflow: hidden;
 
-                                    &:last-child {
-                                        text-align: left;
+                                    div.no-results {
+                                        font: {
+                                            size: 14px;
+                                            weight: bold;
+                                        };
+                                        padding: 15px 0;
+                                        transform: rotate(0.03deg);
                                     }
                                 }
                             }
                         }
 
-                        div.infinite-loading-container {
-                            overflow: hidden !important;
-                            height: 50px;
-
-                            div.infinite-status-prompt {
-                                overflow: hidden;
-
-                                div.no-results {
-                                    font-size: 14px;
-                                    padding: 15px 0;
-                                }
-                            }
+                        &.no-data table {
+                            font-size: 18px;
+                            text-align: center;
+                            color: #a5a5a5;
                         }
-                    }
-
-                    &.no-data table {
-                        font-size: 18px;
-                        text-align: center;
-                        color: #a5a5a5;
                     }
                 }
             }

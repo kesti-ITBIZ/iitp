@@ -1,26 +1,30 @@
 <template>
-    <table id="items">
-        <thead>
-            <tr>
-                <th class="opt-head">데이터 항목</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="opt-body">
-                    <ul class="scroll no-scrollbar">
-                        <li :key="i" v-for="(item, i) in items">
-                            <input type="button" :class="item.value" :value="item.label + (item.unit !== '' ? ` (${item.unit})` : '')" @click.stop="e => onClickItem(e, item)" />
-                        </li>
-                    </ul>
-                    <div class="item-tooltip" v-show="showItemTooltip" :style="{ top: itemTooltip.top, left: itemTooltip.left }">
-                        <div @click="addX">X축 추가</div><hr />
-                        <div :class="selectedItem && (selectedItem.value === 'datetime' || selectedItem.value === 'windDirection') ? 'disabled' : ''" @click="addY">Y축 추가</div>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="items">
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="opt-head">· 데이터 항목</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="opt-body">
+                            <ul class="scroll no-scrollbar">
+                                <li :key="i" v-for="(item, i) in items">
+                                    <input type="button" :class="item.value" :value="item.label + (item.unit !== '' ? ` (${item.unit})` : '')" @click.stop="e => onClickItem(e, item)" />
+                                </li>
+                            </ul>
+                            <div class="item-tooltip" v-show="showItemTooltip" :style="{ top: itemTooltip.top, left: itemTooltip.left }">
+                                <div @click="addX">X축 추가</div><hr />
+                                <div :class="selectedItem && (selectedItem.value === 'datetime' || selectedItem.value === 'windDirection') ? 'disabled' : ''" @click="addY">Y축 추가</div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </template>
 
 <script>

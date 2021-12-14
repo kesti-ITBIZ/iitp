@@ -1,59 +1,67 @@
 $color: #0094c4;
 
 #select-chart {
-    display: flex;
-    padding: 6px 0;
+    padding: 10px;
 
-    div.select-chart-btn {
-        text-align: center;
-        color: $color;
-        margin: 0 auto;
-        padding: 10px 20px;
-        transition: color 0.2s;
+    > div {
+        display: flex;
+        background-color: white;
+        box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
 
-        svg {
-            display: block;
+        div.select-chart-btn {
+            text-align: center;
+            color: $color;
             margin: 0 auto;
+            padding: 20px;
+            transition: color 0.2s;
 
-            + div {
-                font: 16px 'NanumSquare Bold';
-                padding-top: 10px;
-                transform: rotate(0.03deg);
+            svg {
+                display: block;
+                margin: 0 auto;
+
+                + div {
+                    font: 16px 'NanumSquare Bold';
+                    padding-top: 10px;
+                    transform: rotate(0.03deg);
+                }
             }
-        }
 
-        svg.fa-chart-network {
-            position: relative;
-            top: 10px;
+            svg.fa-chart-network {
+                position: relative;
+                top: 10px;
 
-            + div {
-                padding-top: 27px;
+                + div {
+                    padding-top: 27px;
+                }
             }
-        }
-
-        > div {
-            padding: 7px 20px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-
-            &:hover {
-                background-color: #def4ff;
-            }
-        }
-
-        &.on > div {
-            color: white;
-            background-color: $color;
-        }
-
-        &.disabled {
-            color: #bdbdbd;
-            cursor: default;
 
             > div {
+                border-radius: 10px;
+                padding: 7px 20px;
+                cursor: pointer;
+                transition: background-color 0.2s;
+
                 &:hover {
-                    background-color: transparent;
-                    cursor: default;
+                    background-color: #def4ff;
+                }
+            }
+
+            &.on > div {
+                color: white;
+                background-color: $color;
+            }
+
+            &.disabled {
+                color: #bdbdbd;
+                cursor: default;
+
+                > div {
+                    &:hover {
+                        background-color: transparent;
+                        cursor: default;
+                    }
                 }
             }
         }

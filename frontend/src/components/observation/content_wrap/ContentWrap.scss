@@ -38,7 +38,7 @@
                     }
 
                     &:first-child th {
-                        padding: 20px 0;
+                        padding: 10px 0;
                     }
                 }
             }
@@ -59,7 +59,7 @@
     > tbody > tr:last-child > td {
         text-align: center;
         height: 50px;
-        border: 1px solid #a5a5a5;
+        padding: 10px;
 
         input[type=button] {
             font-size: 14px;

@@ -1,55 +1,54 @@
 #y-axis {
     height: 130px !important;
+    padding: 10px;
 
-    .opt-head {
-        font-size: 12px;
-        border-top: 1px solid #a5a5a5;
-        border-bottom: 1px solid #a5a5a5;
-    }
+    > div {
+        height: 100%;
+        box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
 
-    .opt-body {
-        border-bottom: 1px solid #a5a5a5;
-
-        ul li {
-            > div {
-                position: relative;
-                font: 10px 'NanumSquare Bold' !important;
-                color: #6e36ff;
-                border: 1px solid #8053f3;
-                background-color: #ebe3ff;
-                transition: color 0.1s, border 0.1s, background-color 0.1s;
-                cursor: pointer;
-
-                &:hover {
-                    color: #895cff;
-                    border: 1px solid #9a7bf3;
-                    background-color: #faf7ff;
-
-                    > span {
-                        color: #895cff;
-                    }
-                }
-                &:active {
-                    color: #541bea;
-                    border: 1px solid #6838e2;
-                    background-color: #d5c9ff;
-                }
-                &.on {
-                    color: #ebe3ff;
-                    border: 1px solid #6e36ff;
-                    background-color: #6e36ff;
-                }
+        > table {
+            .opt-head {
+                font-size: 12px;
+                border-bottom: 1px solid #e0e0e0;
             }
 
-            span {
-                position: absolute;
-                top: 4px;
-                right: 7px;
-                font-size: 13pt;
-                width: fit-content;
-                height: fit-content;
-                color: #ebe3ff;
-                transition: color 0.1s;
+            .opt-body {
+                ul li {
+                    > div {
+                        position: relative;
+                        font: 10px 'NanumSquare Bold' !important;
+                        background-color: #6dbb28;
+                        color: white;
+                        border-radius: 5px;
+                        transition: background-color 0.1s;
+                        cursor: pointer;
+
+                        &:hover {
+                            background-color: #98dc57;
+
+                            > span {
+                                color: #f9fff6;
+                            }
+                        }
+
+                        &:active {
+                            background-color: #589721;
+                        }
+                    }
+
+                    span {
+                        position: absolute;
+                        top: 4px;
+                        right: 7px;
+                        font-size: 13pt;
+                        width: fit-content;
+                        height: fit-content;
+                        color: #ebe3ff;
+                        transition: color 0.1s;
+                    }
+                }
             }
         }
     }

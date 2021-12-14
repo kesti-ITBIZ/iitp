@@ -19,14 +19,26 @@
     }
 
     .opt-head {
-        height: 35px;
-        color: #404040;
-        background-color: #f1f1f1;
+        font-size: 12px;
+        text-align: left;
+        background-color: white;
+        color: black;
+        height: 25px;
+        border-top: {
+            left-radius: 10px;
+            right-radius: 10px;
+        };
+        padding: 10px;
     }
 
     .opt-body {
         vertical-align: top;
+        background-color: white;
         height: calc(100% - 50px);
+        border-bottom: {
+            left-radius: 10px;
+            right-radius: 10px;
+        };
 
         ul li {
             padding: 10px 10px 0;
