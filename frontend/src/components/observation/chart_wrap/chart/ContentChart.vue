@@ -1,35 +1,38 @@
 <template>
     <div class="content-chart">
-        <div v-show="data[selectedCategory] && data[selectedCategory].length > 0 && selectedChartType != 'table'" id="chart" ref="chart" />
-        <div v-show="data[selectedCategory] && data[selectedCategory].length > 0 && selectedChartType == 'table' && Object.keys(tableData).length > 0" id="table" class="scroll">
-            <table v-if="xAxis.length > 0 && yAxis.length > 0">
-                <thead>
-                    <tr>
-                        <th>{{ xAxis[0].label }}</th>
-                        <th :key="i" v-for="(y, i) in yAxis">{{ y.label }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <template v-for="(label, i) in xAxis[0].value === 'datetime' ? Object.keys(tableData) : sorted(Object.keys(tableData).map(key => +key))">
-                        <template v-if="label != null">
-                            <tr :key="`${i}-${j}`" v-for="(yData, j) in tableData[label]">
-                                <td v-if="j === 0" :rowspan="tableData[label].length">{{ xAxis[0].value === 'datetime' ? label : round(label) }}{{ xAxis[0].unit }}</td>
-                                <td :key="k" v-for="(y, k) in yData">{{ y != null && !isNaN(y) ? round(y) + yAxis[k].unit : "-" }}</td>
-                            </tr>
+        <div>
+
+            <div v-show="data[selectedCategory] && data[selectedCategory].length > 0 && selectedChartType != 'table'" id="chart" ref="chart" />
+            <div v-show="data[selectedCategory] && data[selectedCategory].length > 0 && selectedChartType == 'table' && Object.keys(tableData).length > 0" id="table" class="scroll">
+                <table v-if="xAxis.length > 0 && yAxis.length > 0">
+                    <thead>
+                        <tr>
+                            <th>{{ xAxis[0].label }}</th>
+                            <th :key="i" v-for="(y, i) in yAxis">{{ y.label }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template v-for="(label, i) in xAxis[0].value === 'datetime' ? Object.keys(tableData) : sorted(Object.keys(tableData).map(key => +key))">
+                            <template v-if="label != null">
+                                <tr :key="`${i}-${j}`" v-for="(yData, j) in tableData[label]">
+                                    <td v-if="j === 0" :rowspan="tableData[label].length">{{ xAxis[0].value === 'datetime' ? label : round(label) }}{{ xAxis[0].unit }}</td>
+                                    <td :key="k" v-for="(y, k) in yData">{{ y != null && !isNaN(y) ? round(y) + yAxis[k].unit : "-" }}</td>
+                                </tr>
+                            </template>
                         </template>
-                    </template>
-                </tbody>
-            </table>
-        </div>
-        <div v-show="data[selectedCategory] && data[selectedCategory].length > 0 && selectedChartType == 'table' && Object.keys(tableData).length > 0" class="csv-download" @click="csvDownload">
-            <font-awesome-icon size="lg" :icon="['fa', 'file-download']" />
-        </div>
-        <div v-show="(data[selectedCategory] == null || data[selectedCategory].length === 0) && !loading" id="no-data">
-            <div>
-                <h1>데이터가 없습니다.</h1>
+                    </tbody>
+                </table>
             </div>
+            <div v-show="data[selectedCategory] && data[selectedCategory].length > 0 && selectedChartType == 'table' && Object.keys(tableData).length > 0" class="csv-download" @click="csvDownload">
+                <font-awesome-icon size="lg" :icon="['fa', 'file-download']" />
+            </div>
+            <div v-show="(data[selectedCategory] == null || data[selectedCategory].length === 0) && !loading" id="no-data">
+                <div>
+                    <h1>데이터가 없습니다.</h1>
+                </div>
+            </div>
+            <loading />
         </div>
-        <loading />
     </div>
 </template>
 

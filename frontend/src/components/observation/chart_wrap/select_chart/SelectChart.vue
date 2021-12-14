@@ -1,19 +1,21 @@
 <template>
     <div id="select-chart">
-        <div :class="['select-chart-btn', selectedChartType == 'table' && !isDisabled('table') ? 'on' : '', isDisabled('table') ? 'disabled' : '']"
-             @click="isDisabled('table') ? null : setSelectedChartType('table')">
-            <div>
-                <font-awesome-icon size="4x" :icon="['fa', 'table']" />
-                <div>Table</div>
+        <div>
+            <div :class="['select-chart-btn', selectedChartType == 'table' && !isDisabled('table') ? 'on' : '', isDisabled('table') ? 'disabled' : '']"
+                 @click="isDisabled('table') ? null : setSelectedChartType('table')">
+                <div>
+                    <font-awesome-icon size="4x" :icon="['fa', 'table']" />
+                    <div>Table</div>
+                </div>
             </div>
-        </div>
-        <div :key="i"
-             v-for="(chartType, i) in ['Line', 'Bar', 'Area', 'Scatter']"
-             :class="['select-chart-btn', selectedChartType == chartType.toLowerCase() && !isDisabled(chartType.toLowerCase()) ? 'on' : '', isDisabled(chartType.toLowerCase()) ? 'disabled' : '']"
-             @click="isDisabled(chartType.toLowerCase()) ? null : setSelectedChartType(chartType.toLowerCase())">
-            <div>
-                <font-awesome-icon size="4x" :icon="['fa', 'chart-' + chartType.toLowerCase()]" />
-                <div>{{ chartType }} Chart</div>
+            <div :key="i"
+                 v-for="(chartType, i) in ['Line', 'Bar', 'Area', 'Scatter']"
+                 :class="['select-chart-btn', selectedChartType == chartType.toLowerCase() && !isDisabled(chartType.toLowerCase()) ? 'on' : '', isDisabled(chartType.toLowerCase()) ? 'disabled' : '']"
+                 @click="isDisabled(chartType.toLowerCase()) ? null : setSelectedChartType(chartType.toLowerCase())">
+                <div>
+                    <font-awesome-icon size="4x" :icon="['fa', 'chart-' + chartType.toLowerCase()]" />
+                    <div>{{ chartType }} Chart</div>
+                </div>
             </div>
         </div>
     </div>

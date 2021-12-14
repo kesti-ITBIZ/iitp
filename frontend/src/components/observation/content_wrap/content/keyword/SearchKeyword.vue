@@ -1,74 +1,78 @@
 <template>
     <div id="search-keyword">
-        <table>
-            <colgroup>
-                <col style="width: 100px;" />
-                <col style="width: calc(100% - 100px);" />
-            </colgroup>
-            <tbody>
-                <tr>
-                    <td>지점 검색</td>
-                    <td>
-                        <input type="text" placeholder="검색할 지점명 또는 주소를 입력하세요." v-model="keyword" @keyup="e => { if (e.key === 'Enter') search(); }" />
-                        <input type="button" value="검색" @click="search" />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <table>
-            <colgroup>
-                <col />
-                <col />
-                <col />
-                <col />
-            </colgroup>
-            <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>생산기관</th>
-                    <th>지점명</th>
-                    <th>주소</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td colspan="4">
-                        <div class="scroll" v-show="searchedStations.length > 0">
-                            <table>
-                                <colgroup>
-                                    <col />
-                                    <col />
-                                    <col />
-                                    <col />
-                                </colgroup>
-                                <tbody>
-                                    <tr :key="i" v-for="(station, i) in searchedStations" @click="select({ name: station.name, address: station.address })">
-                                        <td>{{ i + 1 }}</td>
-                                        <td>{{ station.category }}</td>
-                                        <td>{{ station.name }}</td>
-                                        <td>{{ station.address }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <infinite-loading v-if="searchedStations.length >= 100" @infinite="infiniteHandler" spinner="waveDots">
-                                <div slot="no-results" class="no-results">
-                                    더 이상 데이터가 없어요. ( ͡° ͜ʖ ͡°)
+        <div>
+            <table>
+                <colgroup>
+                    <col style="width: 100px;" />
+                    <col style="width: calc(100% - 100px);" />
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td>지점 검색</td>
+                        <td>
+                            <input type="text" placeholder="검색할 지점명 또는 주소를 입력하세요." v-model="keyword" @keyup="e => { if (e.key === 'Enter') search(); }" />
+                            <input type="button" value="검색" @click="search" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                <table>
+                    <colgroup>
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>생산기관</th>
+                            <th>지점명</th>
+                            <th>주소</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="4">
+                                <div class="scroll" v-show="searchedStations.length > 0">
+                                    <table>
+                                        <colgroup>
+                                            <col />
+                                            <col />
+                                            <col />
+                                            <col />
+                                        </colgroup>
+                                        <tbody>
+                                            <tr :key="i" v-for="(station, i) in searchedStations" @click="select({ name: station.name, address: station.address })">
+                                                <td>{{ i + 1 }}</td>
+                                                <td>{{ station.category }}</td>
+                                                <td>{{ station.name }}</td>
+                                                <td>{{ station.address }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <infinite-loading v-if="searchedStations.length >= 100" @infinite="infiniteHandler" spinner="waveDots">
+                                        <div slot="no-results" class="no-results">
+                                            더 이상 데이터가 없어요. ( ͡° ͜ʖ ͡°)
+                                        </div>
+                                    </infinite-loading>
                                 </div>
-                            </infinite-loading>
-                        </div>
-                        <div class="no-data" v-show="searchedStations.length === 0">
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>데이터가 없습니다.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                                <div class="no-data" v-show="searchedStations.length === 0">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>데이터가 없습니다.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </template>
 

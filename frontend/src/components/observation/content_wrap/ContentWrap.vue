@@ -3,21 +3,22 @@
         <thead>
             <tr>
                 <th>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th><select-datetime /></th>
-<!--                                    <th><select-constraint /></th>-->
-                            </tr>
-                        </thead>
-                    </table>
+                    <div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th><select-datetime /></th>
+                                </tr>
+                                <tr>
+                                    <th><category /></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td><category /></td>
-            </tr>
             <tr>
                 <td class="map">
                     <content-map v-show="selectedSearchOption == 'map'" />
@@ -35,7 +36,7 @@
     import { dataApi } from "../../../assets/js/api";
 
     import SelectDatetime from "./header/select_datetime/SelectDatetime";
-    import Category from "./content/category/Category";
+    import Category from "./header/category/Category";
     import ContentMap from "./content/map/ContentMap";
     import SearchKeyword from "./content/keyword/SearchKeyword";
     import SelectedStations from "./content/selected_stations/SelectedStations";
