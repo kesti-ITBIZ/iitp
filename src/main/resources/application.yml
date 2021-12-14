@@ -1,13 +1,12 @@
 server:
   port: 9200
 spring:
+  config:
+    import: classpath:/datasource.yml
   application:
     name: IITP
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://211.55.33.242:5432/pm10
-    username: postgres
-    password: test123
   jpa:
     open-in-view: false
     hibernate:
