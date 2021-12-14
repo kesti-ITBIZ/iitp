@@ -62,3 +62,4 @@ pnpm-debug.log*
 *.sw?
 
 **/static/
+**/datasource.yml
