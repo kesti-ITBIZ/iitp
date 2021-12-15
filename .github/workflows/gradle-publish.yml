@@ -51,48 +51,48 @@ jobs:
           tags: ghcr.io/kesti-itbiz/iitp:beta
 
       # SSH
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.REMOTE_IITP_HOST }}
-          port: ${{ secrets.REMOTE_IITP_SSH_PORT }}
-          username: ${{ secrets.REMOTE_IITP_SSH_USERNAME }}
-          password: ${{ secrets.REMOTE_IITP_SSH_PASSWORD }}
-          script: |
-            DEPLOY_PORT=9100
-            cd /home/iitp
-            if [ -d iitp ]; then rm -rf iitp; fi
-            git clone https://github.com/kesti-ITBIZ/iitp.git
-            cd iitp
-            git checkout test
-            cd frontend
-            npm i
-            cp ./font-awesome-pro-icons/* ./node_modules/@fortawesome/free-solid-svg-icons
-            npm run build
-            cd ..
-            chmod +x ./gradlew
-            ./gradlew bootWar
-            if [ `docker ps | grep -c 'tomcat/iitp:beta'` != 0 ]; then
-              docker stop iitp-test
-              docker rm iitp-test
-            fi
-            if [ `docker images | grep -c 'tomcat/iitp:beta'` != 0 ]; then
-              docker rmi tomcat/iitp:beta
-            fi
-            docker build -t tomcat/iitp:beta .
-            docker rmi java:8
-            docker run -d --name iitp-test -p $DEPLOY_PORT:9200 tomcat/iitp:beta
-            cd ..
-            if [ -d iitp ]; then rm -rf iitp; fi
-
-
-
-
-            if [ `docker ps | grep -c 'tomcat/iitp:beta'` != 0 ]; then
-              docker stop iitp-test
-              docker rm iitp-test
-            fi
-            if [ `docker images | grep -c 'tomcat/iitp:beta'` != 0 ]; then
-              docker rmi tomcat/iitp:beta
-            fi
-            docker pull ghcr.io/${{ github.actor }}/iitp:beta
+#      - name: Deploy via SSH
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.REMOTE_IITP_HOST }}
+#          port: ${{ secrets.REMOTE_IITP_SSH_PORT }}
+#          username: ${{ secrets.REMOTE_IITP_SSH_USERNAME }}
+#          password: ${{ secrets.REMOTE_IITP_SSH_PASSWORD }}
+#          script: |
+#            DEPLOY_PORT=9100
+#            cd /home/iitp
+#            if [ -d iitp ]; then rm -rf iitp; fi
+#            git clone https://github.com/kesti-ITBIZ/iitp.git
+#            cd iitp
+#            git checkout test
+#            cd frontend
+#            npm i
+#            cp ./font-awesome-pro-icons/* ./node_modules/@fortawesome/free-solid-svg-icons
+#            npm run build
+#            cd ..
+#            chmod +x ./gradlew
+#            ./gradlew bootWar
+#            if [ `docker ps | grep -c 'tomcat/iitp:beta'` != 0 ]; then
+#              docker stop iitp-test
+#              docker rm iitp-test
+#            fi
+#            if [ `docker images | grep -c 'tomcat/iitp:beta'` != 0 ]; then
+#              docker rmi tomcat/iitp:beta
+#            fi
+#            docker build -t tomcat/iitp:beta .
+#            docker rmi java:8
+#            docker run -d --name iitp-test -p $DEPLOY_PORT:9200 tomcat/iitp:beta
+#            cd ..
+#            if [ -d iitp ]; then rm -rf iitp; fi
+#
+#
+#
+#
+#            if [ `docker ps | grep -c 'tomcat/iitp:beta'` != 0 ]; then
+#              docker stop iitp-test
+#              docker rm iitp-test
+#            fi
+#            if [ `docker images | grep -c 'tomcat/iitp:beta'` != 0 ]; then
+#              docker rmi tomcat/iitp:beta
+#            fi
+#            docker pull ghcr.io/${{ github.actor }}/iitp:beta
