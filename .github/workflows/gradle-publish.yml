@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Confirm
         run: |
-          echo ${{ github.actor }} ${{ secrets.GITHUB_TOKEN }}
+          echo ${{ github.actor }} ${{ secrets.ACCESS_TOKEN }}
 
 #      # Git clone
 #      - name: Checkout
