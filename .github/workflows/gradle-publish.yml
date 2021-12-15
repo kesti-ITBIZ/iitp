@@ -2,7 +2,6 @@ name: IITP
 
 on:
   push:
-    branches: [test]
     tags: ["*"]
   release:
     types: [created]
