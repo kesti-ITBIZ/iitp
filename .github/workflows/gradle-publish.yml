@@ -19,7 +19,7 @@ jobs:
 
       # Set environment variable
       - name: Set env
-        run: echo "RELEASE_VERSION=${GITHUB_REF}" >> $GITHUB_ENV
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
       - name: Confirm environment variable
         run: echo ${{ env.RELEASE_VERSION }}
