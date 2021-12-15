@@ -15,7 +15,7 @@ export default class KakaoMapUtils {
             this.markers = [];
             this.map = new kakao.maps.Map(dom, {
                 center: new kakao.maps.LatLng(36.020826, 127.0236867),
-                level: 12
+                level: 13
             });
             this.map.addOverlayMapTypeId(kakao.maps.MapTypeId.TERRAIN);
 

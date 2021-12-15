@@ -1,7 +1,7 @@
 $table-color: #00c3dc;
 
 div.content-chart {
-    height: calc(100% - 190px) !important;
+    height: calc(100% - 173px) !important;
     border-top: none;
     padding: 10px;
 
@@ -35,10 +35,16 @@ div.content-chart {
                 height: fit-content;
 
                 thead th {
+                    font-size: 13px;
                     background-color: #ebfaff;
                     color: $table-color;
                     border: 1px solid $table-color;
                     padding: 5px;
+
+                    > span {
+                        display: inline-block;
+                        transform: rotate(0.03deg);
+                    }
 
                     &:first-child {
                         width: 180px;
@@ -48,9 +54,15 @@ div.content-chart {
                 tbody {
                     td {
                         text-align: right;
+                        font-size: 13px;
                         color: #044b52;
                         border: 1px solid $table-color;
                         padding: 5px;
+
+                        > span {
+                            display: inline-block;
+                            transform: rotate(0.03deg);
+                        }
 
                         &[rowspan] {
                             background-color: #f8fdff !important;

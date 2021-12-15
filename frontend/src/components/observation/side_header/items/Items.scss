@@ -40,7 +40,7 @@
                 }
 
                 > ul {
-                    height: calc(100% - 73.5px);
+                    height: 100%;
 
                     li input[type=button] {
                         &.datetime, &.station, &.windDirection {

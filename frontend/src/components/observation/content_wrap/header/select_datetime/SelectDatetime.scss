@@ -15,7 +15,7 @@
             width: 145px;
 
             input.mx-input {
-                font: 13px 'NanumSquare Bold';
+                font: 11px 'NanumSquare Bold';
                 height: 30px;
                 border: {
                     radius: 5px;
@@ -45,7 +45,7 @@
             height: 100%;
             border: none;
             border-radius: 5px;
-            padding: 5px 9px;
+            padding: 7px 9px;
             transition: background-color 0.15s;
 
             &:hover {
@@ -84,7 +84,7 @@
     select {
         position: relative;
         top: -1px;
-        font: 12px 'NanumSquare Bold';
+        font: 11px 'NanumSquare Bold';
         width: 70px;
         height: 30px;
         border: 1px solid #9c9c9c;
