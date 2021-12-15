@@ -11,37 +11,88 @@ jobs:
     name: Build
     runs-on: ubuntu-18.04
     steps:
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@master
+      # Git clone
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Build Front-end
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          host: ${{ secrets.REMOTE_IITP_HOST }}
-          port: ${{ secrets.REMOTE_IITP_SSH_PORT }}
-          username: ${{ secrets.REMOTE_IITP_SSH_USERNAME }}
-          password: ${{ secrets.REMOTE_IITP_SSH_PASSWORD }}
-          script: |
-            DEPLOY_PORT=9100
-            cd /home/iitp
-            if [ -d iitp ]; then rm -rf iitp; fi
-            git clone https://github.com/kesti-ITBIZ/iitp.git
-            cp .iitp/datasource.yml iitp/src/main/resources
-            cd iitp
-            git checkout test
-            cd frontend
-            npm i
-            cp ./font-awesome-pro-icons/* ./node_modules/@fortawesome/free-solid-svg-icons
-            npm run build
-            cd ..
-            chmod +x ./gradlew
-            ./gradlew bootWar
-            if [ `docker ps | grep -c 'tomcat/iitp:beta'` != 0 ]; then
-              docker stop iitp-test
-              docker rm iitp-test
-            fi
-            if [ `docker images | grep -c 'tomcat/iitp:beta'` != 0 ]; then
-              docker rmi tomcat/iitp:beta
-            fi
-            docker build -t tomcat/iitp:beta .
-            docker rmi java:8
-            docker run -d --name iitp-test -p $DEPLOY_PORT:9200 tomcat/iitp:beta
-            cd ..
-            if [ -d iitp ]; then rm -rf iitp; fi
+          node-version: '16'
+      - name: Change directory to frontend
+        run: |
+          cd frontend
+          npm i
+          npm run build
+
+      # Build Back-end
+      - name: Setup JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+          java-package: jdk
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      # Build and push Docker image
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to Github Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: ghcr.io/kesti-itbiz/iitp:beta
+
+      # SSH
+#      - name: Deploy via SSH
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.REMOTE_IITP_HOST }}
+#          port: ${{ secrets.REMOTE_IITP_SSH_PORT }}
+#          username: ${{ secrets.REMOTE_IITP_SSH_USERNAME }}
+#          password: ${{ secrets.REMOTE_IITP_SSH_PASSWORD }}
+#          script: |
+#            DEPLOY_PORT=9100
+#            cd /home/iitp
+#            if [ -d iitp ]; then rm -rf iitp; fi
+#            git clone https://github.com/kesti-ITBIZ/iitp.git
+#            cd iitp
+#            git checkout test
+#            cd frontend
+#            npm i
+#            cp ./font-awesome-pro-icons/* ./node_modules/@fortawesome/free-solid-svg-icons
+#            npm run build
+#            cd ..
+#            chmod +x ./gradlew
+#            ./gradlew bootWar
+#            if [ `docker ps | grep -c 'tomcat/iitp:beta'` != 0 ]; then
+#              docker stop iitp-test
+#              docker rm iitp-test
+#            fi
+#            if [ `docker images | grep -c 'tomcat/iitp:beta'` != 0 ]; then
+#              docker rmi tomcat/iitp:beta
+#            fi
+#            docker build -t tomcat/iitp:beta .
+#            docker rmi java:8
+#            docker run -d --name iitp-test -p $DEPLOY_PORT:9200 tomcat/iitp:beta
+#            cd ..
+#            if [ -d iitp ]; then rm -rf iitp; fi
+#
+#
+#
+#
+#            if [ `docker ps | grep -c 'tomcat/iitp:beta'` != 0 ]; then
+#              docker stop iitp-test
+#              docker rm iitp-test
+#            fi
+#            if [ `docker images | grep -c 'tomcat/iitp:beta'` != 0 ]; then
+#              docker rmi tomcat/iitp:beta
+#            fi
+#            docker pull ghcr.io/${{ github.actor }}/iitp:beta
