@@ -9,6 +9,7 @@ $color: #0094c4;
         box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
         border: 1px solid #e0e0e0;
         border-radius: 10px;
+        padding: 0 5px;
 
         div.select-chart-btn {
             text-align: center;
@@ -25,15 +26,6 @@ $color: #0094c4;
                     font: 14px 'NanumSquare Bold';
                     padding-top: 10px;
                     transform: rotate(0.03deg);
-                }
-            }
-
-            svg.fa-chart-network {
-                position: relative;
-                top: 10px;
-
-                + div {
-                    padding-top: 27px;
                 }
             }
 
@@ -62,6 +54,23 @@ $color: #0094c4;
                         background-color: transparent;
                         cursor: default;
                     }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    #select-chart div.select-chart-btn {
+        > div {
+            padding: 7px 10px !important;
+
+            svg {
+                display: block;
+                margin: 0 auto;
+
+                + div {
+                    font-size: 11px !important;
                 }
             }
         }
