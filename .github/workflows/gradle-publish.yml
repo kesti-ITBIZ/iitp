@@ -31,6 +31,7 @@ jobs:
         run: |
           cd frontend
           npm i
+          mv font-awesome-pro-icons/* node_modules/@fortawesome/free-solid-svg-icons
           npm run build
 
       # Build Back-end
