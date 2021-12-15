@@ -41,6 +41,7 @@ jobs:
           java-package: jdk
       - name: Grant execute permission for gradlew and build back-end codes using Gradle
         run: |
+          echo ${{ secrets.DATASOURCE }} > src/main/resources/datasource.yml
           chmod +x gradlew
           ./gradlew bootWar
 
@@ -70,10 +71,8 @@ jobs:
           password: ${{ secrets.REMOTE_IITP_SSH_PASSWORD }}
           script: |
             DEPLOY_PORT=9100
-            if [ `docker ps | grep -c 'iitp-test'` != 0 ]; then
-              docker stop iitp-test
-              docker rm iitp-test
-            fi
+            if [ `docker ps | grep -c 'iitp-test'` != 0 ]; then docker stop iitp-test; fi
+            if [ `docker ps -a | grep -c 'iitp-test'` != 0 ]; then docker rm iitp-test; fi
             if [ `docker images | grep -c ghcr.io/${{ env.REPOSITORY }}:beta` != 0 ]; then
               docker rmi $(docker images -q --filter "dangling=true") $(docker images -q --filter "reference=ghcr.io/${{ env.REPOSITORY }}:beta-*")
             fi
