@@ -14,7 +14,7 @@ $color: #0094c4;
             text-align: center;
             color: $color;
             margin: 0 auto;
-            padding: 20px;
+            padding: 20px 0;
             transition: color 0.2s;
 
             svg {
@@ -22,7 +22,7 @@ $color: #0094c4;
                 margin: 0 auto;
 
                 + div {
-                    font: 16px 'NanumSquare Bold';
+                    font: 14px 'NanumSquare Bold';
                     padding-top: 10px;
                     transform: rotate(0.03deg);
                 }
