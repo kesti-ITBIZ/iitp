@@ -62,6 +62,7 @@
             left: 428px;
             font-size: 12px;
             font-weight: normal;
+            line-height: 1.4em;
             background-color: white;
             color: #444444;
             box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
@@ -95,6 +96,20 @@
 
         &:hover {
             border: 1px solid #409aff;
+        }
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    #select-datetime td {
+        padding: 5px !important;
+
+        div.help-tooltip {
+            position: fixed;
+            top: 150px;
+            left: 0;
+            width: calc(100% - 62px);
+            margin: 0 20px;
         }
     }
 }

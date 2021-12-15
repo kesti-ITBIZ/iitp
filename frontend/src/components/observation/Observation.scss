@@ -30,3 +30,14 @@
         }
     }
 }
+
+@media screen and (max-width: 1200px) {
+    #observation {
+        display: block;
+
+        > table:first-child tfoot td input[type=button] {
+            width: calc(100% - 20px);
+            padding: 10px;
+        }
+    }
+}

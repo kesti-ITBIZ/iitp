@@ -121,3 +121,17 @@ $active: #006f5b;
         }
     }
 }
+
+@media screen and (max-width: 1200px) {
+    #category ul {
+        //display: block;
+
+        &:first-child li {
+            padding: 5px 0;
+
+            input[type=button] {
+                padding: 10px 0;
+            }
+        }
+    }
+}

@@ -1,9 +1,5 @@
 <template>
     <table id="select-datetime">
-        <colgroup>
-            <col />
-            <col />
-        </colgroup>
         <tbody>
             <tr>
                 <td>데이터 구분 :</td>
@@ -25,7 +21,7 @@
                             :value="startDatetime.format(dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat)"
                             :disabled-date="date => date.getTime() > new Date().getTime()"
                             @change="onChangeStartDatetime" />
-                    &nbsp;~&nbsp;
+                    &nbsp;~&nbsp;<br v-if="windowWidth <= 1200" />
                     <date-picker
                             valueType="format"
                             :type="selectedDateType == 'hour' ? 'datetime' : selectedDateType"
@@ -38,19 +34,19 @@
                     &nbsp;&nbsp;
                     <font-awesome-icon size="1x" :icon="['fa' + (isClickedHelpIcon ? 'r' : ''), 'question-circle']" @click="isClickedHelpIcon = !isClickedHelpIcon" />
                     <div class="help-tooltip" v-show="isClickedHelpIcon && selectedCategory == 'airkorea'">
-                        환경부의 현재 조회 가능한 기간은 다음과 같습니다.
+                        <strong>환경부</strong>의 현재 조회 가능한 기간은 다음과 같습니다.
                         <ul><li :key="i" v-for="(datetime, i) in available">{{ datetime }}</li></ul>
                     </div>
                     <div class="help-tooltip" v-show="isClickedHelpIcon && selectedCategory == 'kt'">
-                        KT의 현재 조회 가능한 기간은 다음과 같습니다.
+                        <strong>KT</strong>의 현재 조회 가능한 기간은 다음과 같습니다.
                         <ul><li :key="i" v-for="(datetime, i) in available">{{ datetime }}</li></ul>
                     </div>
                     <div class="help-tooltip" v-show="isClickedHelpIcon && selectedCategory == 'sDoT'">
-                        S-DoT의 현재 조회 가능한 기간은 다음과 같습니다.
+                        <strong>S-DoT</strong>의 현재 조회 가능한 기간은 다음과 같습니다.
                         <ul><li :key="i" v-for="(datetime, i) in available">{{ datetime }}</li></ul>
                     </div>
                     <div class="help-tooltip" v-show="isClickedHelpIcon && selectedCategory == 'observer'">
-                        옵저버의 현재 조회 가능한 기간은 다음과 같습니다.
+                        <strong>옵저버</strong>의 현재 조회 가능한 기간은 다음과 같습니다.
                         <ul><li :key="i" v-for="(datetime, i) in available">{{ datetime }}</li></ul>
                     </div>
                 </td>
@@ -72,6 +68,7 @@
         }),
         computed: {
             ...mapState({
+                windowWidth: state => state.common.windowWidth,
                 selectedCategory: state => state.observation.selectedCategory,
                 startDatetime: state => state.observation.startDatetime,
                 endDatetime: state => state.observation.endDatetime,

@@ -22,12 +22,18 @@ div.map > div:nth-child(2) > div:nth-child(2) {
     h4 {
         font-size: 15px;
     }
+
+    p, h1, h2, h3, h4, h5, h6 {
+        margin: 0;
+    }
+
+    &-parent {
+        margin: -10px 0 0 5px !important;
+    }
 }
 
-.overlay p, .overlay h1, .overlay h2, .overlay h3, .overlay h4, .overlay h5, .overlay h6 {
-    margin: 0;
-}
-
-.overlay-parent {
-    margin: -15px 0 0 5px !important;
+@media screen and (max-width: 1200px) {
+    #map {
+        height: 500px;
+    }
 }

@@ -3,12 +3,15 @@
         <table>
             <colgroup>
                 <col style="width: calc(50% - 200px);" />
-                <col style="width: 200px;" />
+                <col v-if="windowWidth > 1200" style="width: 200px;" />
             </colgroup>
             <tbody>
                 <tr>
                     <td><content-wrap /></td>
-                    <td><side-header /></td>
+                    <td v-if="windowWidth > 1200"><side-header /></td>
+                </tr>
+                <tr>
+                    <td v-if="windowWidth <= 1200"><side-header /></td>
                 </tr>
             </tbody>
             <tfoot>
@@ -42,6 +45,7 @@
         },
         computed: {
             ...mapState({
+                windowWidth: state => state.common.windowWidth,
                 selectedCategory: state => state.observation.selectedCategory,
                 startDatetime: state => state.observation.startDatetime,
                 endDatetime: state => state.observation.endDatetime,
@@ -56,6 +60,9 @@
         ...dataApi,
         methods: {
             ...mapActions({
+                addResizeEvent: "ADD_RESIZE_EVENT",
+                clearResizeEvent: "CLEAR_RESIZE_EVENT",
+                setWindowWidth: "SET_WINDOW_WIDTH",
                 setData: "SET_DATA",
                 setLoadingVisible: "SET_LOADING_VISIBLE",
                 setLoadingInvisible: "SET_LOADING_INVISIBLE",
@@ -119,8 +126,11 @@
                         available: await dataQuery.refetch().then(response => response.data.sDoTAvailableDatetimes)
                     });
                     dataQuery.skip = true;
-                }
-            )
+                });
+            this.addResizeEvent(() => this.setWindowWidth(window.innerWidth));
+        },
+        destroyed() {
+            this.clearResizeEvent();
         }
     }
 </script>

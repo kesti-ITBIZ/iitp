@@ -12,3 +12,11 @@
         height: calc(100% - 192px);
     }
 }
+
+@media screen and (max-width: 1200px) {
+    #chart-wrap {
+        width: 100%;
+        min-width: 0;
+        height: 800px;
+    }
+}
