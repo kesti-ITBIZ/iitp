@@ -20,10 +20,10 @@ jobs:
       - name: Set env
         run: |
           echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-          echo "REPOSITORY=${{  }}" | tr [:upper:] [:lower:] >> $GITHUB_ENV
+          echo "REPOSITORY=$(echo GITHUB_REPOSITORY | tr [:upper:] [:lower:])" >> $GITHUB_ENV
 
       - name: Confirm repository name
-        run: echo ghcr.io/${{ env.REPOSITORY }}/iitp:beta-${{ env.RELEASE_VERSION }}
+        run: echo ghcr.io/${{ env.REPOSITORY }}:beta-${{ env.RELEASE_VERSION }}
 
 #      # Build Front-end
 #      - name: Setup Node.js
