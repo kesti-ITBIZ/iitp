@@ -17,50 +17,47 @@ jobs:
         uses: actions/checkout@v2
 
       # Set environment variable
-      - name: Set env
+      - name: Set environment variable
         run: |
           echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
           echo "REPOSITORY=$(echo $GITHUB_REPOSITORY | tr [:upper:] [:lower:])" >> $GITHUB_ENV
 
-      - name: Confirm repository name
-        run: echo ghcr.io/${{ env.REPOSITORY }}:beta-${{ env.RELEASE_VERSION }}
+      # Build Front-end
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Change directory to frontend and build front-end codes using NPM
+        run: |
+          cd frontend
+          npm i
+          npm run build
 
-#      # Build Front-end
-#      - name: Setup Node.js
-#        uses: actions/setup-node@v2
-#        with:
-#          node-version: '16'
-#      - name: Change directory to frontend
-#        run: |
-#          cd frontend
-#          npm i
-#          npm run build
-#
-#      # Build Back-end
-#      - name: Setup JDK 1.8
-#        uses: actions/setup-java@v1
-#        with:
-#          java-version: 1.8
-#          java-package: jdk
-#      - name: Grant execute permission for gradlew and build using gradlew
-#        run: |
-#          chmod +x gradlew
-#          ./gradlew bootWar
-#
-#      # Build and push Docker image
-#      - name: Setup Docker Buildx
-#        uses: docker/setup-buildx-action@v1
-#      - name: Login to Github Container Registry
-#        uses: docker/login-action@v1
-#        with:
-#          registry: ghcr.io
-#          username: ${{ github.actor }}
-#          password: ${{ secrets.GITHUB_TOKEN }}
-#      - name: Build and Push
-#        uses: docker/build-push-action@v2
-#        with:
-#          push: true
-#          tags: ghcr.io/${{ env.REPOSITORY }}/iitp:beta-${{ env.RELEASE_VERSION }}
+      # Build Back-end
+      - name: Setup JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+          java-package: jdk
+      - name: Grant execute permission for gradlew and build back-end codes using Gradle
+        run: |
+          chmod +x gradlew
+          ./gradlew bootWar
+
+      # Build and push Docker image
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to Github Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: ghcr.io/${{ env.REPOSITORY }}:beta-${{ env.RELEASE_VERSION }}
 
       # SSH
 #      - name: Deploy via SSH
