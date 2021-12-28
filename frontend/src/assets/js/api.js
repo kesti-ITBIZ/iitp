@@ -8,15 +8,22 @@ export const stationApi = {
                 if (category !== "all")
                     obj[category + "Stations"] = {
                         query: gql`
-                            query {
-                                ${category}Stations {
+                            query ${category}Stations($startDatetime: String!, $endDatetime: String!) {
+                                ${category}Stations(startDatetime: $startDatetime, endDatetime: $endDatetime) {
                                     address
                                     name
                                     latitude
                                     longitude
+                                    pm25
                                 }
                             }
                         `,
+                        variables() {
+                            return {
+                                startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
+                                endDatetime: this.endDatetime.format("YYYYMMDDHHmmss")
+                            }
+                        },
                         skip: true
                     };
             });

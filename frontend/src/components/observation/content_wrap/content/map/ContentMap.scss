@@ -1,26 +1,38 @@
 #map {
     position: relative;
     top: -1px;
-    width: 100%;
-    height: calc(100% - 2px);
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
     border-radius: 10px;
+    margin: 0 auto;
+
+    > div {
+        height: 100% !important;
+    }
 }
 
-div.map > div:nth-child(2) > div:nth-child(2) {
-    display: none;
-}
+//div.map > div:nth-child(2) > div:nth-child(2) {
+//    display: none;
+//}
 
 .overlay {
-    font-size: 12px;
+    font: 12px 'NanumSquare Regular';
     background-color: white;
-    border-radius: 3px;
-    padding: 10px;
+    padding: 5px;
     cursor: default;
     width: fit-content;
-    box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.54);
 
     h4 {
         font-size: 15px;
+
+        ~ div {
+            margin-top: 5px;
+
+            > div {
+                margin-top: 2px;
+                transform: rotate(0.03deg);
+            }
+        }
     }
 
     p, h1, h2, h3, h4, h5, h6 {
