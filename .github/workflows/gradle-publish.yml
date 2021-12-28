@@ -73,7 +73,7 @@ jobs:
             DEPLOY_PORT=9200
             if [ `docker ps | grep -c 'iitp-prd'` != 0 ]; then docker stop iitp-prd; fi
             if [ `docker ps -a | grep -c 'iitp-prd'` != 0 ]; then docker rm iitp-prd; fi
-            if [ `docker images | grep -c ghcr.io/${{ env.REPOSITORY }}:release` != 0 ]; then
+            if [ `docker images | grep ghcr.io/${{ env.REPOSITORY }} | grep -c release` != 0 ]; then
               docker rmi $(docker images -q --filter "dangling=true") $(docker images -q --filter "reference=ghcr.io/${{ env.REPOSITORY }}:release-*")
             fi
             docker pull ghcr.io/${{ env.REPOSITORY }}:release-${{ env.RELEASE_VERSION }}
