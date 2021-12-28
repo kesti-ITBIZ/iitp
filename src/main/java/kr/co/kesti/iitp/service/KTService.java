@@ -10,7 +10,6 @@ import kr.co.kesti.iitp.vo.ResponseStationVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -28,8 +27,9 @@ public class KTService implements GraphQLQueryResolver {
     private final KTStationRepository ktStationRepository;
     private final KtDataRepository ktDataRepository;
 
-    public List<ResponseStationVO> getKtStations() {
-        return this.ktStationRepository.findAllBy()
+    public List<ResponseStationVO> getKtStations(final String startDatetime, final String endDatetime) throws ParseException {
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        return this.ktStationRepository.findAllBy(dateFormat.parse(startDatetime), dateFormat.parse(endDatetime))
                 .stream()
                 .map(ResponseStationVO::from)
                 .collect(Collectors.toList());
