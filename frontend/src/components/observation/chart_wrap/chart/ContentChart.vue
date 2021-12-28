@@ -244,10 +244,29 @@
                 this.chart.setOption({
                     title: {
                         text: this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0 ? this.data[this.selectedCategory][0].stnNm : "",
-                        left: 50
+                        left: 50,
+                        textStyle: {
+                            fontFamily: "NanumSquare_ac Extra Bold"
+                        }
                     },
                     tooltip: {
-                        formatter: data => `항목: ${data.seriesName}<br />X: ${data.name}<br />Y: ${this.xAxis[0].value === "datetime" ? data.value : Math.round(data.value[1] * 100) / 100}`
+                        formatter: data => {
+                            let xLabel = data.name;
+                            if (this.xAxis[0].value === "datetime") {
+                                if (this.selectedDateType == "hour") xLabel = dayjs(xLabel + ":00").format("YYYY년 MM월 DD일 H시");
+                                else if (this.selectedDateType == "date") xLabel = dayjs(xLabel).format("YYYY년 MM월 DD일");
+                                else if (this.selectedDateType == "month") xLabel = dayjs(xLabel + ".01").format("YYYY년 MM월");
+                                else if (this.selectedDateType == "year") xLabel = dayjs(xLabel).format("YYYY년");
+                            }
+
+                            return `
+                                항목: ${data.seriesName}<br />
+                                X: ${xLabel}<br />
+                                Y: ${Math.round((typeof data.value === "object" ? data.value[1] : data.value) * 100) / 100}`;
+                        },
+                        textStyle: {
+                            fontFamily: "NanumSquare_ac"
+                        }
                     },
                     toolbox: {
                         feature: {
@@ -262,7 +281,10 @@
                         }
                     ],
                     legend: {
-                        data: this.yAxis.map(obj => obj.label)
+                        data: this.yAxis.map(obj => obj.label),
+                        textStyle: {
+                            fontFamily: "NanumSquare_ac"
+                        }
                     },
                     xAxis: {
                         type: "category",
@@ -270,6 +292,12 @@
                         data: this.xAxisLabels,
                         splitLine: {
                             show: true
+                        },
+                        nameTextStyle: {
+                            fontFamily: "NanumSquare_ac"
+                        },
+                        axisLabel: {
+                            fontFamily: "NanumSquare_ac"
                         }
                     },
                     yAxis: this.yAxis.findIndex(y => y.value === "pm10") !== -1 && this.yAxis.findIndex(y => y.value === "pm25") !== -1 ?
@@ -278,10 +306,12 @@
                             name: this.yAxis.map(y => `${y.label} (${y.unit})`).join(", "),
                             min: 0,
                             nameTextStyle: {
-                                align: "left"
+                                align: "left",
+                                fontFamily: "NanumSquare_ac Bold"
                             },
                             axisLabel: {
-                                formatter: `{value}`
+                                formatter: `{value}`,
+                                fontFamily: "NanumSquare_ac"
                             },
                             splitLine: {
                                 show: true
@@ -292,10 +322,12 @@
                             name: `${y.label} (${y.unit})`,
                             min: item => y.value === "temperature" ? (item.min < 0 ? item.min - 1 : 0) : 0,
                             nameTextStyle: {
-                                align: "left"
+                                align: "left",
+                                fontFamily: "NanumSquare Bold"
                             },
                             axisLabel: {
-                                formatter: `{value}`
+                                formatter: `{value}`,
+                                fontFamily: "NanumSquare_ac"
                             },
                             splitLine: {
                                 show: true

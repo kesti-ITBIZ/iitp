@@ -6,4 +6,5 @@ public interface StationProjection {
     Float getLongitude();
     String getName();
     String getAddress();
+    Float getPm25();
 }

@@ -13,7 +13,7 @@
                             <li :key="i" v-for="(station, i) in selectedStation" @click="removeSelectedStation({ category: selectedCategory, station })">
                                 <span class="close">&times;</span>
                                 <h2>{{ station.name }}</h2>
-                                <div>위/경도: {{ station.latitude }} / {{ station.longitude }}</div>
+                                <div>위/경도: {{ Math.round(station.latitude * 100) / 100 }} / {{ Math.round(station.longitude * 100) / 100 }}</div>
                                 <div>주소: {{ station.address }}</div>
                                 <div>측정항목: {{ obsItems.map(obsItem => obsItem.label).join(", ") }}</div>
                             </li>

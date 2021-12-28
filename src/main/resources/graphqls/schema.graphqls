@@ -5,19 +5,19 @@ schema {
 type Query {
     airkoreaData(param: DataParam): [AirkoreaData]
     airkoreaAvailableDatetimes: [String]
-    airkoreaStations: [Station]
+    airkoreaStations(startDatetime: String!, endDatetime: String!): [Station]
     airkoreaStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
     ktData(param: DataParam): [KTData]
     ktAvailableDatetimes: [String]
-    ktStations: [Station]
+    ktStations(startDatetime: String!, endDatetime: String!): [Station]
     ktStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
     observerData(param: DataParam): [ObserverData]
     observerAvailableDatetimes: [String]
-    observerStations: [Station]
+    observerStations(startDatetime: String!, endDatetime: String!): [Station]
     observerStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
     sDoTData(param: DataParam): [SDoTData]
     sDoTAvailableDatetimes: [String]
-    sDoTStations: [Station]
+    sDoTStations(startDatetime: String!, endDatetime: String!): [Station]
     sDoTStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
 }
 
@@ -27,6 +27,7 @@ type Station {
     latitude: Float!
     longitude: Float!
     name: String!
+    pm25: Float
 }
 
 type AirkoreaData {

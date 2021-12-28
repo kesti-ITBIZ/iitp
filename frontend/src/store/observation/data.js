@@ -15,10 +15,10 @@ export default {
         ],
         selectedSearchOption: "map",
         stations: Object.freeze({
-            airkorea: [],
-            kt: [],
-            sDoT: [],
-            observer: []
+            airkorea: null,
+            kt: null,
+            sDoT: null,
+            observer: null
         }),
         selectedStation: Object.freeze({
             airkorea: [],
@@ -40,9 +40,9 @@ export default {
     mutations: {
         SET_SELECTED_SEARCH_OPTION: (state, option) => state.observation.selectedSearchOption = option,
         SET_SELECTED_CATEGORY: (state, category) => state.observation.selectedCategory = category,
-        ADD_STATIONS: (state, stations) => {
+        SET_STATIONS: (state, stations) => {
             const _stations = { ...state.observation.stations };
-            _stations[state.observation.selectedCategory] = Object.freeze(_stations[state.observation.selectedCategory].concat(stations));
+            _stations[state.observation.selectedCategory] = Object.freeze(stations);
             state.observation.stations = Object.freeze(_stations);
         },
         SET_SELECTED_STATION: (state, { category, station }) => {
@@ -107,7 +107,7 @@ export default {
     actions: {
         SET_SELECTED_SEARCH_OPTION: (context, option) => context.commit("SET_SELECTED_SEARCH_OPTION", option),
         SET_SELECTED_CATEGORY: (context, category) => context.commit("SET_SELECTED_CATEGORY", category),
-        ADD_STATIONS: (context, stations) => context.commit("ADD_STATIONS", stations),
+        SET_STATIONS: (context, stations) => context.commit("SET_STATIONS", stations),
         SET_SELECTED_STATION: (context, { category, station }) => context.commit("SET_SELECTED_STATION", { category, station }),
         REMOVE_SELECTED_STATION: (context, { category, station }) => context.commit("REMOVE_SELECTED_STATION", { category, station }),
         SET_SEARCHED_STATIONS: (context, stations) => context.commit("SET_SEARCHED_STATIONS", stations),

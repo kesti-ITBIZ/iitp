@@ -2,25 +2,36 @@
     position: relative;
     top: -1px;
     width: 100%;
-    height: calc(100% - 2px);
+    height: calc(100% - 20px);
     border-radius: 10px;
-}
 
-div.map > div:nth-child(2) > div:nth-child(2) {
-    display: none;
+    > div {
+        height: 100% !important;
+
+        > div:first-child {
+            box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    }
 }
 
 .overlay {
-    font-size: 12px;
+    font: 12px 'NanumSquare Regular';
     background-color: white;
-    border-radius: 3px;
-    padding: 10px;
+    padding: 5px;
     cursor: default;
     width: fit-content;
-    box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.54);
 
     h4 {
         font-size: 15px;
+
+        ~ div {
+            margin-top: 5px;
+
+            > div {
+                margin-top: 2px;
+                transform: rotate(0.03deg);
+            }
+        }
     }
 
     p, h1, h2, h3, h4, h5, h6 {
@@ -35,5 +46,18 @@ div.map > div:nth-child(2) > div:nth-child(2) {
 @media screen and (max-width: 1200px) {
     #map {
         height: 500px;
+
+        > div.map {
+            display: flex;
+
+            > div:last-child {
+                font: 36px 'NanumSquare Extra Bold';
+                color: #a5a5a5;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 10px 0 10px 10px;
+            }
+        }
     }
 }

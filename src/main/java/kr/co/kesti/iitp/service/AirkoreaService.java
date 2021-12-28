@@ -13,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,8 +27,8 @@ public class AirkoreaService implements GraphQLQueryResolver {
     private final AirkoreaStationRepository airkoreaStationRepository;
     private final AirkoreaDataRepository airkoreaDataRepository;
 
-    public List<ResponseStationVO> getAirkoreaStations() {
-        return this.airkoreaStationRepository.findAllBy()
+    public List<ResponseStationVO> getAirkoreaStations(final String startDatetime, final String endDatetime) {
+        return this.airkoreaStationRepository.findAllBy(startDatetime, endDatetime)
                 .stream()
                 .map(ResponseStationVO::from)
                 .collect(Collectors.toList());

@@ -30,16 +30,10 @@
             > table {
                 border-collapse: collapse;
 
-                thead tr {
-                    th {
-                        border-collapse: collapse;
-                        border: none !important;
-                        text-align: left;
-                    }
-
-                    //&:first-child th {
-                    //    padding: 10px 0;
-                    //}
+                thead th {
+                    border-collapse: collapse;
+                    border: none !important;
+                    text-align: left;
                 }
             }
         }
@@ -48,36 +42,40 @@
     .map {
         height: calc(100% - 20px);
         border-radius: 10px;
-        padding: 10px;
 
         > * {
-            box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
         }
     }
 
-    > tbody > tr:last-child > td {
-        text-align: center;
-        height: 50px;
-        padding: 10px;
+    > tbody > tr {
+        &:first-child td {
+            padding: 0 10px;
+        }
 
-        input[type=button] {
-            font-size: 14px;
-            background: transparent;
-            color: #2f2f2f;
-            width: 120px;
-            border: 1px solid #2f2f2f;
-            margin: 6px;
-            padding: 7px 10px;
-            transition: background-color 0.1s, color 0.1s;
+        &:last-child > td {
+            text-align: center;
+            height: 50px;
+            padding: 10px;
 
-            &:hover {
-                background-color: #2f2f2f;
-                color: white;
-            }
+            input[type=button] {
+                font-size: 14px;
+                background: transparent;
+                color: #2f2f2f;
+                width: 120px;
+                border: 1px solid #2f2f2f;
+                margin: 6px;
+                padding: 7px 10px;
+                transition: background-color 0.1s, color 0.1s;
 
-            &:active {
-                background-color: black;
+                &:hover {
+                    background-color: #2f2f2f;
+                    color: white;
+                }
+
+                &:active {
+                    background-color: black;
+                }
             }
         }
     }
