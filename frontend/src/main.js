@@ -50,6 +50,27 @@ import "animate.css";
 
 Vue.config.productionTip = false;
 
+import { Icon } from "leaflet";
+
+delete Icon.Default.prototype._getIconUrl;
+
+import { LMap, LTileLayer, LMarker, LIcon, LTooltip } from "vue2-leaflet";
+import "leaflet/dist/leaflet.css";
+
+Vue.component("l-map", LMap);
+Vue.component("l-tile-layer", LTileLayer);
+Vue.component("l-marker", LMarker);
+Vue.component("l-icon", LIcon);
+Vue.component("l-tooltip", LTooltip);
+
+import GeoMap from "./components/common/GeoMap";
+import GeoMarker from "./components/common/GeoMarker";
+import MarkerTooltip from "./components/common/MarkerTooltip";
+
+Vue.component("geo-map", GeoMap);
+Vue.component("geo-marker", GeoMarker);
+Vue.component("marker-tooltip", MarkerTooltip);
+
 import Ajax from "./assets/js/ajax";
 
 Vue.prototype.$http = new Ajax();

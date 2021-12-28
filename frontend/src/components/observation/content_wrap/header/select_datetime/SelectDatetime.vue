@@ -33,21 +33,21 @@
                     <input type="button" class="now-btn" value="NOW" @click="onMoveNowDatetime" />
                     &nbsp;&nbsp;
                     <font-awesome-icon size="1x" :icon="['fa' + (isClickedHelpIcon ? 'r' : ''), 'question-circle']" @click="isClickedHelpIcon = !isClickedHelpIcon" />
-                    <div class="help-tooltip" v-show="isClickedHelpIcon && selectedCategory == 'airkorea'">
+                    <div class="help-tooltip scroll" v-show="isClickedHelpIcon && selectedCategory == 'airkorea'">
                         <strong>환경부</strong>의 현재 조회 가능한 기간은 다음과 같습니다.
-                        <ul><li :key="i" v-for="(datetime, i) in available">{{ datetime }}</li></ul>
+                        <ul><li :key="i" v-for="(datetime, i) in available" @click="onClickHelpElement(datetime[0], datetime[datetime.length - 1])">{{ datetime.map(dt => dt.format("YYYY년 MM월 DD일 HH시")).join(" ~ ") }}</li></ul>
                     </div>
-                    <div class="help-tooltip" v-show="isClickedHelpIcon && selectedCategory == 'kt'">
+                    <div class="help-tooltip scroll" v-show="isClickedHelpIcon && selectedCategory == 'kt'">
                         <strong>KT</strong>의 현재 조회 가능한 기간은 다음과 같습니다.
-                        <ul><li :key="i" v-for="(datetime, i) in available">{{ datetime }}</li></ul>
+                        <ul><li :key="i" v-for="(datetime, i) in available" @click="onClickHelpElement(datetime[0], datetime[datetime.length - 1])">{{ datetime.map(dt => dt.format("YYYY년 MM월 DD일 HH시")).join(" ~ ") }}</li></ul>
                     </div>
-                    <div class="help-tooltip" v-show="isClickedHelpIcon && selectedCategory == 'sDoT'">
+                    <div class="help-tooltip scroll" v-show="isClickedHelpIcon && selectedCategory == 'sDoT'">
                         <strong>S-DoT</strong>의 현재 조회 가능한 기간은 다음과 같습니다.
-                        <ul><li :key="i" v-for="(datetime, i) in available">{{ datetime }}</li></ul>
+                        <ul><li :key="i" v-for="(datetime, i) in available" @click="onClickHelpElement(datetime[0], datetime[datetime.length - 1])">{{ datetime.map(dt => dt.format("YYYY년 MM월 DD일 HH시")).join(" ~ ") }}</li></ul>
                     </div>
-                    <div class="help-tooltip" v-show="isClickedHelpIcon && selectedCategory == 'observer'">
+                    <div class="help-tooltip scroll" v-show="isClickedHelpIcon && selectedCategory == 'observer'">
                         <strong>옵저버</strong>의 현재 조회 가능한 기간은 다음과 같습니다.
-                        <ul><li :key="i" v-for="(datetime, i) in available">{{ datetime }}</li></ul>
+                        <ul><li :key="i" v-for="(datetime, i) in available" @click="onClickHelpElement(datetime[0], datetime[datetime.length - 1])">{{ datetime.map(dt => dt.format("YYYY년 MM월 DD일 HH시")).join(" ~ ") }}</li></ul>
                     </div>
                 </td>
             </tr>
@@ -119,6 +119,16 @@
             onMoveNowDatetime() {
                 this.setStartDatetime(dayjs());
                 this.setEndDatetime(dayjs());
+            },
+
+            onClickHelpElement(startDatetime, endDatetime) {
+                if (startDatetime === endDatetime) {
+                    this.setStartDatetime(dayjs(startDatetime.format("YYYYMMDDHH0000")));
+                    this.setEndDatetime(dayjs(endDatetime.format("YYYYMMDDHH5959")));
+                } else {
+                    this.setStartDatetime(startDatetime);
+                    this.setEndDatetime(endDatetime);
+                }
             }
         }
     }

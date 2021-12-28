@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -15,8 +17,10 @@ public class ObserverController {
     private final ObserverService observerService;
 
     @GetMapping("/stations")
-    public ResponseEntity<?> stations() {
-        return ResponseEntity.ok(this.observerService.getObserverStations());
+    public ResponseEntity<?> stations(
+            @RequestParam("startDatetime") final String startDatetime,
+            @RequestParam("endDatetime") final String endDatetime) throws ParseException {
+        return ResponseEntity.ok(this.observerService.getObserverStations(startDatetime, endDatetime));
     }
 
     @GetMapping("/searchStations")

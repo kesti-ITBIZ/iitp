@@ -15,8 +15,10 @@ public class AirkoreaController {
     private final AirkoreaService airkoreaService;
 
     @GetMapping("/stations")
-    public ResponseEntity<?> stations() {
-        return ResponseEntity.ok(this.airkoreaService.getAirkoreaStations());
+    public ResponseEntity<?> stations(
+            @RequestParam("startDatetime") final String startDatetime,
+            @RequestParam("endDatetime") final String endDatetime) {
+        return ResponseEntity.ok(this.airkoreaService.getAirkoreaStations(startDatetime, endDatetime));
     }
 
     @GetMapping("/searchStations")

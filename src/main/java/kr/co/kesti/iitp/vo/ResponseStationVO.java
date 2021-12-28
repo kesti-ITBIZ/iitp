@@ -14,6 +14,7 @@ public class ResponseStationVO {
     private Float longitude;
     private String name;
     private String address;
+    private Float pm25;
 
     public static ResponseStationVO from(StationProjection projection) {
         return ResponseStationVO.builder()
@@ -22,6 +23,7 @@ public class ResponseStationVO {
                 .longitude(projection.getLongitude())
                 .name(projection.getName())
                 .address(projection.getAddress())
+                .pm25(projection.getPm25())
                 .build();
     }
 }
