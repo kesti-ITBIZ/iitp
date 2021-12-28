@@ -1,7 +1,7 @@
 <template>
     <div id="map">
         <div class="map" v-show="selectedCategory == category" :key="i" v-for="(category, i) in Object.keys(stations)">
-            <geo-map :ref="category + '-map'" :zoom="8" :center-lat="36" :center-lon="127.5">
+            <geo-map :ref="category + '-map'" :zoom="windowWidth <= 1200 ? 7 : 8" :center-lat="36" :center-lon="127.5">
                 <geo-marker
                         :key="j"
                         v-for="(station, j) in stations[category]"
