@@ -35,18 +35,21 @@ public class IpAddressAccessControlInterceptor implements HandlerInterceptor {
         if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) ip = request.getHeader("REMOTE_ADDR");
         if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) ip = request.getRemoteAddr();
 
-        final String ipAddress = ip;
-        if (Stream.of(
-                new IpAddressMatcher("0:0:0:0:0:0:0:0"),
-                new IpAddressMatcher("192.168.219.165"),
-                new IpAddressMatcher("127.0.0.1"),
-                new IpAddressMatcher("localhost"))
-                .noneMatch(matcher -> matcher.matches(ipAddress))) {
-            String requestUri = request.getRequestURI();
-            log.warn("Forbidden access. Request URI={}, Client IP={}", requestUri, ipAddress);
-            response.sendError(HttpServletResponse.SC_FORBIDDEN);
-            return false;
-        }
+        log.info("IP ADDRESS: {}", ip);
+
+//        final String ipAddress = ip;
+//        if (Stream.of(
+//                new IpAddressMatcher("0:0:0:0:0:0:0:0"),
+//                new IpAddressMatcher("180.231.115.99"),
+//                new IpAddressMatcher("192.168.219.165"),
+//                new IpAddressMatcher("127.0.0.1"),
+//                new IpAddressMatcher("localhost"))
+//                .noneMatch(matcher -> matcher.matches(ipAddress))) {
+//            String requestUri = request.getRequestURI();
+//            log.warn("Forbidden access. Request URI={}, Client IP={}", requestUri, ipAddress);
+//            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+//            return false;
+//        }
 
         return true;
     }
