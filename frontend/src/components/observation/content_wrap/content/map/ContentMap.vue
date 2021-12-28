@@ -13,8 +13,8 @@
                         <div>
                             <h4>{{ station.name }}</h4>
                             <div>
-                                <div>위도: {{ (Math.round(station.latitude * 100) / 100).toFixed(2) }}</div>
-                                <div>경도: {{ (Math.round(station.longitude * 100) / 100).toFixed(2) }}</div>
+                                <div>위도: {{ Math.round(station.latitude * 100) / 100 }}</div>
+                                <div>경도: {{ Math.round(station.longitude * 100) / 100 }}</div>
                                 <div>주소: {{ station.address }}</div>
                                 <div>측정항목: {{ items[category].join(", ") }}</div>
                                 <div>기간평균 미세먼지 농도: {{ fineDust(station.pm25) }}</div>
@@ -23,6 +23,7 @@
                     </marker-tooltip>
                 </geo-marker>
             </geo-map>
+            <div v-show="windowWidth <= 1200">스<br /><br />크<br /><br />롤</div>
         </div>
     </div>
 </template>
@@ -44,6 +45,7 @@
         }),
         computed: {
             ...mapState({
+                windowWidth: state => state.common.windowWidth,
                 startDatetime: state => state.observation.startDatetime,
                 endDatetime: state => state.observation.endDatetime,
                 selectedCategory: state => state.observation.selectedCategory,
@@ -76,7 +78,7 @@
             async fetchStations() {
                 const stationQuery = this.$apollo.queries[this.selectedCategory + "Stations"];
                 stationQuery.skip = false;
-                await this.setStations(await stationQuery.refetch().then(response => response.data[this.selectedCategory + "Stations"].map(obj => ({
+                await this.setStations(await stationQuery.refetch().then(response => response.data === undefined || response.data[this.selectedCategory + "Stations"].length === 0 ? [] : response.data[this.selectedCategory + "Stations"].map(obj => ({
                     address: obj.address,
                     name: obj.name,
                     latitude: obj.latitude,

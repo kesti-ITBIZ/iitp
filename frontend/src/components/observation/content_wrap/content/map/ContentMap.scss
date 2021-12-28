@@ -1,19 +1,18 @@
 #map {
     position: relative;
     top: -1px;
-    width: calc(100% - 20px);
+    width: 100%;
     height: calc(100% - 20px);
     border-radius: 10px;
-    margin: 0 auto;
 
     > div {
         height: 100% !important;
+
+        > div:first-child {
+            box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+        }
     }
 }
-
-//div.map > div:nth-child(2) > div:nth-child(2) {
-//    display: none;
-//}
 
 .overlay {
     font: 12px 'NanumSquare Regular';
@@ -47,5 +46,18 @@
 @media screen and (max-width: 1200px) {
     #map {
         height: 500px;
+
+        > div.map {
+            display: flex;
+
+            > div:last-child {
+                font: 36px 'NanumSquare Extra Bold';
+                color: #a5a5a5;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 10px 0 10px 10px;
+            }
+        }
     }
 }

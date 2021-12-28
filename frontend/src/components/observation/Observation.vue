@@ -10,8 +10,8 @@
                     <td><content-wrap /></td>
                     <td v-if="windowWidth > 1200"><side-header /></td>
                 </tr>
-                <tr v-if="windowWidth <= 1200">
-                    <td><side-header /></td>
+                <tr>
+                    <td v-if="windowWidth <= 1200"><side-header /></td>
                 </tr>
             </tbody>
             <tfoot>
