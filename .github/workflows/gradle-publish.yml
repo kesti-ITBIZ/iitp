@@ -70,15 +70,6 @@ jobs:
           username: ${{ secrets.REMOTE_IITP_SSH_USERNAME }}
           password: ${{ secrets.REMOTE_IITP_SSH_PASSWORD }}
           script: |
-#            DEPLOY_PORT=9100
-#            if [ `docker ps | grep -c 'iitp-test'` != 0 ]; then docker stop iitp-test; fi
-#            if [ `docker ps -a | grep -c 'iitp-test'` != 0 ]; then docker rm iitp-test; fi
-#            if [ `docker images | grep ghcr.io/${{ env.REPOSITORY }} | grep -c beta` != 0 ]; then
-#              docker rmi $(docker images -q --filter "dangling=true") $(docker images -q --filter "reference=ghcr.io/${{ env.REPOSITORY }}:beta-*")
-#            fi
-#            docker pull ghcr.io/${{ env.REPOSITORY }}:beta-${{ env.RELEASE_VERSION }}
-#            docker run -d --name iitp-test -p $DEPLOY_PORT:9200 ghcr.io/${{ env.REPOSITORY }}:beta-${{ env.RELEASE_VERSION }}
-
             DEPLOY_PORT=9100
             CONTAINER_NAME=iitp-test
             TAG=beta
