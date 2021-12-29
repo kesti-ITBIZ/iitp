@@ -87,7 +87,7 @@ import router from './router'
 const apolloProvider = new VueApollo({
     defaultClient: new ApolloClient({
         link: createHttpLink({
-            uri: "http://211.55.33.242:9100/graphql"
+            uri: "http://localhost:9200/graphql"
         }),
         cache: new InMemoryCache()
     })
