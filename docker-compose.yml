@@ -1,0 +1,23 @@
+version: "3"
+services:
+  iitp1:
+    build: .
+    image: iitp1
+    container_name: iitp-dev1
+    ports:
+    - 9500:9200
+    restart: "unless-stopped"
+  iitp2:
+    build: .
+    image: iitp2
+    container_name: iitp-dev2
+    ports:
+      - 9600:9200
+    restart: "unless-stopped"
+  iitp3:
+    build: .
+    image: iitp3
+    container_name: iitp-dev3
+    ports:
+      - 9700:9200
+    restart: "unless-stopped"
