@@ -79,18 +79,27 @@ jobs:
             for IDX in ${REDEPLOY_LIST[@]/$REDEPLOY_NUM}; do
               if [ `docker ps | grep -c '$CONTAINER_NAME-$IDX'` != 0 ]; then
                 docker stop $CONTAINER_NAME-$IDX
+                echo stopped $CONTAINER_NAME-$IDX
+              fi
+              if [ `docker ps | grep -c '$CONTAINER_NAME-$IDX'` != 0 ]; then
                 docker rm $CONTAINER_NAME-$IDX
+                echo removed $CONTAINER_NAME-$IDX
               fi
             done
 
-            docker pull ghcr.io/${{ env.REPOSITORY }}:$TAG-${{ env.RELEASE_VERSION }}
+            NEW_VERSION_IMAGE=ghcr.io/${{ env.REPOSITORY }}:$TAG-${{ env.RELEASE_VERSION }}
+
+            docker pull $NEW_VERSION_IMAGE
             for IDX in ${REDEPLOY_LIST[@]/$REDEPLOY_NUM}; do
-              docker run -d --name $CONTAINER_NAME-$IDX -p `expr 9200 + $IDX`:9200 ghcr.io/${{ env.REPOSITORY }}:$TAG-${{ env.RELEASE_VERSION }}
+              docker run -d --name $CONTAINER_NAME-$IDX -p `expr 9200 + $IDX`:9200 $NEW_VERSION_IMAGE
+              echo executed $CONTAINER_NAME-$IDX by $NEW_VERSION_IMAGE
             done
 
             docker stop $CONTAINER_NAME-$REDEPLOY_NUM
             docker rm $CONTAINER_NAME-$REDEPLOY_NUM
             if [ `docker images | grep ghcr.io/${{ env.REPOSITORY }} | grep -v $TAG-${{ env.RELEASE_VERSION }} | grep -c ''` != 0 ]; then
+              echo removed images $(docker images | grep ghcr.io/${{ env.REPOSITORY }} | grep $TAG | grep -v ${{ env.RELEASE_VERSION }} | awk '{print $3}')
               docker rmi $(docker images -q --filter "dangling=true") $(docker images | grep ghcr.io/${{ env.REPOSITORY }} | grep $TAG | grep -v ${{ env.RELEASE_VERSION }} | awk '{print $3}')
             fi
-            docker run -d --name $CONTAINER_NAME-$REDEPLOY_NUM -p `expr 9200 + $REDEPLOY_NUM`:9200 ghcr.io/${{ env.REPOSITORY }}:$TAG-${{ env.RELEASE_VERSION }}
+            docker run -d --name $CONTAINER_NAME-$REDEPLOY_NUM -p `expr 9200 + $REDEPLOY_NUM`:9200 $NEW_VERSION_IMAGE
+            echo executed $CONTAINER_NAME-$REDEPLOY_NUM by $NEW_VERSION_IMAGE
