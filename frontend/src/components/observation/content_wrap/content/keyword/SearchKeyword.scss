@@ -1,7 +1,8 @@
 #search-keyword {
     background-color: white;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
     color: black;
-    height: 100%;
+    height: calc(100% - 20px);
 
     > div {
         height: 100%;
@@ -101,68 +102,70 @@
                     }
                 }
 
-                tbody td {
-                    div {
-                        overflow-x: hidden;
-                        height: 100%;
+                tbody > td {
+                    padding: 0 !important;
+                }
 
-                        &.scroll {
-                            table {
-                                height: fit-content;
-                                border-collapse: collapse;
+                tbody td div {
+                    overflow-x: hidden;
+                    height: 100%;
 
-                                tbody {
-                                    tr:hover td {
-                                        background-color: #f5f5f5;
-                                        cursor: pointer;
-                                    }
+                    &.scroll {
+                        table {
+                            height: fit-content;
+                            border-collapse: collapse;
 
-                                    tr:active td {
-                                        background-color: #e3e3e3;
-                                        transition: background-color 0.1s !important;
-                                    }
-
-                                    td {
-                                        text-align: center;
-                                        border: {
-                                            bottom: 1px solid #d5d5d5;
-                                            right: 1px solid #d5d5d5;
-                                        };
-                                        padding: 10px 15px;
-                                        transition: background-color 0.2s;
-                                        transform: rotate(0.03deg);
-
-                                        &:last-child {
-                                            text-align: left;
-                                        }
-                                    }
+                            tbody {
+                                tr:hover td {
+                                    background-color: #f5f5f5;
+                                    cursor: pointer;
                                 }
-                            }
 
-                            div.infinite-loading-container {
-                                overflow: hidden !important;
-                                height: 50px;
+                                tr:active td {
+                                    background-color: #e3e3e3;
+                                    transition: background-color 0.1s !important;
+                                }
 
-                                div.infinite-status-prompt {
-                                    overflow: hidden;
+                                td {
+                                    text-align: center;
+                                    border: {
+                                        bottom: 1px solid #d5d5d5;
+                                        right: 1px solid #d5d5d5;
+                                    };
+                                    padding: 10px 15px;
+                                    transition: background-color 0.2s;
+                                    transform: rotate(0.03deg);
 
-                                    div.no-results {
-                                        font: {
-                                            size: 14px;
-                                            weight: bold;
-                                        };
-                                        padding: 15px 0;
-                                        transform: rotate(0.03deg);
+                                    &:last-child {
+                                        text-align: left;
                                     }
                                 }
                             }
                         }
 
-                        &.no-data table {
-                            font-size: 18px;
-                            text-align: center;
-                            color: #a5a5a5;
+                        div.infinite-loading-container {
+                            overflow: hidden !important;
+                            height: 50px;
+
+                            div.infinite-status-prompt {
+                                overflow: hidden;
+
+                                div.no-results {
+                                    font: {
+                                        size: 14px;
+                                        weight: bold;
+                                    };
+                                    padding: 15px 0;
+                                    transform: rotate(0.03deg);
+                                }
+                            }
                         }
+                    }
+
+                    &.no-data table {
+                        font-size: 18px;
+                        text-align: center;
+                        color: #a5a5a5;
                     }
                 }
             }
@@ -173,5 +176,27 @@
 @media screen and (max-width: 1200px) {
     #search-keyword {
         height: 500px;
+
+        > div > div > table {
+            > colgroup col {
+                &:nth-child(1) {
+                    width: 15px;
+                }
+
+                &:nth-child(2) {
+                    width: calc(100% - 15px);
+                }
+            }
+
+            > tbody > tr > td > div table colgroup col {
+                &:nth-child(1) {
+                    width: 48px;
+                }
+
+                &:nth-child(2) {
+                    width: calc(100% - 48px);
+                }
+            }
+        }
     }
 }
