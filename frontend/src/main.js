@@ -93,6 +93,10 @@ const apolloProvider = new VueApollo({
     })
 });
 
+import { Plugin } from "vue-fragment";
+
+Plugin.install(Vue);
+
 new Vue({
     store,
     apolloProvider,

@@ -21,15 +21,19 @@
                     <colgroup>
                         <col />
                         <col />
-                        <col />
-                        <col />
+                        <col v-show="windowWidth >= 1200" />
+                        <col v-show="windowWidth >= 1200" />
                     </colgroup>
                     <thead>
-                        <tr>
+                        <tr v-show="windowWidth >= 1200">
                             <th>No.</th>
                             <th>생산기관</th>
                             <th>지점명</th>
                             <th>주소</th>
+                        </tr>
+                        <tr v-show="windowWidth < 1200">
+                            <th>No.</th>
+                            <th>지점정보</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,15 +44,19 @@
                                         <colgroup>
                                             <col />
                                             <col />
-                                            <col />
-                                            <col />
+                                            <col v-show="windowWidth >= 1200" />
+                                            <col v-show="windowWidth >= 1200" />
                                         </colgroup>
                                         <tbody>
                                             <tr :key="i" v-for="(station, i) in searchedStations" @click="select({ name: station.name, address: station.address })">
                                                 <td>{{ i + 1 }}</td>
-                                                <td>{{ station.category }}</td>
-                                                <td>{{ station.name }}</td>
-                                                <td>{{ station.address }}</td>
+                                                <td v-show="windowWidth >= 1200">{{ station.category }}</td>
+                                                <td v-show="windowWidth >= 1200">{{ station.name }}</td>
+                                                <td v-show="windowWidth >= 1200">{{ station.address }}</td>
+                                                <td v-show="windowWidth < 1200">
+                                                    <h3>{{ station.name }}</h3>
+                                                    {{ station.category }}<br />{{ station.address }}
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -92,6 +100,7 @@
         }),
         computed: {
             ...mapState({
+                windowWidth: state => state.common.windowWidth,
                 selectedCategory: state => state.observation.selectedCategory,
                 searchedStations: state => state.observation.searchedStations
             })

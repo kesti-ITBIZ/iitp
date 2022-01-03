@@ -49,7 +49,7 @@
     }
 
     > tbody > tr {
-        &:first-child td {
+        &:first-child > td {
             padding: 0 10px;
         }
 
@@ -84,5 +84,9 @@
 @media screen and (max-width: 1200px) {
     #content-wrap {
         min-width: 0;
+
+        td.map {
+            padding: 10px !important;
+        }
     }
 }
