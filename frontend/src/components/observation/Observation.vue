@@ -2,8 +2,8 @@
     <div id="observation">
         <table>
             <colgroup>
-                <col style="width: calc(50% - 200px);" />
-                <col v-if="windowWidth > 1200" style="width: 200px;" />
+                <col />
+                <col v-if="windowWidth > 1200" />
             </colgroup>
             <tbody>
                 <tr>

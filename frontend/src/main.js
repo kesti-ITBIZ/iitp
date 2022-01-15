@@ -1,6 +1,7 @@
 import Vue from "vue";
 import App from "./App.vue";
 import store from "./store";
+import router from "./router";
 
 import "./index.scss";
 
@@ -82,12 +83,13 @@ Vue.use(VueApollo);
 import { ApolloClient } from "apollo-client";
 import { createHttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
-import router from './router'
+import fetch from "cross-fetch";
 
 const apolloProvider = new VueApollo({
     defaultClient: new ApolloClient({
         link: createHttpLink({
-            uri: "http://localhost:9200/graphql"
+            uri: "http://localhost:9200/graphql",
+            fetch
         }),
         cache: new InMemoryCache()
     })
