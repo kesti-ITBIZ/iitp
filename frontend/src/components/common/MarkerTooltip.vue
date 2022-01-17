@@ -1,5 +1,5 @@
 <template>
-    <l-tooltip :options="{ offset: [20, -23], direction: 'right' }"><slot /></l-tooltip>
+    <v-tooltip :options="{ offset: [20, -23], direction: 'right' }"><slot /></v-tooltip>
 </template>
 
 <script>

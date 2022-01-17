@@ -246,7 +246,8 @@
                         text: this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0 ? this.data[this.selectedCategory][0].stnNm : "",
                         left: 50,
                         textStyle: {
-                            fontFamily: "NanumSquare_ac Extra Bold"
+                            fontFamily: "NanumSquare, sans-serif",
+                            fontWeight: 900
                         }
                     },
                     tooltip: {
@@ -265,7 +266,7 @@
                                 Y: ${Math.round((typeof data.value === "object" ? data.value[1] : data.value) * 100) / 100}`;
                         },
                         textStyle: {
-                            fontFamily: "NanumSquare_ac"
+                            fontFamily: "NanumSquare, sans-serif"
                         }
                     },
                     toolbox: {
@@ -283,7 +284,7 @@
                     legend: {
                         data: this.yAxis.map(obj => obj.label),
                         textStyle: {
-                            fontFamily: "NanumSquare_ac"
+                            fontFamily: "NanumSquare, sans-serif"
                         }
                     },
                     xAxis: {
@@ -294,10 +295,10 @@
                             show: true
                         },
                         nameTextStyle: {
-                            fontFamily: "NanumSquare_ac"
+                            fontFamily: "NanumSquare, sans-serif"
                         },
                         axisLabel: {
-                            fontFamily: "NanumSquare_ac"
+                            fontFamily: "NanumSquare, sans-serif"
                         }
                     },
                     yAxis: this.yAxis.findIndex(y => y.value === "pm10") !== -1 && this.yAxis.findIndex(y => y.value === "pm25") !== -1 ?
@@ -307,11 +308,12 @@
                             min: 0,
                             nameTextStyle: {
                                 align: "left",
-                                fontFamily: "NanumSquare_ac Bold"
+                                fontFamily: "NanumSquare, sans-serif",
+                                fontWeight: "bold"
                             },
                             axisLabel: {
                                 formatter: `{value}`,
-                                fontFamily: "NanumSquare_ac"
+                                fontFamily: "NanumSquare, sans-serif"
                             },
                             splitLine: {
                                 show: true
@@ -323,11 +325,12 @@
                             min: item => y.value === "temperature" ? (item.min < 0 ? item.min - 1 : 0) : 0,
                             nameTextStyle: {
                                 align: "left",
-                                fontFamily: "NanumSquare Bold"
+                                fontFamily: "NanumSquare",
+                                fontWeight: "bold"
                             },
                             axisLabel: {
                                 formatter: `{value}`,
-                                fontFamily: "NanumSquare_ac"
+                                fontFamily: "NanumSquare, sans-serif"
                             },
                             splitLine: {
                                 show: true

@@ -9,13 +9,15 @@
         &:first-child {
             text-align: right;
             font-size: 12px;
+            transform: rotate(0.03deg);
         }
 
         &:last-child div.mx-datepicker {
             width: 145px;
 
             input.mx-input {
-                font: 11px 'NanumSquare Bold';
+                font: 11px 'NanumSquare';
+                font-weight: bold;
                 height: 30px;
                 border: {
                     radius: 5px;
@@ -47,6 +49,7 @@
             border-radius: 5px;
             padding: 7px 9px;
             transition: background-color 0.15s;
+            transform: rotate(0.03deg);
 
             &:hover {
                 background-color: #2479c6;
@@ -101,7 +104,8 @@
     select {
         position: relative;
         top: -1px;
-        font: 11px 'NanumSquare Bold';
+        font: 11px 'NanumSquare';
+        font-weight: bold;
         width: 70px;
         height: 30px;
         border: 1px solid #9c9c9c;

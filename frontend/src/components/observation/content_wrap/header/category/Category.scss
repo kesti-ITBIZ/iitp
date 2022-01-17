@@ -23,7 +23,7 @@ $active: #006f5b;
     }
 
     input[type=button] {
-        font: 11px 'NanumSquare Regular';
+        font: 11px 'NanumSquare';
         background-color: #5cc8ff;
         color: white;
         width: calc(100% - 14px);
@@ -48,7 +48,8 @@ $active: #006f5b;
     }
 
     button {
-        font: 11px 'NanumSquare_ac Bold';
+        font: 11px 'NanumSquare', sans-serif;
+        font-weight: bold;
         background-color: white;
         color: black;
         box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
