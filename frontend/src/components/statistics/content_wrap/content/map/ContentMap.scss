@@ -11,7 +11,7 @@ div.map > div:nth-child(2) > div:nth-child(2) {
 
 .overlay {
     font-size: 12px;
-    background-color: white;
+    background-color: white !important;
     border-radius: 3px;
     padding: 10px;
     cursor: default;

@@ -9,6 +9,7 @@
         &:first-child {
             text-align: right;
             font-size: 12px;
+            transform: rotate(0.03deg);
         }
 
         &:last-child div.mx-datepicker {
@@ -48,6 +49,7 @@
             border-radius: 5px;
             padding: 7px 9px;
             transition: background-color 0.15s;
+            transform: rotate(0.03deg);
 
             &:hover {
                 background-color: #2479c6;

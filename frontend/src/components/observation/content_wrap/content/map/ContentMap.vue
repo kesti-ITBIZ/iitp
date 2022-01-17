@@ -1,27 +1,27 @@
 <template>
     <div id="map">
         <div class="map" v-show="selectedCategory == category" :key="i" v-for="(category, i) in Object.keys(stations)">
-            <geo-map :ref="category + '-map'" :zoom="windowWidth <= 1200 ? 7 : 8" :center-lat="36" :center-lon="127.5">
-                <geo-marker
-                        :key="j"
-                        v-for="(station, j) in stations[category]"
-                        :lat="station.latitude"
-                        :lon="station.longitude"
-                        :pm25="station.pm25"
-                        @click="setSelectedStation({ category, station })">
-                    <marker-tooltip class="overlay">
-                        <div>
-                            <h4>{{ station.name }}</h4>
-                            <div>
-                                <div>위도: {{ Math.round(station.latitude * 100) / 100 }}</div>
-                                <div>경도: {{ Math.round(station.longitude * 100) / 100 }}</div>
-                                <div>주소: {{ station.address }}</div>
-                                <div>측정항목: {{ items[category].join(", ") }}</div>
-                                <div>기간평균 미세먼지 농도: {{ fineDust(station.pm25) }}</div>
-                            </div>
-                        </div>
-                    </marker-tooltip>
-                </geo-marker>
+            <geo-map :ref="category + '-map'" :zoom="windowWidth <= 1200 ? 7 : 8" :center-lat="36" :center-lon="127.5" :data="stations[category]">
+<!--                <geo-marker-->
+<!--                        :key="j"-->
+<!--                        v-for="(station, j) in stations[category]"-->
+<!--                        :lat="station.latitude"-->
+<!--                        :lon="station.longitude"-->
+<!--                        :pm25="station.pm25"-->
+<!--                        @click="setSelectedStation({ category, station })">-->
+<!--                    <marker-tooltip class="overlay">-->
+<!--                        <div>-->
+<!--                            <h4>{{ station.name }}</h4>-->
+<!--                            <div>-->
+<!--                                <div>위도: {{ Math.round(station.latitude * 100) / 100 }}</div>-->
+<!--                                <div>경도: {{ Math.round(station.longitude * 100) / 100 }}</div>-->
+<!--                                <div>주소: {{ station.address }}</div>-->
+<!--                                <div>측정항목: {{ items[category].join(", ") }}</div>-->
+<!--                                <div>기간평균 미세먼지 농도: {{ fineDust(station.pm25) }}</div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </marker-tooltip>-->
+<!--                </geo-marker>-->
             </geo-map>
             <div v-show="windowWidth <= 1200">스<br /><br />크<br /><br />롤</div>
         </div>

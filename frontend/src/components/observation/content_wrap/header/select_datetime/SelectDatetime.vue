@@ -130,14 +130,6 @@
                     this.setEndDatetime(endDatetime);
                 }
             }
-        },
-        mounted() {
-            // console.log(dayjs());
-            // console.log(dayjs().subtract(6, "days"));
-            // console.log(dayjs().subtract(6, "days").format("YYYY.MM.DD 00:00"));
-            // console.log(`dayjs("${dayjs().subtract(6, "days").format("YYYY.MM.DD 00:00")}", "YYYY.MM.DD HH:mm")`);
-
-            console.log(this.startDatetime);
         }
     }
 </script>
