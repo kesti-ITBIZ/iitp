@@ -11,7 +11,8 @@
                 @l-drawing="drawing" />
         <v-canvas-layer
                 :location="locations"
-                @l-mousemove="hover" />
+                @l-mousemove="hover"
+                @l-click="click" />
 <!--                <slot />-->
     </v-map>
 </template>
@@ -127,8 +128,24 @@
                 }
             },
 
-            click() {
-
+            click(info) {
+                const [cursorX, cursorY] = [info.containerPoint.x, info.containerPoint.y];
+                let closedX = 99999, closedY = 99999;
+                let minDistance = 99999, index = -1;
+                this.markerPoints.forEach(({ x, y }, i) => {
+                    const distance = ((cursorX - x) ** 2 + (cursorY - y) ** 2) ** .5;
+                    if (minDistance > distance) {
+                        minDistance = distance;
+                        [closedX, closedY] = [x, y];
+                        index = i;
+                    }
+                });
+                if (index !== -1 && ((cursorX - closedX) ** 2 + (cursorY - closedY) ** 2) ** .5 <= 16) {
+                    const station = { ...this.markerPoints[index] };
+                    delete station.x;
+                    delete station.y;
+                    this.$emit("click", station);
+                }
             },
 
             fineDust(pm25) {
