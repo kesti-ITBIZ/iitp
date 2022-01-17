@@ -155,12 +155,6 @@
                 else if (pm25 >= 36 && pm25 < 76) return "나쁨";
                 else if (pm25 >= 76) return "매우나쁨";
             }
-        },
-        mounted() {
-            console.log(this.locations);
-        },
-        updated() {
-            console.log(this.locations);
         }
     }
 </script>
