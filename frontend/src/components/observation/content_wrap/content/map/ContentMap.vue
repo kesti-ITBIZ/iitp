@@ -65,6 +65,10 @@
             selectedCategory() {
                 if (this.stations[this.selectedCategory] == null) this.fetchStations();
                 setTimeout(() => this.$refs[this.selectedCategory + "-map"][0].invalidateSize(true), 0);
+            },
+
+            stations() {
+                setTimeout(() => this.$refs[this.selectedCategory + "-map"][0].invalidateSize(true), 0);
             }
         },
         ...stationApi,
