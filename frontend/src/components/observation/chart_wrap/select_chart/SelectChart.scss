@@ -23,7 +23,8 @@ $color: #0094c4;
                 margin: 0 auto;
 
                 + div {
-                    font: 14px 'NanumSquare Bold';
+                    font: 14px 'NanumSquare';
+                    font-weight: bold;
                     padding-top: 10px;
                     transform: rotate(0.03deg);
                 }

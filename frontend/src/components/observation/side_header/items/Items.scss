@@ -9,6 +9,10 @@
         border-radius: 10px;
 
         > table {
+            @supports (-moz-appearance: none) {
+                height: calc(100% - 35px);
+            }
+
             .opt-head {
                 text-align: left;
                 border-bottom: 1px solid #e0e0e0;
@@ -23,7 +27,8 @@
                 };
 
                 input[type=button] {
-                    font: 10px 'NanumSquare Bold';
+                    font: 10px 'NanumSquare';
+                    font-weight: bold;
                     background-color: #0084de;
                     color: white;
                     border: none;
@@ -41,6 +46,7 @@
 
                 > ul {
                     height: 100%;
+                    overflow: hidden;
 
                     li input[type=button] {
                         &.datetime, &.station, &.windDirection {
