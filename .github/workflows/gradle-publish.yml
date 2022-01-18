@@ -93,5 +93,5 @@ jobs:
             if [ `docker images | grep ghcr.io/${{ env.REPOSITORY }} | grep -v $TAG-${{ env.RELEASE_VERSION }} | grep -c ''` != 0 ]; then
               docker rmi $(docker images -q --filter "dangling=true") $(docker images | grep ghcr.io/${{ env.REPOSITORY }} | grep $TAG | grep -v ${{ env.RELEASE_VERSION }} | awk '{print $3}')
             fi
-            docker pull ghcr.io/${{ env.REPOSITORY }}:beta-${{ env.RELEASE_VERSION }}
-            docker run -d --name iitp-test -p $DEPLOY_PORT:9200 ghcr.io/${{ env.REPOSITORY }}:beta-${{ env.RELEASE_VERSION }}
+            docker pull ghcr.io/${{ env.REPOSITORY }}:$TAG-${{ env.RELEASE_VERSION }}
+            docker run -d --name $CONTAINER_NAME-$REDEPLOY_NUM -p `expr 9200 + $REDEPLOY_NUM`:9200 $NEW_VERSION_IMAGE
