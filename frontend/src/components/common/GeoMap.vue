@@ -2,7 +2,7 @@
     <v-map
             ref="map"
             :zoom="zoom"
-            :center="[centerLat, centerLon]"
+            :center="center"
             :options="{ attributionControl: false }"
             style="height: 100%;">
         <v-tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
@@ -22,8 +22,7 @@
         name: "GeoMap",
         props: {
             zoom: Number,
-            centerLat: Number,
-            centerLon: Number,
+            center: Array,
             data: Array
         },
         data: () => ({
@@ -37,6 +36,26 @@
         methods: {
             invalidateSize(invalidate) {
                 this.$refs.map.mapObject.invalidateSize(invalidate);
+            },
+
+            closedMarker(info) {
+                const [cursorX, cursorY] = [info.containerPoint.x, info.containerPoint.y];
+                let closedX = 99999, closedY = 99999;
+                let minDistance = 99999, index = -1;
+                this.markerPoints.forEach(({ x, y }, i) => {
+                    const distance = ((cursorX - x) ** 2 + (cursorY - y) ** 2) ** .5;
+                    if (minDistance > distance) {
+                        minDistance = distance;
+                        [closedX, closedY] = [x, y];
+                        index = i;
+                    }
+                });
+                if (index !== -1 && ((cursorX - closedX) ** 2 + (cursorY - closedY) ** 2) ** .5 <= 16) {
+                    const markerData = { ...this.markerPoints[index] };
+                    delete markerData.x;
+                    delete markerData.y;
+                    return markerData;
+                } else return null;
             },
 
             drawing(info) {
@@ -56,9 +75,7 @@
                         const [x, y] = [dot.x, dot.y];
 
                         shadowImg.src = require("../../assets/img/markers_shadow.png");
-                        shadowImg.onload = () => {
-                            context.drawImage(shadowImg, x - 10, y - 11, 35, 16);
-                        };
+                        shadowImg.onload = () => context.drawImage(shadowImg, x - 10, y - 11, 35, 16);
 
                         if (this.data[i].pm25 == null) markerImg.src = require("../../assets/img/marker_0.svg");
                         else if (this.data[i].pm25 < 16) markerImg.src = require("../../assets/img/marker_1.svg");
@@ -82,21 +99,12 @@
 
             hover(info) {
                 const canvas = info.canvas;
+                const context = canvas.getContext("2d");
                 const [cursorX, cursorY] = [info.containerPoint.x, info.containerPoint.y];
-                let closedX = 99999, closedY = 99999;
-                let minDistance = 99999, index = -1;
-                this.markerPoints.forEach(({ x, y }, i) => {
-                    const distance = ((cursorX - x) ** 2 + (cursorY - y) ** 2) ** .5;
-                    if (minDistance > distance) {
-                        minDistance = distance;
-                        [closedX, closedY] = [x, y];
-                        index = i;
-                    }
-                });
-                if (index !== -1 && ((cursorX - closedX) ** 2 + (cursorY - closedY) ** 2) ** .5 <= 16) {
+                const markerData = this.closedMarker(info);
+                if (markerData) {
                     canvas.style.cursor = "pointer";
                     const tooltip = new Image();
-                    const markerData = this.markerPoints[index];
                     tooltip.src = "data:image/svg+xml," +
                         `<svg xmlns="http://www.w3.org/2000/svg">
                             <foreignObject width="100%" height="100%">
@@ -109,7 +117,15 @@
                                                 <div style="margin-top: 2px; transform: rotate(0.03deg);">경도: ${Math.round(markerData.longitude * 100) / 100}</div>
                                                 <div style="margin-top: 2px; transform: rotate(0.03deg);">주소: ${markerData.address}</div>
                                                 <!--<div>측정항목: {{ items[category].join(", ") }}</div>-->
-                                                <div style="margin-top: 2px; transform: rotate(0.03deg);">기간평균 미세먼지 농도: ${this.fineDust(markerData.pm25)}</div>
+                                                <div style="margin-top: 2px; transform: rotate(0.03deg);">
+                                                    기간평균 미세먼지 농도: ${(() => {
+                                                        if (markerData.pm25 == null) return "해당 기간 정보없음";
+                                                        else if (markerData.pm25 < 16) return "좋음";
+                                                        else if (markerData.pm25 >= 16 && markerData.pm25 < 36) return "보통";
+                                                        else if (markerData.pm25 >= 36 && markerData.pm25 < 76) return "나쁨";
+                                                        else if (markerData.pm25 >= 76) return "매우나쁨";
+                                                    })()}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -117,43 +133,18 @@
                             </foreignObject>
                         </svg>`;
                     tooltip.onload = () => {
-                        const context = canvas.getContext("2d");
                         context.clearRect(0, 0, canvas.width, canvas.height);
                         context.drawImage(tooltip, cursorX, cursorY);
                     };
                 } else {
                     canvas.style.cursor = "grab";
-                    const context = canvas.getContext("2d");
                     context.clearRect(0, 0, canvas.width, canvas.height);
                 }
             },
 
             click(info) {
-                const [cursorX, cursorY] = [info.containerPoint.x, info.containerPoint.y];
-                let closedX = 99999, closedY = 99999;
-                let minDistance = 99999, index = -1;
-                this.markerPoints.forEach(({ x, y }, i) => {
-                    const distance = ((cursorX - x) ** 2 + (cursorY - y) ** 2) ** .5;
-                    if (minDistance > distance) {
-                        minDistance = distance;
-                        [closedX, closedY] = [x, y];
-                        index = i;
-                    }
-                });
-                if (index !== -1 && ((cursorX - closedX) ** 2 + (cursorY - closedY) ** 2) ** .5 <= 16) {
-                    const station = { ...this.markerPoints[index] };
-                    delete station.x;
-                    delete station.y;
-                    this.$emit("click", station);
-                }
-            },
-
-            fineDust(pm25) {
-                if (pm25 == null) return "해당 기간 정보없음";
-                else if (pm25 < 16) return "좋음";
-                else if (pm25 >= 16 && pm25 < 36) return "보통";
-                else if (pm25 >= 36 && pm25 < 76) return "나쁨";
-                else if (pm25 >= 76) return "매우나쁨";
+                const markerData = this.closedMarker(info);
+                if (markerData) this.$emit("click", markerData);
             }
         }
     }
