@@ -81,6 +81,14 @@
                             const marker = new Image();
                             marker.src = typeof this.marker.img === "string" ? this.marker.img : this.marker.img(data[i]);
                             marker.onload = () => {
+                                if (this.marker.enableCompareDot) {
+                                    context.beginPath();
+                                    context.fillStyle = "red";
+                                    context.arc(x, y, 10, 0, 360);
+                                    context.fill();
+                                    context.closePath();
+                                }
+
                                 let markerTop = 0, markerLeft = 0;
                                 if (this.marker.imgStyle) {
                                     if (this.marker.imgStyle.top) markerTop = this.marker.imgStyle.top;

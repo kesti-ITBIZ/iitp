@@ -41,6 +41,8 @@
 
             marker() {
                 return {
+                    enableCompareDot: false,
+
                     img(data) {
                         if (data.pm25 == null) return require("../../../../../assets/img/marker_0.png");
                         else if (data.pm25 < 16) return require("../../../../../assets/img/marker_1.png");
@@ -49,15 +51,15 @@
                         else return require("../../../../../assets/img/marker_4.png");
                     },
                     imgStyle: {
-                        top: -35,
-                        left: -14
+                        top: -37,
+                        left: -13.5
                     },
 
                     text(data) {
                         return data.pm25 ? data.pm25 : "-";
                     },
                     textStyle: {
-                        top: -18,
+                        top: -21,
                         left: -1,
                         fontStyle: "italic",
                         fontSize: "10pt",
