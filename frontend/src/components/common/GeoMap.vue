@@ -69,58 +69,62 @@
                 const map = this.$refs.map.mapObject;
                 const bounds = map.getBounds();
 
-                for (let i = 0; this.data && i < this.data.length; i++) {
-                    const latlng = [this.data[i].latitude, this.data[i].longitude];
-                    if (bounds.contains(latlng)) {
-                        const dot = map.latLngToContainerPoint(latlng);
-                        const [x, y] = [dot.x, dot.y];
+                if (this.data) {
+                    const data = this.data.concat();
+                    data.sort((a, b) => a.latitude < b.latitude ? 1 : a.latitude === b.latitude && a.longitude < b.longitude ? 1 : -1);
+                    for (let i = 0; i < data.length; i++) {
+                        const latlng = [data[i].latitude, data[i].longitude];
+                        if (bounds.contains(latlng)) {
+                            const dot = map.latLngToContainerPoint(latlng);
+                            const [x, y] = [dot.x, dot.y];
 
-                        const marker = new Image();
-                        marker.src = typeof this.marker.img === "string" ? this.marker.img : this.marker.img(this.data[i]);
-                        marker.onload = () => {
-                            let markerTop = 0, markerLeft = 0;
-                            if (this.marker.imgStyle) {
-                                if (this.marker.imgStyle.top) markerTop = this.marker.imgStyle.top;
-                                if (this.marker.imgStyle.left) markerLeft = this.marker.imgStyle.left;
-                            }
-                            context.drawImage(marker, x + markerLeft, y + markerTop, marker.width, marker.height);
+                            const marker = new Image();
+                            marker.src = typeof this.marker.img === "string" ? this.marker.img : this.marker.img(data[i]);
+                            marker.onload = () => {
+                                let markerTop = 0, markerLeft = 0;
+                                if (this.marker.imgStyle) {
+                                    if (this.marker.imgStyle.top) markerTop = this.marker.imgStyle.top;
+                                    if (this.marker.imgStyle.left) markerLeft = this.marker.imgStyle.left;
+                                }
+                                context.drawImage(marker, x + markerLeft, y + markerTop, marker.width, marker.height);
 
-                            if (this.marker.text) {
-                                let text = typeof this.marker.text === "string" ? this.marker.text : this.marker.text(this.data[i]);
-                                if (this.marker.textStyle) {
-                                    let textTop = 0, textLeft = 0;
-                                    if (this.marker.textStyle.top) textTop = this.marker.textStyle.top;
-                                    if (this.marker.textStyle.left) textLeft = this.marker.textStyle.left;
-                                    context.fillText(text, x + textLeft, y + textTop);
+                                if (this.marker.text) {
+                                    let text = typeof this.marker.text === "string" ? this.marker.text : this.marker.text(data[i]);
+                                    if (this.marker.textStyle) {
+                                        let textTop = 0, textLeft = 0;
+                                        if (this.marker.textStyle.top) textTop = this.marker.textStyle.top;
+                                        if (this.marker.textStyle.left) textLeft = this.marker.textStyle.left;
+                                        context.fillText(text, x + textLeft, y + textTop);
 
-                                    let font = [];
-                                    if (this.marker.textStyle.fontStyle) font.push(this.marker.textStyle.fontStyle);
-                                    if (this.marker.textStyle.fontSize) font.push(this.marker.textStyle.fontSize);
-                                    if (this.marker.textStyle.fontFamily) font.push(this.marker.textStyle.fontFamily);
-                                    context.font = font.join(" ");
-                                    if (this.marker.textStyle.color) context.fillStyle = this.marker.textStyle.color;
-                                    if (this.marker.textStyle.verticalAlign) context.textBaseline = this.marker.textStyle.verticalAlign;
-                                    if (this.marker.textStyle.textAlign) context.textAlign = this.marker.textStyle.textAlign;
-                                } else context.fillText(text, x, y);
-                            }
+                                        let font = [];
+                                        if (this.marker.textStyle.fontStyle) font.push(this.marker.textStyle.fontStyle);
+                                        if (this.marker.textStyle.fontSize) font.push(this.marker.textStyle.fontSize);
+                                        if (this.marker.textStyle.fontFamily) font.push(this.marker.textStyle.fontFamily);
+                                        context.font = font.join(" ");
+                                        if (this.marker.textStyle.color) context.fillStyle = this.marker.textStyle.color;
+                                        if (this.marker.textStyle.verticalAlign) context.textBaseline = this.marker.textStyle.verticalAlign;
+                                        if (this.marker.textStyle.textAlign) context.textAlign = this.marker.textStyle.textAlign;
+                                    } else context.fillText(text, x, y);
+                                }
 
-                            let pointTop = 0, pointLeft = 0, pointRadius = 10;
-                            if (this.marker.pointCenter) {
-                                if (this.marker.pointCenter.top) pointTop = this.marker.pointCenter.top;
-                                if (this.marker.pointCenter.left) pointLeft = this.marker.pointCenter.left;
-                                if (this.marker.pointCenter.radius) pointRadius = this.marker.pointCenter.radius;
-                            }
-                            const markerPoint = {
-                                x: x + pointLeft,
-                                y: y + pointTop,
-                                radius: pointRadius,
-                                ...this.data[i]
+                                let pointTop = 0, pointLeft = 0, pointRadius = 10;
+                                if (this.marker.pointCenter) {
+                                    if (this.marker.pointCenter.top) pointTop = this.marker.pointCenter.top;
+                                    if (this.marker.pointCenter.left) pointLeft = this.marker.pointCenter.left;
+                                    if (this.marker.pointCenter.radius) pointRadius = this.marker.pointCenter.radius;
+                                }
+                                const markerPoint = {
+                                    x: x + pointLeft,
+                                    y: y + pointTop,
+                                    radius: pointRadius,
+                                    ...data[i]
+                                };
+                                markerPoints.push(markerPoint);
                             };
-                            markerPoints.push(markerPoint);
-                        };
+                        }
                     }
+                    this.markerPoints = markerPoints;
                 }
-                this.markerPoints = markerPoints;
             },
 
             hover(info) {
