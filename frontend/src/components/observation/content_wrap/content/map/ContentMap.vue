@@ -1,28 +1,12 @@
 <template>
     <div id="map">
         <div class="map" v-show="selectedCategory == category" :key="i" v-for="(category, i) in Object.keys(stations)">
-            <geo-map :ref="category + '-map'" :zoom="windowWidth <= 1200 ? 7 : 8" :center-lat="36" :center-lon="127.5" :data="stations[category]" @click="station => setSelectedStation({ category, station })">
-<!--                <geo-marker-->
-<!--                        :key="j"-->
-<!--                        v-for="(station, j) in stations[category]"-->
-<!--                        :lat="station.latitude"-->
-<!--                        :lon="station.longitude"-->
-<!--                        :pm25="station.pm25"-->
-<!--                        @click="setSelectedStation({ category, station })">-->
-<!--                    <marker-tooltip class="overlay">-->
-<!--                        <div>-->
-<!--                            <h4>{{ station.name }}</h4>-->
-<!--                            <div>-->
-<!--                                <div>위도: {{ Math.round(station.latitude * 100) / 100 }}</div>-->
-<!--                                <div>경도: {{ Math.round(station.longitude * 100) / 100 }}</div>-->
-<!--                                <div>주소: {{ station.address }}</div>-->
-<!--                                <div>측정항목: {{ items[category].join(", ") }}</div>-->
-<!--                                <div>기간평균 미세먼지 농도: {{ fineDust(station.pm25) }}</div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </marker-tooltip>-->
-<!--                </geo-marker>-->
-            </geo-map>
+            <geo-map
+                    :ref="category + '-map'"
+                    :zoom="windowWidth <= 1200 ? 7 : 8"
+                    :center="[36, 127.5]"
+                    :data="stations[category]"
+                    @click="station => setSelectedStation({ category, station })" />
             <div v-show="windowWidth <= 1200">스<br /><br />크<br /><br />롤</div>
         </div>
     </div>
@@ -90,14 +74,6 @@
                     pm25: obj.pm25
                 }))));
                 stationQuery.skip = true;
-            },
-
-            fineDust(pm25) {
-                if (pm25 < 16) return "좋음";
-                else if (pm25 >= 16 && pm25 < 36) return "보통";
-                else if (pm25 >= 36 && pm25 < 76) return "나쁨";
-                else if (pm25 >= 76) return "매우나쁨";
-                else return "해당 기간 정보없음";
             }
         },
         mounted() {
