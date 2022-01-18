@@ -12,5 +12,25 @@ module.exports = {
             args[0].title = "IITP 미세먼지 분석도구 서비스";
             return args;
         });
-    }
+    },
+    transpileDependencies: [
+        "animate.css",
+        "apollo-boost",
+        "apollo-cache-inmemory",
+        "apollo-client",
+        "apollo-link",
+        "apollo-link-http",
+        "core-js",
+        "cross-fetch",
+        "dayjs",
+        "echarts",
+        "graphql",
+        "graphql-tag",
+        "leaflet",
+        "vue-apollo",
+        "vue-infinite-loading",
+        "vue-slider-component",
+        "vue2-datepicker",
+        "vue2-leaflet"
+    ]
 }
