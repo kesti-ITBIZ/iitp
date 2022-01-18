@@ -2,8 +2,7 @@
     background-color: white;
     box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
     color: black;
-    height: 100%;
-    border-radius: 10px;
+    height: calc(100% - 20px);
 
     > div {
         height: 100%;
@@ -28,36 +27,38 @@
                     font-weight: bold;
                 }
 
-                &:last-child input {
-                    padding: 4px 10px;
+                &:last-child {
+                    input {
+                        padding: 4px 10px;
 
-                    &[type=text] {
-                        font-size: 12px;
-                        color: #404040;
-                        width: calc(100% - 87px);
-                        height: 19px;
-                        border: 1px solid #a5a5a5;
-                        border-radius: 5px;
-                    }
-
-                    &[type=button] {
-                        position: relative;
-                        top: -0.5px;
-                        font-size: 12px;
-                        background-color: #0072d7;
-                        color: white;
-                        border: none;
-                        border-radius: 5px;
-                        margin-left: 10px;
-                        padding: 8px 15px;
-                        transition: background-color 0.15s;
-
-                        &:hover {
-                            background-color: #3496ea;
+                        &[type=text] {
+                            font-size: 12px;
+                            color: #404040;
+                            width: calc(100% - 87px);
+                            height: 19px;
+                            border: 1px solid #a5a5a5;
+                            border-radius: 5px;
                         }
 
-                        &:active {
-                            background-color: #005fb4;
+                        &[type=button] {
+                            position: relative;
+                            top: -0.5px;
+                            font-size: 12px;
+                            background-color: #0072d7;
+                            color: white;
+                            border: none;
+                            border-radius: 5px;
+                            margin-left: 10px;
+                            padding: 8px 15px;
+                            transition: background-color 0.15s;
+
+                            &:hover {
+                                background-color: #3496ea;
+                            }
+
+                            &:active {
+                                background-color: #005fb4;
+                            }
                         }
                     }
                 }
@@ -89,7 +90,6 @@
 
                 thead th {
                     background-color: #f8f8f8;
-                    height: 10px;
                     border: 1px solid #a5a5a5;
                     padding: 10px 15px;
 

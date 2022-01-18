@@ -6,8 +6,8 @@
         </colgroup>
         <tbody v-if="windowWidth > 1200">
             <tr><td><items /></td></tr>
-            <tr><td style="height: 80px;"><x-axis /></td></tr>
-            <tr><td style="height: 118px;"><y-axis /></td></tr>
+            <tr><td><x-axis /></td></tr>
+            <tr><td><y-axis /></td></tr>
         </tbody>
         <tbody v-else>
             <tr>

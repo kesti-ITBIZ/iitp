@@ -2,7 +2,7 @@
     position: relative;
     top: -1px;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 20px);
     border-radius: 10px;
 
     > div {
@@ -15,7 +15,7 @@
 }
 
 .overlay {
-    font: 12px 'NanumSquare';
+    font: 12px 'NanumSquare Regular';
     background-color: white;
     padding: 5px;
     cursor: default;
@@ -51,8 +51,7 @@
             display: flex;
 
             > div:last-child {
-                font: 36px 'NanumSquare';
-                font-weight: 900;
+                font: 36px 'NanumSquare Extra Bold';
                 color: #a5a5a5;
                 display: flex;
                 flex-direction: column;
