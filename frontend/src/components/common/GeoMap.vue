@@ -23,7 +23,9 @@
         props: {
             zoom: Number,
             center: Array,
-            data: Array
+            data: Array,
+            marker: Object,
+            tooltip: Function
         },
         data: () => ({
             markerPoints: []
@@ -40,17 +42,19 @@
 
             closedMarker(info) {
                 const [cursorX, cursorY] = [info.containerPoint.x, info.containerPoint.y];
-                let closedX = 99999, closedY = 99999;
+                let closedX = 99999, closedY = 99999, avgRadius = 0;
                 let minDistance = 99999, index = -1;
-                this.markerPoints.forEach(({ x, y }, i) => {
+                this.markerPoints.forEach(({ x, y, radius }, i) => {
                     const distance = ((cursorX - x) ** 2 + (cursorY - y) ** 2) ** .5;
                     if (minDistance > distance) {
                         minDistance = distance;
                         [closedX, closedY] = [x, y];
                         index = i;
                     }
+                    avgRadius += radius;
                 });
-                if (index !== -1 && ((cursorX - closedX) ** 2 + (cursorY - closedY) ** 2) ** .5 <= 16) {
+                avgRadius /= this.markerPoints.length;
+                if (index !== -1 && ((cursorX - closedX) ** 2 + (cursorY - closedY) ** 2) ** .5 <= avgRadius) {
                     const markerData = { ...this.markerPoints[index] };
                     delete markerData.x;
                     delete markerData.y;
@@ -68,29 +72,51 @@
                 for (let i = 0; this.data && i < this.data.length; i++) {
                     const latlng = [this.data[i].latitude, this.data[i].longitude];
                     if (bounds.contains(latlng)) {
-                        const markerImg = new Image(32, 44),
-                            shadowImg = new Image(35, 16);
-
                         const dot = map.latLngToContainerPoint(latlng);
                         const [x, y] = [dot.x, dot.y];
 
-                        shadowImg.src = require("../../assets/img/markers_shadow.png");
-                        shadowImg.onload = () => context.drawImage(shadowImg, x - 10, y - 11, 35, 16);
+                        const marker = new Image();
+                        marker.src = typeof this.marker.img === "string" ? this.marker.img : this.marker.img(this.data[i]);
+                        marker.onload = () => {
+                            let markerTop = 0, markerLeft = 0;
+                            if (this.marker.imgStyle) {
+                                if (this.marker.imgStyle.top) markerTop = this.marker.imgStyle.top;
+                                if (this.marker.imgStyle.left) markerLeft = this.marker.imgStyle.left;
+                            }
+                            context.drawImage(marker, x + markerLeft, y + markerTop, marker.width, marker.height);
 
-                        if (this.data[i].pm25 == null) markerImg.src = require("../../assets/img/marker_0.svg");
-                        else if (this.data[i].pm25 < 16) markerImg.src = require("../../assets/img/marker_1.svg");
-                        else if (this.data[i].pm25 >= 16 && this.data[i].pm25 < 36) markerImg.src = require("../../assets/img/marker_2.svg");
-                        else if (this.data[i].pm25 >= 36 && this.data[i].pm25 < 76) markerImg.src = require("../../assets/img/marker_3.svg");
-                        else markerImg.src = require("../../assets/img/marker_4.svg");
-                        markerImg.onload = () => {
-                            context.drawImage(markerImg, x -16, y - 42, 32, 44);
-                            context.font = "italic 10pt sans-serif";
-                            context.fillText(this.data[i].pm25 ? this.data[i].pm25.toString() : "-", x - 1, y - 24)
-                            context.fillStyle = "white";
-                            context.textBaseline = "middle";
-                            context.textAlign = "center";
+                            if (this.marker.text) {
+                                let text = typeof this.marker.text === "string" ? this.marker.text : this.marker.text(this.data[i]);
+                                if (this.marker.textStyle) {
+                                    let textTop = 0, textLeft = 0;
+                                    if (this.marker.textStyle.top) textTop = this.marker.textStyle.top;
+                                    if (this.marker.textStyle.left) textLeft = this.marker.textStyle.left;
+                                    context.fillText(text, x + textLeft, y + textTop);
 
-                            markerPoints.push({ x, y: y - 24, radius: 14, ...this.data[i] });
+                                    let font = [];
+                                    if (this.marker.textStyle.fontStyle) font.push(this.marker.textStyle.fontStyle);
+                                    if (this.marker.textStyle.fontSize) font.push(this.marker.textStyle.fontSize);
+                                    if (this.marker.textStyle.fontFamily) font.push(this.marker.textStyle.fontFamily);
+                                    context.font = font.join(" ");
+                                    if (this.marker.textStyle.color) context.fillStyle = this.marker.textStyle.color;
+                                    if (this.marker.textStyle.verticalAlign) context.textBaseline = this.marker.textStyle.verticalAlign;
+                                    if (this.marker.textStyle.textAlign) context.textAlign = this.marker.textStyle.textAlign;
+                                } else context.fillText(text, x, y);
+                            }
+
+                            let pointTop = 0, pointLeft = 0, pointRadius = 10;
+                            if (this.marker.pointCenter) {
+                                if (this.marker.pointCenter.top) pointTop = this.marker.pointCenter.top;
+                                if (this.marker.pointCenter.left) pointLeft = this.marker.pointCenter.left;
+                                if (this.marker.pointCenter.radius) pointRadius = this.marker.pointCenter.radius;
+                            }
+                            const markerPoint = {
+                                x: x + pointLeft,
+                                y: y + pointTop,
+                                radius: pointRadius,
+                                ...this.data[i]
+                            };
+                            markerPoints.push(markerPoint);
                         };
                     }
                 }
@@ -108,28 +134,7 @@
                     tooltip.src = "data:image/svg+xml," +
                         `<svg xmlns="http://www.w3.org/2000/svg">
                             <foreignObject width="100%" height="100%">
-                                <div xmlns="http://www.w3.org/1999/xhtml">
-                                    <div class="overlay" style="font: 14px 'NanumSquare'; background-color: white; box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, .29); max-width: 350px; border: 1px solid rgb(165, 165, 165); border-radius: 6px; padding: 10px;">
-                                        <div>
-                                            <h4 style="font: 16px 'NanumSquare'; font-weight: bold; margin: 0 0 10px 0; transform: rotate(0.03deg);">${markerData.name}</h4>
-                                            <div style="margin-top: 5px;">
-                                                <div style="margin-top: 2px; transform: rotate(0.03deg);">위도: ${Math.round(markerData.latitude * 100) / 100}</div>
-                                                <div style="margin-top: 2px; transform: rotate(0.03deg);">경도: ${Math.round(markerData.longitude * 100) / 100}</div>
-                                                <div style="margin-top: 2px; transform: rotate(0.03deg);">주소: ${markerData.address}</div>
-                                                <!--<div>측정항목: {{ items[category].join(", ") }}</div>-->
-                                                <div style="margin-top: 2px; transform: rotate(0.03deg);">
-                                                    기간평균 미세먼지 농도: ${(() => {
-                                                        if (markerData.pm25 == null) return "해당 기간 정보없음";
-                                                        else if (markerData.pm25 < 16) return "좋음";
-                                                        else if (markerData.pm25 >= 16 && markerData.pm25 < 36) return "보통";
-                                                        else if (markerData.pm25 >= 36 && markerData.pm25 < 76) return "나쁨";
-                                                        else if (markerData.pm25 >= 76) return "매우나쁨";
-                                                    })()}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div xmlns="http://www.w3.org/1999/xhtml">${this.tooltip(markerData)}</div>
                             </foreignObject>
                         </svg>`;
                     tooltip.onload = () => {
