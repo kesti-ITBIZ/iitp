@@ -9,10 +9,6 @@
         border-radius: 10px;
 
         > table {
-            @supports (-moz-appearance: none) {
-                height: calc(100% - 35px);
-            }
-
             .opt-head {
                 font-size: 12px;
                 border-bottom: 1px solid #e0e0e0;
@@ -22,8 +18,7 @@
                 ul li {
                     > div {
                         position: relative;
-                        font: 10px 'NanumSquare' !important;
-                        font-weight: bold;
+                        font: 10px 'NanumSquare Bold' !important;
                         background-color: #6dbb28;
                         color: white;
                         border-radius: 5px;
