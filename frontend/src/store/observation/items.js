@@ -75,7 +75,7 @@ export default {
 
     },
     mutations: {
-        SET_SELECTED_ITEM: (state, item) => state.observation[state.observation.selectedCategory].selectedItem = state.observation[state.observation.selectedCategory].selectedItem === item ? null : item,
+        SET_SELECTED_ITEM: (state, item) => state.observation[state.observation.selectedCategory].selectedItem = Object.freeze(state.observation[state.observation.selectedCategory].selectedItem === item ? null : item),
         ADD_X_AXIS: (state, item) => {
             const category = state.observation.selectedCategory;
             state.observation[category].xAxis = Object.freeze(state.observation[category].xAxis.concat([item]));

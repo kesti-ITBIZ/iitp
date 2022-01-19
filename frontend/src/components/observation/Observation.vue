@@ -1,28 +1,37 @@
 <template>
-    <div id="observation">
-        <table>
-            <colgroup>
-                <col style="width: calc(50% - 200px);" />
-                <col v-if="windowWidth > 1200" style="width: 200px;" />
-            </colgroup>
-            <tbody>
-                <tr>
-                    <td><content-wrap /></td>
-                    <td v-if="windowWidth > 1200"><side-header /></td>
-                </tr>
-                <tr>
-                    <td v-if="windowWidth <= 1200"><side-header /></td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="2">
-                        <input type="button" value="조회" @click="fetchData" />
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-        <chart-wrap />
+    <div id="observation" @click="setSelectedItem(null)">
+<!--        <table>-->
+<!--            <colgroup>-->
+<!--                <col style="width: calc(50% - 200px);" />-->
+<!--                <col v-if="windowWidth > 1200" style="width: 200px;" />-->
+<!--            </colgroup>-->
+<!--            <tbody>-->
+<!--                <tr>-->
+<!--                    <td><content-wrap /></td>-->
+<!--                    <td v-if="windowWidth > 1200"><side-header /></td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <td v-if="windowWidth <= 1200"><side-header /></td>-->
+<!--                </tr>-->
+<!--            </tbody>-->
+<!--            <tfoot>-->
+<!--                <tr>-->
+<!--                    <td colspan="2">-->
+<!--                        <input type="button" value="조회" @click="fetchData" />-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--            </tfoot>-->
+<!--        </table>-->
+<!--        <chart-wrap />-->
+        <div>
+            <div>
+                <div></div>
+                <side-header />
+                <item-tooltip />
+            </div>
+            <div><input type="button" class="fetch" value="조회" @click="fetchData" /></div>
+        </div>
+        <div><chart-wrap /></div>
     </div>
 </template>
 
@@ -32,15 +41,17 @@
     import { dataApi } from "../../assets/js/api";
     import { alert, execAsync } from "../../assets/js/common.utils";
 
-    import ContentWrap from "./content_wrap/ContentWrap";
+    // import ContentWrap from "./content_wrap/ContentWrap";
     import SideHeader from "./side_header/SideHeader";
+    import ItemTooltip from "./item_tooltip/ItemTooltip";
     import ChartWrap from "./chart_wrap/ChartWrap";
 
     export default {
         name: "Observation",
         components: {
-            ContentWrap,
+            // ContentWrap,
             SideHeader,
+            ItemTooltip,
             ChartWrap
         },
         computed: {
@@ -52,6 +63,7 @@
                 stations: state => state.observation.stations[state.observation.selectedCategory],
                 selectedStation: state => state.observation.selectedStation[state.observation.selectedCategory],
                 selectedDateType: state => state.observation.selectedDateType,
+                selectedItem: state => state.observation[state.observation.selectedCategory].selectedItem,
                 xAxis: state => state.observation[state.observation.selectedCategory].xAxis,
                 yAxis: state => state.observation[state.observation.selectedCategory].yAxis,
                 selectedFineParticleRange: state => state.observation.selectedFineParticleRange
@@ -66,7 +78,8 @@
                 setData: "SET_DATA",
                 setLoadingVisible: "SET_LOADING_VISIBLE",
                 setLoadingInvisible: "SET_LOADING_INVISIBLE",
-                setAvailable: "SET_AVAILABLE"
+                setAvailable: "SET_AVAILABLE",
+                setSelectedItem: "SET_SELECTED_ITEM"
             }),
 
             async fetchData() {

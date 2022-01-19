@@ -1,27 +1,17 @@
 <template>
-    <div id="y-axis">
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th class="opt-head">· Y축</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="opt-body scroll no-scrollbar">
-                            <ul>
-                                <li :key="i" v-for="(data, i) in yAxis">
-                                    <div @click="removeYAxis(data)">
-                                        {{ data.label + (data.unit !== "" ? ` (${data.unit})` : "") }}
-                                        <span>&times;</span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="container-wrap y-axis">
+        <div class="container">
+            <div class="head">· Y축</div>
+            <div class="body">
+                <ul>
+                    <li :key="i" v-for="(data, i) in yAxis">
+                        <button class="item-btn" @click="removeYAxis(data)">
+                            {{ data.label + (data.unit !== "" ? ` (${data.unit})` : "") }}
+                            <span class="times">&times;</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>

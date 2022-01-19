@@ -1,69 +1,97 @@
-#x-axis {
-    height: 80px !important;
-    padding: 10px;
+//#x-axis {
+//    height: 80px !important;
+//    padding: 10px;
+//
+//    > div {
+//        height: 100%;
+//        box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+//        border: 1px solid #e0e0e0;
+//        border-radius: 10px;
+//
+//        > table {
+//            .opt-head {
+//                font-size: 12px;
+//                border-bottom: 1px solid #e0e0e0;
+//            }
+//
+//            .opt-body {
+//                position: relative;
+//
+//                ul li {
+//                    padding: 10px;
+//
+//                    > div {
+//                        position: relative;
+//                        font: 10px 'NanumSquare Bold' !important;
+//                        background-color: #d75500;
+//                        color: white;
+//                        border-radius: 5px;
+//                        cursor: pointer;
+//                        transition: background-color 0.1s;
+//
+//                        &:hover {
+//                            background-color: #ff7a25;
+//
+//                            > span {
+//                                color: #ffebe6;
+//                            }
+//                        }
+//
+//                        &:active {
+//                            background-color: #af4400;
+//
+//                            > span {
+//                                color: #ffe1d8;
+//                            }
+//                        }
+//                    }
+//
+//                    span {
+//                        position: absolute;
+//                        top: 4px;
+//                        right: 7px;
+//                        font-size: 13pt;
+//                        width: fit-content;
+//                        height: fit-content;
+//                        color: #fffaf9;
+//                        transition: color 0.1s;
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//@media screen and (max-width: 1200px) {
+//    #x-axis {
+//        height: 100px !important;
+//    }
+//}
 
-    > div {
-        height: 100%;
-        box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
-        border: 1px solid #e0e0e0;
-        border-radius: 10px;
+.container-wrap.x-axis {
+    height: 81px;
 
-        > table {
-            .opt-head {
-                font-size: 12px;
-                border-bottom: 1px solid #e0e0e0;
-            }
+    .item-btn {
+        background-color: #d75500;
 
-            .opt-body {
-                position: relative;
+        span.times {
+            color: #fffaf9;
+        }
 
-                ul li {
-                    padding: 10px;
+        &:hover {
+            background-color: #ff7a25;
 
-                    > div {
-                        position: relative;
-                        font: 10px 'NanumSquare Bold' !important;
-                        background-color: #d75500;
-                        color: white;
-                        border-radius: 5px;
-                        cursor: pointer;
-                        transition: background-color 0.1s;
-
-                        &:hover {
-                            background-color: #ff7a25;
-
-                            > span {
-                                color: #ffebe6;
-                            }
-                        }
-
-                        &:active {
-                            background-color: #af4400;
-
-                            > span {
-                                color: #ffe1d8;
-                            }
-                        }
-                    }
-
-                    span {
-                        position: absolute;
-                        top: 4px;
-                        right: 7px;
-                        font-size: 13pt;
-                        width: fit-content;
-                        height: fit-content;
-                        color: #fffaf9;
-                        transition: color 0.1s;
-                    }
-                }
+            span.times {
+                color: #ffebe6;
             }
         }
-    }
-}
 
-@media screen and (max-width: 1200px) {
-    #x-axis {
-        height: 100px !important;
+        &:active {
+            background-color: #af4400;
+
+            span.times {
+                color: #ffe1d8;
+            }
+        }
     }
 }
