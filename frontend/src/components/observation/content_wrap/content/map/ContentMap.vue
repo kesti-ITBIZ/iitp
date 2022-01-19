@@ -15,8 +15,6 @@
                             <div>
                                 <div>위도: {{ (Math.round(station.latitude * 100) / 100).toFixed(2) }}</div>
                                 <div>경도: {{ (Math.round(station.longitude * 100) / 100).toFixed(2) }}</div>
-                                <div>위도: {{ Math.round(station.latitude * 100) / 100 }}</div>
-                                <div>경도: {{ Math.round(station.longitude * 100) / 100 }}</div>
                                 <div>주소: {{ station.address }}</div>
                                 <div>측정항목: {{ items[category].join(", ") }}</div>
                                 <div>기간평균 미세먼지 농도: {{ fineDust(station.pm25) }}</div>
