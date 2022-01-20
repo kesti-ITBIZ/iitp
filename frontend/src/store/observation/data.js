@@ -11,7 +11,7 @@ export default {
         selectedCategory: "airkorea",
         searchOptions: [
             { label: "지도기반 지점 선택", value: "map" },
-            { label: "지점명 조회로 선택", value: "keyword" }
+            { label: "지점명 조회로 선택", value: "search" }
         ],
         selectedSearchOption: "map",
         stations: Object.freeze({
@@ -21,10 +21,10 @@ export default {
             observer: null
         }),
         selectedStation: Object.freeze({
-            airkorea: [],
-            kt: [],
-            sDoT: [],
-            observer: []
+            airkorea: null,
+            kt: null,
+            sDoT: null,
+            observer: null
         }),
         searchedStations: [],
         data: Object.freeze({
@@ -47,16 +47,12 @@ export default {
         },
         SET_SELECTED_STATION: (state, { category, station }) => {
             const selectedStation = { ...state.observation.selectedStation };
-            selectedStation[category] = [station];
+            selectedStation[category] = station;
             state.observation.selectedStation = Object.freeze(selectedStation);
         },
-        REMOVE_SELECTED_STATION: (state, { category, station }) => {
+        REMOVE_SELECTED_STATION: state => {
             const selectedStation = { ...state.observation.selectedStation };
-            selectedStation[category].splice(selectedStation[category].findIndex(obj =>
-                obj.name === station.name
-                && obj.address === station.address
-                && obj.latitude === station.latitude
-                && obj.longitude === station.longitude), 1);
+            selectedStation[state.observation.selectedCategory] = null;
             state.observation.selectedStation = Object.freeze(selectedStation);
         },
         SET_SEARCHED_STATIONS: (state, stations) => state.observation.searchedStations = Object.freeze(stations),
@@ -109,7 +105,7 @@ export default {
         SET_SELECTED_CATEGORY: (context, category) => context.commit("SET_SELECTED_CATEGORY", category),
         SET_STATIONS: (context, stations) => context.commit("SET_STATIONS", stations),
         SET_SELECTED_STATION: (context, { category, station }) => context.commit("SET_SELECTED_STATION", { category, station }),
-        REMOVE_SELECTED_STATION: (context, { category, station }) => context.commit("REMOVE_SELECTED_STATION", { category, station }),
+        REMOVE_SELECTED_STATION: context => context.commit("REMOVE_SELECTED_STATION"),
         SET_SEARCHED_STATIONS: (context, stations) => context.commit("SET_SEARCHED_STATIONS", stations),
         APPEND_SEARCHED_STATIONS: (context, stations) => context.commit("APPEND_SEARCHED_STATIONS", stations),
         SET_DATA: (context, { category, data }) => context.commit("SET_DATA", { category, data })
