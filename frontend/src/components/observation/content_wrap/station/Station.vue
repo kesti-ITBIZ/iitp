@@ -43,5 +43,5 @@
 </script>
 
 <style lang="scss">
-    @import "/Station";
+    @import "./Station";
 </style>
