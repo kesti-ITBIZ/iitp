@@ -69,6 +69,11 @@
         width: 20px;
         height: 20px;
         cursor: pointer;
+        transition: filter 0.15s ease;
+
+        &.active {
+            filter: brightness(2);
+        }
     }
 
     div.help-tooltip {

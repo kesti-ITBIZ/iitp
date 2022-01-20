@@ -39,6 +39,8 @@
         computed: {
             ...mapState({
                 selectedSearchOption: state => state.observation.selectedSearchOption,
+                startDatetime: state => state.observation.startDatetime,
+                endDatetime: state => state.observation.endDatetime,
                 selectedCategory: state => state.observation.selectedCategory,
                 xAxis: state => state.observation[state.observation.selectedCategory].xAxis,
                 yAxis: state => state.observation[state.observation.selectedCategory].yAxis,
