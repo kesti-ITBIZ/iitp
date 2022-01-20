@@ -15,7 +15,6 @@
                 :location="locations"
                 @l-mousemove="hover"
                 @l-click="click" />
-<!--                <slot />-->
     </v-map>
 </template>
 
