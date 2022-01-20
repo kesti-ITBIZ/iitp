@@ -23,7 +23,12 @@ $color: #0094c4;
                 margin: 0 auto;
 
                 + div {
-                    font: 14px 'NanumSquare Bold';
+                    font: {
+                        size: 14px;
+                        family: 'NanumSquare';
+                        weight: bold;
+                    };
+                    letter-spacing: -0.5px;
                     padding-top: 10px;
                     transform: rotate(0.03deg);
                 }

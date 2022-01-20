@@ -54,7 +54,7 @@ export const dataApi = {
                     param: {
                         startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
                         endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
-                        stnNm: this.selectedStation[0].name
+                        stnNm: this.selectedStation.name
                     }
                 };
             },
@@ -78,7 +78,7 @@ export const dataApi = {
                     param: {
                         startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
                         endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
-                        stnNm: this.selectedStation[0].name
+                        stnNm: this.selectedStation.name
                     }
                 };
             },
@@ -102,7 +102,7 @@ export const dataApi = {
                     param: {
                         startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
                         endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
-                        stnNm: this.selectedStation[0].name
+                        stnNm: this.selectedStation.name
                     }
                 };
             },
@@ -128,7 +128,7 @@ export const dataApi = {
                     param: {
                         startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
                         endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
-                        stnNm: this.selectedStation[0].name
+                        stnNm: this.selectedStation.name
                     }
                 };
             },

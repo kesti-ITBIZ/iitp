@@ -1,4 +1,7 @@
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+dayjs.extend(customParseFormat);
 
 export default {
     state: {
@@ -75,7 +78,7 @@ export default {
 
     },
     mutations: {
-        SET_SELECTED_ITEM: (state, item) => state.observation[state.observation.selectedCategory].selectedItem = state.observation[state.observation.selectedCategory].selectedItem === item ? null : item,
+        SET_SELECTED_ITEM: (state, item) => state.observation[state.observation.selectedCategory].selectedItem = Object.freeze(state.observation[state.observation.selectedCategory].selectedItem === item ? null : item),
         ADD_X_AXIS: (state, item) => {
             const category = state.observation.selectedCategory;
             state.observation[category].xAxis = Object.freeze(state.observation[category].xAxis.concat([item]));
@@ -110,9 +113,7 @@ export default {
             state.observation[category].yAxis = Object.freeze(yAxis);
         },
         SET_AVAILABLE: (state, { category, available }) => {
-            // const format = "YYYY년 MM월 DD일 HH시";
-            // const format = "YYYYMMDDHHmmss";
-            let availableDatetimes = available.map(dayjs), availableList = [];
+            let availableDatetimes = available.map(dt => dayjs(dt, "YYYY.MM.DD HH:mm")), availableList = [];
             for (let i = 0; i < availableDatetimes.length - 1; ++i) {
                 if (i === 0 || (i > 0 && Math.abs(availableDatetimes[i - 1].diff(availableDatetimes[i], "hours")) > 1))
                     availableList.push([availableDatetimes[i]]);
@@ -123,7 +124,6 @@ export default {
                     availableList.push([availableDatetimes[availableDatetimes.length - 1]]);
                 else availableList[availableList.length - 1].push(availableDatetimes[availableDatetimes.length - 1]);
             }
-            // state.observation[category].available = availableList;
             state.observation[category].available = availableList.map(datetimes => datetimes.length === 1 ? [datetimes[0]] : [datetimes[0], dayjs(datetimes[datetimes.length - 1].format("YYYYMMDDHH5959"))]);
         }
     },
