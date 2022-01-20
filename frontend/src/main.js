@@ -55,12 +55,12 @@ import { Icon } from "leaflet";
 delete Icon.Default.prototype._getIconUrl;
 
 import { LMap, LTileLayer, LMarker, LIcon, LTooltip } from "vue2-leaflet";
-// import Vue2LeafLetCanvas from "@skinnyjames/vue2-leaflet-canvas";
+import Vue2LeafLetCanvas from "@skinnyjames/vue2-leaflet-canvas";
 import "leaflet/dist/leaflet.css";
 
 Vue.component("v-map", LMap);
 Vue.component("v-tile-layer", LTileLayer);
-// Vue.component("v-canvas-layer", Vue2LeafLetCanvas);
+Vue.component("v-canvas-layer", Vue2LeafLetCanvas);
 Vue.component("v-marker", LMarker);
 Vue.component("v-icon", LIcon);
 Vue.component("v-tooltip", LTooltip);
