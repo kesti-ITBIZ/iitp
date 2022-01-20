@@ -187,48 +187,23 @@
         },
         watch: {
             selectedChartType() {
-                if (this.data[this.selectedCategory]
-                    && this.data[this.selectedCategory].length > 0
-                    && this.xAxis.length > 0
-                    && this.yAxis.length > 0
-                    && this.selectedChartType != "table")
-                    setTimeout(this.initChart, 0);
+                this.reInitChart();
             },
 
             xAxis() {
-                if (this.data[this.selectedCategory]
-                    && this.data[this.selectedCategory].length > 0
-                    && this.xAxis.length > 0
-                    && this.yAxis.length > 0
-                    && this.selectedChartType != "table")
-                    setTimeout(this.initChart, 0);
+                this.reInitChart();
             },
 
             yAxis() {
-                if (this.data[this.selectedCategory]
-                    && this.data[this.selectedCategory].length > 0
-                    && this.xAxis.length > 0
-                    && this.yAxis.length > 0
-                    && this.selectedChartType != "table")
-                    setTimeout(this.initChart, 0);
+                this.reInitChart();
             },
 
             selectedDateType() {
-                if (this.data[this.selectedCategory]
-                    && this.data[this.selectedCategory].length > 0
-                    && this.xAxis.length > 0
-                    && this.yAxis.length > 0
-                    && this.selectedChartType != "table")
-                    setTimeout(this.initChart, 0);
+                this.reInitChart();
             },
 
             data() {
-                if (this.data[this.selectedCategory]
-                    && this.data[this.selectedCategory].length > 0
-                    && this.xAxis.length > 0
-                    && this.yAxis.length > 0
-                    && this.selectedChartType != "table")
-                    setTimeout(this.initChart, 0);
+                this.reInitChart();
             }
         },
         methods: {
@@ -238,6 +213,15 @@
                 setLoadingInvisible: "SET_LOADING_INVISIBLE"
             }),
 
+            reInitChart() {
+                if (this.data[this.selectedCategory]
+                    && this.data[this.selectedCategory].length > 0
+                    && this.xAxis.length > 0
+                    && this.yAxis.length > 0
+                    && this.selectedChartType != "table")
+                    setTimeout(this.initChart, 0);
+            },
+
             initChart() {
                 if (this.chart != null) this.chart.clear();
                 else this.chart = init(this.$refs["chart"]);
@@ -246,7 +230,8 @@
                         text: this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0 ? this.data[this.selectedCategory][0].stnNm : "",
                         left: 50,
                         textStyle: {
-                            fontFamily: "NanumSquare_ac Extra Bold"
+                            fontFamily: "NanumSquare",
+                            fontWeight: "bold"
                         }
                     },
                     tooltip: {
@@ -265,7 +250,7 @@
                                 Y: ${Math.round((typeof data.value === "object" ? data.value[1] : data.value) * 100) / 100}`;
                         },
                         textStyle: {
-                            fontFamily: "NanumSquare_ac"
+                            fontFamily: "NanumSquare"
                         }
                     },
                     toolbox: {
@@ -283,7 +268,7 @@
                     legend: {
                         data: this.yAxis.map(obj => obj.label),
                         textStyle: {
-                            fontFamily: "NanumSquare_ac"
+                            fontFamily: "NanumSquare"
                         }
                     },
                     xAxis: {
@@ -294,10 +279,10 @@
                             show: true
                         },
                         nameTextStyle: {
-                            fontFamily: "NanumSquare_ac"
+                            fontFamily: "NanumSquare"
                         },
                         axisLabel: {
-                            fontFamily: "NanumSquare_ac"
+                            fontFamily: "NanumSquare"
                         }
                     },
                     yAxis: this.yAxis.findIndex(y => y.value === "pm10") !== -1 && this.yAxis.findIndex(y => y.value === "pm25") !== -1 ?
@@ -307,11 +292,12 @@
                             min: 0,
                             nameTextStyle: {
                                 align: "left",
-                                fontFamily: "NanumSquare_ac Bold"
+                                fontFamily: "NanumSquare",
+                                fontWeight: "bold"
                             },
                             axisLabel: {
                                 formatter: `{value}`,
-                                fontFamily: "NanumSquare_ac"
+                                fontFamily: "NanumSquare"
                             },
                             splitLine: {
                                 show: true
@@ -323,11 +309,12 @@
                             min: item => y.value === "temperature" ? (item.min < 0 ? item.min - 1 : 0) : 0,
                             nameTextStyle: {
                                 align: "left",
-                                fontFamily: "NanumSquare Bold"
+                                fontFamily: "NanumSquare",
+                                fontWeight: "bold"
                             },
                             axisLabel: {
                                 formatter: `{value}`,
-                                fontFamily: "NanumSquare_ac"
+                                fontFamily: "NanumSquare"
                             },
                             splitLine: {
                                 show: true

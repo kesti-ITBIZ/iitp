@@ -9,7 +9,7 @@
         font-family: 'NanumSquare', serif;
     }
 
-    input[type=button] {
+    input[type=button], button {
         cursor: pointer;
     }
 
@@ -55,10 +55,6 @@
         }
     }
 
-    //.content .map .map-data {
-    //    height: calc(100% - 48px);
-    //}
-
     .container-wrap {
         padding: 10px;
 
@@ -84,6 +80,28 @@
             .body {
                 padding: 10px;
             }
+        }
+    }
+
+    .input {
+        font: {
+            size: 11px;
+            family: 'NanumSquare';
+            weight: bold;
+        };
+        background-color: white;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        border: {
+            radius: 5px;
+            color: #9c9c9c;
+            width: 1px;
+            style: solid;
+        };
+        cursor: pointer;
+        transform: rotate(0.03deg);
+
+        &:hover {
+            border: 1px solid #409aff;
         }
     }
 }

@@ -1,21 +1,29 @@
 @font-face {
-    font-family: 'NanumSquare Bold';
-    src: url('./assets/font/NanumSquareB.ttf') format('truetype');
+    font-family: 'NanumSquare';
+    font-weight: bold;
+    src: url('./assets/font/NanumSquareB.ttf') format('truetype'),
+        url('./assets/font/NanumSquareR.eot#iefix') format('embedded-opentype');
 }
 
 @font-face {
-    font-family: 'NanumSquare Extra Bold';
-    src: url('./assets/font/NanumSquareEB.ttf') format('truetype');
+    font-family: 'NanumSquare';
+    font-weight: 900;
+    src: url('./assets/font/NanumSquareEB.ttf') format('truetype'),
+        url('./assets/font/NanumSquareR.eot#iefix') format('embedded-opentype');
 }
 
 @font-face {
-    font-family: 'NanumSquare Light';
-    src: url('./assets/font/NanumSquareL.ttf') format('truetype');
+    font-family: 'NanumSquare';
+    font-weight: 100;
+    src: url('./assets/font/NanumSquareL.ttf') format('truetype'),
+        url('./assets/font/NanumSquareR.eot#iefix') format('embedded-opentype');
 }
 
 @font-face {
-    font-family: 'NanumSquare Regular';
-    src: url('./assets/font/NanumSquareR.ttf') format('truetype');
+    font-family: 'NanumSquare';
+    font-weight: normal;
+    src: url('./assets/font/NanumSquareR.ttf') format('truetype'),
+        url('./assets/font/NanumSquareR.eot#iefix') format('embedded-opentype');
 }
 
 html, body {
