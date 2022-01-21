@@ -30,3 +30,14 @@
         margin-bottom: 10px;
     }
 }
+
+@media screen and (max-width: 1160px) {
+    #side-header {
+        display: flex;
+        width: 100%;
+
+        > div {
+            flex: 1;
+        }
+    }
+}
