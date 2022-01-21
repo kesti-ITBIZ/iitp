@@ -1,3 +1,5 @@
+@import "../../../../common";
+
 .container-wrap.map {
     position: relative;
     top: -1px;
@@ -46,7 +48,7 @@
     }
 }
 
-@media screen and (max-width: 1160px) {
+@media screen and (max-width: $reactive-max-width) {
     .container-wrap.map {
         display: flex;
         height: 500px;
