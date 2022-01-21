@@ -1,3 +1,5 @@
+@import "../../../../../common";
+
 .datetime-wrap {
     .label {
         display: inline-block;
@@ -127,7 +129,7 @@
     }
 }
 
-@media screen and (max-width: 1160px) {
+@media screen and (max-width: $reactive-max-width) {
     .datetime-wrap {
         > div {
             margin: 10px 0;

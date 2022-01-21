@@ -1,3 +1,5 @@
+@import "../../../../../common";
+
 $color: #01947a;
 $background: #ebfcf8;
 $hover: #53d4bd;
@@ -130,7 +132,7 @@ $active: #006f5b;
     }
 }
 
-@media screen and (max-width: 1160px) {
+@media screen and (max-width: $reactive-max-width) {
     #category ul {
         //display: block;
 

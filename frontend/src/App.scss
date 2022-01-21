@@ -1,3 +1,5 @@
+@import "common";
+
 #layout {
     display: flex;
     font-family: 'NanumSquare', serif;
@@ -106,7 +108,7 @@
     }
 }
 
-@media screen and (max-width: 1160px) {
+@media screen and (max-width: $reactive-max-width) {
     #layout {
         display: table;
         width: calc(100% - 20px);

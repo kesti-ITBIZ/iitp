@@ -1,11 +1,11 @@
 <template>
     <div id="side-header">
         <items />
-        <x-axis v-show="windowWidth >= 1160" />
-        <y-axis v-show="windowWidth >= 1160" />
+        <x-axis v-show="windowWidth >= reactiveMaxWidth" />
+        <y-axis v-show="windowWidth >= reactiveMaxWidth" />
         <div>
-            <x-axis v-show="windowWidth < 1160" />
-            <y-axis v-show="windowWidth < 1160" />
+            <x-axis v-show="windowWidth < reactiveMaxWidth" />
+            <y-axis v-show="windowWidth < reactiveMaxWidth" />
         </div>
     </div>
 </template>
@@ -26,6 +26,7 @@
         },
         computed: {
             ...mapState({
+                reactiveMaxWidth: state => state.common.reactiveMaxWidth,
                 windowWidth: state => state.common.windowWidth
             })
         }

@@ -59,7 +59,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ env.REPOSITORY }}:beta-${{ env.RELEASE_VERSION }}
+          tags: ghcr.io/${{ env.REPOSITORY }}:release-${{ env.RELEASE_VERSION }}
 
       # SSH
       - name: Deploy via SSH
@@ -70,11 +70,28 @@ jobs:
           username: ${{ secrets.REMOTE_IITP_SSH_USERNAME }}
           password: ${{ secrets.REMOTE_IITP_SSH_PASSWORD }}
           script: |
-            DEPLOY_PORT=9100
-            if [ `docker ps | grep -c 'iitp-test'` != 0 ]; then docker stop iitp-test; fi
-            if [ `docker ps -a | grep -c 'iitp-test'` != 0 ]; then docker rm iitp-test; fi
-            if [ `docker images | grep ghcr.io/${{ env.REPOSITORY }} | grep -c beta` != 0 ]; then
-              docker rmi $(docker images -q --filter "dangling=true") $(docker images -q --filter "reference=ghcr.io/${{ env.REPOSITORY }}:beta-*")
+            CONTAINER_NAME=iitp-prd
+            TAG=release
+
+            REDEPLOY_LIST=(1 2 3)
+            REDEPLOY_NUM=`expr $(($RANDOM% 3)) + 1`
+
+            for IDX in ${REDEPLOY_LIST[@]/$REDEPLOY_NUM}; do
+              if [ `docker ps | grep -c $CONTAINER_NAME-$IDX` != 0 ]; then docker stop $CONTAINER_NAME-$IDX; fi
+              if [ `docker ps -a | grep -c $CONTAINER_NAME-$IDX` != 0 ]; then docker rm $CONTAINER_NAME-$IDX; fi
+            done
+
+            NEW_VERSION_IMAGE=ghcr.io/${{ env.REPOSITORY }}:$TAG-${{ env.RELEASE_VERSION }}
+
+            docker pull $NEW_VERSION_IMAGE
+            for IDX in ${REDEPLOY_LIST[@]/$REDEPLOY_NUM}; do
+              docker run -d --name $CONTAINER_NAME-$IDX -p `expr 9200 + $IDX`:9200 $NEW_VERSION_IMAGE
+            done
+
+            docker stop $CONTAINER_NAME-$REDEPLOY_NUM
+            docker rm $CONTAINER_NAME-$REDEPLOY_NUM
+            if [ `docker images | grep ghcr.io/${{ env.REPOSITORY }} | grep -v $TAG-${{ env.RELEASE_VERSION }} | grep -c ''` != 0 ]; then
+              docker rmi $(docker images -q --filter "dangling=true") $(docker images | grep ghcr.io/${{ env.REPOSITORY }} | grep $TAG | grep -v ${{ env.RELEASE_VERSION }} | awk '{print $3}')
             fi
-            docker pull ghcr.io/${{ env.REPOSITORY }}:beta-${{ env.RELEASE_VERSION }}
-            docker run -d --name iitp-test -p $DEPLOY_PORT:9200 ghcr.io/${{ env.REPOSITORY }}:beta-${{ env.RELEASE_VERSION }}
+            docker pull ghcr.io/${{ env.REPOSITORY }}:$TAG-${{ env.RELEASE_VERSION }}
+            docker run -d --name $CONTAINER_NAME-$REDEPLOY_NUM -p `expr 9200 + $REDEPLOY_NUM`:9200 $NEW_VERSION_IMAGE

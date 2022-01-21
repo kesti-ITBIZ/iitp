@@ -1,3 +1,5 @@
+@import "../../common";
+
 #observation {
     display: flex;
     width: 100%;
@@ -30,7 +32,7 @@
     }
 }
 
-@media screen and (max-width: 1160px) {
+@media screen and (max-width: $reactive-max-width) {
     #observation {
         display: block;
         min-width: 320px;
