@@ -4,13 +4,13 @@
             <table>
                 <colgroup>
                     <col style="width: 70px;" />
-                    <col style="width: 110px;" v-show="windowWidth >= 1200" />
-                    <col style="width: 180px;" v-show="windowWidth >= 1200" />
+                    <col style="width: 110px;" v-show="windowWidth >= 1160" />
+                    <col style="width: 180px;" v-show="windowWidth >= 1160" />
                     <col />
                 </colgroup>
                 <thead>
                     <tr>
-                        <th :colspan="windowWidth >= 1200 ? 4 : 2">
+                        <th :colspan="windowWidth >= 1160 ? 4 : 2">
                             <label>지점 검색</label>
                             <input type="text" class="input" placeholder="검색할 지점명 또는 주소를 입력하세요." v-model="keyword" @keyup="e => { if (e.key === 'Enter') search(); }" />
                             <input type="button" value="검색" @click="search" />
@@ -18,33 +18,33 @@
                     </tr>
                     <tr>
                         <th><span>No.</span></th>
-                        <th v-show="windowWidth >= 1200"><span>생산기관</span></th>
-                        <th v-show="windowWidth >= 1200"><span>지점명</span></th>
-                        <th v-show="windowWidth >= 1200"><span>주소</span></th>
-                        <th v-show="windowWidth < 1200"><span>지점정보</span></th>
+                        <th v-show="windowWidth >= 1160"><span>생산기관</span></th>
+                        <th v-show="windowWidth >= 1160"><span>지점명</span></th>
+                        <th v-show="windowWidth >= 1160"><span>주소</span></th>
+                        <th v-show="windowWidth < 1160"><span>지점정보</span></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td :colspan="windowWidth >= 1200 ? 4 : 2" v-show="searchedStations.length === 0">
+                        <td :colspan="windowWidth >= 1160 ? 4 : 2" v-show="searchedStations.length === 0">
                             <div class="no-data">데이터가 없습니다.</div>
                         </td>
-                        <td :colspan="windowWidth >= 1200 ? 4 : 2" v-show="searchedStations.length > 0">
+                        <td :colspan="windowWidth >= 1160 ? 4 : 2" v-show="searchedStations.length > 0">
                             <div class="scroll" :style="{ height: `${height}px !important` }">
                                 <table>
                                     <colgroup>
                                         <col style="width: 70px;" />
-                                        <col style="width: 110px;" v-show="windowWidth >= 1200" />
-                                        <col style="width: 180px;" v-show="windowWidth >= 1200" />
+                                        <col style="width: 110px;" v-show="windowWidth >= 1160" />
+                                        <col style="width: 180px;" v-show="windowWidth >= 1160" />
                                         <col />
                                     </colgroup>
                                     <tbody>
                                         <tr :key="i" v-for="(station, i) in searchedStations" @click="select({ name: station.name, address: station.address })">
                                             <td><span>{{ i + 1 }}</span></td>
-                                            <td v-show="windowWidth >= 1200"><span>{{ station.category }}</span></td>
-                                            <td v-show="windowWidth >= 1200"><span>{{ station.name }}</span></td>
-                                            <td v-show="windowWidth >= 1200"><span>{{ station.address }}</span></td>
-                                            <td v-show="windowWidth < 1200">
+                                            <td v-show="windowWidth >= 1160"><span>{{ station.category }}</span></td>
+                                            <td v-show="windowWidth >= 1160"><span>{{ station.name }}</span></td>
+                                            <td v-show="windowWidth >= 1160"><span>{{ station.address }}</span></td>
+                                            <td v-show="windowWidth < 1160">
                                                 <div>
                                                     <h3>{{ station.name }}</h3>
                                                     {{ station.category }}<br />{{ station.address }}

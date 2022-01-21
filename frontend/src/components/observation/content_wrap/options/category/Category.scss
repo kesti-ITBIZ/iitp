@@ -77,7 +77,7 @@ $active: #006f5b;
 
         span {
             vertical-align: middle;
-            margin: 0 5px;
+            margin: 0 2px;
 
             &.airkorea,
             &.kt,
@@ -130,7 +130,7 @@ $active: #006f5b;
     }
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1160px) {
     #category ul {
         //display: block;
 
