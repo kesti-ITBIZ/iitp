@@ -126,3 +126,24 @@
         }
     }
 }
+
+@media screen and (max-width: 1160px) {
+    .datetime-wrap {
+        > div {
+            margin: 10px 0;
+
+            &:last-child {
+                text-align: center;
+            }
+        }
+
+        div.help-tooltip {
+            top: 180px !important;
+            left: calc(100% - 300px) !important;
+        }
+
+        input.now-btn {
+            margin-right: 50px;
+        }
+    }
+}

@@ -37,3 +37,9 @@
         }
     }
 }
+
+@media screen and (max-width: 1160px) {
+    .container-wrap.items .container {
+        height: 310px !important;
+    }
+}

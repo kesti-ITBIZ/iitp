@@ -11,8 +11,8 @@
                         :tooltip="tooltip"
                         @click="station => setSelectedStation({ category, station })" />
             </div>
-            <div v-show="windowWidth <= 1200">스<br /><br />크<br /><br />롤</div>
         </div>
+        <div v-show="windowWidth <= 1200" class="scroll-area">스크롤</div>
     </div>
 </template>
 
