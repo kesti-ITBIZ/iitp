@@ -140,6 +140,10 @@
         div.help-tooltip {
             top: 180px !important;
             left: calc(100% - 300px) !important;
+
+            ul li {
+                text-align: left;
+            }
         }
 
         input.now-btn {
