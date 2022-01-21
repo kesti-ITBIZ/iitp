@@ -141,21 +141,23 @@
                 const context = canvas.getContext("2d");
                 const [cursorX, cursorY] = [info.containerPoint.x, info.containerPoint.y];
                 const markerData = this.closedMarker(info);
-                if (markerData) {
+                if (markerData != null) {
                     canvas.style.cursor = "pointer";
                     const tooltip = new Image();
-                    tooltip.src = "data:image/svg+xml," +
-                        `<svg xmlns="http://www.w3.org/2000/svg">
-                            <foreignObject width="100%" height="100%">
+                    const tooltipMarkup = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">
+                            <foreignObject x="0" y="0" width="100%" height="100%">
                                 <div xmlns="http://www.w3.org/1999/xhtml">${this.tooltip(markerData)}</div>
                             </foreignObject>
                         </svg>`;
+                    const uri = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(tooltipMarkup)));
                     tooltip.onload = () => {
                         context.clearRect(0, 0, canvas.width, canvas.height);
                         context.drawImage(tooltip, cursorX, cursorY);
                     };
+                    tooltip.src = uri;
                 } else {
-                    canvas.style.cursor = "grab";
+                    canvas.style.cursor = (navigator.appName === "Netscape" && navigator.userAgent.search("Trident") !== -1) || navigator.userAgent.toLowerCase().indexOf("msie") !== -1 ? "default" : "grab";
                     context.clearRect(0, 0, canvas.width, canvas.height);
                 }
             },
