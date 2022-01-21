@@ -8,10 +8,7 @@
             > div {
                 &:first-child {
                     width: calc(100% - 180px);
-                }
-
-                &:last-child {
-                    width: 180px;
+                    min-width: 585px;
                 }
             }
         }
@@ -54,6 +51,7 @@
 
             > div:first-child {
                 width: 100% !important;
+                min-width: 0;
             }
         }
 
