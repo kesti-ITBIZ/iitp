@@ -56,6 +56,9 @@
     import xlsx from "xlsx";
     import dayjs from "dayjs";
     import { init } from "echarts";
+    import customParseFormat from "dayjs/plugin/customParseFormat";
+
+    dayjs.extend(customParseFormat);
 
     import Loading from "../../common/loading/Loading";
 
@@ -238,11 +241,13 @@
                         formatter: data => {
                             let xLabel = data.name;
                             if (this.xAxis[0].value === "datetime") {
-                                if (this.selectedDateType == "hour") xLabel = dayjs(xLabel + ":00").format("YYYY년 MM월 DD일 H시");
-                                else if (this.selectedDateType == "date") xLabel = dayjs(xLabel).format("YYYY년 MM월 DD일");
-                                else if (this.selectedDateType == "month") xLabel = dayjs(xLabel + ".01").format("YYYY년 MM월");
-                                else if (this.selectedDateType == "year") xLabel = dayjs(xLabel).format("YYYY년");
+                                if (this.selectedDateType == "hour") xLabel = dayjs(xLabel + ":00", "YYYY.MM.DD HH:mm").format("YYYY년 MM월 DD일 H시");
+                                else if (this.selectedDateType == "date") xLabel = dayjs(xLabel, "YYYY.MM.DD").format("YYYY년 MM월 DD일");
+                                else if (this.selectedDateType == "month") xLabel = dayjs(xLabel + ".01", "YYYY.MM").format("YYYY년 MM월");
+                                else if (this.selectedDateType == "year") xLabel = dayjs(xLabel, "YYYY").format("YYYY년");
                             }
+
+                            console.log(xLabel);
 
                             return `
                                 항목: ${data.seriesName}<br />
