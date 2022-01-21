@@ -10,7 +10,7 @@
                 </label>
             </div>
         </div>
-        <div v-show="windowWidth >= 1160">
+        <div v-show="windowWidth >= reactiveMaxWidth">
             <span class="label">조회 기간 :</span>
             <div>
                 <date-picker
@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div>
-        <div v-show="windowWidth < 1160">
+        <div v-show="windowWidth < reactiveMaxWidth">
             <span class="label">조회 기간 (시작) :</span>
             <div>
                 <date-picker
@@ -62,7 +62,7 @@
                         @change="onChangeStartDatetime" />
             </div>
         </div>
-        <div v-show="windowWidth < 1160">
+        <div v-show="windowWidth < reactiveMaxWidth">
             <span class="label">조회 기간 (끝) :</span>
             <div>
                 <date-picker
@@ -74,7 +74,7 @@
                         @change="onChangeEndDatetime" />
             </div>
         </div>
-        <div v-show="windowWidth < 1160">
+        <div v-show="windowWidth < reactiveMaxWidth">
             <input type="button" class="now-btn" value="NOW" @click="onMoveNowDatetime" />
             <font-awesome-icon size="1x" :class="isClickedHelpIcon ? 'active' : ''" :icon="['fa', 'question-circle']" @click="isClickedHelpIcon = !isClickedHelpIcon" />
             <div class="help-tooltip scroll" v-show="isClickedHelpIcon && selectedCategory == 'airkorea'">
@@ -108,6 +108,7 @@
         }),
         computed: {
             ...mapState({
+                reactiveMaxWidth: state => state.common.reactiveMaxWidth,
                 windowWidth: state => state.common.windowWidth,
                 selectedCategory: state => state.observation.selectedCategory,
                 startDatetime: state => state.observation.startDatetime,

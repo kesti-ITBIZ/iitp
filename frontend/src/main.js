@@ -89,7 +89,7 @@ import fetch from "cross-fetch";
 const apolloProvider = new VueApollo({
     defaultClient: new ApolloClient({
         link: createHttpLink({
-            uri: "http://211.55.33.242:9200/graphql",
+            uri: "http://localhost:9200/graphql",
             fetch
         }),
         cache: new InMemoryCache()

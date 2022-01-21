@@ -4,7 +4,7 @@
             <div :class="['select-chart-btn', selectedChartType == 'table' && !isDisabled('table') ? 'on' : '', isDisabled('table') ? 'disabled' : '']"
                  @click="isDisabled('table') ? null : setSelectedChartType('table')">
                 <div>
-                    <font-awesome-icon :size="`${windowWidth > 1160 ? 3 : 2}x`" :icon="['fa', 'table']" />
+                    <font-awesome-icon :size="`${windowWidth >= reactiveMaxWidth ? 3 : 2}x`" :icon="['fa', 'table']" />
                     <div>Table</div>
                 </div>
             </div>
@@ -13,8 +13,8 @@
                  :class="['select-chart-btn', selectedChartType == chartType.toLowerCase() && !isDisabled(chartType.toLowerCase()) ? 'on' : '', isDisabled(chartType.toLowerCase()) ? 'disabled' : '']"
                  @click="isDisabled(chartType.toLowerCase()) ? null : setSelectedChartType(chartType.toLowerCase())">
                 <div>
-                    <font-awesome-icon :size="`${windowWidth > 1160 ? 3 : 2}x`" :icon="['fa', 'chart-' + chartType.toLowerCase()]" />
-                    <div>{{ chartType + (windowWidth > 1160 ? " Chart" : "") }}</div>
+                    <font-awesome-icon :size="`${windowWidth >= reactiveMaxWidth ? 3 : 2}x`" :icon="['fa', 'chart-' + chartType.toLowerCase()]" />
+                    <div>{{ chartType + (windowWidth >= reactiveMaxWidth ? " Chart" : "") }}</div>
                 </div>
             </div>
         </div>
@@ -28,6 +28,7 @@
         name: "SelectChart",
         computed: {
             ...mapState({
+                reactiveMaxWidth: state => state.common.reactiveMaxWidth,
                 windowWidth: state => state.common.windowWidth,
                 selectedChartType: state => state.observation.selectedChartType,
                 xAxis: state => state.observation[state.observation.selectedCategory].xAxis

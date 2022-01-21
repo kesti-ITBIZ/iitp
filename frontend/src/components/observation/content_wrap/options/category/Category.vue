@@ -5,7 +5,7 @@
                 <input type="button" :class="selectedSearchOption == option.value ? 'on' : ''" :value="option.label" @click="setSelectedSearchOption(option.value)" />
             </li>
         </ul>
-        <ul v-if="windowWidth > 1160">
+        <ul v-if="windowWidth >= reactiveMaxWidth">
             <li :key="i" v-for="(obj, i) in category">
                 <button :class="selectedCategory == obj.value ? 'on' : ''" @click="setSelectedCategory(obj.value)">
                     <span :class="obj.value"></span>
@@ -59,6 +59,7 @@
         name: "Category",
         computed: {
             ...mapState({
+                reactiveMaxWidth: state => state.common.reactiveMaxWidth,
                 windowWidth: state => state.common.windowWidth,
                 searchOptions: state => state.observation.searchOptions,
                 selectedSearchOption: state => state.observation.selectedSearchOption,
