@@ -1,3 +1,64 @@
 .content-wrap {
+    > div {
+        &:first-child {
+            position: relative;
+            display: flex;
+            height: calc(100% - 50px);
 
+            > div {
+                &:first-child {
+                    width: calc(100% - 180px);
+                }
+
+                &:last-child {
+                    width: 180px;
+                }
+            }
+        }
+
+        &:last-child {
+            text-align: center;
+            height: 50px;
+        }
+    }
+
+    input[type=button].fetch {
+        font: {
+            size: 18px;
+            family: 'NanumSquare';
+            weight: 900;
+        };
+        background-color: #424242;
+        color: white;
+        width: 120px;
+        border: none;
+        border-radius: 10px;
+        margin: 6px;
+        padding: 7px 10px;
+        transition: background-color 0.1s, color 0.1s;
+
+        &:hover {
+            background-color: #787878;
+        }
+
+        &:active {
+            background-color: #1c1c1c;
+        }
+    }
+}
+
+@media screen and (max-width: 1160px) {
+    .content-wrap {
+        > div:first-child {
+            flex-direction: column;
+
+            > div:first-child {
+                width: 100% !important;
+            }
+        }
+
+        input[type=button].fetch {
+            width: calc(100% - 20px);
+        }
+    }
 }

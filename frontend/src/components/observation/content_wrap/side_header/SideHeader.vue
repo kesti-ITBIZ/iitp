@@ -1,8 +1,12 @@
 <template>
     <div id="side-header">
         <items />
-        <x-axis />
-        <y-axis />
+        <x-axis v-show="windowWidth >= 1160" />
+        <y-axis v-show="windowWidth >= 1160" />
+        <div>
+            <x-axis v-show="windowWidth < 1160" />
+            <y-axis v-show="windowWidth < 1160" />
+        </div>
     </div>
 </template>
 

@@ -51,8 +51,8 @@
                 this.setSelectedItem(this.selectedItem && this.selectedItem.item.value === item.value ? null : {
                     item,
                     tooltipPosition: {
-                        top: `${e.clientY - 8}px`,
-                        left: `${e.clientX - 10}px`
+                        top: `${e.pageY - 8}px`,
+                        left: `${e.pageX - 10}px`
                     }
                 });
             }

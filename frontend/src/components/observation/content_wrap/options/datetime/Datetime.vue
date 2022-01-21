@@ -10,7 +10,7 @@
                 </label>
             </div>
         </div>
-        <div>
+        <div v-show="windowWidth >= 1160">
             <span class="label">조회 기간 :</span>
             <div>
                 <date-picker
@@ -48,6 +48,50 @@
                     <strong>옵저버</strong>의 현재 조회 가능한 기간은 다음과 같습니다.
                     <ul><li :key="i" v-for="(datetime, i) in available" @click="onClickHelpElement(datetime[0], datetime[datetime.length - 1])">{{ datetime.map(dt => dt.format("YYYY년 MM월 DD일 HH시")).join(" ~ ") }}</li></ul>
                 </div>
+            </div>
+        </div>
+        <div v-show="windowWidth < 1160">
+            <span class="label">조회 기간 (시작) :</span>
+            <div>
+                <date-picker
+                        valueType="format"
+                        :type="selectedDateType == 'hour' ? 'datetime' : selectedDateType"
+                        :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat"
+                        :value="startDatetime.format(dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat)"
+                        :disabled-date="date => date.getTime() > new Date().getTime()"
+                        @change="onChangeStartDatetime" />
+            </div>
+        </div>
+        <div v-show="windowWidth < 1160">
+            <span class="label">조회 기간 (끝) :</span>
+            <div>
+                <date-picker
+                        valueType="format"
+                        :type="selectedDateType == 'hour' ? 'datetime' : selectedDateType"
+                        :format="dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat"
+                        :value="endDatetime.format(dateTypes[dateTypes.findIndex(obj => obj.type == selectedDateType)].dayjsToStringFormat)"
+                        :disabled-date="date => date.getTime() > new Date().getTime()"
+                        @change="onChangeEndDatetime" />
+            </div>
+        </div>
+        <div v-show="windowWidth < 1160">
+            <input type="button" class="now-btn" value="NOW" @click="onMoveNowDatetime" />
+            <font-awesome-icon size="1x" :class="isClickedHelpIcon ? 'active' : ''" :icon="['fa', 'question-circle']" @click="isClickedHelpIcon = !isClickedHelpIcon" />
+            <div class="help-tooltip scroll" v-show="isClickedHelpIcon && selectedCategory == 'airkorea'">
+                <strong>환경부</strong>의 현재 조회 가능한 기간은 다음과 같습니다.
+                <ul><li :key="i" v-for="(datetime, i) in available" @click="onClickHelpElement(datetime[0], datetime[datetime.length - 1])">{{ datetime.map(dt => dt.format("YYYY년 MM월 DD일 HH시")).join(" ~ ") }}</li></ul>
+            </div>
+            <div class="help-tooltip scroll" v-show="isClickedHelpIcon && selectedCategory == 'kt'">
+                <strong>KT</strong>의 현재 조회 가능한 기간은 다음과 같습니다.
+                <ul><li :key="i" v-for="(datetime, i) in available" @click="onClickHelpElement(datetime[0], datetime[datetime.length - 1])">{{ datetime.map(dt => dt.format("YYYY년 MM월 DD일 HH시")).join(" ~ ") }}</li></ul>
+            </div>
+            <div class="help-tooltip scroll" v-show="isClickedHelpIcon && selectedCategory == 'sDoT'">
+                <strong>S-DoT</strong>의 현재 조회 가능한 기간은 다음과 같습니다.
+                <ul><li :key="i" v-for="(datetime, i) in available" @click="onClickHelpElement(datetime[0], datetime[datetime.length - 1])">{{ datetime.map(dt => dt.format("YYYY년 MM월 DD일 HH시")).join(" ~ ") }}</li></ul>
+            </div>
+            <div class="help-tooltip scroll" v-show="isClickedHelpIcon && selectedCategory == 'observer'">
+                <strong>옵저버</strong>의 현재 조회 가능한 기간은 다음과 같습니다.
+                <ul><li :key="i" v-for="(datetime, i) in available" @click="onClickHelpElement(datetime[0], datetime[datetime.length - 1])">{{ datetime.map(dt => dt.format("YYYY년 MM월 DD일 HH시")).join(" ~ ") }}</li></ul>
             </div>
         </div>
     </div>
