@@ -5,7 +5,7 @@
                 <input type="button" :class="selectedSearchOption == option.value ? 'on' : ''" :value="option.label" @click="setSelectedSearchOption(option.value)" />
             </li>
         </ul>
-        <ul v-if="windowWidth >= reactiveMaxWidth">
+        <ul v-if="windowWidth >= reactiveMaxWidth + 1">
             <li :key="i" v-for="(obj, i) in category">
                 <button :class="selectedCategory == obj.value ? 'on' : ''" @click="setSelectedCategory(obj.value)">
                     <span :class="obj.value"></span>

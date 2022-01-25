@@ -10,7 +10,7 @@
                 </label>
             </div>
         </div>
-        <div v-show="windowWidth >= reactiveMaxWidth">
+        <div v-show="windowWidth >= reactiveMaxWidth + 1">
             <span class="label">조회 기간 :</span>
             <div>
                 <date-picker
@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div>
-        <div v-show="windowWidth < reactiveMaxWidth">
+        <div v-show="windowWidth < reactiveMaxWidth + 1">
             <span class="label">조회 기간 (시작) :</span>
             <div>
                 <date-picker
@@ -62,7 +62,7 @@
                         @change="onChangeStartDatetime" />
             </div>
         </div>
-        <div v-show="windowWidth < reactiveMaxWidth">
+        <div v-show="windowWidth < reactiveMaxWidth + 1">
             <span class="label">조회 기간 (끝) :</span>
             <div>
                 <date-picker
@@ -74,7 +74,7 @@
                         @change="onChangeEndDatetime" />
             </div>
         </div>
-        <div v-show="windowWidth < reactiveMaxWidth">
+        <div v-show="windowWidth < reactiveMaxWidth + 1">
             <input type="button" class="now-btn" value="NOW" @click="onMoveNowDatetime" />
             <font-awesome-icon size="1x" :class="isClickedHelpIcon ? 'active' : ''" :icon="['fa', 'question-circle']" @click="isClickedHelpIcon = !isClickedHelpIcon" />
             <div class="help-tooltip scroll" v-show="isClickedHelpIcon && selectedCategory == 'airkorea'">
