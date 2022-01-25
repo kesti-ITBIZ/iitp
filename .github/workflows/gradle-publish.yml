@@ -88,6 +88,8 @@ jobs:
               docker run -d --name $CONTAINER_NAME-$IDX -p `expr 9200 + $IDX`:9200 $NEW_VERSION_IMAGE
             done
 
+            sleep 60s
+
             docker stop $CONTAINER_NAME-$REDEPLOY_NUM
             docker rm $CONTAINER_NAME-$REDEPLOY_NUM
             if [ `docker images | grep ghcr.io/${{ env.REPOSITORY }} | grep -v $TAG-${{ env.RELEASE_VERSION }} | grep -c ''` != 0 ]; then
