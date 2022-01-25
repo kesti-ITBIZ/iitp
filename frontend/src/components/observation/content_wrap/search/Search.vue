@@ -3,9 +3,9 @@
         <div class="container">
             <table>
                 <colgroup>
-                    <col style="width: 70px;" />
-                    <col style="width: 110px;" v-show="windowWidth >= reactiveMaxWidth + 1" />
-                    <col style="width: 180px;" v-show="windowWidth >= reactiveMaxWidth + 1" />
+                    <col style="width: 55px;" />
+                    <col style="width: 80px;" v-show="windowWidth >= reactiveMaxWidth + 1" />
+                    <col style="width: 150px;" v-show="windowWidth >= reactiveMaxWidth + 1" />
                     <col />
                 </colgroup>
                 <thead>
@@ -26,16 +26,18 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td :colspan="windowWidth >= reactiveMaxWidth + 1 ? 4 : 2" v-show="searchedStations.length === 0">
+                        <td :colspan="windowWidth >= reactiveMaxWidth + 1 ? 4 : 2"
+                            v-show="searchedStations.length === 0"
+                            :style="{ height: `${height}px !important` }">
                             <div class="no-data">데이터가 없습니다.</div>
                         </td>
                         <td :colspan="windowWidth >= reactiveMaxWidth + 1 ? 4 : 2" v-show="searchedStations.length > 0">
                             <div class="scroll" :style="{ height: `${height}px !important` }">
                                 <table>
                                     <colgroup>
-                                        <col style="width: 70px;" />
-                                        <col style="width: 110px;" v-show="windowWidth >= reactiveMaxWidth + 1" />
-                                        <col style="width: 180px;" v-show="windowWidth >= reactiveMaxWidth + 1" />
+                                        <col style="width: 55px;" />
+                                        <col style="width: 80px;" v-show="windowWidth >= reactiveMaxWidth + 1" />
+                                        <col style="width: 150px;" v-show="windowWidth >= reactiveMaxWidth + 1" />
                                         <col />
                                     </colgroup>
                                     <tbody>
@@ -54,7 +56,7 @@
                                     </tbody>
                                 </table>
                                 <infinite-loading v-if="searchedStations.length >= 100" @infinite="infiniteHandler" spinner="waveDots">
-                                    <div slot="no-results" class="no-results" :style="{ height: `${height}px !important` }">
+                                    <div slot="no-results" class="no-results">
                                         더 이상 데이터가 없어요. ( ͡° ͜ʖ ͡°)
                                     </div>
                                 </infinite-loading>
@@ -80,7 +82,7 @@
             prevKeyword: null,
             pageIndex: 0,
             infiniteState: null,
-            height: window.innerHeight - 580
+            height: 0
         }),
         computed: {
             ...mapState({
@@ -92,8 +94,12 @@
             })
         },
         watch: {
+            windowWidth() {
+                this.height = this.windowWidth >= this.reactiveMaxWidth ? this.windowHeight - 580 : 390;
+            },
+
             windowHeight() {
-                this.height = this.windowHeight - 580;
+                this.height = this.windowWidth >= this.reactiveMaxWidth ? this.windowHeight - 580 : 390;
             }
         },
         apollo: {
@@ -187,6 +193,9 @@
                     station: this.searchedStations.filter(obj => obj.name === name && obj.address === address)[0]
                 });
             }
+        },
+        mounted() {
+            this.height = this.windowWidth >= this.reactiveMaxWidth ? this.windowHeight - 580 : 390;
         }
     }
 </script>

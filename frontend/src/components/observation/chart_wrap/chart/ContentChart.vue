@@ -247,8 +247,6 @@
                                 else if (this.selectedDateType == "year") xLabel = dayjs(xLabel, "YYYY").format("YYYY년");
                             }
 
-                            console.log(xLabel);
-
                             return `
                                 항목: ${data.seriesName}<br />
                                 X: ${xLabel}<br />
