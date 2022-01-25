@@ -1,7 +1,7 @@
 export default {
     state: {
         common: {
-            reactiveMaxWidth: 852,
+            reactiveMaxWidth: 1160 + 1,
             windowWidth: window.innerWidth,
             windowHeight: window.innerHeight,
             resizeEventListeners: Object.freeze([]),

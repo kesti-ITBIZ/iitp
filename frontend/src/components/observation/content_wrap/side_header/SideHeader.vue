@@ -1,11 +1,11 @@
 <template>
     <div id="side-header">
         <items />
-        <x-axis v-show="windowWidth >= reactiveMaxWidth" />
-        <y-axis v-show="windowWidth >= reactiveMaxWidth" />
+        <x-axis v-show="windowWidth >= reactiveMaxWidth + 1" />
+        <y-axis v-show="windowWidth >= reactiveMaxWidth + 1" />
         <div>
-            <x-axis v-show="windowWidth < reactiveMaxWidth" />
-            <y-axis v-show="windowWidth < reactiveMaxWidth" />
+            <x-axis v-show="windowWidth < reactiveMaxWidth + 1" />
+            <y-axis v-show="windowWidth < reactiveMaxWidth + 1" />
         </div>
     </div>
 </template>

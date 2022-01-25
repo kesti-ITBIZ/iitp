@@ -4,7 +4,7 @@
             <div class="map" v-show="selectedCategory == category" :key="i" v-for="(category, i) in Object.keys(stations)">
                 <geo-map
                         :ref="category + '-map'"
-                        :zoom="windowWidth < reactiveMaxWidth ? 7 : 8"
+                        :zoom="windowWidth < reactiveMaxWidth + 1 ? 7 : 8"
                         :center="[36, 127.5]"
                         :data="stations[category]"
                         :marker="marker"
@@ -12,7 +12,7 @@
                         @click="station => setSelectedStation({ category, station })" />
             </div>
         </div>
-        <div v-show="windowWidth < reactiveMaxWidth" class="scroll-area">스크롤</div>
+        <div v-show="windowWidth < reactiveMaxWidth + 1" class="scroll-area">스크롤</div>
     </div>
 </template>
 
