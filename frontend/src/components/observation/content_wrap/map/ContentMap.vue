@@ -83,20 +83,23 @@
         watch: {
             startDatetime() {
                 this.fetchStations();
-                setTimeout(() => this.$refs[this.selectedCategory + "-map"][0].invalidateSize(), 0);
             },
 
             endDatetime() {
                 this.fetchStations();
-                setTimeout(() => this.$refs[this.selectedCategory + "-map"][0].invalidateSize(), 0);
             },
 
             selectedCategory() {
                 if (this.stations[this.selectedCategory] == null) this.fetchStations();
-                setTimeout(() => this.$refs[this.selectedCategory + "-map"][0].invalidateSize(), 0);
+                else setTimeout(() => this.$refs[this.selectedCategory + "-map"][0].invalidateSize(), 0);
             },
 
             selectedSearchOption() {
+                if (this.stations[this.selectedCategory] == null) this.fetchStations();
+                setTimeout(() => this.$refs[this.selectedCategory + "-map"][0].invalidateSize(), 0);
+            },
+
+            stations() {
                 setTimeout(() => this.$refs[this.selectedCategory + "-map"][0].invalidateSize(), 0);
             }
         },

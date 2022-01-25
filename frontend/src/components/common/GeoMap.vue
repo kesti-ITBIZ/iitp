@@ -8,10 +8,12 @@
         <v-tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
         <v-canvas-layer
                 v-if="data"
+                ref="marker-layer"
                 :location="locations"
                 @l-drawing="drawing" />
         <v-canvas-layer
                 v-if="data"
+                ref="event-layer"
                 :location="locations"
                 @l-mousemove="hover"
                 @l-click="click" />
@@ -39,6 +41,8 @@
         methods: {
             invalidateSize(invalidate = true) {
                 this.$refs.map.mapObject.invalidateSize(invalidate);
+                this.$refs["marker-layer"].mapObject.draw();
+                this.$refs["event-layer"].mapObject.draw();
             },
 
             closedMarker(info) {
@@ -64,6 +68,7 @@
             },
 
             drawing(info) {
+                console.log("draw");
                 const markerPoints = [];
                 const canvas = info.canvas;
                 const context = canvas.getContext("2d");
