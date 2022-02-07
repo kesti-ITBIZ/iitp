@@ -4,7 +4,7 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 import common from "./common";
-import observation from "./observation/observation";
+import observation from "./observation";
 
 export default new Vuex.Store({
     state: {

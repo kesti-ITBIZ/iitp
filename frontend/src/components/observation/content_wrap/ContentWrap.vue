@@ -50,7 +50,7 @@
         ...dataApi,
         methods: {
             ...mapActions({
-                setData: "SET_DATA",
+                setData: "SET_OBSERVATION_DATA",
                 setLoadingVisible: "SET_LOADING_VISIBLE",
                 setLoadingInvisible: "SET_LOADING_INVISIBLE"
             }),

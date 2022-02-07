@@ -1,0 +1,35 @@
+@import "../../../../../common";
+
+.container-wrap.y-axis {
+    height: 119px;
+
+    .item-btn {
+        background-color: #6dbb28;
+
+        span.times {
+            color: #ebe3ff;
+        }
+
+        &:hover {
+            background-color: #98dc57;
+
+            span.times {
+                color: #f9fff6;
+            }
+        }
+
+        &:active {
+            background-color: #589721;
+
+            span.times {
+                color: #ebe3ff;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: $reactive-max-width) {
+    .container-wrap.y-axis {
+        height: 208px;
+    }
+}

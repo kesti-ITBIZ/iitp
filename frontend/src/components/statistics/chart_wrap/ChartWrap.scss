@@ -1,10 +1,23 @@
+@import "../../../common";
+
 #chart-wrap {
-    width: 50%;
-    min-width: 900px;
-    height: calc(100% - 2px);
-    border: {
-        top: 1px solid #a5a5a5;
-        right: 1px solid #a5a5a5;
-        bottom: 1px solid #a5a5a5;
+    width: 100%;
+    min-width: 600px;
+    height: 100%;
+
+    > div.chart-wrap-header {
+        border-bottom: none;
+    }
+
+    > div#content-chart {
+        width: calc(100% - 2px);
+        height: calc(100% - 192px);
+    }
+}
+
+@media screen and (max-width: $reactive-max-width) {
+    #chart-wrap {
+        min-width: 0;
+        height: 800px;
     }
 }

@@ -27,8 +27,8 @@
                 clearResizeEvent: "CLEAR_RESIZE_EVENT",
                 setWindowWidth: "SET_WINDOW_WIDTH",
                 setWindowHeight: "SET_WINDOW_HEIGHT",
-                setAvailable: "SET_AVAILABLE",
-                setSelectedItem: "SET_SELECTED_ITEM"
+                setAvailable: "SET_OBSERVATION_AVAILABLE",
+                setSelectedItem: "SET_OBSERVATION_SELECTED_ITEM"
             })
         },
         mounted() {

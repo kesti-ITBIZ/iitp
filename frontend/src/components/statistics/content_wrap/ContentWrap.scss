@@ -1,68 +1,64 @@
-#content-wrap {
-    width: 100%;
-    min-width: 700px;
-    height: 100%;
+@import "../../../common";
 
-    > thead > tr > th {
-        text-align: left;
-        width: calc(100% - 1px);
-        height: 120px !important;
-        border: {
-            top: 1px solid #a5a5a5;
-            left: 1px solid #a5a5a5;
-            right: 1px solid #a5a5a5;
-        };
-        margin: 0;
-
-        > div {
-            height: 100%;
+.content-wrap {
+    > div {
+        &:first-child {
+            position: relative;
+            display: flex;
+            height: calc(100% - 50px);
 
             > div {
-                display: inline-block;
-                height: 100%;
+                &:first-child {
+                    width: calc(100% - 180px);
+                    min-width: 585px;
+                }
             }
         }
 
-        table {
-            border-collapse: collapse;
-            border: none !important;
-
-            th {
-                border-collapse: collapse;
-                border: none !important;
-                text-align: left;
-            }
+        &:last-child {
+            text-align: center;
+            height: 50px;
         }
     }
 
-    .map {
-        height: 100%;
-        border: 1px solid #a5a5a5;
+    input[type=button].fetch {
+        font: {
+            size: 18px;
+            family: 'NanumSquare';
+            weight: 900;
+        };
+        background-color: #424242;
+        color: white;
+        width: 120px;
+        border: none;
+        border-radius: 10px;
+        margin: 6px;
+        padding: 7px 10px;
+        transition: background-color 0.1s, color 0.1s;
+
+        &:hover {
+            background-color: #787878;
+        }
+
+        &:active {
+            background-color: #1c1c1c;
+        }
     }
+}
 
-    > tbody > tr:last-child > td {
-        text-align: center;
-        height: 50px;
-        border: 1px solid #a5a5a5;
+@media screen and (max-width: $reactive-max-width) {
+    .content-wrap {
+        > div:first-child {
+            flex-direction: column;
 
-        input[type=button] {
-            font-size: 14px;
-            background: transparent;
-            color: #2f2f2f;
-            width: 120px;
-            border: 1px solid #2f2f2f;
-            margin: 6px;
-            padding: 7px 10px;
-            transition: background-color 0.1s, color 0.1s;
-
-            &:hover {
-                background-color: #2f2f2f;
-                color: white;
+            > div:first-child {
+                width: 100% !important;
+                min-width: 0;
             }
+        }
 
-            &:active {
-                background-color: black;
-            }
+        input[type=button].fetch {
+            width: calc(100% - 20px);
         }
     }
 }

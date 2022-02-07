@@ -1,0 +1,123 @@
+$table-color: #00c3dc;
+
+div.content-chart {
+    height: calc(100% - 173px) !important;
+    border-top: none;
+    padding: 10px;
+
+    > div {
+        position: relative;
+        background-color: white;
+        box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+        height: 100%;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+
+        > div {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        #chart {
+            overflow: hidden;
+            height: calc(100% - 60px);
+            margin: 30px 0;
+        }
+
+        #table {
+            position: relative;
+            font-size: 12px;
+            width: calc(100% - 15px);
+            height: calc(100% - 30px);
+            padding: 15px 0 15px 15px;
+
+            > table {
+                height: fit-content;
+
+                thead th {
+                    font-size: 13px;
+                    background-color: #ebfaff;
+                    color: $table-color;
+                    border: 1px solid $table-color;
+                    padding: 5px;
+
+                    > span {
+                        display: inline-block;
+                        transform: rotate(0.03deg);
+                    }
+
+                    &:first-child {
+                        width: 180px;
+                    }
+                }
+
+                tbody {
+                    td {
+                        text-align: right;
+                        font-size: 13px;
+                        color: #044b52;
+                        border: 1px solid $table-color;
+                        padding: 5px;
+
+                        > span {
+                            display: inline-block;
+                            transform: rotate(0.03deg);
+                        }
+
+                        &[rowspan] {
+                            background-color: #f8fdff !important;
+                        }
+                    }
+
+                    tr:nth-child(odd) td {
+                        background-color: white;
+                    }
+
+                    tr:nth-child(even) td {
+                        background-color: #f8fdff;
+                    }
+                }
+            }
+        }
+
+        div.csv-download {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            text-align: center;
+            color: white;
+            background-color: #005fb4;
+            width: 39px;
+            height: fit-content;
+            border-radius: 30px;
+            padding: 9px 0;
+            cursor: pointer;
+            transition: background-color 0.15s;
+
+            &:hover {
+                background-color: #2e85cb;
+            }
+
+            &:active {
+                background-color: #004886;
+            }
+        }
+
+        #no-data {
+            display: table;
+            height: 100%;
+
+            > div {
+                display: table-cell;
+                vertical-align: middle;
+                text-align: center;
+
+                h1 {
+                    color: #a5a5a5;
+                    letter-spacing: -2px;
+                    margin: auto 0;
+                }
+            }
+        }
+    }
+}
