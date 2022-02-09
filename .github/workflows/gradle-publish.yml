@@ -77,4 +77,4 @@ jobs:
               docker rmi $(docker images -q --filter "dangling=true") $(docker images -q --filter "reference=ghcr.io/${{ env.REPOSITORY }}:beta-*")
             fi
             docker pull ghcr.io/${{ env.REPOSITORY }}:beta-${{ env.RELEASE_VERSION }}
-            docker run -d --name iitp-test -p $DEPLOY_PORT:9200 ghcr.io/${{ env.REPOSITORY }}:beta-${{ env.RELEASE_VERSION }}
+            docker run -d --name iitp-test -p $DEPLOY_PORT:9100 ghcr.io/${{ env.REPOSITORY }}:beta-${{ env.RELEASE_VERSION }}
