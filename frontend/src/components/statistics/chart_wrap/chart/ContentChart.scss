@@ -11,8 +11,37 @@ div.content-chart {
     > div {
         position: relative;
         display: grid;
-        grid-template-columns: repeat(2, 50%);
-        grid-template-rows: repeat(2, 1fr);
+        grid-template: {
+            columns: repeat(2, 50%);
+            rows: repeat(2, 1fr);
+        };
+
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+            display: -ms-grid;
+            -ms-grid-columns: 50% 50%;
+            -ms-grid-rows: 50% 50%;
+
+            .avg {
+                -ms-grid-column: 1;
+                -ms-grid-row: 1;
+            }
+
+            .good {
+                -ms-grid-column: 2;
+                -ms-grid-row: 1;
+            }
+
+            .bad {
+                -ms-grid-column: 1;
+                -ms-grid-row: 2;
+            }
+
+            .high {
+                -ms-grid-column: 2;
+                -ms-grid-row: 2;
+            }
+        }
+
         background-color: white;
         box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
         width: 100%;
@@ -48,11 +77,38 @@ div.content-chart {
         height: fit-content !important;
 
         > div {
-            grid-template-columns: 100%;
-            grid-template-rows: repeat(4, 340px);
+            grid-template: {
+                columns: 100%;
+                rows: repeat(4, 340px);
+            }
 
             > div {
                 margin: 30px 20px 0 20px;
+            }
+
+            @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+                -ms-grid-columns: 100%;
+                -ms-grid-rows: 340px 340px 340px 340px;
+
+                .avg {
+                    -ms-grid-column: 1;
+                    -ms-grid-row: 1;
+                }
+
+                .good {
+                    -ms-grid-column: 1;
+                    -ms-grid-row: 2;
+                }
+
+                .bad {
+                    -ms-grid-column: 1;
+                    -ms-grid-row: 3;
+                }
+
+                .high {
+                    -ms-grid-column: 1;
+                    -ms-grid-row: 4;
+                }
             }
         }
 
