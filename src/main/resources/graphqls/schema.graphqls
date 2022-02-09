@@ -19,6 +19,7 @@ type Query {
     sDoTAvailableDatetimes: [String]
     sDoTStations(startDatetime: String!, endDatetime: String!): [Station]
     sDoTStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
+    statisticsData(category: String!, startDatetime: String!, endDatetime: String!, stnNm: String!): [StatisticsData]
 }
 
 type Station {
@@ -68,6 +69,21 @@ type SDoTData {
     windSpeed: Float
     pm10: Float
     pm25: Float
+}
+
+type StatisticsData {
+    category: String!
+    datetime: String!
+    stnNm: String!
+    pm10: StatisticsValue
+    pm25: StatisticsValue
+}
+
+type StatisticsValue {
+    avg: Float
+    goodDays: Float
+    badDays: Float
+    highDnstyDays: Float
 }
 
 input DataParam {

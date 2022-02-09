@@ -168,4 +168,41 @@ export const dataApi = {
             skip: true
         },
     }
-}
+};
+
+export const statisticsApi = {
+    apollo: {
+        statisticsData: {
+            query: gql`
+                query statisticsData($category: String!, $startDatetime: String!, $endDatetime: String!, $stnNm: String!) {
+                    statisticsData(category: $category, startDatetime: $startDatetime, endDatetime: $endDatetime, stnNm: $stnNm) {
+                        category
+                        datetime
+                        stnNm
+                        pm10 {
+                            avg
+                            goodDays
+                            badDays
+                            highDnstyDays
+                        }
+                        pm25 {
+                            avg
+                            goodDays
+                            badDays
+                            highDnstyDays
+                        }
+                    }
+                }
+            `,
+            variables() {
+                return {
+                    category: this.selectedCategory,
+                    startDatetime: this.startDatetime.format("YYYY" + (this.selectedDateType == "month" ? "MM" : "")),
+                    endDatetime: this.endDatetime.format("YYYY" + (this.selectedDateType == "month" ? "MM" : "")),
+                    stnNm: this.selectedStation.name
+                }
+            },
+            skip: true
+        }
+    }
+};

@@ -1,17 +1,17 @@
 <template>
     <div id="select-chart">
         <div>
-            <div :class="['select-chart-btn', selectedChartType == 'table' && !isDisabled('table') ? 'on' : '', isDisabled('table') ? 'disabled' : '']"
-                 @click="isDisabled('table') ? null : setSelectedChartType('table')">
-                <div>
-                    <font-awesome-icon :size="`${windowWidth >= reactiveMaxWidth + 1 ? 3 : 2}x`" :icon="['fa', 'table']" />
-                    <div>Table</div>
-                </div>
-            </div>
+<!--            <div :class="['select-chart-btn', selectedChartType == 'table' ? 'on' : '']"-->
+<!--                 @click="setSelectedChartType('table')">-->
+<!--                <div>-->
+<!--                    <font-awesome-icon :size="`${windowWidth >= reactiveMaxWidth + 1 ? 3 : 2}x`" :icon="['fa', 'table']" />-->
+<!--                    <div>Table</div>-->
+<!--                </div>-->
+<!--            </div>-->
             <div :key="i"
                  v-for="(chartType, i) in ['Line', 'Bar', 'Area', 'Scatter']"
-                 :class="['select-chart-btn', selectedChartType == chartType.toLowerCase() && !isDisabled(chartType.toLowerCase()) ? 'on' : '', isDisabled(chartType.toLowerCase()) ? 'disabled' : '']"
-                 @click="isDisabled(chartType.toLowerCase()) ? null : setSelectedChartType(chartType.toLowerCase())">
+                 :class="['select-chart-btn', selectedChartType == chartType.toLowerCase() ? 'on' : '']"
+                 @click="setSelectedChartType(chartType.toLowerCase())">
                 <div>
                     <font-awesome-icon :size="`${windowWidth >= reactiveMaxWidth + 1 ? 3 : 2}x`" :icon="['fa', 'chart-' + chartType.toLowerCase()]" />
                     <div>{{ chartType + (windowWidth >= reactiveMaxWidth + 1 ? " Chart" : "") }}</div>
@@ -30,29 +30,13 @@
             ...mapState({
                 reactiveMaxWidth: state => state.common.reactiveMaxWidth,
                 windowWidth: state => state.common.windowWidth,
-                selectedChartType: state => state.observation.selectedChartType,
-                xAxis: state => state.observation[state.observation.selectedCategory].xAxis
+                selectedChartType: state => state.statistics.selectedChartType,
             })
-        },
-        watch: {
-            xAxis() {
-                if (this.xAxis.length === 0)
-                    this.setSelectedChartType("");
-                else if (this.xAxis[0].value !== "datetime" && this.selectedChartType != "table" && this.selectedChartType != "scatter")
-                    this.setSelectedChartType("scatter");
-                else if (this.xAxis[0].value === "datetime") this.setSelectedChartType("line");
-            }
         },
         methods: {
             ...mapActions({
-                setSelectedChartType: "SET_OBSERVATION_SELECTED_CHART_TYPE"
-            }),
-
-            isDisabled(chartType) {
-                if (this.xAxis.length === 0) return true;
-                else if (this.xAxis[0].value === "datetime") return false;
-                else return chartType !== "scatter" && chartType !== "table";
-            }
+                setSelectedChartType: "SET_STATISTICS_SELECTED_CHART_TYPE"
+            })
         }
     }
 </script>

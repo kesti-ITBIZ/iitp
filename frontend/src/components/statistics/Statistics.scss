@@ -6,35 +6,16 @@
 
     > div {
         flex: 1;
-
-        &:first-child > div {
-            &:first-child {
-                position: relative;
-                display: flex;
-                height: calc(100% - 50px);
-
-                > div {
-                    &:first-child {
-                        width: calc(100% - 180px);
-                    }
-
-                    &:last-child {
-                        width: 180px;
-                    }
-                }
-            }
-
-            &:last-child {
-                text-align: center;
-                height: 50px;
-            }
-        }
+        width: 50%;
     }
 }
 
 @media screen and (max-width: $reactive-max-width) {
-    #observation {
+    #statistics {
         display: block;
-        min-width: 320px;
+
+        > div {
+            width: 100%;
+        }
     }
 }

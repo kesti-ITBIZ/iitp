@@ -61,16 +61,16 @@
             ...mapState({
                 reactiveMaxWidth: state => state.common.reactiveMaxWidth,
                 windowWidth: state => state.common.windowWidth,
-                searchOptions: state => state.observation.searchOptions,
-                selectedSearchOption: state => state.observation.selectedSearchOption,
-                category: state => state.observation.category,
-                selectedCategory: state => state.observation.selectedCategory
+                searchOptions: state => state.statistics.searchOptions,
+                selectedSearchOption: state => state.statistics.selectedSearchOption,
+                category: state => state.statistics.category,
+                selectedCategory: state => state.statistics.selectedCategory
             })
         },
         methods: {
             ...mapActions({
-                setSelectedSearchOption: "SET_OBSERVATION_SELECTED_SEARCH_OPTION",
-                setSelectedCategory: "SET_OBSERVATION_SELECTED_CATEGORY"
+                setSelectedSearchOption: "SET_STATISTICS_SELECTED_SEARCH_OPTION",
+                setSelectedCategory: "SET_STATISTICS_SELECTED_CATEGORY"
             })
         }
     }

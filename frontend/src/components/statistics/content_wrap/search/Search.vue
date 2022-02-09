@@ -89,8 +89,8 @@
                 reactiveMaxWidth: state => state.common.reactiveMaxWidth,
                 windowWidth: state => state.common.windowWidth,
                 windowHeight: state => state.common.windowHeight,
-                selectedCategory: state => state.observation.selectedCategory,
-                searchedStations: state => state.observation.searchedStations
+                selectedCategory: state => state.statistics.selectedCategory,
+                searchedStations: state => state.statistics.searchedStations
             })
         },
         watch: {
@@ -133,9 +133,9 @@
         },
         methods: {
             ...mapActions({
-                setSearchedStations: "SET_OBSERVATION_SEARCHED_STATIONS",
-                appendSearchedStations: "APPEND_OBSERVATION_SEARCHED_STATIONS",
-                setSelectedStation: "SET_OBSERVATION_SELECTED_STATION"
+                setSearchedStations: "SET_STATISTICS_SEARCHED_STATIONS",
+                appendSearchedStations: "APPEND_STATISTICS_SEARCHED_STATIONS",
+                setSelectedStation: "SET_STATISTICS_SELECTED_STATION"
             }),
 
             async search() {

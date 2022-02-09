@@ -102,7 +102,7 @@
     import dayjs from "dayjs";
 
     export default {
-        name: "Options",
+        name: "Datetime",
         data: () => ({
             isClickedHelpIcon: false
         }),
@@ -110,19 +110,19 @@
             ...mapState({
                 reactiveMaxWidth: state => state.common.reactiveMaxWidth,
                 windowWidth: state => state.common.windowWidth,
-                selectedCategory: state => state.observation.selectedCategory,
-                startDatetime: state => state.observation.startDatetime,
-                endDatetime: state => state.observation.endDatetime,
-                dateTypes: state => state.observation.dateTypes,
-                selectedDateType: state => state.observation.selectedDateType,
-                available: state => state.observation[state.observation.selectedCategory].available
+                selectedCategory: state => state.statistics.selectedCategory,
+                startDatetime: state => state.statistics.startDatetime,
+                endDatetime: state => state.statistics.endDatetime,
+                dateTypes: state => state.statistics.dateTypes,
+                selectedDateType: state => state.statistics.selectedDateType,
+                available: state => state.statistics[state.statistics.selectedCategory].available
             })
         },
         methods: {
             ...mapActions({
-                setStartDatetime: "SET_OBSERVATION_START_DATETIME",
-                setEndDatetime: "SET_OBSERVATION_END_DATETIME",
-                setSelectedDateType: "SET_OBSERVATION_SELECTED_DATE_TYPE"
+                setStartDatetime: "SET_STATISTICS_START_DATETIME",
+                setEndDatetime: "SET_STATISTICS_END_DATETIME",
+                setSelectedDateType: "SET_STATISTICS_SELECTED_DATE_TYPE"
             }),
 
             async onChangeStartDatetime(datetime) {

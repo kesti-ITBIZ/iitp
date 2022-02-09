@@ -22,21 +22,19 @@
         name: "Station",
         computed: {
             ...mapState({
-                selectedCategory: state => state.observation.selectedCategory,
+                selectedCategory: state => state.statistics.selectedCategory,
                 obsItems: state => {
-                    const selectedCategory = state.observation.selectedCategory;
-                    const obsItems = state.observation[selectedCategory].items.filter(obj => obj.value !== "datetime")
-                        .concat(state.observation[selectedCategory].xAxis.filter(obj => obj.value !== "datetime"))
-                        .concat(state.observation[selectedCategory].yAxis.filter(obj => obj.value !== "datetime"));
+                    const selectedCategory = state.statistics.selectedCategory;
+                    const obsItems = state.statistics[selectedCategory].items.filter(obj => obj.value !== "datetime");
                     obsItems.sort((a, b) => a.label < b.label ? -1 : 1);
                     return obsItems;
                 },
-                selectedStation: state => state.observation.selectedStation[state.observation.selectedCategory]
+                selectedStation: state => state.statistics.selectedStation[state.statistics.selectedCategory]
             })
         },
         methods: {
             ...mapActions({
-                removeSelectedStation: "REMOVE_OBSERVATION_SELECTED_STATION"
+                removeSelectedStation: "REMOVE_STATISTICS_SELECTED_STATION"
             })
         }
     }

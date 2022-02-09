@@ -35,11 +35,11 @@
             ...mapState({
                 reactiveMaxWidth: state => state.common.reactiveMaxWidth,
                 windowWidth: state => state.common.windowWidth,
-                startDatetime: state => state.observation.startDatetime,
-                endDatetime: state => state.observation.endDatetime,
-                selectedCategory: state => state.observation.selectedCategory,
-                stations: state => state.observation.stations,
-                selectedSearchOption: state => state.observation.selectedSearchOption
+                startDatetime: state => state.statistics.startDatetime,
+                endDatetime: state => state.statistics.endDatetime,
+                selectedCategory: state => state.statistics.selectedCategory,
+                stations: state => state.statistics.stations,
+                selectedSearchOption: state => state.statistics.selectedSearchOption
             }),
 
             marker() {
@@ -96,7 +96,7 @@
 
             selectedSearchOption() {
                 if (this.stations[this.selectedCategory] == null) this.fetchStations();
-                setTimeout(() => this.$refs[this.selectedCategory + "-map"][0].invalidateSize(), 0);
+                else setTimeout(() => this.$refs[this.selectedCategory + "-map"][0].invalidateSize(), 0);
             },
 
             stations() {
@@ -106,15 +106,16 @@
         ...stationApi,
         methods: {
             ...mapActions({
-                setStations: "SET_OBSERVATION_STATIONS",
-                setSelectedStation: "SET_OBSERVATION_SELECTED_STATION",
-                setData: "SET_OBSERVATION_DATA"
+                setStations: "SET_STATISTICS_STATIONS",
+                setSelectedStation: "SET_STATISTICS_SELECTED_STATION",
+                setData: "SET_STATISTICS_DATA"
             }),
 
             async fetchStations() {
-                const stationQuery = this.$apollo.queries[this.selectedCategory + "Stations"];
+                const category = this.selectedCategory;
+                const stationQuery = this.$apollo.queries[category + "Stations"];
                 stationQuery.skip = false;
-                await this.setStations(await stationQuery.refetch().then(response => response.data === undefined || response.data[this.selectedCategory + "Stations"].length === 0 ? [] : response.data[this.selectedCategory + "Stations"].map(obj => ({
+                await this.setStations(await stationQuery.refetch().then(response => !response.data || response.data[category + "Stations"].length === 0 ? [] : response.data[category + "Stations"].map(obj => ({
                     address: obj.address,
                     name: obj.name,
                     latitude: obj.latitude,
@@ -151,7 +152,7 @@
             }
         },
         async mounted() {
-            Object.keys(this.items).forEach(key => this.items = Object.freeze({ ...this.items, [key]: this.$store.state.observation[key].items.map(obj => obj.label) }));
+            Object.keys(this.items).forEach(key => this.items = Object.freeze({ ...this.items, [key]: this.$store.state.statistics[key].items.map(obj => obj.label) }));
             await this.fetchStations();
             this.$refs[this.selectedCategory + "-map"][0].invalidateSize();
         }

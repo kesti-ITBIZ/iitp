@@ -102,7 +102,7 @@
     import dayjs from "dayjs";
 
     export default {
-        name: "Options",
+        name: "Datetime",
         data: () => ({
             isClickedHelpIcon: false
         }),

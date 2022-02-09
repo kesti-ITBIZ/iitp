@@ -96,7 +96,7 @@
 
             selectedSearchOption() {
                 if (this.stations[this.selectedCategory] == null) this.fetchStations();
-                setTimeout(() => this.$refs[this.selectedCategory + "-map"][0].invalidateSize(), 0);
+                else setTimeout(() => this.$refs[this.selectedCategory + "-map"][0].invalidateSize(), 0);
             },
 
             stations() {
@@ -153,7 +153,6 @@
         async mounted() {
             Object.keys(this.items).forEach(key => this.items = Object.freeze({ ...this.items, [key]: this.$store.state.observation[key].items.map(obj => obj.label) }));
             await this.fetchStations();
-            this.$refs[this.selectedCategory + "-map"][0].invalidateSize();
         }
     }
 </script>

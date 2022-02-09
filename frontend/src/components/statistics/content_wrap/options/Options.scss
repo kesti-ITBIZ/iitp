@@ -1,5 +1,19 @@
+@import "../../../../common";
+
 .container-wrap.options {
+    height: calc(100% - 1030px) !important;
+
     .container {
+        //width: 100% !important;
+        height: calc(100% - 20px) !important;
         padding: 10px 20px;
+    }
+}
+
+@media screen and (max-width: $reactive-max-width) {
+    .container-wrap.options {
+        .container {
+            //width: calc(100% - 40px) !important;
+        }
     }
 }

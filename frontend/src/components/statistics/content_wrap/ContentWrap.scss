@@ -1,23 +1,24 @@
 @import "../../../common";
 
 .content-wrap {
-    > div {
-        &:first-child {
-            position: relative;
-            display: flex;
-            height: calc(100% - 50px);
+    display: flex;
+    flex-direction: column;
 
-            > div {
-                &:first-child {
-                    width: calc(100% - 180px);
-                    min-width: 585px;
-                }
+    > div {
+        &.inline > div {
+            display: inline-block;
+
+            &:first-child {
+                width: calc(100% - 180px);
+            }
+
+            &:last-child {
+                float: right;
             }
         }
 
         &:last-child {
             text-align: center;
-            height: 50px;
         }
     }
 
@@ -47,18 +48,7 @@
 }
 
 @media screen and (max-width: $reactive-max-width) {
-    .content-wrap {
-        > div:first-child {
-            flex-direction: column;
-
-            > div:first-child {
-                width: 100% !important;
-                min-width: 0;
-            }
-        }
-
-        input[type=button].fetch {
-            width: calc(100% - 20px);
-        }
+    .content-wrap input[type=button].fetch {
+        width: calc(100% - 20px);
     }
 }

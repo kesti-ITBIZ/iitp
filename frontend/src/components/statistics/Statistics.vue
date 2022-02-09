@@ -1,5 +1,5 @@
 <template>
-    <div id="statistics" @click="setSelectedItem(null)">
+    <div id="statistics">
         <content-wrap />
         <div><chart-wrap /></div>
     </div>
@@ -27,8 +27,8 @@
                 clearResizeEvent: "CLEAR_RESIZE_EVENT",
                 setWindowWidth: "SET_WINDOW_WIDTH",
                 setWindowHeight: "SET_WINDOW_HEIGHT",
-                setAvailable: "SET_OBSERVATION_AVAILABLE",
-                setSelectedItem: "SET_OBSERVATION_SELECTED_ITEM"
+                setAvailable: "SET_STATISTICS_AVAILABLE",
+                setSelectedItem: "SET_STATISTICS_SELECTED_ITEM"
             })
         },
         mounted() {
