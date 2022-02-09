@@ -83,9 +83,6 @@ jobs:
               if [ `docker ps -a | grep -c $CONTAINER_NAME-$IDX` != 0 ]; then
                 docker rm $CONTAINER_NAME-$IDX
               fi
-              if [ `docker network inspect iitp-net | grep -c $CONTAINER_NAME-$IDX` != 0 ]; then
-                docker network disconnect iitp-net $CONTAINER_NAME-$IDX
-              fi
             done
 
             NEW_VERSION_IMAGE=ghcr.io/${{ env.REPOSITORY }}:$TAG-${{ env.RELEASE_VERSION }}
@@ -104,7 +101,6 @@ jobs:
 
             docker stop $CONTAINER_NAME-$REDEPLOY_NUM
             docker rm $CONTAINER_NAME-$REDEPLOY_NUM
-            docker network disconnect iitp-net $CONTAINER_NAME-$REDEPLOY_NUM
             if [ `docker images | grep ghcr.io/${{ env.REPOSITORY }} | grep -v $TAG-${{ env.RELEASE_VERSION }} | grep -c ''` != 0 ]; then
               docker rmi \
                 $(docker images -q --filter "dangling=true") \
@@ -117,4 +113,3 @@ jobs:
               -e PORT=`expr 9200 + $REDEPLOY_NUM` \
               --network iitp-net \
               $NEW_VERSION_IMAGE
-            docker network connect iitp-net $CONTAINER_NAME-$REDEPLOY_NUM
