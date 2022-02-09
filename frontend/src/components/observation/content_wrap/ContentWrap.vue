@@ -5,7 +5,7 @@
                 <options />
                 <content-map v-show="selectedSearchOption == 'map'" />
                 <search v-show="selectedSearchOption == 'search'" />
-                <selected-stations />
+                <station />
             </div>
             <side-header />
             <item-tooltip />
@@ -22,7 +22,7 @@
     import Options from "./options/Options";
     import ContentMap from "./map/ContentMap";
     import Search from "./search/Search";
-    import SelectedStations from "./station/Station";
+    import Station from "./station/Station";
     import SideHeader from "./side_header/SideHeader";
     import ItemTooltip from "./item_tooltip/ItemTooltip";
 
@@ -32,7 +32,7 @@
             Options,
             ContentMap,
             Search,
-            SelectedStations,
+            Station,
             SideHeader,
             ItemTooltip
         },
@@ -50,7 +50,7 @@
         ...dataApi,
         methods: {
             ...mapActions({
-                setData: "SET_DATA",
+                setData: "SET_OBSERVATION_DATA",
                 setLoadingVisible: "SET_LOADING_VISIBLE",
                 setLoadingInvisible: "SET_LOADING_INVISIBLE"
             }),

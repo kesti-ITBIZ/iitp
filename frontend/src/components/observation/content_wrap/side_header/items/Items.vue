@@ -41,10 +41,10 @@
         },
         methods: {
             ...mapActions({
-                setSelectedItem: "SET_SELECTED_ITEM",
-                addXAxis: "ADD_X_AXIS",
-                removeXAxis: "REMOVE_X_AXIS",
-                addYAxis: "ADD_Y_AXIS"
+                setSelectedItem: "SET_OBSERVATION_SELECTED_ITEM",
+                addXAxis: "ADD_OBSERVATION_X_AXIS",
+                removeXAxis: "REMOVE_OBSERVATION_X_AXIS",
+                addYAxis: "ADD_OBSERVATION_Y_AXIS"
             }),
 
             onClickItem(e, item) {
@@ -61,5 +61,5 @@
 </script>
 
 <style lang="scss">
-    @import "src/components/observation/content_wrap/side_header/items/Items";
+    @import "./Items";
 </style>

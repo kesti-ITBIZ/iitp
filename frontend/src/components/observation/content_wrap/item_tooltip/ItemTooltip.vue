@@ -20,10 +20,10 @@
         },
         methods: {
             ...mapActions({
-                setSelectedItem: "SET_SELECTED_ITEM",
-                addXAxis: "ADD_X_AXIS",
-                removeXAxis: "REMOVE_X_AXIS",
-                addYAxis: "ADD_Y_AXIS"
+                setSelectedItem: "SET_OBSERVATION_SELECTED_ITEM",
+                addXAxis: "ADD_OBSERVATION_X_AXIS",
+                removeXAxis: "REMOVE_OBSERVATION_X_AXIS",
+                addYAxis: "ADD_OBSERVATION_Y_AXIS"
             }),
 
             async addX() {

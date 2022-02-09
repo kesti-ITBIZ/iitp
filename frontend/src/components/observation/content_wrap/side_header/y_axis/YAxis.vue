@@ -28,12 +28,12 @@
         },
         methods: {
             ...mapActions({
-                removeYAxis: "REMOVE_Y_AXIS"
+                removeYAxis: "REMOVE_OBSERVATION_Y_AXIS"
             })
         }
     }
 </script>
 
 <style lang="scss">
-    @import "src/components/observation/content_wrap/side_header/y_axis/YAxis";
+    @import "./YAxis";
 </style>

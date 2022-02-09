@@ -13,30 +13,7 @@ export default {
             { label: "월", type: "month", stringToDayjsFormat: "YYYY.MM.DD", dayjsToStringFormat: "YYYY.MM" },
             { label: "년", type: "year", stringToDayjsFormat: "YYYY", dayjsToStringFormat: "YYYY" }
         ]),
-        selectedDateType: "hour",
-
-        fineParticleRanges: Object.freeze([
-            {
-                pm10: [0, 30],
-                pm25: [0, 15]
-            },
-            {
-                pm10: [31, 80],
-                pm25: [16, 35]
-            },
-            {
-                pm10: [81, 150],
-                pm25: [36, 75]
-            },
-            {
-                pm10: [151, null],
-                pm25: [76, null]
-            }
-        ]),
-        selectedFineParticleRange: Object.freeze({
-            pm10: [0, null],
-            pm25: [0, null]
-        })
+        selectedDateType: "hour"
     },
     getters: {
 
@@ -44,13 +21,11 @@ export default {
     mutations: {
         SET_OBSERVATION_START_DATETIME: (state, datetime) => state.observation.startDatetime = datetime,
         SET_OBSERVATION_END_DATETIME: (state, datetime) => state.observation.endDatetime = datetime,
-        SET_SELECTED_DATE_TYPE: (state, dateType) => state.observation.selectedDateType = dateType,
-        SET_SELECTED_FINE_PARTICLE_RANGE: (state, range) => state.observation.selectedFineParticleRange = Object.freeze(range)
+        SET_OBSERVATION_SELECTED_DATE_TYPE: (state, dateType) => state.observation.selectedDateType = dateType
     },
     actions: {
         SET_OBSERVATION_START_DATETIME: (context, datetime) => context.commit("SET_OBSERVATION_START_DATETIME", datetime),
         SET_OBSERVATION_END_DATETIME: (context, datetime) => context.commit("SET_OBSERVATION_END_DATETIME", datetime),
-        SET_SELECTED_DATE_TYPE: (context, dateType) => context.commit("SET_SELECTED_DATE_TYPE", dateType),
-        SET_SELECTED_FINE_PARTICLE_RANGE: (context, range) => context.commit("SET_SELECTED_FINE_PARTICLE_RANGE", range)
+        SET_OBSERVATION_SELECTED_DATE_TYPE: (context, dateType) => context.commit("SET_OBSERVATION_SELECTED_DATE_TYPE", dateType)
     }
 }
