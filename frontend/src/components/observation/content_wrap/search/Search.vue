@@ -133,9 +133,9 @@
         },
         methods: {
             ...mapActions({
-                setSearchedStations: "SET_SEARCHED_STATIONS",
-                appendSearchedStations: "APPEND_SEARCHED_STATIONS",
-                setSelectedStation: "SET_SELECTED_STATION"
+                setSearchedStations: "SET_OBSERVATION_SEARCHED_STATIONS",
+                appendSearchedStations: "APPEND_OBSERVATION_SEARCHED_STATIONS",
+                setSelectedStation: "SET_OBSERVATION_SELECTED_STATION"
             }),
 
             async search() {

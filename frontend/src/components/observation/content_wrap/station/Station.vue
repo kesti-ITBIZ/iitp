@@ -36,7 +36,7 @@
         },
         methods: {
             ...mapActions({
-                removeSelectedStation: "REMOVE_SELECTED_STATION"
+                removeSelectedStation: "REMOVE_OBSERVATION_SELECTED_STATION"
             })
         }
     }

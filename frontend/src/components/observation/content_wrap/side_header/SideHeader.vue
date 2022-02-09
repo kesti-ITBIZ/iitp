@@ -34,5 +34,5 @@
 </script>
 
 <style lang="scss">
-    @import "src/components/observation/content_wrap/side_header/SideHeader";
+    @import "./SideHeader";
 </style>

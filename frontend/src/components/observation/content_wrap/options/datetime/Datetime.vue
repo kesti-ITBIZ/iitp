@@ -102,7 +102,7 @@
     import dayjs from "dayjs";
 
     export default {
-        name: "Options",
+        name: "Datetime",
         data: () => ({
             isClickedHelpIcon: false
         }),
@@ -122,7 +122,7 @@
             ...mapActions({
                 setStartDatetime: "SET_OBSERVATION_START_DATETIME",
                 setEndDatetime: "SET_OBSERVATION_END_DATETIME",
-                setSelectedDateType: "SET_SELECTED_DATE_TYPE"
+                setSelectedDateType: "SET_OBSERVATION_SELECTED_DATE_TYPE"
             }),
 
             async onChangeStartDatetime(datetime) {
