@@ -16,6 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class StatisticsController {
     private final StatisticsService statisticsService;
 
+    @GetMapping("/stations")
+    public ResponseEntity<?> getStations(
+            @RequestParam("category") final String category,
+            @RequestParam("startDatetime") final String startDatetime,
+            @RequestParam("endDatetime") final String endDatetime) {
+        return ResponseEntity.ok(this.statisticsService.getStations(category, startDatetime, endDatetime));
+    }
+
     @GetMapping("/getData")
     public ResponseEntity<?> getData(
             @RequestParam("category") final String category,

@@ -29,6 +29,15 @@ public class StatisticsSummary {
     @Column(name = "stn_nm")
     private String stnNm;
 
+    @Column(name = "addr")
+    private String address;
+
+    @Column(name = "lat", precision = 14, scale = 10)
+    private Float latitude;
+
+    @Column(name = "lon", precision = 14, scale = 10)
+    private Float longitude;
+
     @Column(name = "avg_pm10", precision = 6, scale = 1)
     private Float avgPm10;
 

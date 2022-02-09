@@ -35,5 +35,5 @@
 </script>
 
 <style lang="scss">
-    @import "src/components/observation/content_wrap/side_header/x_axis/XAxis";
+    @import "./XAxis";
 </style>

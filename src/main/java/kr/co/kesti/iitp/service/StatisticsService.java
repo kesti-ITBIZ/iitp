@@ -1,8 +1,8 @@
 package kr.co.kesti.iitp.service;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
-import kr.co.kesti.iitp.entity.StatisticsSummary;
 import kr.co.kesti.iitp.repository.StatisticsSummaryRepository;
+import kr.co.kesti.iitp.vo.ResponseStationVO;
 import kr.co.kesti.iitp.vo.ResponseStatisticsDataVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +16,13 @@ import java.util.stream.Collectors;
 @Service
 public class StatisticsService implements GraphQLQueryResolver {
     private final StatisticsSummaryRepository statisticsSummaryRepository;
+
+    public List<ResponseStationVO> getStations(final String category, final String startDatetime, final String endDatetime) {
+        return this.statisticsSummaryRepository.findAllByStatisticsTimeBetweenAndLatitudeIsNotNullAndLongitudeIsNotNull(category.toUpperCase(), startDatetime, endDatetime)
+                .stream()
+                .map(ResponseStationVO::from)
+                .collect(Collectors.toList());
+    }
 
     public List<ResponseStatisticsDataVO> getStatisticsData(final String category, final String startDatetime, final String endDatetime, final String stnNm) {
         return this.statisticsSummaryRepository.findAllByCategoryAndStatisticsTimeBetweenAndStnNm(category.toUpperCase(), startDatetime, endDatetime, stnNm)

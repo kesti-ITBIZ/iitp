@@ -52,8 +52,6 @@
         }),
         computed: {
             ...mapState({
-                windowWidth: state => state.common.windowWidth,
-                reactiveMaxWidth: state => state.common.reactiveMaxWidth,
                 loading: state => state.common.loading,
                 selectedChartType: state => state.statistics.selectedChartType,
                 startDatetime: state => state.statistics.startDatetime,
@@ -81,10 +79,6 @@
             },
 
             yAxis() {
-                this.reInitChart();
-            },
-
-            selectedDateType() {
                 this.reInitChart();
             },
 
@@ -145,6 +139,11 @@
                                 }
                             }
                         },
+                        dataZoom: [
+                            {
+                                type: "slider"
+                            }
+                        ],
                         legend: {
                             data: [this.title[key]],
                             align: "right",
@@ -172,6 +171,14 @@
                             type: "value",
                             name: this.selectedItem.label,
                             min: 0,
+                            max: (() => {
+                                const factor = key === "avg" ? 100 : 15;
+                                const maxValue = this.data.map(obj => {
+                                    const item = obj[this.selectedItem.value];
+                                    return item[Object.keys(item).filter(_key => _key.toLowerCase().indexOf(key.toLowerCase()) !== -1)[0]];
+                                }).reduce((acc, cur) => Math.max(acc, cur));
+                                return (Math.floor(maxValue / factor) + 1) * factor;
+                            })(),
                             nameTextStyle: {
                                 align: "left",
                                 fontFamily: "NanumSquare",

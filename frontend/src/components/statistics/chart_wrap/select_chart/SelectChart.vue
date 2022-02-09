@@ -1,13 +1,6 @@
 <template>
     <div id="select-chart">
         <div>
-<!--            <div :class="['select-chart-btn', selectedChartType == 'table' ? 'on' : '']"-->
-<!--                 @click="setSelectedChartType('table')">-->
-<!--                <div>-->
-<!--                    <font-awesome-icon :size="`${windowWidth >= reactiveMaxWidth + 1 ? 3 : 2}x`" :icon="['fa', 'table']" />-->
-<!--                    <div>Table</div>-->
-<!--                </div>-->
-<!--            </div>-->
             <div :key="i"
                  v-for="(chartType, i) in ['Line', 'Bar', 'Area', 'Scatter']"
                  :class="['select-chart-btn', selectedChartType == chartType.toLowerCase() ? 'on' : '']"

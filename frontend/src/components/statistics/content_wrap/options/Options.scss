@@ -11,6 +11,8 @@
 
 @media screen and (max-width: $reactive-max-width) {
     .container-wrap.options {
+        height: unset;
+
         .container {
             //width: calc(100% - 40px) !important;
         }

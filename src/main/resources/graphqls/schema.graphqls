@@ -19,6 +19,7 @@ type Query {
     sDoTAvailableDatetimes: [String]
     sDoTStations(startDatetime: String!, endDatetime: String!): [Station]
     sDoTStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
+    stations(category: String!, startDatetime: String!, endDatetime: String!): [Station]
     statisticsData(category: String!, startDatetime: String!, endDatetime: String!, stnNm: String!): [StatisticsData]
 }
 

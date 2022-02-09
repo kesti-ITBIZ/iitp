@@ -3,6 +3,7 @@
 $table-color: #00c3dc;
 
 div.content-chart {
+    position: relative;
     width: calc(100% - 20px);
     height: calc(100% - 173px) !important;
     border-top: none;

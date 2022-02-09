@@ -17,7 +17,6 @@
         computed: {
             ...mapState({
                 reactiveMaxWidth: state => state.common.reactiveMaxWidth,
-                windowWidth: state => state.common.windowWidth
             })
         }
     }

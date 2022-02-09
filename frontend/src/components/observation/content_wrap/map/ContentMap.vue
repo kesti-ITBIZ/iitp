@@ -33,11 +33,13 @@
         }),
         computed: {
             ...mapState({
+                category: state => state.observation.category,
                 reactiveMaxWidth: state => state.common.reactiveMaxWidth,
                 windowWidth: state => state.common.windowWidth,
                 startDatetime: state => state.observation.startDatetime,
                 endDatetime: state => state.observation.endDatetime,
                 selectedCategory: state => state.observation.selectedCategory,
+                selectedDateType: state => state.observation.selectedDateType,
                 stations: state => state.observation.stations,
                 selectedSearchOption: state => state.observation.selectedSearchOption
             }),
@@ -112,9 +114,9 @@
             }),
 
             async fetchStations() {
-                const stationQuery = this.$apollo.queries[this.selectedCategory + "Stations"];
+                const stationQuery = this.$apollo.queries.stations;
                 stationQuery.skip = false;
-                await this.setStations(await stationQuery.refetch().then(response => response.data === undefined || response.data[this.selectedCategory + "Stations"].length === 0 ? [] : response.data[this.selectedCategory + "Stations"].map(obj => ({
+                await this.setStations(await stationQuery.refetch().then(response => response.data === undefined || response.data.stations.length === 0 ? [] : response.data.stations.map(obj => ({
                     address: obj.address,
                     name: obj.name,
                     latitude: obj.latitude,
