@@ -24,13 +24,6 @@ public class SDoTService implements GraphQLQueryResolver {
     private final SDoTStationRepository sDoTStationRepository;
     private final SDoTDataRepository sDoTDataRepository;
 
-    public List<ResponseStationVO> getSDoTStations(final String startDatetime, final String endDatetime) {
-        return this.sDoTStationRepository.findAllBy(startDatetime, endDatetime)
-                .stream()
-                .map(ResponseStationVO::from)
-                .collect(Collectors.toList());
-    }
-
     public List<ResponseStationVO> getSDoTStationsByKeyword(final String keyword, final int page, final int size) {
         return this.sDoTStationRepository.findAllByKeyword(keyword, PageRequest.of(page, size))
                 .stream()

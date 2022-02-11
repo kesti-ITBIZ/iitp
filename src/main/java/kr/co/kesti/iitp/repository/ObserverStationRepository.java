@@ -16,29 +16,6 @@ public interface ObserverStationRepository extends JpaRepository<ObserverStation
     @Query(
             "select distinct " +
             "   '옵저버' as category, " +
-            "   b.latitude as latitude, " +
-            "   b.longitude as longitude, " +
-            "   b.stnNm as name, " +
-            "   b.address as address, " +
-            "   function('round', avg(a.pm25)) as pm25 " +
-            "from ObserverData a " +
-            "join ObserverStation b " +
-            "on a.observerDataKey.stnSerial = b.stnSerial " +
-            "where a.observerDataKey.dataTime " +
-            "   between :startDatetime " +
-            "   and :endDatetime " +
-            "and b.latitude is not null " +
-            "and b.longitude is not null " +
-            "group by " +
-            "   b.latitude, " +
-            "   b.longitude, " +
-            "   b.stnNm, " +
-            "   b.address")
-    List<StationProjection> findAllBy(@Param("startDatetime") final Date startDatetime, @Param("endDatetime") final Date endDatetime);
-
-    @Query(
-            "select distinct " +
-            "   '옵저버' as category, " +
             "   o.latitude as latitude, " +
             "   o.longitude as longitude, " +
             "   o.stnNm as name, " +

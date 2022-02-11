@@ -24,13 +24,6 @@ public class AirkoreaService implements GraphQLQueryResolver {
     private final AirkoreaStationRepository airkoreaStationRepository;
     private final AirkoreaDataRepository airkoreaDataRepository;
 
-    public List<ResponseStationVO> getAirkoreaStations(final String startDatetime, final String endDatetime) {
-        return this.airkoreaStationRepository.findAllBy(startDatetime, endDatetime)
-                .stream()
-                .map(ResponseStationVO::from)
-                .collect(Collectors.toList());
-    }
-
     public List<ResponseStationVO> getAirkoreaStationsByKeyword(final String keyword, final int page, final int size) {
         return this.airkoreaStationRepository.findAllByKeyword(keyword, PageRequest.of(page, size))
                 .stream()
