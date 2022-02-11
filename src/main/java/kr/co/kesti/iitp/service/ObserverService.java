@@ -27,14 +27,6 @@ public class ObserverService implements GraphQLQueryResolver {
     private final ObserverStationRepository observerStationRepository;
     private final ObserverDataRepository observerDataRepository;
 
-    public List<ResponseStationVO> getObserverStations(final String startDatetime, final String endDatetime) throws ParseException {
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-        return this.observerStationRepository.findAllBy(dateFormat.parse(startDatetime), dateFormat.parse(endDatetime))
-                .stream()
-                .map(ResponseStationVO::from)
-                .collect(Collectors.toList());
-    }
-
     public List<ResponseStationVO> getObserverStationsByKeyword(final String keyword, final int page, final int size) {
         return this.observerStationRepository.findAllByKeyword(keyword, PageRequest.of(page, size))
                 .stream()

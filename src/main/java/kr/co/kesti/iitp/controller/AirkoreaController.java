@@ -14,13 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class AirkoreaController {
     private final AirkoreaService airkoreaService;
 
-    @GetMapping("/stations")
-    public ResponseEntity<?> stations(
-            @RequestParam("startDatetime") final String startDatetime,
-            @RequestParam("endDatetime") final String endDatetime) {
-        return ResponseEntity.ok(this.airkoreaService.getAirkoreaStations(startDatetime, endDatetime));
-    }
-
     @GetMapping("/searchStations")
     public ResponseEntity<?> searchStations(
             @RequestParam("keyword") final String keyword,
