@@ -83,27 +83,33 @@ jobs:
               if [ `docker ps -a | grep -c $CONTAINER_NAME-$IDX` != 0 ]; then
                 docker rm $CONTAINER_NAME-$IDX
               fi
-              if [ `docker network inspect iitp-net | grep -c $CONTAINER_NAME-$IDX` != 0 ]; then
-                docker network disconnect iitp-net $CONTAINER_NAME-$IDX
-              fi
             done
 
             NEW_VERSION_IMAGE=ghcr.io/${{ env.REPOSITORY }}:$TAG-${{ env.RELEASE_VERSION }}
 
             docker pull $NEW_VERSION_IMAGE
             for IDX in ${REDEPLOY_LIST[@]/$REDEPLOY_NUM}; do
-              docker run -d --name $CONTAINER_NAME-$IDX --expose `expr 9200 + $IDX` -e PORT=`expr 9200 + $IDX` $NEW_VERSION_IMAGE
-              docker network connect iitp-net $CONTAINER_NAME-$IDX
+              docker run -d \
+                --name $CONTAINER_NAME-$IDX \
+                --expose `expr 9200 + $IDX` \
+                -e PORT=`expr 9200 + $IDX` \
+                --network iitp-net \
+                $NEW_VERSION_IMAGE
             done
 
             sleep 30s
 
             docker stop $CONTAINER_NAME-$REDEPLOY_NUM
             docker rm $CONTAINER_NAME-$REDEPLOY_NUM
-            docker network disconnect iitp-net $CONTAINER_NAME-$REDEPLOY_NUM
             if [ `docker images | grep ghcr.io/${{ env.REPOSITORY }} | grep -v $TAG-${{ env.RELEASE_VERSION }} | grep -c ''` != 0 ]; then
-              docker rmi $(docker images -q --filter "dangling=true") $(docker images | grep ghcr.io/${{ env.REPOSITORY }} | grep $TAG | grep -v ${{ env.RELEASE_VERSION }} | awk '{print $3}')
+              docker rmi \
+                $(docker images -q --filter "dangling=true") \
+                $(docker images | grep ghcr.io/${{ env.REPOSITORY }} | grep $TAG | grep -v ${{ env.RELEASE_VERSION }} | awk '{print $3}')
             fi
             docker pull ghcr.io/${{ env.REPOSITORY }}:$TAG-${{ env.RELEASE_VERSION }}
-            docker run -d --name $CONTAINER_NAME-$REDEPLOY_NUM --expose `expr 9200 + $REDEPLOY_NUM` -e PORT=`expr 9200 + $REDEPLOY_NUM` $NEW_VERSION_IMAGE
-            docker network connect iitp-net $CONTAINER_NAME-$REDEPLOY_NUM
+            docker run -d \
+              --name $CONTAINER_NAME-$REDEPLOY_NUM \
+              --expose `expr 9200 + $REDEPLOY_NUM` \
+              -e PORT=`expr 9200 + $REDEPLOY_NUM` \
+              --network iitp-net \
+              $NEW_VERSION_IMAGE
