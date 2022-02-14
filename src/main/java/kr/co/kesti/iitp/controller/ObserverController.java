@@ -16,13 +16,6 @@ import java.text.ParseException;
 public class ObserverController {
     private final ObserverService observerService;
 
-    @GetMapping("/stations")
-    public ResponseEntity<?> stations(
-            @RequestParam("startDatetime") final String startDatetime,
-            @RequestParam("endDatetime") final String endDatetime) throws ParseException {
-        return ResponseEntity.ok(this.observerService.getObserverStations(startDatetime, endDatetime));
-    }
-
     @GetMapping("/searchStations")
     public ResponseEntity<?> searchStations(
             @RequestParam("keyword") final String keyword,

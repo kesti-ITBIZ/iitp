@@ -16,13 +16,6 @@ import java.text.ParseException;
 public class KTController {
     private final KTService ktService;
 
-    @GetMapping("/stations")
-    public ResponseEntity<?> stations(
-            @RequestParam("startDatetime") final String startDatetime,
-            @RequestParam("endDatetime") final String endDatetime) throws ParseException {
-        return ResponseEntity.ok(this.ktService.getKtStations(startDatetime, endDatetime));
-    }
-
     @GetMapping("/searchStations")
     public ResponseEntity<?> searchStations(
             @RequestParam("keyword") final String keyword,
