@@ -70,46 +70,35 @@ jobs:
           username: ${{ secrets.REMOTE_IITP_SSH_USERNAME }}
           password: ${{ secrets.REMOTE_IITP_SSH_PASSWORD }}
           script: |
-            CONTAINER_NAME=iitp-prd
             TAG=release
-
-            REDEPLOY_LIST=(1 2 3)
-            REDEPLOY_NUM=`expr $(($RANDOM% 3)) + 1`
-
-            for IDX in ${REDEPLOY_LIST[@]/$REDEPLOY_NUM}; do
-              if [ `docker ps | grep -c $CONTAINER_NAME-$IDX` != 0 ]; then
-                docker stop $CONTAINER_NAME-$IDX
-              fi
-              if [ `docker ps -a | grep -c $CONTAINER_NAME-$IDX` != 0 ]; then
-                docker rm $CONTAINER_NAME-$IDX
-              fi
-            done
-
-            NEW_VERSION_IMAGE=ghcr.io/${{ env.REPOSITORY }}:$TAG-${{ env.RELEASE_VERSION }}
+            REPOSITORY=ghcr.io/${{ env.REPOSITORY }}
+            OLD_VERSION_IMAGE=$(docker images --filter reference=$REPOSITORY:$TAG-* | grep $TAG | awk '{print $1,$2}' | sed "s/ /:/g")
+            NEW_VERSION_IMAGE=$REPOSITORY:$TAG-${{ env.RELEASE_VERSION }}
 
             docker pull $NEW_VERSION_IMAGE
-            for IDX in ${REDEPLOY_LIST[@]/$REDEPLOY_NUM}; do
-              docker run -d \
-                --name $CONTAINER_NAME-$IDX \
-                --expose `expr 9200 + $IDX` \
-                -e PORT=`expr 9200 + $IDX` \
-                --network iitp-net \
-                $NEW_VERSION_IMAGE
-            done
+
+            # Green deployment
+            cd /home/iitp/deploy/green
+            echo OLD_VERSION_IMAGE=$OLD_VERSION_IMAGE > .env
+            docker-compose up -d
 
             sleep 30s
 
-            docker stop $CONTAINER_NAME-$REDEPLOY_NUM
-            docker rm $CONTAINER_NAME-$REDEPLOY_NUM
-            if [ `docker images | grep ghcr.io/${{ env.REPOSITORY }} | grep -v $TAG-${{ env.RELEASE_VERSION }} | grep -c ''` != 0 ]; then
-              docker rmi \
-                $(docker images -q --filter "dangling=true") \
-                $(docker images | grep ghcr.io/${{ env.REPOSITORY }} | grep $TAG | grep -v ${{ env.RELEASE_VERSION }} | awk '{print $3}')
-            fi
-            docker pull ghcr.io/${{ env.REPOSITORY }}:$TAG-${{ env.RELEASE_VERSION }}
-            docker run -d \
-              --name $CONTAINER_NAME-$REDEPLOY_NUM \
-              --expose `expr 9200 + $REDEPLOY_NUM` \
-              -e PORT=`expr 9200 + $REDEPLOY_NUM` \
-              --network iitp-net \
-              $NEW_VERSION_IMAGE
+            docker cp nginx.conf iitp-loadbalancer:/etc/nginx
+            docker restart iitp-loadbalancer
+
+            # Blue deployment
+            cd /home/iitp/deploy/blue
+            echo NEW_VERSION_IMAGE=$NEW_VERSION_IMAGE > .env
+            docker-compose up -d
+
+            sleep 30s
+
+            docker cp nginx.conf iitp-loadbalancer:/etc/nginx
+            docker restart iitp-loadbalancer
+
+            # Green shutdown and remove
+            cd /home/iitp/deploy/green
+            docker-compose down
+
+
