@@ -33,19 +33,19 @@
         },
         computed: {
             ...mapState({
-                selectedSearchOption: state => state.statistics.selectedSearchOption,
-                startDatetime: state => state.statistics.startDatetime,
-                endDatetime: state => state.statistics.endDatetime,
-                selectedItem: state => state.statistics[state.statistics.selectedCategory].selectedItem,
-                selectedCategory: state => state.statistics.selectedCategory,
-                selectedDateType: state => state.statistics.selectedDateType,
-                selectedStation: state => state.statistics.selectedStation[state.statistics.selectedCategory]
+                selectedSearchOption: state => state.validation.selectedSearchOption,
+                startDatetime: state => state.validation.startDatetime,
+                endDatetime: state => state.validation.endDatetime,
+                selectedItem: state => state.validation[state.validation.selectedCategory].selectedItem,
+                selectedCategory: state => state.validation.selectedCategory,
+                selectedDateType: state => state.validation.selectedDateType,
+                selectedStation: state => state.validation.selectedStation[state.validation.selectedCategory]
             })
         },
         ...statisticsApi,
         methods: {
             ...mapActions({
-                setData: "SET_STATISTICS_DATA",
+                setData: "SET_VALIDATION_DATA",
                 setLoadingVisible: "SET_LOADING_VISIBLE",
                 setLoadingInvisible: "SET_LOADING_INVISIBLE"
             }),

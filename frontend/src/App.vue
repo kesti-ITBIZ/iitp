@@ -11,7 +11,7 @@
 <script>
     import { mapState } from "vuex";
 
-    import Alert from "./components/observation/common/alert/Alert";
+    import Alert from "./components/common/alert/Alert";
 
     export default {
         name: "App",
