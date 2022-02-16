@@ -60,7 +60,7 @@
 
     dayjs.extend(customParseFormat);
 
-    import Loading from "../../common/loading/Loading";
+    import Loading from "../../../common/loading/Loading";
 
     export default {
         name: "ContentChart",
