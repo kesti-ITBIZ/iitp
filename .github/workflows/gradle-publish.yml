@@ -100,5 +100,4 @@ jobs:
             # Green shutdown and remove
             cd /home/iitp/deploy/green
             docker-compose down
-
-
+            docker rmi $OLD_VERSION_IMAGE
