@@ -2,13 +2,10 @@
     <v-map
             ref="map"
             :zoom="zoom"
-            :center="[centerLat, centerLon]"
+            :center="center"
             :options="{ attributionControl: false }"
             style="height: 100%;">
         <v-tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
-<<<<<<< HEAD
-        <slot />
-=======
         <v-canvas-layer
                 v-if="data"
                 ref="marker-layer"
@@ -20,7 +17,6 @@
                 :location="locations"
                 @l-mousemove="hover"
                 @l-click="click" />
->>>>>>> dev
     </v-map>
 </template>
 
@@ -29,14 +25,22 @@
         name: "GeoMap",
         props: {
             zoom: Number,
-            centerLat: Number,
-            centerLon: Number
+            center: Array,
+            data: Array,
+            marker: Object,
+            tooltip: Function
+        },
+        data: () => ({
+            markerPoints: []
+        }),
+        computed: {
+            locations() {
+                return this.data ? this.data.map(station => ({ latlng: [station.latitude, station.longitude] })) : [];
+            }
         },
         methods: {
             invalidateSize(invalidate = true) {
                 this.$refs.map.mapObject.invalidateSize(invalidate);
-<<<<<<< HEAD
-=======
                 this.$refs["marker-layer"].mapObject.draw();
                 this.$refs["event-layer"].mapObject.draw();
             },
@@ -64,6 +68,7 @@
             },
 
             drawing(info) {
+                console.log("draw");
                 const markerPoints = [];
                 const canvas = info.canvas;
                 const context = canvas.getContext("2d");
@@ -165,8 +170,8 @@
             click(info) {
                 const markerData = this.closedMarker(info);
                 if (markerData) this.$emit("click", markerData);
->>>>>>> dev
             }
         }
     }
 </script>
+
