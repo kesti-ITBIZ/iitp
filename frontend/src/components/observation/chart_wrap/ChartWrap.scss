@@ -1,7 +1,9 @@
+@import "../../../common";
+
 #chart-wrap {
-    width: 50%;
+    width: 100%;
     min-width: 600px;
-    height: calc(100% - 1px);
+    height: 100%;
 
     > div.chart-wrap-header {
         border-bottom: none;
@@ -13,9 +15,8 @@
     }
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: $reactive-max-width) {
     #chart-wrap {
-        width: 100%;
         min-width: 0;
         height: 800px;
     }

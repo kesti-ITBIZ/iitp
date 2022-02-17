@@ -1,43 +1,40 @@
+@import "../../common";
+
 #observation {
     display: flex;
     width: 100%;
 
-    > * {
+    > div {
         flex: 1;
-    }
 
-    > table:first-child tfoot td {
-        text-align: center;
+        &:first-child > div {
+            &:first-child {
+                position: relative;
+                display: flex;
+                height: calc(100% - 50px);
 
-        input[type=button] {
-            font: 18px 'NanumSquare Bold';
-            background-color: #424242;
-            color: white;
-            width: 120px;
-            border: none;
-            border-radius: 10px;
-            margin: 6px;
-            padding: 7px 10px;
-            transition: background-color 0.1s, color 0.1s;
+                > div {
+                    &:first-child {
+                        width: calc(100% - 180px);
+                    }
 
-            &:hover {
-                background-color: #787878;
+                    &:last-child {
+                        width: 180px;
+                    }
+                }
             }
 
-            &:active {
-                background-color: #1c1c1c;
+            &:last-child {
+                text-align: center;
+                height: 50px;
             }
         }
     }
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: $reactive-max-width) {
     #observation {
         display: block;
-
-        > table:first-child tfoot td input[type=button] {
-            width: calc(100% - 20px);
-            padding: 10px;
-        }
+        min-width: 320px;
     }
 }

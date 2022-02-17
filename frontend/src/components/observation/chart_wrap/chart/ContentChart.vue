@@ -56,8 +56,11 @@
     import xlsx from "xlsx";
     import dayjs from "dayjs";
     import { init } from "echarts";
+    import customParseFormat from "dayjs/plugin/customParseFormat";
 
-    import Loading from "../../common/loading/Loading";
+    dayjs.extend(customParseFormat);
+
+    import Loading from "../../../common/loading/Loading";
 
     export default {
         name: "ContentChart",
@@ -187,48 +190,23 @@
         },
         watch: {
             selectedChartType() {
-                if (this.data[this.selectedCategory]
-                    && this.data[this.selectedCategory].length > 0
-                    && this.xAxis.length > 0
-                    && this.yAxis.length > 0
-                    && this.selectedChartType != "table")
-                    setTimeout(this.initChart, 0);
+                this.reInitChart();
             },
 
             xAxis() {
-                if (this.data[this.selectedCategory]
-                    && this.data[this.selectedCategory].length > 0
-                    && this.xAxis.length > 0
-                    && this.yAxis.length > 0
-                    && this.selectedChartType != "table")
-                    setTimeout(this.initChart, 0);
+                this.reInitChart();
             },
 
             yAxis() {
-                if (this.data[this.selectedCategory]
-                    && this.data[this.selectedCategory].length > 0
-                    && this.xAxis.length > 0
-                    && this.yAxis.length > 0
-                    && this.selectedChartType != "table")
-                    setTimeout(this.initChart, 0);
+                this.reInitChart();
             },
 
             selectedDateType() {
-                if (this.data[this.selectedCategory]
-                    && this.data[this.selectedCategory].length > 0
-                    && this.xAxis.length > 0
-                    && this.yAxis.length > 0
-                    && this.selectedChartType != "table")
-                    setTimeout(this.initChart, 0);
+                this.reInitChart();
             },
 
             data() {
-                if (this.data[this.selectedCategory]
-                    && this.data[this.selectedCategory].length > 0
-                    && this.xAxis.length > 0
-                    && this.yAxis.length > 0
-                    && this.selectedChartType != "table")
-                    setTimeout(this.initChart, 0);
+                this.reInitChart();
             }
         },
         methods: {
@@ -238,6 +216,15 @@
                 setLoadingInvisible: "SET_LOADING_INVISIBLE"
             }),
 
+            reInitChart() {
+                if (this.data[this.selectedCategory]
+                    && this.data[this.selectedCategory].length > 0
+                    && this.xAxis.length > 0
+                    && this.yAxis.length > 0
+                    && this.selectedChartType != "table")
+                    setTimeout(this.initChart, 0);
+            },
+
             initChart() {
                 if (this.chart != null) this.chart.clear();
                 else this.chart = init(this.$refs["chart"]);
@@ -246,17 +233,18 @@
                         text: this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0 ? this.data[this.selectedCategory][0].stnNm : "",
                         left: 50,
                         textStyle: {
-                            fontFamily: "NanumSquare_ac Extra Bold"
+                            fontFamily: "NanumSquare",
+                            fontWeight: "bold"
                         }
                     },
                     tooltip: {
                         formatter: data => {
                             let xLabel = data.name;
                             if (this.xAxis[0].value === "datetime") {
-                                if (this.selectedDateType == "hour") xLabel = dayjs(xLabel + ":00").format("YYYY년 MM월 DD일 H시");
-                                else if (this.selectedDateType == "date") xLabel = dayjs(xLabel).format("YYYY년 MM월 DD일");
-                                else if (this.selectedDateType == "month") xLabel = dayjs(xLabel + ".01").format("YYYY년 MM월");
-                                else if (this.selectedDateType == "year") xLabel = dayjs(xLabel).format("YYYY년");
+                                if (this.selectedDateType == "hour") xLabel = dayjs(xLabel + ":00", "YYYY.MM.DD HH:mm").format("YYYY년 MM월 DD일 H시");
+                                else if (this.selectedDateType == "date") xLabel = dayjs(xLabel, "YYYY.MM.DD").format("YYYY년 MM월 DD일");
+                                else if (this.selectedDateType == "month") xLabel = dayjs(xLabel + ".01", "YYYY.MM").format("YYYY년 MM월");
+                                else if (this.selectedDateType == "year") xLabel = dayjs(xLabel, "YYYY").format("YYYY년");
                             }
 
                             return `
@@ -265,7 +253,7 @@
                                 Y: ${Math.round((typeof data.value === "object" ? data.value[1] : data.value) * 100) / 100}`;
                         },
                         textStyle: {
-                            fontFamily: "NanumSquare_ac"
+                            fontFamily: "NanumSquare"
                         }
                     },
                     toolbox: {
@@ -283,7 +271,7 @@
                     legend: {
                         data: this.yAxis.map(obj => obj.label),
                         textStyle: {
-                            fontFamily: "NanumSquare_ac"
+                            fontFamily: "NanumSquare"
                         }
                     },
                     xAxis: {
@@ -294,10 +282,10 @@
                             show: true
                         },
                         nameTextStyle: {
-                            fontFamily: "NanumSquare_ac"
+                            fontFamily: "NanumSquare"
                         },
                         axisLabel: {
-                            fontFamily: "NanumSquare_ac"
+                            fontFamily: "NanumSquare"
                         }
                     },
                     yAxis: this.yAxis.findIndex(y => y.value === "pm10") !== -1 && this.yAxis.findIndex(y => y.value === "pm25") !== -1 ?
@@ -307,11 +295,12 @@
                             min: 0,
                             nameTextStyle: {
                                 align: "left",
-                                fontFamily: "NanumSquare_ac Bold"
+                                fontFamily: "NanumSquare",
+                                fontWeight: "bold"
                             },
                             axisLabel: {
                                 formatter: `{value}`,
-                                fontFamily: "NanumSquare_ac"
+                                fontFamily: "NanumSquare"
                             },
                             splitLine: {
                                 show: true
@@ -323,11 +312,12 @@
                             min: item => y.value === "temperature" ? (item.min < 0 ? item.min - 1 : 0) : 0,
                             nameTextStyle: {
                                 align: "left",
-                                fontFamily: "NanumSquare Bold"
+                                fontFamily: "NanumSquare",
+                                fontWeight: "bold"
                             },
                             axisLabel: {
                                 formatter: `{value}`,
-                                fontFamily: "NanumSquare_ac"
+                                fontFamily: "NanumSquare"
                             },
                             splitLine: {
                                 show: true

@@ -27,14 +27,6 @@ public class KTService implements GraphQLQueryResolver {
     private final KTStationRepository ktStationRepository;
     private final KtDataRepository ktDataRepository;
 
-    public List<ResponseStationVO> getKtStations(final String startDatetime, final String endDatetime) throws ParseException {
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-        return this.ktStationRepository.findAllBy(dateFormat.parse(startDatetime), dateFormat.parse(endDatetime))
-                .stream()
-                .map(ResponseStationVO::from)
-                .collect(Collectors.toList());
-    }
-
     public List<ResponseStationVO> getKtStationsByKeyword(final String keyword, final int page, final int size) {
         return this.ktStationRepository.findAllByKeyword(keyword, PageRequest.of(page, size))
                 .stream()

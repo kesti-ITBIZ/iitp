@@ -11,7 +11,7 @@ export default {
         selectedCategory: "airkorea",
         searchOptions: [
             { label: "지도기반 지점 선택", value: "map" },
-            { label: "지점명 조회로 선택", value: "keyword" }
+            { label: "지점명 조회로 선택", value: "search" }
         ],
         selectedSearchOption: "map",
         stations: Object.freeze({
@@ -21,10 +21,10 @@ export default {
             observer: null
         }),
         selectedStation: Object.freeze({
-            airkorea: [],
-            kt: [],
-            sDoT: [],
-            observer: []
+            airkorea: null,
+            kt: null,
+            sDoT: null,
+            observer: null
         }),
         searchedStations: [],
         data: Object.freeze({
@@ -38,30 +38,26 @@ export default {
 
     },
     mutations: {
-        SET_SELECTED_SEARCH_OPTION: (state, option) => state.observation.selectedSearchOption = option,
-        SET_SELECTED_CATEGORY: (state, category) => state.observation.selectedCategory = category,
-        SET_STATIONS: (state, stations) => {
+        SET_OBSERVATION_SELECTED_SEARCH_OPTION: (state, option) => state.observation.selectedSearchOption = option,
+        SET_OBSERVATION_SELECTED_CATEGORY: (state, category) => state.observation.selectedCategory = category,
+        SET_OBSERVATION_STATIONS: (state, stations) => {
             const _stations = { ...state.observation.stations };
             _stations[state.observation.selectedCategory] = Object.freeze(stations);
             state.observation.stations = Object.freeze(_stations);
         },
-        SET_SELECTED_STATION: (state, { category, station }) => {
+        SET_OBSERVATION_SELECTED_STATION: (state, { category, station }) => {
             const selectedStation = { ...state.observation.selectedStation };
-            selectedStation[category] = [station];
+            selectedStation[category] = station;
             state.observation.selectedStation = Object.freeze(selectedStation);
         },
-        REMOVE_SELECTED_STATION: (state, { category, station }) => {
+        REMOVE_OBSERVATION_SELECTED_STATION: state => {
             const selectedStation = { ...state.observation.selectedStation };
-            selectedStation[category].splice(selectedStation[category].findIndex(obj =>
-                obj.name === station.name
-                && obj.address === station.address
-                && obj.latitude === station.latitude
-                && obj.longitude === station.longitude), 1);
+            selectedStation[state.observation.selectedCategory] = null;
             state.observation.selectedStation = Object.freeze(selectedStation);
         },
-        SET_SEARCHED_STATIONS: (state, stations) => state.observation.searchedStations = Object.freeze(stations),
-        APPEND_SEARCHED_STATIONS: (state, stations) => state.observation.searchedStations = Object.freeze(state.observation.searchedStations.concat(stations)),
-        SET_DATA: (state, { category, data }) => {
+        SET_OBSERVATION_SEARCHED_STATIONS: (state, stations) => state.observation.searchedStations = Object.freeze(stations),
+        APPEND_OBSERVATION_SEARCHED_STATIONS: (state, stations) => state.observation.searchedStations = Object.freeze(state.observation.searchedStations.concat(stations)),
+        SET_OBSERVATION_DATA: (state, { category, data }) => {
             const len = data.length
 
             if (len > 0) {
@@ -105,13 +101,13 @@ export default {
         }
     },
     actions: {
-        SET_SELECTED_SEARCH_OPTION: (context, option) => context.commit("SET_SELECTED_SEARCH_OPTION", option),
-        SET_SELECTED_CATEGORY: (context, category) => context.commit("SET_SELECTED_CATEGORY", category),
-        SET_STATIONS: (context, stations) => context.commit("SET_STATIONS", stations),
-        SET_SELECTED_STATION: (context, { category, station }) => context.commit("SET_SELECTED_STATION", { category, station }),
-        REMOVE_SELECTED_STATION: (context, { category, station }) => context.commit("REMOVE_SELECTED_STATION", { category, station }),
-        SET_SEARCHED_STATIONS: (context, stations) => context.commit("SET_SEARCHED_STATIONS", stations),
-        APPEND_SEARCHED_STATIONS: (context, stations) => context.commit("APPEND_SEARCHED_STATIONS", stations),
-        SET_DATA: (context, { category, data }) => context.commit("SET_DATA", { category, data })
+        SET_OBSERVATION_SELECTED_SEARCH_OPTION: (context, option) => context.commit("SET_OBSERVATION_SELECTED_SEARCH_OPTION", option),
+        SET_OBSERVATION_SELECTED_CATEGORY: (context, category) => context.commit("SET_OBSERVATION_SELECTED_CATEGORY", category),
+        SET_OBSERVATION_STATIONS: (context, stations) => context.commit("SET_OBSERVATION_STATIONS", stations),
+        SET_OBSERVATION_SELECTED_STATION: (context, { category, station }) => context.commit("SET_OBSERVATION_SELECTED_STATION", { category, station }),
+        REMOVE_OBSERVATION_SELECTED_STATION: context => context.commit("REMOVE_OBSERVATION_SELECTED_STATION"),
+        SET_OBSERVATION_SEARCHED_STATIONS: (context, stations) => context.commit("SET_OBSERVATION_SEARCHED_STATIONS", stations),
+        APPEND_OBSERVATION_SEARCHED_STATIONS: (context, stations) => context.commit("APPEND_OBSERVATION_SEARCHED_STATIONS", stations),
+        SET_OBSERVATION_DATA: (context, { category, data }) => context.commit("SET_OBSERVATION_DATA", { category, data })
     }
 }

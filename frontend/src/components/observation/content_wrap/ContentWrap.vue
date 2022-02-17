@@ -1,75 +1,79 @@
 <template>
-    <table id="content-wrap">
-        <thead>
-            <tr>
-                <th>
-                    <div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th><select-datetime /></th>
-                                </tr>
-                                <tr>
-                                    <th><category /></th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="map">
-                    <content-map v-show="selectedSearchOption == 'map'" />
-                    <search-keyword v-show="selectedSearchOption == 'keyword'" />
-                </td>
-            </tr>
-            <tr><td><selected-stations /></td></tr>
-        </tbody>
-    </table>
+    <div class="content-wrap">
+        <div>
+            <div>
+                <options />
+                <content-map v-show="selectedSearchOption == 'map'" />
+                <search v-show="selectedSearchOption == 'search'" />
+                <station />
+            </div>
+            <side-header />
+            <item-tooltip />
+        </div>
+        <div><input type="button" class="fetch" value="조회" @click="fetchData" /></div>
+    </div>
 </template>
 
 <script>
     import { mapState, mapActions } from "vuex";
-
+    import { alert } from "../../../assets/js/common.utils";
     import { dataApi } from "../../../assets/js/api";
 
-    import SelectDatetime from "./header/select_datetime/SelectDatetime";
-    import Category from "./header/category/Category";
-    import ContentMap from "./content/map/ContentMap";
-    import SearchKeyword from "./content/keyword/SearchKeyword";
-    import SelectedStations from "./content/selected_stations/SelectedStations";
+    import Options from "./options/Options";
+    import ContentMap from "./map/ContentMap";
+    import Search from "./search/Search";
+    import Station from "./station/Station";
+    import SideHeader from "./side_header/SideHeader";
+    import ItemTooltip from "./item_tooltip/ItemTooltip";
 
     export default {
         name: "ContentWrap",
         components: {
-            SelectDatetime,
-            Category,
+            Options,
             ContentMap,
-            SearchKeyword,
-            SelectedStations
+            Search,
+            Station,
+            SideHeader,
+            ItemTooltip
         },
         computed: {
             ...mapState({
                 selectedSearchOption: state => state.observation.selectedSearchOption,
-                selectedCategory: state => state.observation.selectedCategory,
                 startDatetime: state => state.observation.startDatetime,
                 endDatetime: state => state.observation.endDatetime,
-                stations: state => state.observation.stations[state.observation.selectedCategory],
-                selectedStation: state => state.observation.selectedStation[state.observation.selectedCategory],
-                selectedDateType: state => state.observation.selectedDateType,
+                selectedCategory: state => state.observation.selectedCategory,
                 xAxis: state => state.observation[state.observation.selectedCategory].xAxis,
                 yAxis: state => state.observation[state.observation.selectedCategory].yAxis,
-                selectedFineParticleRange: state => state.observation.selectedFineParticleRange
+                selectedStation: state => state.observation.selectedStation[state.observation.selectedCategory]
             })
         },
         ...dataApi,
         methods: {
             ...mapActions({
-                setData: "SET_DATA",
-                setLoadingVisible: "SET_LOADING_VISIBLE"
-            })
+                setData: "SET_OBSERVATION_DATA",
+                setLoadingVisible: "SET_LOADING_VISIBLE",
+                setLoadingInvisible: "SET_LOADING_INVISIBLE"
+            }),
+
+            async fetchData() {
+                if (this.selectedStation == null)
+                    await new Promise(resolve => alert("조회할 지점을 선택해주세요.", resolve));
+                else if (this.xAxis.length === 0)
+                    await new Promise(resolve => alert("X축 항목을 추가해주세요.", resolve));
+                else if (this.yAxis.length === 0)
+                    await new Promise(resolve => alert("Y축 항목을 추가해주세요.", resolve));
+                else {
+                    await this.setLoadingVisible();
+                    let dataQuery = this.$apollo.queries[this.selectedCategory + "Data"];
+                    dataQuery.skip = false;
+                    await this.setData(JSON.parse(JSON.stringify({
+                        category: this.selectedCategory,
+                        data: await dataQuery.refetch().then(response => response.data[this.selectedCategory + "Data"])
+                    })));
+                    await this.setLoadingInvisible();
+                    dataQuery.skip = true;
+                }
+            }
         }
     }
 </script>

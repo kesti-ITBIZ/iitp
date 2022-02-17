@@ -2,33 +2,27 @@ import gql from "graphql-tag";
 
 export const stationApi = {
     apollo: {
-        ...(() => {
-            let obj = {};
-            ["airkorea", "kt", "observer", "sDoT"].forEach(category => {
-                if (category !== "all")
-                    obj[category + "Stations"] = {
-                        query: gql`
-                            query ${category}Stations($startDatetime: String!, $endDatetime: String!) {
-                                ${category}Stations(startDatetime: $startDatetime, endDatetime: $endDatetime) {
-                                    address
-                                    name
-                                    latitude
-                                    longitude
-                                    pm25
-                                }
-                            }
-                        `,
-                        variables() {
-                            return {
-                                startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
-                                endDatetime: this.endDatetime.format("YYYYMMDDHHmmss")
-                            }
-                        },
-                        skip: true
-                    };
-            });
-            return obj;
-        })()
+        stations: {
+            query: gql`
+                query stations($category: String!, $startDatetime: String!, $endDatetime: String!) {
+                    stations(category: $category, startDatetime: $startDatetime, endDatetime: $endDatetime) {
+                        address
+                        name
+                        latitude
+                        longitude
+                        pm25
+                    }
+                }
+            `,
+            variables() {
+                return {
+                    category: this.selectedCategory,
+                    startDatetime: this.startDatetime.format("YYYY" + (this.selectedDateType == "year" ? "" : "MM")),
+                    endDatetime: this.endDatetime.format("YYYY" + (this.selectedDateType == "year" ? "" : "MM"))
+                }
+            },
+            skip: true
+        }
     }
 };
 
@@ -54,7 +48,7 @@ export const dataApi = {
                     param: {
                         startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
                         endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
-                        stnNm: this.selectedStation[0].name
+                        stnNm: this.selectedStation.name
                     }
                 };
             },
@@ -78,7 +72,7 @@ export const dataApi = {
                     param: {
                         startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
                         endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
-                        stnNm: this.selectedStation[0].name
+                        stnNm: this.selectedStation.name
                     }
                 };
             },
@@ -102,7 +96,7 @@ export const dataApi = {
                     param: {
                         startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
                         endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
-                        stnNm: this.selectedStation[0].name
+                        stnNm: this.selectedStation.name
                     }
                 };
             },
@@ -128,7 +122,7 @@ export const dataApi = {
                     param: {
                         startDatetime: this.startDatetime.format("YYYYMMDDHHmmss"),
                         endDatetime: this.endDatetime.format("YYYYMMDDHHmmss"),
-                        stnNm: this.selectedStation[0].name
+                        stnNm: this.selectedStation.name
                     }
                 };
             },
@@ -168,4 +162,41 @@ export const dataApi = {
             skip: true
         },
     }
-}
+};
+
+export const statisticsApi = {
+    apollo: {
+        statisticsData: {
+            query: gql`
+                query statisticsData($category: String!, $startDatetime: String!, $endDatetime: String!, $stnNm: String!) {
+                    statisticsData(category: $category, startDatetime: $startDatetime, endDatetime: $endDatetime, stnNm: $stnNm) {
+                        category
+                        datetime
+                        stnNm
+                        pm10 {
+                            avg
+                            goodDays
+                            badDays
+                            highDnstyDays
+                        }
+                        pm25 {
+                            avg
+                            goodDays
+                            badDays
+                            highDnstyDays
+                        }
+                    }
+                }
+            `,
+            variables() {
+                return {
+                    category: this.selectedCategory,
+                    startDatetime: this.startDatetime.format("YYYY" + (this.selectedDateType == "month" ? "MM" : "")),
+                    endDatetime: this.endDatetime.format("YYYY" + (this.selectedDateType == "month" ? "MM" : "")),
+                    stnNm: this.selectedStation.name
+                }
+            },
+            skip: true
+        }
+    }
+};
