@@ -34,7 +34,9 @@
 
         },
         methods: {
+            foo() {
 
+            }
         },
         destroyed() {
             this.clearResizeEvent();
