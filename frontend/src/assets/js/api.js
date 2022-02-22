@@ -8,6 +8,7 @@ export const stationApi = {
                     stations(category: $category, startDatetime: $startDatetime, endDatetime: $endDatetime) {
                         address
                         name
+                        stnId
                         latitude
                         longitude
                         pm25
@@ -200,3 +201,89 @@ export const statisticsApi = {
         }
     }
 };
+
+export const verificationApi = {
+    apollo: {
+        compareWithKtData: {
+            query: gql`
+                query compareWithKtData($startDatetime: String!, $endDatetime: String!, $stdStnNm: String!, $compStnId: String!) {
+                    compareWithKtData(startDatetime: $startDatetime, endDatetime: $endDatetime, stdStnNm: $stdStnNm, compStnId: $compStnId) {
+                        stdDatetime
+                        stdStnId
+                        stdStnNm
+                        stdPm10
+                        stdPm25
+                        compDatetime
+                        compStnId
+                        compStnNm
+                        compPm10
+                        compPm25
+                    }
+                }
+            `,
+            variables() {
+                return {
+                    startDatetime: this.startDatetime.format("YYYY-MM-DD HH:mm"),
+                    endDatetime: this.endDatetime.format("YYYY-MM-DD HH:mm"),
+                    stdStnNm: this.selectedStandardStation.name,
+                    compStnId: this.selectedCompareStation.stnId
+                }
+            },
+            skip: true
+        },
+        compareWithSDoTData: {
+            query: gql`
+                query compareWithSDoTData($startDatetime: String!, $endDatetime: String!, $stdStnNm: String!, $compStnId: String!) {
+                    compareWithSDoTData(startDatetime: $startDatetime, endDatetime: $endDatetime, stdStnNm: $stdStnNm, compStnId: $compStnId) {
+                        stdDatetime
+                        stdStnId
+                        stdStnNm
+                        stdPm10
+                        stdPm25
+                        compDatetime
+                        compStnId
+                        compStnNm
+                        compPm10
+                        compPm25
+                    }
+                }
+            `,
+            variables() {
+                return {
+                    startDatetime: this.startDatetime.format("YYYY-MM-DD HH:mm"),
+                    endDatetime: this.endDatetime.format("YYYY-MM-DD HH:mm"),
+                    stdStnNm: this.selectedStandardStation.name,
+                    compStnId: this.selectedCompareStation.stnId
+                }
+            },
+            skip: true
+        },
+        compareWithObserverData: {
+            query: gql`
+                query compareWithObserverData($startDatetime: String!, $endDatetime: String!, $stdStnNm: String!, $compStnId: String!) {
+                    compareWithObserverData(startDatetime: $startDatetime, endDatetime: $endDatetime, stdStnNm: $stdStnNm, compStnId: $compStnId) {
+                        stdDatetime
+                        stdStnId
+                        stdStnNm
+                        stdPm10
+                        stdPm25
+                        compDatetime
+                        compStnId
+                        compStnNm
+                        compPm10
+                        compPm25
+                    }
+                }
+            `,
+            variables() {
+                return {
+                    startDatetime: this.startDatetime.format("YYYY-MM-DD HH:mm"),
+                    endDatetime: this.endDatetime.format("YYYY-MM-DD HH:mm"),
+                    stdStnNm: this.selectedStandardStation.name,
+                    compStnId: this.selectedCompareStation.stnId
+                }
+            },
+            skip: true
+        }
+    }
+}

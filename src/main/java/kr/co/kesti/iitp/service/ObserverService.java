@@ -2,6 +2,7 @@ package kr.co.kesti.iitp.service;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import kr.co.kesti.iitp.dsl.repository.ObserverDataRepositoryDsl;
+import kr.co.kesti.iitp.projection.ComparativeDataProjection;
 import kr.co.kesti.iitp.repository.ObserverDataRepository;
 import kr.co.kesti.iitp.repository.ObserverStationRepository;
 import kr.co.kesti.iitp.vo.RequestDataVO;
@@ -45,6 +46,10 @@ public class ObserverService implements GraphQLQueryResolver {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<ComparativeDataProjection> getCompareWithObserverData(final String startDatetime, final String endDatetime, final String stdStnNm, final String compStnId) {
+        return this.observerDataRepository.findAllComparativeData(startDatetime, endDatetime, stdStnNm, compStnId);
     }
 
     public List<String> getObserverAvailableDatetimes() {

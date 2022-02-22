@@ -7,12 +7,15 @@ type Query {
     airkoreaAvailableDatetimes: [String]
     airkoreaStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
     ktData(param: DataParam): [KTData]
+    compareWithKtData(startDatetime: String!, endDatetime: String!, stdStnNm: String!, compStnId: String!): [ComparativeData]
     ktAvailableDatetimes: [String]
     ktStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
     observerData(param: DataParam): [ObserverData]
+    compareWithObserverData(startDatetime: String!, endDatetime: String!, stdStnNm: String!, compStnId: String!): [ComparativeData]
     observerAvailableDatetimes: [String]
     observerStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
     sDoTData(param: DataParam): [SDoTData]
+    compareWithSDoTData(startDatetime: String!, endDatetime: String!, stdStnNm: String!, compStnId: String!): [ComparativeData]
     sDoTAvailableDatetimes: [String]
     sDoTStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
     stations(category: String!, startDatetime: String!, endDatetime: String!): [Station]
@@ -24,6 +27,7 @@ type Station {
     address: String!
     latitude: Float!
     longitude: Float!
+    stnId: String!
     name: String!
     pm25: Float
 }
@@ -81,6 +85,19 @@ type StatisticsValue {
     goodDays: Float
     badDays: Float
     highDnstyDays: Float
+}
+
+type ComparativeData {
+    stdDatetime: String!
+    stdStnId: String!
+    stdStnNm: String!
+    stdPm10: Float!
+    stdPm25: Float!
+    compDatetime: String!
+    compStnId: String!
+    compStnNm: String!
+    compPm10: Float!
+    compPm25: Float!
 }
 
 input DataParam {

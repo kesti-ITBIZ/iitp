@@ -130,6 +130,27 @@ $active: #006f5b;
             }
         }
     }
+
+    .org-wrap {
+        display: grid;
+        grid-template: {
+            columns: 80px calc(100% - 80px);
+            rows: repeat(2, 1fr);
+        };
+
+        .label {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: right;
+            text-align: right;
+            font: 12px 'NanumSquare';
+            font-weight: bold;
+            letter-spacing: -1;
+            padding-right: 10px;
+            transform: rotate(0.03deg);
+        }
+    }
 }
 
 @media screen and (max-width: $reactive-max-width) {

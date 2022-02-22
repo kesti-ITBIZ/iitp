@@ -55,19 +55,9 @@ export default {
         }),
         selectedStandardStation: null,
         selectedCompareStation: null,
-        selectedStation: Object.freeze({
-            airkorea: null,
-            kt: null,
-            sDoT: null,
-            observer: null
-        }),
+        selectedCompareOrg: null,
         searchedStations: [],
-        data: Object.freeze({
-            airkorea: [],
-            kt: [],
-            sDoT: [],
-            observer: []
-        })
+        data: null
     },
     getters: {
 
@@ -87,30 +77,11 @@ export default {
         SET_VERIFICATION_SELECTED_COMPARE_STATION: (state, station) => {
             console.log("SET_VERIFICATION_SELECTED_COMPARE_STATION");
             state.verification.selectedCompareStation = Object.freeze(station);
+            state.verification.selectedCompareOrg = station == null ? null : state.verification.selectedCategory;
         },
         SET_VERIFICATION_SEARCHED_STATIONS: (state, stations) => state.verification.searchedStations = Object.freeze(stations),
         APPEND_VERIFICATION_SEARCHED_STATIONS: (state, stations) => state.verification.searchedStations = Object.freeze(state.verification.searchedStations.concat(stations)),
-        SET_VERIFICATION_DATA: (state, data) => {
-            const category = state.verification.selectedCategory;
-            const stnNm = state.verification.selectedStation[category].name;
-            let list = [];
-
-            const [yearData, monthData] = [
-                data.filter(obj => obj.datetime.length === 4),
-                data.filter(obj => obj.datetime.length === 6)
-            ];
-
-            yearData.sort((a, b) => a.datetime < b.datetime ? -1 : 1);
-            monthData.sort((a, b) => a.datetime < b.datetime ? -1 : 1);
-
-            list = list.concat(setData(yearData, "YYYY", "year", state.verification.startDatetime, state.verification.endDatetime, category, stnNm));
-            list = list.concat(setData(monthData, "YYYYMM", "month", state.verification.startDatetime, state.verification.endDatetime, category, stnNm));
-
-            state.verification.data = Object.freeze({
-                ...state.verification.data,
-                [category]: Object.freeze(list)
-            });
-        }
+        SET_VERIFICATION_DATA: (state, data) => state.verification.data = Object.freeze(data)
     },
     actions: {
         SET_VERIFICATION_SELECTED_SEARCH_OPTION: (context, option) => context.commit("SET_VERIFICATION_SELECTED_SEARCH_OPTION", option),

@@ -5,14 +5,22 @@
                 <input type="button" :class="selectedSearchOption == option.value ? 'on' : ''" :value="option.label" @click="setSelectedSearchOption(option.value)" />
             </li>
         </ul>
-        <ul v-show="windowWidth >= reactiveMaxWidth + 1">
-            <li :key="i" v-for="(obj, i) in category">
-                <button :class="selectedCategory == obj.value ? 'on' : ''" @click="setSelectedCategory(obj.value)">
-                    <span :class="obj.value"></span>
-                    <span>{{ obj.label }}</span>
-                </button>
-            </li>
-        </ul>
+        <div class="org-wrap" v-show="windowWidth >= reactiveMaxWidth + 1">
+            <div class="label">검증 지점:</div>
+            <button :class="selectedCategory == 'airkorea' ? 'on' : ''" @click="setSelectedCategory('airkorea')">
+                <span class="airkorea"></span>
+                <span>환경부</span>
+            </button>
+            <div class="label">비교 지점:</div>
+            <ul>
+                <li :key="i" v-for="(obj, i) in category.filter(c => c.value !== 'airkorea')">
+                    <button :class="selectedCategory == obj.value ? 'on' : ''" @click="setSelectedCategory(obj.value)">
+                        <span :class="obj.value"></span>
+                        <span>{{ obj.label }}</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
         <table v-show="windowWidth < reactiveMaxWidth + 1">
             <colgroup>
                 <col style="width: 50%;" />

@@ -1,7 +1,9 @@
 package kr.co.kesti.iitp.entity;
 
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import kr.co.kesti.iitp.embed.SDoTDataKey;
 import lombok.*;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 
@@ -12,6 +14,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class SDoTData {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)

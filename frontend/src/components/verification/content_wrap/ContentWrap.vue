@@ -19,7 +19,7 @@
 <script>
     import { mapState, mapActions } from "vuex";
     import { alert } from "../../../assets/js/common.utils";
-    import { dataApi } from "../../../assets/js/api";
+    import { verificationApi } from "../../../assets/js/api";
 
     import Options from "./options/Options";
     import ContentMap from "./map/ContentMap";
@@ -42,14 +42,12 @@
                 startDatetime: state => state.verification.startDatetime,
                 endDatetime: state => state.verification.endDatetime,
                 selectedCategory: state => state.verification.selectedCategory,
-                xAxis: state => state.verification[state.verification.selectedCategory].xAxis,
-                yAxis: state => state.verification[state.verification.selectedCategory].yAxis,
-                selectedStation: state => state.verification.selectedStation[state.verification.selectedCategory],
                 selectedStandardStation: state => state.verification.selectedStandardStation,
-                selectedCompareStation: state => state.verification.selectedCompareStation
+                selectedCompareStation: state => state.verification.selectedCompareStation,
+                selectedCompareOrg: state => state.verification.selectedCompareOrg
             })
         },
-        ...dataApi,
+        ...verificationApi,
         methods: {
             ...mapActions({
                 setData: "SET_VERIFICATION_DATA",
@@ -60,20 +58,17 @@
             }),
 
             async fetchData() {
-                if (this.selectedStation == null)
-                    await new Promise(resolve => alert("조회할 지점을 선택해주세요.", resolve));
-                else if (this.xAxis.length === 0)
-                    await new Promise(resolve => alert("X축 항목을 추가해주세요.", resolve));
-                else if (this.yAxis.length === 0)
-                    await new Promise(resolve => alert("Y축 항목을 추가해주세요.", resolve));
+                if (this.selectedStandardStation == null)
+                    await new Promise(resolve => alert("기준 지점을 선택해주세요.", resolve));
+                else if (this.selectedCompareStation == null)
+                    await new Promise(resolve => alert("비교 지점을 선택해주세요.", resolve));
                 else {
                     await this.setLoadingVisible();
-                    let dataQuery = this.$apollo.queries[this.selectedCategory + "Data"];
+                    const org = this.selectedCompareOrg;
+                    org[0] = org[0].toUpperCase();
+                    let dataQuery = this.$apollo.queries[`compareWith${org}Data`];
                     dataQuery.skip = false;
-                    await this.setData(JSON.parse(JSON.stringify({
-                        category: this.selectedCategory,
-                        data: await dataQuery.refetch().then(response => response.data[this.selectedCategory + "Data"])
-                    })));
+                    await this.setData(await dataQuery.refetch().then(response => response.data[`compareWith${org}Data`]));
                     await this.setLoadingInvisible();
                     dataQuery.skip = true;
                 }

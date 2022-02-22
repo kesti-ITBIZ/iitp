@@ -119,6 +119,7 @@
                 stationQuery.skip = false;
                 await this.setStations(await stationQuery.refetch().then(response => response.data === undefined || response.data.stations.length === 0 ? [] : response.data.stations.map(obj => ({
                     address: obj.address,
+                    stnId: obj.stnId,
                     name: obj.name,
                     latitude: obj.latitude,
                     longitude: obj.longitude,

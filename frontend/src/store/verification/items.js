@@ -19,8 +19,6 @@ export default {
                 return Object.freeze(items);
             })(),
             selectedItem: null,
-            xAxis: Object.freeze([{ label: "측정 시간", seq: 0, value: "datetime", unit: "" }]),
-            yAxis: Object.freeze([]),
             available: []
         },
         kt: {
@@ -35,8 +33,6 @@ export default {
                 return Object.freeze(items);
             })(),
             selectedItem: null,
-            xAxis: Object.freeze([{ label: "측정 시간", seq: 0, value: "datetime", unit: "" }]),
-            yAxis: Object.freeze([]),
             available: []
         },
         sDoT: {
@@ -53,8 +49,6 @@ export default {
                 return Object.freeze(items);
             })(),
             selectedItem: null,
-            xAxis: Object.freeze([{ label: "측정 시간", seq: 0, value: "datetime", unit: "" }]),
-            yAxis: Object.freeze([]),
             available: []
         },
         observer: {
@@ -69,8 +63,6 @@ export default {
                 return Object.freeze(items);
             })(),
             selectedItem: null,
-            xAxis: Object.freeze([{ label: "측정 시간", seq: 0, value: "datetime", unit: "" }]),
-            yAxis: Object.freeze([]),
             available: []
         },
     },
