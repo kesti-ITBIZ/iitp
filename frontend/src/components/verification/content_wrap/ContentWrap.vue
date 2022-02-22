@@ -44,6 +44,7 @@
                 selectedCategory: state => state.verification.selectedCategory,
                 selectedStandardStation: state => state.verification.selectedStandardStation,
                 selectedCompareStation: state => state.verification.selectedCompareStation,
+                selectedStandardOrg: state => state.verification.selectedStandardOrg,
                 selectedCompareOrg: state => state.verification.selectedCompareOrg
             })
         },

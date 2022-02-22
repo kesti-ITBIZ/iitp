@@ -1,10 +1,8 @@
 package kr.co.kesti.iitp.entity;
 
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import kr.co.kesti.iitp.embed.AirkoreaDataKey;
 import lombok.*;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -18,7 +16,6 @@ import javax.persistence.Table;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class AirkoreaData {
     @Column(name = "run_time", length = 30, nullable = false)
     private String runTime;

@@ -51,10 +51,6 @@ public class SDoTService implements GraphQLQueryResolver {
                 .collect(Collectors.toList());
     }
 
-    public List<ComparativeDataProjection> getCompareWithSDoTData(final String startDatetime, final String endDatetime, final String stdStnNm, final String compStnId) {
-        return this.sDoTDataRepository.findAllComparativeData(startDatetime, endDatetime, stdStnNm, compStnId);
-    }
-
     public List<String> getSDoTAvailableDatetimes() {
         final List<String> result = this.sDoTDataRepository.findDistinctAllByOrderByDatetime();
         Collections.sort(result);

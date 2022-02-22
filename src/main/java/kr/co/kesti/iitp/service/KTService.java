@@ -48,10 +48,6 @@ public class KTService implements GraphQLQueryResolver {
         return null;
     }
 
-    public List<ComparativeDataProjection> getCompareWithKtData(final String startDatetime, final String endDatetime, final String stdStnNm, final String compStnId) {
-        return this.ktDataRepository.findAllComparativeData(startDatetime, endDatetime, stdStnNm, compStnId);
-    }
-
     public List<String> getKtAvailableDatetimes() {
         final List<String> result = this.ktDataRepository.findDistinctAllByOrderByDatetime();
         Collections.sort(result);

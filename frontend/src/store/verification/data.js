@@ -55,6 +55,7 @@ export default {
         }),
         selectedStandardStation: null,
         selectedCompareStation: null,
+        selectedStandardOrg: "airkorea",
         selectedCompareOrg: null,
         searchedStations: [],
         data: null
@@ -71,11 +72,9 @@ export default {
             state.verification.stations = Object.freeze(_stations);
         },
         SET_VERIFICATION_SELECTED_STANDARD_STATION: (state, station) => {
-            console.log("SET_VERIFICATION_SELECTED_STANDARD_STATION");
             state.verification.selectedStandardStation = Object.freeze(station);
         },
         SET_VERIFICATION_SELECTED_COMPARE_STATION: (state, station) => {
-            console.log("SET_VERIFICATION_SELECTED_COMPARE_STATION");
             state.verification.selectedCompareStation = Object.freeze(station);
             state.verification.selectedCompareOrg = station == null ? null : state.verification.selectedCategory;
         },

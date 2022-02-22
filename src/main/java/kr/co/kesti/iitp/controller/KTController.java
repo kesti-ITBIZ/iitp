@@ -29,15 +29,6 @@ public class KTController {
         return ResponseEntity.ok(this.ktService.getKtData(request));
     }
 
-    @GetMapping("/getCompareData")
-    public ResponseEntity<?> getCompareData(
-            @RequestParam("startDatetime") final String startDatetime,
-            @RequestParam("endDatetime") final String endDatetime,
-            @RequestParam("stdStnNm") final String stdStnNm,
-            @RequestParam("compStnId") final String compStnId) {
-        return ResponseEntity.ok(this.ktService.getCompareWithKtData(startDatetime, endDatetime, stdStnNm, compStnId));
-    }
-
     @GetMapping("/getAvailableDatetimes")
     public ResponseEntity<?> getAvailableDatetimes() {
         return ResponseEntity.ok(this.ktService.getKtAvailableDatetimes());

@@ -48,10 +48,6 @@ public class ObserverService implements GraphQLQueryResolver {
         return null;
     }
 
-    public List<ComparativeDataProjection> getCompareWithObserverData(final String startDatetime, final String endDatetime, final String stdStnNm, final String compStnId) {
-        return this.observerDataRepository.findAllComparativeData(startDatetime, endDatetime, stdStnNm, compStnId);
-    }
-
     public List<String> getObserverAvailableDatetimes() {
         final List<String> result = this.observerDataRepository.findDistinctAllByOrderByDatetime();
         Collections.sort(result);
