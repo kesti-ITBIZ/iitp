@@ -1,0 +1,65 @@
+@import "../../../common";
+
+.content-wrap {
+    > div:nth-child(2) {
+        display: flex;
+        height: calc(100% - 280px);
+
+        > div:first-child {
+            width: calc(100% - 20px);
+        }
+
+        .station-wrap {
+            display: flex;
+
+            > div {
+                flex: 1;
+            }
+        }
+    }
+
+    .fetch-wrap {
+        text-align: center;
+
+        input[type=button].fetch {
+            font: {
+                size: 18px;
+                family: 'NanumSquare';
+                weight: 900;
+            };
+            background-color: #424242;
+            color: white;
+            width: 120px;
+            border: none;
+            border-radius: 10px;
+            margin: 6px;
+            padding: 7px 10px;
+            transition: background-color 0.1s, color 0.1s;
+
+            &:hover {
+                background-color: #787878;
+            }
+
+            &:active {
+                background-color: #1c1c1c;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: $reactive-max-width) {
+    .content-wrap {
+        > div:first-child {
+            flex-direction: column;
+
+            > div:first-child {
+                width: 100% !important;
+                min-width: 0;
+            }
+        }
+
+        input[type=button].fetch {
+            width: calc(100% - 20px);
+        }
+    }
+}
