@@ -21,7 +21,7 @@ public interface SDoTDataRepository extends JpaRepository<SDoTData, SDoTDataKey>
             "select " +
             "    function('to_char', function('to_timestamp', a.sDoTDataKey.registTime, 'YYYY-MM-DD HH24:MI'), 'YYYYMMDDHH24') as datetime, " +
             "    a.sDoTDataKey.modelSr as stnId, " +
-            "    b.address as stnNm, " +
+            "    b.stnId as stnNm, " +
             "    a.pm10 as pm10, " +
             "    a.pm25 as pm25 " +
             "from SDoTData a " +

@@ -16,6 +16,7 @@ public interface StatisticsSummaryRepository extends JpaRepository<StatisticsSum
             "   s.category as category, " +
             "   s.latitude as latitude, " +
             "   s.longitude as longitude, " +
+            "   s.stnId as stnId, " +
             "   s.stnNm as name, " +
             "   s.address as address, " +
             "   function('round', avg(s.avgPm25)) as pm25 " +
@@ -30,6 +31,7 @@ public interface StatisticsSummaryRepository extends JpaRepository<StatisticsSum
             "   s.category, " +
             "   s.latitude, " +
             "   s.longitude, " +
+            "   s.stnId, " +
             "   s.stnNm, " +
             "   s.address")
     List<StationProjection> findAllByStatisticsTimeBetweenAndLatitudeIsNotNullAndLongitudeIsNotNull(
