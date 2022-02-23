@@ -1,6 +1,7 @@
 $table-color: #00c3dc;
 
 div.container-wrap.chart {
+    position: relative;
     height: calc(100% - 60px);
 
     div.container {
@@ -43,11 +44,18 @@ div.container-wrap.chart {
             }
 
             .timeseries, .comparison {
-                height: calc(50% - 56px);
+                //width: calc(100% - 60px);
+                height: calc(50% - 155px);
+                padding: 50px 30px;
+
+                > div {
+                    width: calc(100% - 60px);
+                    height: 100%;
+                }
             }
 
             .timeseries {
-                background-color: #29ac1e;
+                //background-color: #29ac1e;
             }
 
             .comparison {

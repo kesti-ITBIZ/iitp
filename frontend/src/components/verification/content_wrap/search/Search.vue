@@ -95,11 +95,11 @@
         },
         watch: {
             windowWidth() {
-                this.height = this.windowWidth >= this.reactiveMaxWidth ? this.windowHeight - 580 : 390;
+                this.height = this.windowWidth >= this.reactiveMaxWidth ? this.windowHeight - 620 : 390;
             },
 
             windowHeight() {
-                this.height = this.windowWidth >= this.reactiveMaxWidth ? this.windowHeight - 580 : 390;
+                this.height = this.windowWidth >= this.reactiveMaxWidth ? this.windowHeight - 620 : 390;
             }
         },
         apollo: {
@@ -135,7 +135,8 @@
             ...mapActions({
                 setSearchedStations: "SET_VERIFICATION_SEARCHED_STATIONS",
                 appendSearchedStations: "APPEND_VERIFICATION_SEARCHED_STATIONS",
-                setSelectedStation: "SET_VERIFICATION_SELECTED_STATION"
+                setSelectedStandardStation: "SET_VERIFICATION_SELECTED_STANDARD_STATION",
+                setSelectedCompareStation: "SET_VERIFICATION_SELECTED_COMPARE_STATION"
             }),
 
             async search() {
@@ -188,14 +189,13 @@
             },
 
             select({ name, address }) {
-                this.setSelectedStation({
-                    category: this.selectedCategory,
-                    station: this.searchedStations.filter(obj => obj.name === name && obj.address === address)[0]
-                });
+                if (this.selectedCategory == "airkorea")
+                    this.setSelectedStandardStation(this.searchedStations.filter(obj => obj.name === name && obj.address === address)[0]);
+                else this.setSelectedCompareStation(this.searchedStations.filter(obj => obj.name === name && obj.address === address)[0]);
             }
         },
         mounted() {
-            this.height = this.windowWidth >= this.reactiveMaxWidth ? this.windowHeight - 580 : 390;
+            this.height = this.windowWidth >= this.reactiveMaxWidth ? this.windowHeight - 620 : 390;
         }
     }
 </script>
