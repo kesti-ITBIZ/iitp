@@ -12,7 +12,7 @@
                 </div>
                 <div>
                     <h3>비교 분석 결과</h3>
-                    <h2>Y = RX + b&emsp;R<sup>2</sup> = 0.81</h2>
+                    <h2>Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}&emsp;R<sup>2</sup> = ???</h2>
                 </div>
             </div>
             <div class="timeseries">
@@ -34,7 +34,8 @@
 <script>
     import { mapState, mapActions } from "vuex";
 
-    import { init } from "echarts";
+    import { init, registerTransform } from "echarts";
+    import { transform } from "echarts-stat";
     import dayjs from "dayjs";
     import customParseFormat from "dayjs/plugin/customParseFormat";
 
@@ -50,7 +51,8 @@
         data: () => ({
             timeseriesChart: null,
             comparisonChart: null,
-            formula: "$$y = 4x^2 + 1   R^2 = 0.81"
+            r: 0,
+            b: 0
         }),
         computed: {
             ...mapState({
@@ -64,12 +66,15 @@
             }),
 
             xAxisLabels() {
-                // let xAxis = [];
-                // for (let i = 0; i < 100; ++i) xAxis.push((i + 1).toString());
-                // return xAxis;
                 if (this.selectedDateType == "hour")
                     return this.data.map(obj => dayjs(obj.datetime, "YYYYMMDDHH").format("YYYY년 MM월 DD일 HH시"));
                 else return this.data.map(obj => dayjs(obj.datetime, "YYYYMMDD").format("YYYY년 MM월 DD일"));
+            },
+
+            correlationData() {
+                if (this.selectedItem.value == "pm10")
+                    return this.data.map(obj => [obj.compPm10, obj.stdPm10]);
+                else return this.data.map(obj => [obj.compPm25, obj.stdPm25]);
             }
         },
         watch: {
@@ -88,6 +93,7 @@
             }),
 
             async initChart() {
+                console.log("initChart");
                 if (this.timeseriesChart != null) this.timeseriesChart.clear();
                 else this.timeseriesChart = init(this.$refs["timeseries"]);
                 if (this.comparisonChart != null) this.comparisonChart.clear();
@@ -102,12 +108,23 @@
                             fontWeight: "bold"
                         }
                     },
+                    tooltip: {
+                        formatter: data => `
+                            <strong style="font-size: 16px; margin-bottom: 5px; transform: rotate(0.03deg)">${data.componentIndex === 0 ? "관측" : "비교"} 지점</strong><br />
+                            지점명: ${data.seriesName}<br />
+                            측정 시간: ${data.name}<br />
+                            ${this.selectedItem.label}: ${data.value}<br />`,
+                        textStyle: {
+                            fontFamily: "NanumSquare"
+                        }
+                    },
                     toolbox: {
                         feature: {
                             saveAsImage: {
                                 type: "png"
                             }
-                        }
+                        },
+                        right: 40
                     },
                     dataZoom: [
                         {
@@ -120,7 +137,6 @@
                                 this.data[0].stdStnNm,
                                 this.data[0].compStnNm
                             ] : [],
-                        // data: ["standard", "compare"],
                         textStyle: {
                             fontFamily: "NanumSquare"
                         }
@@ -143,6 +159,9 @@
                         type: "value",
                         name: `${this.selectedItem.label} ${this.selectedItem.unit}`,
                         min: 0,
+                        splitLine: {
+                            show: true
+                        },
                         nameTextStyle: {
                             align: "left",
                             fontFamily: "NanumSquare",
@@ -151,9 +170,6 @@
                         axisLabel: {
                             formatter: `{value}`,
                             fontFamily: "NanumSquare"
-                        },
-                        splitLine: {
-                            show: true
                         }
                     },
                     series: [
@@ -164,15 +180,6 @@
                             data: this.selectedItem.value == "pm10" ?
                                 this.data.map(obj => obj.stdPm10) :
                                 this.data.map(obj => obj.stdPm25),
-                            // data: (() => {
-                            //     const data = [], len = 100;
-                            //     let value = Math.random();
-                            //     for (let i = 0, j = 1; i < len; ++i, j = (Math.random() * 100) % 3 === 0 ? 1 : -1) {
-                            //         const addValue = Math.random() * 10;
-                            //         data.push(value += (value + j * addValue < 0 ? -j : j) * addValue);
-                            //     }
-                            //     return data;
-                            // })(),
                             itemStyle: {
                                 normal: {
                                     color: "#2279b5"
@@ -187,15 +194,6 @@
                             data: this.selectedItem.value == "pm10" ?
                                 this.data.map(obj => obj.compPm10) :
                                 this.data.map(obj => obj.compPm25),
-                            // data: (() => {
-                            //     const data = [], len = 100;
-                            //     let value = Math.random();
-                            //     for (let i = 0, j = 1; i < len; ++i, j = (Math.random() * 100) % 3 === 0 ? 1 : -1) {
-                            //         const addValue = Math.random() * 10;
-                            //         data.push(value += (value + j * addValue < 0 ? -j : j) * addValue);
-                            //     }
-                            //     return data;
-                            // })(),
                             itemStyle: {
                                 normal: {
                                     color: "#ff7e0d"
@@ -205,9 +203,108 @@
                         }
                     ]
                 });
-                // this.comparisonChart.setOption({
-                //
-                // });
+
+                this.comparisonChart?.setOption({
+                    dataset: [
+                        {
+                            source: this.correlationData
+                        },
+                        {
+                            transform: {
+                                type: 'ecStat:regression'
+                                // 'linear' by default.
+                                // config: { method: 'linear', formulaOn: 'end'}
+                            }
+                        }
+                    ],
+                    title: {
+                        text: "상관분석 차트",
+                        left: 50,
+                        textStyle: {
+                            fontFamily: "NanumSquare",
+                            fontWeight: "bold"
+                        }
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {
+                                type: "png"
+                            }
+                        },
+                        right: 40
+                    },
+                    dataZoom: [
+                        {
+                            type: "slider"
+                        }
+                    ],
+                    legend: {
+                        data: ["scatter", "추세선"],
+                        textStyle: {
+                            fontFamily: "NanumSquare"
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'cross'
+                        }
+                    },
+                    xAxis: {
+                        splitLine: {
+                            show: true
+                        },
+                        nameTextStyle: {
+                            fontFamily: "NanumSquare"
+                        },
+                        axisLabel: {
+                            fontFamily: "NanumSquare"
+                        }
+                    },
+                    yAxis: {
+                        splitLine: {
+                            show: true
+                        },
+                        nameTextStyle: {
+                            align: "left",
+                            fontFamily: "NanumSquare",
+                            fontWeight: "bold"
+                        },
+                        axisLabel: {
+                            formatter: `{value}`,
+                            fontFamily: "NanumSquare"
+                        },
+                    },
+                    series: [
+                        {
+                            name: 'scatter',
+                            type: 'scatter'
+                        },
+                        {
+                            name: '추세선',
+                            type: 'line',
+                            datasetIndex: 1,
+                            symbolSize: 0.1,
+                            symbol: 'circle',
+                            label: {
+                                show: true,
+                                fontSize: 16,
+                                fontFamily: "NanumSquare",
+                                formatter: data => {
+                                    if (data.value[2] !== "") {
+                                        const formula = data.value[2].toUpperCase().replace("+ -", "- ");
+                                        let tmp = formula.replace("Y = ", "");
+                                        this.r = +tmp.substr(0, tmp.indexOf("X"));
+                                        this.b = +tmp.substr(tmp.lastIndexOf(tmp.lastIndexOf("+") !== -1 ? "+" : "-")).replace(" ", "");
+                                        return formula;
+                                    }
+                                }
+                            },
+                            labelLayout: { dx: -20 },
+                            encode: { label: 2, tooltip: 1 }
+                        }
+                    ]
+                });
 
                 this.addResizeEvent(() => {
                     this.timeseriesChart.resize();
@@ -216,7 +313,7 @@
             }
         },
         mounted() {
-            this.initChart();
+            registerTransform(transform.regression);
         },
         destroyed() {
             this.clearResizeEvent();

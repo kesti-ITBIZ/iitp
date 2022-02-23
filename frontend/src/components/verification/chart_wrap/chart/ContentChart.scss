@@ -59,7 +59,7 @@ div.container-wrap.chart {
             }
 
             .comparison {
-                background-color: #2e85cb;
+                //background-color: #2e85cb;
             }
         }
 
@@ -71,5 +71,11 @@ div.container-wrap.chart {
             font-weight: bold;
             letter-spacing: -2px;
         }
+    }
+
+    #loading-wrap {
+        width: calc(100% - 20px);
+        height: calc(100% + 22px);
+        margin: 10px;
     }
 }
