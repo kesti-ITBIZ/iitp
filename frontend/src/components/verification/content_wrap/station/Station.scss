@@ -1,0 +1,49 @@
+$border: 1px solid #a5a5a5;
+
+.container-wrap.station {
+    //width: 50%;
+    height: 118px;
+
+    .body {
+        height: calc(100% - 54px);
+
+        > div {
+            position: relative;
+            font-size: 11px;
+            color: #404040;
+            line-height: 14px;
+            height: calc(100% - 20px);
+            border: $border;
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+
+            h2 {
+                margin-bottom: 5px;
+            }
+
+            span.close {
+                position: absolute;
+                right: 10px;
+                font-size: 14px;
+                color: transparent;
+                transition: all 0.15s ease;
+            }
+
+            &:hover {
+                color: black;
+                border-color: #59acff;
+                box-shadow: 0 0 3px 2px #59acff;
+
+                span.close {
+                    color: black;
+                }
+            }
+
+            &:active {
+                background-color: #e8e8e8;
+            }
+        }
+    }
+}

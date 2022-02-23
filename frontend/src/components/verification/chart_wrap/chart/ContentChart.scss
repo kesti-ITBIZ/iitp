@@ -1,0 +1,134 @@
+@import "../../../../common";
+
+$table-color: #00c3dc;
+
+div.container-wrap.chart {
+    position: relative;
+    height: calc(100% - 60px);
+
+    div.container {
+        padding: 20px;
+
+        &.chart {
+            height: 103px;
+
+            .info {
+                display: flex;
+
+                > div {
+                    color: white;
+                    border-radius: 10px;
+                    padding: 15px;
+
+                    &:nth-child(1) {
+                        flex: 2;
+                        background-color: #59a0e9;
+                        margin: 0 10px 10px 0;
+                    }
+
+                    &:nth-child(2) {
+                        flex: 2;
+                        background-color: #637ebd;
+                        margin: 0 10px 10px 10px;
+                    }
+
+                    &:nth-child(3) {
+                        flex: 3;
+                        background-color: #515f7e;
+                        margin: 0 0 10px 10px;
+                    }
+
+                    h2 {
+                        text-align: right;
+                        margin-top: 15px;
+                    }
+                }
+            }
+
+            .timeseries, .comparison {
+                //width: calc(100% - 60px);
+                height: calc(50% - 155px);
+                padding: 50px 30px;
+
+                > div {
+                    width: calc(100% - 60px);
+                    height: 100%;
+                }
+            }
+
+            .timeseries {
+                //background-color: #29ac1e;
+            }
+
+            .comparison {
+                //background-color: #2e85cb;
+            }
+        }
+
+        &#no-data {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a5a5a5;
+            font-weight: bold;
+            letter-spacing: -2px;
+        }
+    }
+
+    #loading-wrap {
+        width: calc(100% - 20px);
+        height: calc(100% + 22px);
+        margin: 10px;
+    }
+}
+
+@media screen and (max-width: $reactive-max-width) {
+    div.container-wrap.chart {
+        height: fit-content;
+
+        div.container.chart {
+            .info {
+                display: block;
+
+                > div {
+                    margin: 0 0 10px 0!important;
+
+                    h3 {
+                        font-size: 14px;
+                        transform: rotate(0.03deg);
+                    }
+
+                    h2 {
+                        font-size: 16px;
+                        transform: rotate(0.03deg);
+                    }
+                }
+            }
+
+            .timeseries, .comparison {
+                padding: 20px 0;
+
+                > div {
+                    width: 100%;
+                    height: 300px;
+                }
+
+                h2 {
+                    font-size: 18px;
+                    color: #404040;
+                    transform: rotate(0.03deg);
+                }
+            }
+        }
+
+        #no-data {
+            height: 400px;
+        }
+
+        #loading-wrap {
+            width: calc(100% - 20px);
+            height: calc(100% - 20px);
+            margin: 10px;
+        }
+    }
+}

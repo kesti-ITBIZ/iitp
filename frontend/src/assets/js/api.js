@@ -8,6 +8,7 @@ export const stationApi = {
                     stations(category: $category, startDatetime: $startDatetime, endDatetime: $endDatetime) {
                         address
                         name
+                        stnId
                         latitude
                         longitude
                         pm25
@@ -200,3 +201,38 @@ export const statisticsApi = {
         }
     }
 };
+
+export const verificationApi = {
+    apollo: {
+        verificationData: {
+            query: gql`
+                query verificationData($standard: String!, $compare: String!, $startDatetime: String!, $endDatetime: String!, $stdStnId: String, $stdStnNm: String, $compStnId: String, $compStnNm: String) {
+                    verificationData(standard: $standard, compare: $compare, startDatetime: $startDatetime, endDatetime: $endDatetime, stdStnId: $stdStnId, stdStnNm: $stdStnNm, compStnId: $compStnId, compStnNm: $compStnNm) {
+                        datetime
+                        stdStnId
+                        stdStnNm
+                        stdPm10
+                        stdPm25
+                        compStnId
+                        compStnNm
+                        compPm10
+                        compPm25
+                    }
+                }
+            `,
+            variables() {
+                return {
+                    standard: this.selectedStandardOrg,
+                    compare: this.selectedCompareOrg,
+                    startDatetime: this.startDatetime.format("YYYY-MM-DD HH:mm"),
+                    endDatetime: this.endDatetime.format("YYYY-MM-DD HH:mm"),
+                    stdStnId: this.selectedStandardStation.stnId,
+                    stdStnNm: this.selectedStandardStation.name,
+                    compStnId: this.selectedCompareStation.stnId,
+                    compStnNm: this.selectedCompareStation.name
+                }
+            },
+            skip: true
+        }
+    }
+}

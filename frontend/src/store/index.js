@@ -6,31 +6,31 @@ Vue.use(Vuex);
 import common from "./common";
 import observation from "./observation";
 import statistics from "./statistics";
-import validation from "./validation";
+import verification from "./verification";
 
 export default new Vuex.Store({
     state: {
         ...common.state,
         ...observation.state,
         ...statistics.state,
-        ...validation.state
+        ...verification.state
     },
     getters: {
         ...common.getters,
         ...observation.getters,
         ...statistics.getters,
-        ...validation.getters
+        ...verification.getters
     },
     mutations: {
         ...common.mutations,
         ...observation.mutations,
         ...statistics.mutations,
-        ...validation.mutations
+        ...verification.mutations
     },
     actions: {
         ...common.actions,
         ...observation.actions,
         ...statistics.actions,
-        ...validation.actions
+        ...verification.actions
     }
 });

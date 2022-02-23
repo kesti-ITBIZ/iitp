@@ -19,6 +19,7 @@ public interface ObserverStationRepository extends JpaRepository<ObserverStation
             "   o.latitude as latitude, " +
             "   o.longitude as longitude, " +
             "   o.stnNm as name, " +
+            "   o.stnSerial as stnId, " +
             "   o.address as address " +
             "from ObserverStation o " +
             "where o.latitude is not null " +

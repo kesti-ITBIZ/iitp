@@ -108,10 +108,8 @@
     }
 }
 
-//@media screen and (max-width: $reactive-max-width) {
-//    #layout {
-//        display: table;
-//        width: calc(100% - 20px);
-//        //height: fit-content;
-//    }
-//}
+@media screen and (max-width: $reactive-max-width) {
+    #layout {
+        height: fit-content;
+    }
+}

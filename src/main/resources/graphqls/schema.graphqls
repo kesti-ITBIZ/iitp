@@ -17,6 +17,7 @@ type Query {
     sDoTStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
     stations(category: String!, startDatetime: String!, endDatetime: String!): [Station]
     statisticsData(category: String!, startDatetime: String!, endDatetime: String!, stnNm: String!): [StatisticsData]
+    verificationData(standard: String!, compare: String!, startDatetime: String!, endDatetime: String!, stdStnId: String, stdStnNm: String, compStnId: String, compStnNm: String): [VerificationData]
 }
 
 type Station {
@@ -24,7 +25,8 @@ type Station {
     address: String!
     latitude: Float!
     longitude: Float!
-    name: String!
+    stnId: String
+    name: String
     pm25: Float
 }
 
@@ -81,6 +83,18 @@ type StatisticsValue {
     goodDays: Float
     badDays: Float
     highDnstyDays: Float
+}
+
+type VerificationData {
+    datetime: String!
+    stdStnId: String
+    stdStnNm: String
+    stdPm10: Float
+    stdPm25: Float
+    compStnId: String
+    compStnNm: String
+    compPm10: Float
+    compPm25: Float
 }
 
 input DataParam {

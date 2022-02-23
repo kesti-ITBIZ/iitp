@@ -2,6 +2,7 @@ package kr.co.kesti.iitp.entity;
 
 import kr.co.kesti.iitp.embed.AirkoreaDataKey;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -19,6 +20,7 @@ public class AirkoreaData {
     @Column(name = "run_time", length = 30, nullable = false)
     private String runTime;
 
+    @Type(type = "pg-uuid")
     @EmbeddedId
     private AirkoreaDataKey airkoreaDataKey;
 
