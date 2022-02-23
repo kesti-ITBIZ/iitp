@@ -1,7 +1,7 @@
 <template>
     <div class="content-wrap">
         <options />
-        <div>
+        <div v-show="windowWidth >= reactiveMaxWidth + 1">
             <div>
                 <content-map v-show="selectedSearchOption == 'map'" />
                 <search v-show="selectedSearchOption == 'search'" />
@@ -9,6 +9,15 @@
                     <station title="기준 지점" :station="selectedStandardStation" @remove="setSelectedStandardStation(null)" />
                     <station title="비교 지점" :station="selectedCompareStation" @remove="setSelectedCompareStation(null)" />
                 </div>
+            </div>
+            <side-header />
+        </div>
+        <div v-show="windowWidth < reactiveMaxWidth + 1">
+            <content-map v-show="selectedSearchOption == 'map'" />
+            <search v-show="selectedSearchOption == 'search'" />
+            <div class="station-wrap">
+                <station title="기준 지점" :station="selectedStandardStation" @remove="setSelectedStandardStation(null)" />
+                <station title="비교 지점" :station="selectedCompareStation" @remove="setSelectedCompareStation(null)" />
             </div>
             <side-header />
         </div>
@@ -38,6 +47,8 @@
         },
         computed: {
             ...mapState({
+                windowWidth: state => state.common.windowWidth,
+                reactiveMaxWidth: state => state.common.reactiveMaxWidth,
                 selectedSearchOption: state => state.verification.selectedSearchOption,
                 startDatetime: state => state.verification.startDatetime,
                 endDatetime: state => state.verification.endDatetime,

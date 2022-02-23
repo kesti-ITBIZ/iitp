@@ -19,6 +19,6 @@
 @media screen and (max-width: $reactive-max-width) {
     #chart-wrap {
         min-width: 0;
-        height: 800px;
+        height: fit-content;
     }
 }

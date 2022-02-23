@@ -38,13 +38,13 @@
 
 @media screen and (max-width: $reactive-max-width) {
     #side-header {
-        display: flex;
-        width: 100% !important;
-        max-width: 100%;
+        //display: flex;
+        width: calc(100% - 20px) !important;
+        max-width: calc(100% - 20px);
         min-width: 0;
-
-        > div {
-            flex: 1;
-        }
+        //
+        //> div {
+        //    flex: 1;
+        //}
     }
 }

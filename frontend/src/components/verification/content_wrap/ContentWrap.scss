@@ -49,17 +49,8 @@
 
 @media screen and (max-width: $reactive-max-width) {
     .content-wrap {
-        > div:first-child {
-            flex-direction: column;
-
-            > div:first-child {
-                width: 100% !important;
-                min-width: 0;
-            }
-        }
-
         input[type=button].fetch {
-            width: calc(100% - 20px);
+            width: calc(100% - 20px) !important;
         }
     }
 }

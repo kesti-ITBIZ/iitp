@@ -5,13 +5,13 @@
                 <input type="button" :class="selectedSearchOption == option.value ? 'on' : ''" :value="option.label" @click="setSelectedSearchOption(option.value)" />
             </li>
         </ul>
-        <div class="org-wrap" v-show="windowWidth >= reactiveMaxWidth + 1">
-            <div class="label">검증 지점:</div>
+        <div class="org-wrap">
+            <div class="label">검증 지점</div>
             <button :class="selectedCategory == 'airkorea' ? 'on' : ''" @click="setSelectedCategory('airkorea')">
                 <span class="airkorea"></span>
                 <span>환경부</span>
             </button>
-            <div class="label">비교 지점:</div>
+            <div class="label">비교 지점</div>
             <ul>
                 <li :key="i" v-for="(obj, i) in category.filter(c => c.value !== 'airkorea')">
                     <button :class="selectedCategory == obj.value ? 'on' : ''" @click="setSelectedCategory(obj.value)">
@@ -21,42 +21,6 @@
                 </li>
             </ul>
         </div>
-        <table v-show="windowWidth < reactiveMaxWidth + 1">
-            <colgroup>
-                <col style="width: 50%;" />
-                <col style="width: 50%;" />
-            </colgroup>
-            <thead>
-                <tr>
-                    <th>
-                        <button :class="selectedCategory == 'airkorea' ? 'on' : ''" @click="setSelectedCategory('airkorea')">
-                            <span class="airkorea"></span>
-                            <span>환경부</span>
-                        </button>
-                    </th>
-                    <th>
-                        <button :class="selectedCategory == 'kt' ? 'on' : ''" @click="setSelectedCategory('kt')">
-                            <span class="kt"></span>
-                            <span>KT AirMap</span>
-                        </button>
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                        <button :class="selectedCategory == 'sDoT' ? 'on' : ''" @click="setSelectedCategory('sDoT')">
-                            <span class="sDoT"></span>
-                            <span>서울시</span>
-                        </button>
-                    </th>
-                    <th>
-                        <button :class="selectedCategory == 'observer' ? 'on' : ''" @click="setSelectedCategory('observer')">
-                            <span class="observer"></span>
-                            <span>옵저버</span>
-                        </button>
-                    </th>
-                </tr>
-            </thead>
-        </table>
     </div>
 </template>
 

@@ -12,13 +12,15 @@
                 </div>
                 <div>
                     <h3>비교 분석 결과</h3>
-                    <h2>Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}&emsp;R<sup>2</sup> = ???</h2>
+                    <h2 v-if="data && data.length > 0">Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}&emsp;R<sup>2</sup> = {{ (Math.round((this.selectedItem.value == 'pm10' ? this.corrPm10 ** 2 : this.corrPm25 ** 2) * 10000) / 10000).toFixed(4) }}</h2>
                 </div>
             </div>
             <div class="timeseries">
+                <h2>시계열 차트</h2>
                 <div ref="timeseries"></div>
             </div>
             <div class="comparison">
+                <h2>상관분석 차트</h2>
                 <div ref="comparison"></div>
             </div>
         </div>
@@ -35,7 +37,7 @@
     import { mapState, mapActions } from "vuex";
 
     import { init, registerTransform } from "echarts";
-    import { transform } from "echarts-stat";
+    import { transform } from "echarts-stat/";
     import dayjs from "dayjs";
     import customParseFormat from "dayjs/plugin/customParseFormat";
 
@@ -57,6 +59,7 @@
         computed: {
             ...mapState({
                 windowWidth: state => state.common.windowWidth,
+                reactiveMaxWidth: state => state.common.reactiveMaxWidth,
                 loading: state => state.common.loading,
                 selectedStandardStation: state => state.verification.selectedStandardStation,
                 selectedCompareStation: state => state.verification.selectedCompareStation,
@@ -75,15 +78,67 @@
                 if (this.selectedItem.value == "pm10")
                     return this.data.map(obj => [obj.compPm10, obj.stdPm10]);
                 else return this.data.map(obj => [obj.compPm25, obj.stdPm25]);
+            },
+
+            corrPm10() {
+                const n = this.data.length;
+                let avgX = 0, avgY = 0;
+
+                this.data.forEach(obj => {
+                    avgX += obj.compPm10;
+                    avgY += obj.stdPm10;
+                });
+                avgX /= n;
+                avgY /= n;
+
+                let cov = 0, std = 0;
+                let sumOfSubXAvgXSqure = 0, sumOfSubYAvgYSqure = 0;
+                this.data.forEach(obj => {
+                    const subXAvgX = obj.compPm10 - avgX;
+                    const subYAvgY = obj.stdPm10 - avgY;
+                    cov += subXAvgX * subYAvgY;
+                    sumOfSubXAvgXSqure += subXAvgX ** 2;
+                    sumOfSubYAvgYSqure += subYAvgY ** 2;
+                });
+                std = Math.sqrt(sumOfSubXAvgXSqure * sumOfSubYAvgYSqure);
+
+                return cov / std;
+            },
+
+            corrPm25() {
+                const n = this.data.length;
+                let avgX = 0, avgY = 0;
+
+                this.data.forEach(obj => {
+                    avgX += obj.compPm25;
+                    avgY += obj.stdPm25;
+                });
+                avgX /= n;
+                avgY /= n;
+
+                let cov = 0, std = 0;
+                let sumOfSubXAvgXSqure = 0, sumOfSubYAvgYSqure = 0;
+                this.data.forEach(obj => {
+                    const subXAvgX = obj.compPm25 - avgX;
+                    const subYAvgY = obj.stdPm25 - avgY;
+                    cov += subXAvgX * subYAvgY;
+                    sumOfSubXAvgXSqure += subXAvgX ** 2;
+                    sumOfSubYAvgYSqure += subYAvgY ** 2;
+                });
+                std = Math.sqrt(sumOfSubXAvgXSqure * sumOfSubYAvgYSqure);
+
+                return cov / std;
             }
         },
         watch: {
-            selectedItem() {
-                this.initChart();
+            async selectedItem() {
+                if (this.data && this.data.length > 0)
+                    await this.initChart();
             },
 
-            data() {
-                this.initChart();
+            async data() {
+                if (this.data && this.data.length > 0)
+                    await this.initChart();
             }
         },
         methods: {
@@ -100,20 +155,12 @@
                 else this.comparisonChart = init(this.$refs["comparison"]);
 
                 this.timeseriesChart.setOption({
-                    title: {
-                        text: "시계열 차트",
-                        left: 50,
-                        textStyle: {
-                            fontFamily: "NanumSquare",
-                            fontWeight: "bold"
-                        }
-                    },
                     tooltip: {
                         formatter: data => `
                             <strong style="font-size: 16px; margin-bottom: 5px; transform: rotate(0.03deg)">${data.componentIndex === 0 ? "관측" : "비교"} 지점</strong><br />
                             지점명: ${data.seriesName}<br />
                             측정 시간: ${data.name}<br />
-                            ${this.selectedItem.label}: ${data.value}<br />`,
+                            ${this.selectedItem.label}: ${data.value}${this.selectedItem.unit}<br />`,
                         textStyle: {
                             fontFamily: "NanumSquare"
                         }
@@ -204,6 +251,7 @@
                     ]
                 });
 
+                registerTransform(transform.regression);
                 this.comparisonChart?.setOption({
                     dataset: [
                         {
@@ -211,18 +259,22 @@
                         },
                         {
                             transform: {
-                                type: 'ecStat:regression'
-                                // 'linear' by default.
-                                // config: { method: 'linear', formulaOn: 'end'}
+                                type: "ecStat:regression"
                             }
                         }
                     ],
-                    title: {
-                        text: "상관분석 차트",
-                        left: 50,
+                    tooltip: {
+                        formatter: data => {
+                            if (data.componentIndex === 0) {
+                                const label = this.selectedItem.label;
+                                const unit = this.selectedItem.unit;
+                                return `
+                                    기준 지점 ${label}: ${data.value[0]}${unit}<br />
+                                    비교 지점 ${label}: ${data.value[1]}${unit}<br />`;
+                            }
+                        },
                         textStyle: {
-                            fontFamily: "NanumSquare",
-                            fontWeight: "bold"
+                            fontFamily: "NanumSquare"
                         }
                     },
                     toolbox: {
@@ -239,18 +291,13 @@
                         }
                     ],
                     legend: {
-                        data: ["scatter", "추세선"],
+                        data: ["산점도", "추세선"],
                         textStyle: {
                             fontFamily: "NanumSquare"
                         }
                     },
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: {
-                            type: 'cross'
-                        }
-                    },
                     xAxis: {
+                        name: this.data && this.data.length > 0 ? this.data[0].compStnNm : "",
                         splitLine: {
                             show: true
                         },
@@ -262,6 +309,7 @@
                         }
                     },
                     yAxis: {
+                        name: this.data && this.data.length > 0 ? this.data[0].stdStnNm : "",
                         splitLine: {
                             show: true
                         },
@@ -271,37 +319,55 @@
                             fontWeight: "bold"
                         },
                         axisLabel: {
-                            formatter: `{value}`,
+                            formatter: "{value}",
                             fontFamily: "NanumSquare"
                         },
                     },
                     series: [
                         {
-                            name: 'scatter',
-                            type: 'scatter'
+                            name: "산점도",
+                            type: "scatter",
+                            symbolSize: 7,
+                            itemStyle: {
+                                normal: {
+                                    color: "#5b9bd6"
+                                }
+                            }
                         },
                         {
-                            name: '추세선',
-                            type: 'line',
+                            name: "추세선",
+                            type: "line",
                             datasetIndex: 1,
                             symbolSize: 0.1,
-                            symbol: 'circle',
+                            symbol: "circle",
                             label: {
                                 show: true,
                                 fontSize: 16,
                                 fontFamily: "NanumSquare",
+                                fontWeight: "bold",
                                 formatter: data => {
                                     if (data.value[2] !== "") {
                                         const formula = data.value[2].toUpperCase().replace("+ -", "- ");
                                         let tmp = formula.replace("Y = ", "");
                                         this.r = +tmp.substr(0, tmp.indexOf("X"));
                                         this.b = +tmp.substr(tmp.lastIndexOf(tmp.lastIndexOf("+") !== -1 ? "+" : "-")).replace(" ", "");
-                                        return formula;
+                                        return formula + `    R² = ${(Math.round((this.selectedItem.value == 'pm10' ? this.corrPm10 ** 2 : this.corrPm25 ** 2) * 10000) / 10000).toFixed(4)}`;
                                     }
                                 }
                             },
-                            labelLayout: { dx: -20 },
-                            encode: { label: 2, tooltip: 1 }
+                            itemStyle: {
+                                normal: {
+                                    color: "#313131"
+                                }
+                            },
+                            labelLayout: {
+                                dx: -100,
+                                dy: 100
+                            },
+                            encode: {
+                                label: 2,
+                                tooltip: 1
+                            }
                         }
                     ]
                 });
@@ -310,10 +376,12 @@
                     this.timeseriesChart.resize();
                     this.comparisonChart.resize();
                 });
+                await new Promise(resolve => {
+                    this.timeseriesChart.resize();
+                    this.comparisonChart.resize();
+                    resolve();
+                });
             }
-        },
-        mounted() {
-            registerTransform(transform.regression);
         },
         destroyed() {
             this.clearResizeEvent();

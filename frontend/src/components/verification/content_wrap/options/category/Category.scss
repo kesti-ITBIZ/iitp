@@ -154,15 +154,32 @@ $active: #006f5b;
 }
 
 @media screen and (max-width: $reactive-max-width) {
-    #category ul {
-        //display: block;
+    #category .org-wrap {
+        grid-template: {
+            columns: 80px calc(100% - 80px);
+            rows: calc(1fr / 3) 1fr;
+        };
+        margin-top: 10px;
 
-        &:first-child li {
-            padding: 5px 0;
+        .label {
+            justify-content: center;
+            border-radius: 10px;
+            margin: 5px 10px 0 0;
+            padding-left: 10px;
 
-            input[type=button] {
-                padding: 10px 0;
+            &:first-child {
+                background-color: #59a0e9;
+                color: white;
             }
+
+            &:nth-child(3) {
+                background-color: #637ebd;
+                color: white;
+            }
+        }
+
+        ul {
+            flex-direction: column;
         }
     }
 }

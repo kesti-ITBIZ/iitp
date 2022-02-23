@@ -40,7 +40,11 @@
 }
 
 @media screen and (max-width: $reactive-max-width) {
-    .container-wrap.items .container {
-        height: 310px !important;
+    .container-wrap.items {
+        width: 100%;
+
+        .container {
+            height: 120px !important;
+        }
     }
 }

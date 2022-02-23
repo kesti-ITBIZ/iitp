@@ -112,6 +112,7 @@
                                 ${category}StationsByKeyword(keyword: $keyword, page: $page, size: $size) {
                                     category
                                     name
+                                    stnId
                                     address
                                     latitude
                                     longitude
@@ -174,6 +175,7 @@
                         .map(obj => ({
                             category: obj.category,
                             name: obj.name,
+                            stnId: obj.stnId,
                             address: obj.address,
                             latitude: obj.latitude,
                             longitude: obj.longitude

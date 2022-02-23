@@ -1,3 +1,5 @@
+@import "../../../../common";
+
 $table-color: #00c3dc;
 
 div.container-wrap.chart {
@@ -77,5 +79,56 @@ div.container-wrap.chart {
         width: calc(100% - 20px);
         height: calc(100% + 22px);
         margin: 10px;
+    }
+}
+
+@media screen and (max-width: $reactive-max-width) {
+    div.container-wrap.chart {
+        height: fit-content;
+
+        div.container.chart {
+            .info {
+                display: block;
+
+                > div {
+                    margin: 0 0 10px 0!important;
+
+                    h3 {
+                        font-size: 14px;
+                        transform: rotate(0.03deg);
+                    }
+
+                    h2 {
+                        font-size: 16px;
+                        transform: rotate(0.03deg);
+                    }
+                }
+            }
+
+            .timeseries, .comparison {
+                padding: 20px 0;
+
+                > div {
+                    width: 100%;
+                    height: 300px;
+                }
+
+                h2 {
+                    font-size: 18px;
+                    color: #404040;
+                    transform: rotate(0.03deg);
+                }
+            }
+        }
+
+        #no-data {
+            height: 400px;
+        }
+
+        #loading-wrap {
+            width: calc(100% - 20px);
+            height: calc(100% - 20px);
+            margin: 10px;
+        }
     }
 }

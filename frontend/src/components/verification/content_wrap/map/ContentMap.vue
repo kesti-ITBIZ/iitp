@@ -53,7 +53,7 @@
                     },
 
                     text(data) {
-                        return data.pm25 ? data.pm25 : "-";
+                        return data.pm25 != null ? data.pm25 : "-";
                     },
                     textStyle: {
                         top: -21,
