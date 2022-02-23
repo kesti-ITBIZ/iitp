@@ -12,7 +12,7 @@
                 </div>
                 <div>
                     <h3>비교 분석 결과</h3>
-                    <h2 v-if="data && data.length > 0">Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}&emsp;R<sup>2</sup> = {{ (Math.round((this.selectedItem.value == 'pm10' ? this.corrPm10 ** 2 : this.corrPm25 ** 2) * 10000) / 10000).toFixed(4) }}</h2>
+                    <h2 v-if="data && data.length > 0" class="formula">Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}&emsp;R<sup>2</sup> = {{ (Math.round((this.selectedItem.value == 'pm10' ? this.corrPm10 ** 2 : this.corrPm25 ** 2) * 10000) / 10000).toFixed(4) }}</h2>
                 </div>
             </div>
             <div class="timeseries">
@@ -135,6 +135,11 @@
                 if (this.data && this.data.length > 0)
                     await this.initChart();
             },
+
+            // async selectedDateType() {
+            //     if (this.data && this.data.length > 0)
+            //         await this.initChart();
+            // }
 
             async data() {
                 if (this.data && this.data.length > 0)

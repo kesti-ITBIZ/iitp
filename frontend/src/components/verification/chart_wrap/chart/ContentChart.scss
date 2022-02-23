@@ -41,27 +41,21 @@ div.container-wrap.chart {
                     h2 {
                         text-align: right;
                         margin-top: 15px;
+
+                        &.formula {
+                            font-size: 18px;
+                        }
                     }
                 }
             }
 
             .timeseries, .comparison {
-                //width: calc(100% - 60px);
                 height: calc(50% - 155px);
                 padding: 50px 30px;
 
                 > div {
-                    width: calc(100% - 60px);
                     height: 100%;
                 }
-            }
-
-            .timeseries {
-                //background-color: #29ac1e;
-            }
-
-            .comparison {
-                //background-color: #2e85cb;
             }
         }
 
