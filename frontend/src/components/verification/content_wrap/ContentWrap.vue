@@ -65,11 +65,12 @@
                     await new Promise(resolve => alert("비교 지점을 선택해주세요.", resolve));
                 else {
                     await this.setLoadingVisible();
-                    const org = this.selectedCompareOrg;
+                    let org = this.selectedCompareOrg.split("");
                     org[0] = org[0].toUpperCase();
-                    let dataQuery = this.$apollo.queries[`compareWith${org}Data`];
+                    org = org.join("");
+                    let dataQuery = this.$apollo.queries.verificationData;
                     dataQuery.skip = false;
-                    await this.setData(await dataQuery.refetch().then(response => response.data[`compareWith${org}Data`]));
+                    await this.setData(await dataQuery.refetch().then(response => response.data.verificationData));
                     await this.setLoadingInvisible();
                     dataQuery.skip = true;
                 }

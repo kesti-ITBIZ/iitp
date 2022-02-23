@@ -1,37 +1,37 @@
-const setData = (data, format, type, startDatetime, endDatetime, category, stnNm) => {
-    let list = [];
-    for (let dt = startDatetime, i = 0;
-         dt.format(format) <= endDatetime.format(format);
-         dt = dt.add(1, type)) {
-        const empty = {
-            avg: 0,
-            goodDays: 0,
-            badDays: 0,
-            highDnstyDays: 0
-        };
-        let item = {
-            type,
-            category,
-            datetime: dt,
-            stnNm,
-            pm10: { ...empty },
-            pm25: { ...empty }
-        };
-
-        if (data.length > 0 && data[i] && dt.format(format) === data[i].datetime) {
-            item = {
-                ...item,
-                pm10: { ...data[i].pm10 },
-                pm25: { ...data[i].pm25 }
-            };
-            ++i;
-        }
-
-        list.push(item);
-    }
-
-    return list;
-};
+// const setData = (data, format, type, startDatetime, endDatetime, category, stnNm) => {
+//     let list = [];
+//     for (let dt = startDatetime, i = 0;
+//          dt.format(format) <= endDatetime.format(format);
+//          dt = dt.add(1, type)) {
+//         const empty = {
+//             avg: 0,
+//             goodDays: 0,
+//             badDays: 0,
+//             highDnstyDays: 0
+//         };
+//         let item = {
+//             type,
+//             category,
+//             datetime: dt,
+//             stnNm,
+//             pm10: { ...empty },
+//             pm25: { ...empty }
+//         };
+//
+//         if (data.length > 0 && data[i] && dt.format(format) === data[i].datetime) {
+//             item = {
+//                 ...item,
+//                 pm10: { ...data[i].pm10 },
+//                 pm25: { ...data[i].pm25 }
+//             };
+//             ++i;
+//         }
+//
+//         list.push(item);
+//     }
+//
+//     return list;
+// };
 
 export default {
     state: {

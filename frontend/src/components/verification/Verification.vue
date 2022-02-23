@@ -1,5 +1,5 @@
 <template>
-    <div id="verification" @click="setSelectedItem(null)">
+    <div id="verification">
         <content-wrap />
         <div><chart-wrap /></div>
     </div>
@@ -28,7 +28,6 @@
                 setWindowWidth: "SET_WINDOW_WIDTH",
                 setWindowHeight: "SET_WINDOW_HEIGHT",
                 setAvailable: "SET_VERIFICATION_AVAILABLE",
-                setSelectedItem: "SET_VERIFICATION_SELECTED_ITEM"
             })
         },
         mounted() {

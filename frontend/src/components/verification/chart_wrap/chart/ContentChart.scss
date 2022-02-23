@@ -1,124 +1,67 @@
 $table-color: #00c3dc;
 
-div.content-chart {
-    //height: calc(100% - 173px) !important;
-    height: calc(100% - 20px);
-    border-top: none;
-    padding: 10px;
+div.container-wrap.chart {
+    height: calc(100% - 60px);
 
-    > div {
-        position: relative;
-        background-color: white;
-        box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
-        height: 100%;
-        border: 1px solid #e0e0e0;
-        border-radius: 10px;
+    div.container {
+        padding: 20px;
 
-        > div {
-            width: 100%;
-            overflow-x: hidden;
-        }
+        &.chart {
+            height: 103px;
 
-        #chart {
-            overflow: hidden;
-            height: calc(100% - 60px);
-            margin: 30px 0;
-        }
+            .info {
+                display: flex;
 
-        #table {
-            position: relative;
-            font-size: 12px;
-            width: calc(100% - 15px);
-            height: calc(100% - 30px);
-            padding: 15px 0 15px 15px;
+                > div {
+                    color: white;
+                    border-radius: 10px;
+                    padding: 15px;
 
-            > table {
-                height: fit-content;
-
-                thead th {
-                    font-size: 13px;
-                    background-color: #ebfaff;
-                    color: $table-color;
-                    border: 1px solid $table-color;
-                    padding: 5px;
-
-                    > span {
-                        display: inline-block;
-                        transform: rotate(0.03deg);
+                    &:nth-child(1) {
+                        flex: 2;
+                        background-color: #59a0e9;
+                        margin: 0 10px 10px 0;
                     }
 
-                    &:first-child {
-                        width: 180px;
+                    &:nth-child(2) {
+                        flex: 2;
+                        background-color: #637ebd;
+                        margin: 0 10px 10px 10px;
                     }
-                }
 
-                tbody {
-                    td {
+                    &:nth-child(3) {
+                        flex: 3;
+                        background-color: #515f7e;
+                        margin: 0 0 10px 10px;
+                    }
+
+                    h2 {
                         text-align: right;
-                        font-size: 13px;
-                        color: #044b52;
-                        border: 1px solid $table-color;
-                        padding: 5px;
-
-                        > span {
-                            display: inline-block;
-                            transform: rotate(0.03deg);
-                        }
-
-                        &[rowspan] {
-                            background-color: #f8fdff !important;
-                        }
-                    }
-
-                    tr:nth-child(odd) td {
-                        background-color: white;
-                    }
-
-                    tr:nth-child(even) td {
-                        background-color: #f8fdff;
+                        margin-top: 15px;
                     }
                 }
             }
-        }
 
-        div.csv-download {
-            position: absolute;
-            bottom: 15px;
-            left: 15px;
-            text-align: center;
-            color: white;
-            background-color: #005fb4;
-            width: 39px;
-            height: fit-content;
-            border-radius: 30px;
-            padding: 9px 0;
-            cursor: pointer;
-            transition: background-color 0.15s;
+            .timeseries, .comparison {
+                height: calc(50% - 56px);
+            }
 
-            &:hover {
+            .timeseries {
+                background-color: #29ac1e;
+            }
+
+            .comparison {
                 background-color: #2e85cb;
             }
-
-            &:active {
-                background-color: #004886;
-            }
         }
 
-        #no-data {
-            display: table;
-            height: 100%;
-
-            > div {
-                display: table-cell;
-                vertical-align: middle;
-                text-align: center;
-
-                h1 {
-                    color: #a5a5a5;
-                    letter-spacing: -2px;
-                    margin: auto 0;
-                }
-            }
+        &#no-data {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a5a5a5;
+            font-weight: bold;
+            letter-spacing: -2px;
         }
     }
 }

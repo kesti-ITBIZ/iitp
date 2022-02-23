@@ -23,14 +23,6 @@
 
     export default {
         name: "ContentMap",
-        data: () => ({
-            items: {
-                airkorea: [],
-                kt: [],
-                sDoT: [],
-                observer: []
-            }
-        }),
         computed: {
             ...mapState({
                 category: state => state.verification.category,
@@ -137,7 +129,7 @@
                                 <div style="margin-top: 2px; transform: rotate(0.03deg);">위도: ${Math.round(data.latitude * 100) / 100}</div>
                                 <div style="margin-top: 2px; transform: rotate(0.03deg);">경도: ${Math.round(data.longitude * 100) / 100}</div>
                                 <div style="margin-top: 2px; transform: rotate(0.03deg);">주소: ${data.address}</div>
-                                <div style="margin-top: 2px; transform: rotate(0.03deg);">측정항목: ${this.items[this.selectedCategory].join(", ")}</div>
+                                <div style="margin-top: 2px; transform: rotate(0.03deg);">측정항목: PM10, PM2.5</div>
                                 <div style="margin-top: 2px; transform: rotate(0.03deg);">
                                     기간평균 미세먼지 농도: ${this.fineDust(data.pm25)}
                                 </div>
@@ -155,7 +147,6 @@
             }
         },
         async mounted() {
-            Object.keys(this.items).forEach(key => this.items = Object.freeze({ ...this.items, [key]: this.$store.state.verification[key].items.map(obj => obj.label) }));
             await this.fetchStations();
         }
     }

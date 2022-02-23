@@ -27,10 +27,7 @@
             ...mapState({
                 selectedCategory: state => state.verification.selectedCategory,
                 obsItems: state => {
-                    const selectedCategory = state.verification.selectedCategory;
-                    const obsItems = state.verification[selectedCategory].items.filter(obj => obj.value !== "datetime")
-                        .concat(state.verification[selectedCategory].xAxis.filter(obj => obj.value !== "datetime"))
-                        .concat(state.verification[selectedCategory].yAxis.filter(obj => obj.value !== "datetime"));
+                    const obsItems = state.verification.items.concat();
                     obsItems.sort((a, b) => a.label < b.label ? -1 : 1);
                     return obsItems;
                 }
