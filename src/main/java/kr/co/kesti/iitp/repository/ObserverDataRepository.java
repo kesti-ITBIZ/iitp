@@ -30,7 +30,9 @@ public interface ObserverDataRepository extends JpaRepository<ObserverData, Obse
             "where a.observerDataKey.dataTime " +
             "    between function('to_timestamp', concat(:startDatetime, ':00'), 'YYYY-MM-DD HH24:MI:SS') " +
             "    and function('to_timestamp', concat(:endDatetime, ':59'), 'YYYY-MM-DD HH24:MI:SS') " +
-            "and a.observerDataKey.stnSerial = :stnId " +
+            "and ( " +
+            "   a.observerDataKey.stnSerial = :stnId " +
+            "   or b.stnNm = :stnNm) " +
             "order by a.observerDataKey.dataTime")
-    List<ComparativeDataProjection> findAllComparativeData(final String startDatetime, final String endDatetime, final String stnId);
+    List<ComparativeDataProjection> findAllComparativeData(final String startDatetime, final String endDatetime, final String stnId, final String stnNm);
 }

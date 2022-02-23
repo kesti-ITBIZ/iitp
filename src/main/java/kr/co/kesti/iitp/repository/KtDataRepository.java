@@ -30,7 +30,9 @@ public interface KtDataRepository extends JpaRepository<KTData, KTDataKey> {
             "where a.ktDataKey.equipDate " +
             "    between function('to_timestamp', concat(:startDatetime, ':00'), 'YYYY-MM-DD HH24:MI:SS') " +
             "    and function('to_timestamp', concat(:endDatetime, ':59'), 'YYYY-MM-DD HH24:MI:SS') " +
-            "and a.ktDataKey.devId = :stnId " +
+            "and ( " +
+            "   a.ktDataKey.devId = :stnId " +
+            "   or b.devNm = :stnNm) " +
             "order by a.ktDataKey.equipDate")
-    List<ComparativeDataProjection> findAllComparativeData(final String startDatetime, final String endDatetime, final String stnId);
+    List<ComparativeDataProjection> findAllComparativeData(final String startDatetime, final String endDatetime, final String stnId, final String stnNm);
 }

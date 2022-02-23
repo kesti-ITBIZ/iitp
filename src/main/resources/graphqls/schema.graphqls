@@ -17,7 +17,7 @@ type Query {
     sDoTStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
     stations(category: String!, startDatetime: String!, endDatetime: String!): [Station]
     statisticsData(category: String!, startDatetime: String!, endDatetime: String!, stnNm: String!): [StatisticsData]
-    verificationData(standard: String!, compare: String!, startDatetime: String!, endDatetime: String!, stdStnId: String!, compStnId: String!): [VerificationData]
+    verificationData(standard: String!, compare: String!, startDatetime: String!, endDatetime: String!, stdStnId: String, stdStnNm: String, compStnId: String, compStnNm: String): [VerificationData]
 }
 
 type Station {
@@ -25,8 +25,8 @@ type Station {
     address: String!
     latitude: Float!
     longitude: Float!
-    stnId: String!
-    name: String!
+    stnId: String
+    name: String
     pm25: Float
 }
 

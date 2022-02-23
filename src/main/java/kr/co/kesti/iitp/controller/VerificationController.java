@@ -23,7 +23,9 @@ public class VerificationController {
             @RequestParam("startDatetime") final String startDatetime,
             @RequestParam("endDatetime") final String endDatetime,
             @RequestParam("stdStnId") final String stdStnId,
-            @RequestParam("compStnId") final String compStnId) {
-        return ResponseEntity.ok(this.verificationService.getVerificationData(standard, compare, startDatetime, endDatetime, stdStnId, compStnId));
+            @RequestParam("stdStnNm") final String stdStnNm,
+            @RequestParam("compStnId") final String compStnId,
+            @RequestParam("compStnNm") final String compStnNm) {
+        return ResponseEntity.ok(this.verificationService.getVerificationData(standard, compare, startDatetime, endDatetime, stdStnId, stdStnNm, compStnId, compStnNm));
     }
 }

@@ -30,7 +30,9 @@ public interface AirkoreaDataRepository extends JpaRepository<AirkoreaData, Airk
             "where a.airkoreaDataKey.time " +
             "    between :startDatetime " +
             "    and :endDatetime " +
-            "and a.airkoreaDataKey.stnNm = :stnId " +
+            "and ( " +
+            "   a.airkoreaDataKey.stnNm = :stnId " +
+            "   or a.airkoreaDataKey.stnNm = :stnNm) " +
             "order by a.airkoreaDataKey.time")
-    List<ComparativeDataProjection> findAllComparativeData(final String startDatetime, final String endDatetime, final String stnId);
+    List<ComparativeDataProjection> findAllComparativeData(final String startDatetime, final String endDatetime, final String stnId, final String stnNm);
 }
