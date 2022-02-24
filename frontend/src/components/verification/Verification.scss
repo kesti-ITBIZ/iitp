@@ -6,6 +6,10 @@
 
     > div {
         flex: 1;
+
+        &:last-child {
+            width: 50%;
+        }
     }
 }
 
@@ -13,5 +17,9 @@
     #verification {
         display: block;
         min-width: 320px;
+
+        > div:last-child {
+            width: 100%;
+        }
     }
 }

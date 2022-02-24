@@ -253,14 +253,13 @@
             },
 
             initTimeseriesChart() {
-                console.log("initTimeseriesChart");
                 if (this.timeseriesChart != null) this.timeseriesChart.clear();
                 else this.timeseriesChart = init(this.$refs["timeseries"]);
 
                 this.timeseriesChart.setOption({
                     tooltip: {
                         formatter: data => `
-                            <strong style="font-size: 16px; margin-bottom: 5px; transform: rotate(0.03deg)">${data.componentIndex === 0 ? "관측" : "비교"} 지점</strong><br />
+                            <strong style="font-size: 16px; margin-bottom: 5px;">${data.componentIndex === 0 ? "기준" : "비교"} 지점</strong><br />
                             지점명: ${data.seriesName}<br />
                             측정 시간: ${data.name}<br />
                             ${this.selectedItem.label}: ${data.value}${this.selectedItem.unit}<br />`,
@@ -328,9 +327,7 @@
                             type: "line",
                             data: this.selectedItem.value == "pm10" ? this.timeseriesData.stdPm10 : this.timeseriesData.stdPm25,
                             itemStyle: {
-                                normal: {
-                                    color: "#2279b5"
-                                }
+                                color: "#2279b5"
                             },
                             showSymbol: true
                         },
@@ -339,9 +336,7 @@
                             type: "line",
                             data: this.selectedItem.value == "pm10" ? this.timeseriesData.compPm10 : this.timeseriesData.compPm25,
                             itemStyle: {
-                                normal: {
-                                    color: "#ff7e0d"
-                                }
+                                color: "#ff7e0d"
                             },
                             showSymbol: true
                         }
@@ -355,7 +350,6 @@
             },
 
             initCorrelationChart() {
-                console.log("initCorrelationChart");
                 if (this.correlationChart != null) this.correlationChart.clear();
                 else this.correlationChart = init(this.$refs["correlation"]);
 
@@ -437,9 +431,7 @@
                             type: "scatter",
                             symbolSize: 7,
                             itemStyle: {
-                                normal: {
-                                    color: "#5b9bd6"
-                                }
+                                color: "#5b9bd6"
                             }
                         },
                         {
@@ -464,9 +456,7 @@
                                 }
                             },
                             itemStyle: {
-                                normal: {
-                                    color: "#313131"
-                                }
+                                color: "#5c5c5c"
                             },
                             labelLayout: {
                                 dx: -100,
