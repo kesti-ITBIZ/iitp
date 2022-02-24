@@ -68,7 +68,6 @@
             },
 
             drawing(info) {
-                console.log("draw");
                 const markerPoints = [];
                 const canvas = info.canvas;
                 const context = canvas.getContext("2d");

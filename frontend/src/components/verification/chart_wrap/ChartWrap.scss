@@ -2,7 +2,6 @@
 
 #chart-wrap {
     width: 100%;
-    //min-width: 600px;
     height: 100%;
 
     > div.chart-wrap-header {
@@ -11,8 +10,6 @@
 
     > div#content-chart {
         width: calc(100% - 2px);
-        //height: calc(100% - 192px);
-        //height: 100%;
     }
 }
 

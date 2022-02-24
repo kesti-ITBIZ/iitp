@@ -1,8 +1,4 @@
-.container-wrap.options {
-    //height: 100px;
-
-    .container {
-        height: calc(100% - 20px);
-        padding: 10px 20px;
-    }
+.container-wrap.options .container {
+    height: calc(100% - 20px);
+    padding: 10px 20px;
 }

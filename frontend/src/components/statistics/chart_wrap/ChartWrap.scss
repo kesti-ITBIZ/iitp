@@ -2,7 +2,6 @@
 
 #chart-wrap {
     width: 100%;
-    //min-width: 600px;
     height: 100%;
 
     > div.chart-wrap-header {
@@ -14,10 +13,3 @@
         height: calc(100% - 192px);
     }
 }
-
-//@media screen and (max-width: $reactive-max-width) {
-//    #chart-wrap {
-//        min-width: 0;
-//        height: fit-content;
-//    }
-//}

@@ -38,8 +38,6 @@
 @media screen and (max-width: $reactive-max-width) {
     #side-header {
         display: flex;
-        //width: 100% !important;
-        //max-width: 100%;
         min-width: 0;
 
         > div {
