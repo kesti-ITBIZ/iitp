@@ -24,7 +24,7 @@
                 <div ref="correlation"></div>
             </div>
         </div>
-        <div v-show="(!data || (data && data.length === 0)) && !loading" id="no-data" class="container">
+        <div v-show="(!data || data.length === 0) && !loading" id="no-data" class="container">
             <div>
                 <h1>데이터가 없습니다.</h1>
             </div>

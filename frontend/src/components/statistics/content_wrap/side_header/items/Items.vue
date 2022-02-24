@@ -5,7 +5,11 @@
             <div class="body">
                 <ul>
                     <li :key="i" v-for="(item, i) in items">
-                        <input type="button" :class="['item-btn', item.value, selectedItem && selectedItem.value == item.value ? 'on' : '']" :value="item.label + (item.unit !== '' ? ` (${item.unit})` : '')" @click.stop="setSelectedItem(item)" />
+                        <input type="button"
+                               :class="['item-btn', item.value, selectedItem && selectedItem.value == item.value ? 'on' : '']"
+                               :value="item.label + (item.unit !== '' ? ` (${item.unit})` : '')"
+                               @click.stop="setSelectedItem(item)" />
+                        <font-awesome-icon v-show="selectedItem.value == item.value" size="1x" :icon="['fa', 'check']" />
                     </li>
                 </ul>
             </div>
