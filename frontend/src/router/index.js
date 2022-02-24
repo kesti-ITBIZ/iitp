@@ -24,8 +24,8 @@ export default new VueRouter({
             component: () => import("../components/statistics/Statistics")
         },
         {
-            path: "/view/validation",
-            component: () => import("../components/validation/Validation")
+            path: "/view/verification",
+            component: () => import("../components/verification/Verification")
         }
     ]
 });

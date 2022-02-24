@@ -19,6 +19,7 @@ public interface KTStationRepository extends JpaRepository<KTStation, String> {
             "   k.latitude as latitude, " +
             "   k.longitude as longitude, " +
             "   k.devNm as name, " +
+            "   k.devId as stnId, " +
             "   case " +
             "       when k.newAddress is null or k.newAddress = '' then k.address " +
             "       else k.newAddress " +

@@ -212,7 +212,7 @@
         methods: {
             ...mapActions({
                 addResizeEvent: "ADD_RESIZE_EVENT",
-                clearResizeEvent: "CLEAR_RESIZE_EVENT",
+                removeResizeEvent: "REMOVE_RESIZE_EVENT",
                 setLoadingInvisible: "SET_LOADING_INVISIBLE"
             }),
 
@@ -361,7 +361,10 @@
                         }
                     })
                 });
-                this.addResizeEvent(() => this.chart.resize());
+                this.addResizeEvent({
+                    name: "resizeObservationChart",
+                    callback: () => this.chart.resize()
+                });
             },
 
             csvDownload() {
@@ -426,7 +429,7 @@
             }
         },
         destroyed() {
-            this.clearResizeEvent();
+            this.removeResizeEvent("resizeObservationChart");
         }
     }
 </script>

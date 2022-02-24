@@ -1,0 +1,25 @@
+@import "../../common";
+
+#verification {
+    display: flex;
+    width: 100%;
+
+    > div {
+        flex: 1;
+
+        &:last-child {
+            width: 50%;
+        }
+    }
+}
+
+@media screen and (max-width: $reactive-max-width) {
+    #verification {
+        display: block;
+        min-width: 320px;
+
+        > div:last-child {
+            width: 100%;
+        }
+    }
+}

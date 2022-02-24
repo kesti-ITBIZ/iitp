@@ -69,9 +69,12 @@
                     });
                     dataQuery.skip = true;
                 });
-            this.addResizeEvent(() => {
-                this.setWindowWidth(window.innerWidth);
-                this.setWindowHeight(window.innerHeight);
+            this.addResizeEvent({
+                name: "setBrowserSize",
+                callback: () => {
+                    this.setWindowWidth(window.innerWidth);
+                    this.setWindowHeight(window.innerHeight);
+                }
             });
         },
         destroyed() {

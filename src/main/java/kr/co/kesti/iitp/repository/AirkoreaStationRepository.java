@@ -18,6 +18,7 @@ public interface AirkoreaStationRepository extends JpaRepository<AirkoreaStation
             "   a.latitude as latitude, " +
             "   a.longitude as longitude, " +
             "   a.stnNm as name, " +
+            "   a.stnNm as stnId, " +
             "   a.addr as address " +
             "from AirkoreaStation a " +
             "where a.latitude is not null " +
