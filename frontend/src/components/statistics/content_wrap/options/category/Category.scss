@@ -133,15 +133,11 @@ $active: #006f5b;
 }
 
 @media screen and (max-width: $reactive-max-width) {
-    #category ul {
-        //display: block;
+    #category ul:first-child li {
+        padding: 5px 0;
 
-        &:first-child li {
-            padding: 5px 0;
-
-            input[type=button] {
-                padding: 10px 0;
-            }
+        input[type=button] {
+            padding: 10px 0;
         }
     }
 }
