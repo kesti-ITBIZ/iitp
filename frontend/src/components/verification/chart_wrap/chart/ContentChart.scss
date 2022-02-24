@@ -38,7 +38,7 @@ div.container-wrap.chart {
                         margin: 0 0 10px 10px;
                     }
 
-                    h2 {
+                    h3 {
                         text-align: right;
                         margin-top: 15px;
 
@@ -46,10 +46,14 @@ div.container-wrap.chart {
                             font-size: 18px;
                         }
                     }
+
+                    h4 {
+                        transform: rotate(0.03deg);
+                    }
                 }
             }
 
-            .timeseries, .comparison {
+            .timeseries, .correlation {
                 height: calc(50% - 155px);
                 padding: 50px 30px;
 
@@ -87,19 +91,19 @@ div.container-wrap.chart {
                 > div {
                     margin: 0 0 10px 0!important;
 
-                    h3 {
+                    h4 {
                         font-size: 14px;
                         transform: rotate(0.03deg);
                     }
 
-                    h2 {
+                    h3 {
                         font-size: 16px;
                         transform: rotate(0.03deg);
                     }
                 }
             }
 
-            .timeseries, .comparison {
+            .timeseries, .correlation {
                 padding: 20px 0;
 
                 > div {
@@ -107,7 +111,7 @@ div.container-wrap.chart {
                     height: 300px;
                 }
 
-                h2 {
+                h3 {
                     font-size: 18px;
                     color: #404040;
                     transform: rotate(0.03deg);

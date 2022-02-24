@@ -3,25 +3,25 @@
         <div v-show="data && data.length > 0" class="container chart">
             <div class="info">
                 <div>
-                    <h3>기준 지점</h3>
-                    <h2 v-if="data && data.length > 0">{{ data[0].stdStnNm }}</h2>
+                    <h4>기준 지점</h4>
+                    <h3 v-if="data && data.length > 0">{{ data[0].stdStnNm }}</h3>
                 </div>
                 <div>
-                    <h3>비교 지점</h3>
-                    <h2 v-if="data && data.length > 0">{{ data[0].compStnNm }}</h2>
+                    <h4>비교 지점</h4>
+                    <h3 v-if="data && data.length > 0">{{ data[0].compStnNm }}</h3>
                 </div>
                 <div>
-                    <h3>비교 분석 결과</h3>
-                    <h2 v-if="data && data.length > 0" class="formula">Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}&emsp;R<sup>2</sup> = {{ (Math.round((this.selectedItem.value == 'pm10' ? this.corrPm10 ** 2 : this.corrPm25 ** 2) * 10000) / 10000).toFixed(4) }}</h2>
+                    <h4>비교 분석 결과</h4>
+                    <h3 v-if="data && data.length > 0" class="formula">Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}&emsp;R<sup>2</sup> = {{ (Math.round((this.selectedItem.value == 'pm10' ? this.corrPm10 ** 2 : this.corrPm25 ** 2) * 10000) / 10000).toFixed(4) }}</h3>
                 </div>
             </div>
             <div class="timeseries">
-                <h2>시계열 차트</h2>
+                <h3>시계열 차트</h3>
                 <div ref="timeseries"></div>
             </div>
-            <div class="comparison">
-                <h2>상관분석 차트</h2>
-                <div ref="comparison"></div>
+            <div class="correlation">
+                <h3>상관분석 차트 - {{ selectedItem.label }} (단위: {{ selectedItem.unit }}) </h3>
+                <div ref="correlation"></div>
             </div>
         </div>
         <div v-show="(!data || (data && data.length === 0)) && !loading" id="no-data" class="container">
@@ -52,7 +52,7 @@
         },
         data: () => ({
             timeseriesChart: null,
-            comparisonChart: null,
+            correlationChart: null,
             r: 0,
             b: 0
         }),
@@ -69,9 +69,95 @@
             }),
 
             xAxisLabels() {
+                let datetimes = [];
+                const startDatetime = dayjs(this.data[0].datetime, "YYYYMMDDHH");
+                const endDatetime = dayjs(this.data[this.data.length - 1].datetime, "YYYYMMDDHH");
                 if (this.selectedDateType == "hour")
-                    return this.data.map(obj => dayjs(obj.datetime, "YYYYMMDDHH").format("YYYY년 MM월 DD일 HH시"));
-                else return this.data.map(obj => dayjs(obj.datetime, "YYYYMMDD").format("YYYY년 MM월 DD일"));
+                    for (let datetime = startDatetime;
+                         datetime <= endDatetime;
+                         datetime = datetime.add(1, "hours"))
+                        datetimes.push(datetime.format("YYYY년 MM월 DD일 HH시"));
+                else
+                    for (let datetime = startDatetime;
+                         datetime <= endDatetime;
+                         datetime = datetime.add(1, "days"))
+                        datetimes.push(datetime.format("YYYY년 MM월 DD일"));
+                return datetimes;
+            },
+
+            timeseriesData() {
+                let stdPm10 = [];
+                let stdPm25 = [];
+                let compPm10 = [];
+                let compPm25 = [];
+
+                if (this.selectedDateType == "hour") {
+                    let datetime = dayjs(this.data[0].datetime, "YYYYMMDDHH");
+                    this.data.forEach(obj => {
+                        for (; datetime.format("YYYYMMDDHH") < obj.datetime;
+                               datetime = datetime.add(1, "hours")) {
+                            stdPm10.push(null);
+                            stdPm25.push(null);
+                            compPm10.push(null);
+                            compPm25.push(null);
+                        }
+                        stdPm10.push(obj.stdPm10);
+                        stdPm25.push(obj.stdPm25);
+                        compPm10.push(obj.compPm10);
+                        compPm25.push(obj.compPm25);
+                        datetime = datetime.add(1, "hours");
+                    });
+                } else {
+                    const stdPm10Bucket = {};
+                    const stdPm25Bucket = {};
+                    const compPm10Bucket = {};
+                    const compPm25Bucket = {};
+                    const startDatetime = dayjs(this.data[0].datetime, "YYYYMMDD");
+                    const endDatetime = dayjs(this.data[this.data.length - 1].datetime, "YYYYMMDD");
+                    const datetimes = [];
+
+                    for (let datetime = startDatetime;
+                         datetime <= endDatetime;
+                         datetime = datetime.add(1, "days")) {
+                        const dt = datetime.format("YYYYMMDD");
+                        datetimes.push(dt);
+                        if (!(dt in stdPm10Bucket)) stdPm10Bucket[dt] = [];
+                        if (!(dt in stdPm25Bucket)) stdPm25Bucket[dt] = [];
+                        if (!(dt in compPm10Bucket)) compPm10Bucket[dt] = [];
+                        if (!(dt in compPm25Bucket)) compPm25Bucket[dt] = [];
+                    }
+
+                    this.data.forEach(obj => {
+                        const dt = obj.datetime.substr(0, 8);
+                        stdPm10Bucket[dt].push(obj.stdPm10);
+                        stdPm25Bucket[dt].push(obj.stdPm25);
+                        compPm10Bucket[dt].push(obj.compPm10);
+                        compPm25Bucket[dt].push(obj.compPm25);
+                    })
+
+                    datetimes.forEach(key => {
+                        if (stdPm10Bucket[key].length === 0) stdPm10Bucket[key] = [0, 0];
+                        if (stdPm25Bucket[key].length === 0) stdPm25Bucket[key] = [0, 0];
+                        if (compPm10Bucket[key].length === 0) compPm10Bucket[key] = [0, 0];
+                        if (compPm25Bucket[key].length === 0) compPm25Bucket[key] = [0, 0];
+                    });
+
+                    let result = [[], [], [], []];
+                    Object.keys(stdPm10Bucket).map(date => {
+                        result[0].push(stdPm10Bucket[date].reduce((acc, cur) => acc + cur) / 24);
+                        result[1].push(stdPm25Bucket[date].reduce((acc, cur) => acc + cur) / 24);
+                        result[2].push(compPm10Bucket[date].reduce((acc, cur) => acc + cur) / 24);
+                        result[3].push(compPm25Bucket[date].reduce((acc, cur) => acc + cur) / 24);
+                    });
+                    [stdPm10, stdPm25, compPm10, compPm25] = result;
+                }
+
+                return {
+                    stdPm10,
+                    stdPm25,
+                    compPm10,
+                    compPm25
+                };
             },
 
             correlationData() {
@@ -131,33 +217,45 @@
             }
         },
         watch: {
-            async selectedItem() {
-                if (this.data && this.data.length > 0)
-                    await this.initChart();
+            selectedItem() {
+                if (this.data && this.data.length > 0) {
+                    this.reInitTimeseriesChart();
+                    this.reInitCorrelationChart();
+                }
             },
 
-            // async selectedDateType() {
-            //     if (this.data && this.data.length > 0)
-            //         await this.initChart();
-            // }
-
-            async data() {
+            selectedDateType() {
                 if (this.data && this.data.length > 0)
-                    await this.initChart();
+                    this.reInitTimeseriesChart();
+            },
+
+            data() {
+                if (this.data && this.data.length > 0) {
+                    this.reInitTimeseriesChart();
+                    this.reInitCorrelationChart();
+                }
             }
         },
         methods: {
             ...mapActions({
                 addResizeEvent: "ADD_RESIZE_EVENT",
-                clearResizeEvent: "CLEAR_RESIZE_EVENT"
+                removeResizeEvent: "REMOVE_RESIZE_EVENT"
             }),
 
-            async initChart() {
-                console.log("initChart");
+            reInitTimeseriesChart() {
+                if (this.data && this.data.length > 0)
+                    setTimeout(this.initTimeseriesChart, 0);
+            },
+
+            reInitCorrelationChart() {
+                if (this.data && this.data.length > 0)
+                    setTimeout(this.initCorrelationChart, 0);
+            },
+
+            initTimeseriesChart() {
+                console.log("initTimeseriesChart");
                 if (this.timeseriesChart != null) this.timeseriesChart.clear();
                 else this.timeseriesChart = init(this.$refs["timeseries"]);
-                if (this.comparisonChart != null) this.comparisonChart.clear();
-                else this.comparisonChart = init(this.$refs["comparison"]);
 
                 this.timeseriesChart.setOption({
                     tooltip: {
@@ -227,11 +325,8 @@
                     series: [
                         {
                             name: this.data && this.data.length > 0 ? this.data[0].stdStnNm : "",
-                            // name: "standard",
                             type: "line",
-                            data: this.selectedItem.value == "pm10" ?
-                                this.data.map(obj => obj.stdPm10) :
-                                this.data.map(obj => obj.stdPm25),
+                            data: this.selectedItem.value == "pm10" ? this.timeseriesData.stdPm10 : this.timeseriesData.stdPm25,
                             itemStyle: {
                                 normal: {
                                     color: "#2279b5"
@@ -241,11 +336,8 @@
                         },
                         {
                             name: this.data.length > 0 ? this.data[0].compStnNm : "",
-                            // name: "compare",
                             type: "line",
-                            data: this.selectedItem.value == "pm10" ?
-                                this.data.map(obj => obj.compPm10) :
-                                this.data.map(obj => obj.compPm25),
+                            data: this.selectedItem.value == "pm10" ? this.timeseriesData.compPm10 : this.timeseriesData.compPm25,
                             itemStyle: {
                                 normal: {
                                     color: "#ff7e0d"
@@ -256,8 +348,19 @@
                     ]
                 });
 
+                this.addResizeEvent({
+                    name: "resizeVrfyTimeseriesChart",
+                    callback: () => this.timeseriesChart.resize()
+                });
+            },
+
+            initCorrelationChart() {
+                console.log("initCorrelationChart");
+                if (this.correlationChart != null) this.correlationChart.clear();
+                else this.correlationChart = init(this.$refs["correlation"]);
+
                 registerTransform(transform.regression);
-                this.comparisonChart?.setOption({
+                this.correlationChart?.setOption({
                     dataset: [
                         {
                             source: this.correlationData
@@ -377,19 +480,15 @@
                     ]
                 });
 
-                this.addResizeEvent(() => {
-                    this.timeseriesChart.resize();
-                    this.comparisonChart.resize();
-                });
-                await new Promise(resolve => {
-                    this.timeseriesChart.resize();
-                    this.comparisonChart.resize();
-                    resolve();
+                this.addResizeEvent({
+                    name: "resizeVrfyCorrelationChart",
+                    callback: () => this.correlationChart.resize()
                 });
             }
         },
         destroyed() {
-            this.clearResizeEvent();
+            this.removeResizeEvent("resizeVrfyTimeseriesChart");
+            this.removeResizeEvent("resizeVrfyCorrelationChart");
         }
     }
 </script>

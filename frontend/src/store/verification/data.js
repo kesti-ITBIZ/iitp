@@ -80,7 +80,10 @@ export default {
         },
         SET_VERIFICATION_SEARCHED_STATIONS: (state, stations) => state.verification.searchedStations = Object.freeze(stations),
         APPEND_VERIFICATION_SEARCHED_STATIONS: (state, stations) => state.verification.searchedStations = Object.freeze(state.verification.searchedStations.concat(stations)),
-        SET_VERIFICATION_DATA: (state, data) => state.verification.data = Object.freeze(data)
+        SET_VERIFICATION_DATA: (state, data) => {
+            data.sort((a, b) => a.datetime < b.datetime ? -1 : 1);
+            state.verification.data = Object.freeze(data);
+        }
     },
     actions: {
         SET_VERIFICATION_SELECTED_SEARCH_OPTION: (context, option) => context.commit("SET_VERIFICATION_SELECTED_SEARCH_OPTION", option),
