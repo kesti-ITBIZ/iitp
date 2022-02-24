@@ -14,7 +14,8 @@ import {
     faChartScatter,
     faTable,
     faFileDownload,
-    faQuestionCircle
+    faQuestionCircle,
+    faCheck
 } from "@fortawesome/free-solid-svg-icons";
 import {
     faQuestionCircle as farQuestionCircle
@@ -30,7 +31,8 @@ library.add(
     faTable,
     faFileDownload,
     faQuestionCircle,
-    farQuestionCircle);
+    farQuestionCircle,
+    faCheck);
 
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";

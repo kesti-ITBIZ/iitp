@@ -3,21 +3,38 @@
 .container-wrap.items {
     height: calc(100% - 263px);
 
-    .item-btn {
-        background-color: #0084de;
+    .body ul li {
+        position: relative;
 
-        &:hover {
-            background-color: #41a7ef;
+        .item-btn {
+            background-color: #0084de;
+
+            &:hover {
+                background-color: #41a7ef;
+            }
+
+            &:active {
+                background-color: #0069af;
+            }
+
+            &.on {
+                background-color: #41a136;
+            }
+
+            &.on:hover {
+                background-color: #65d059;
+            }
+
+            &.on:active {
+                background-color: #2f7226;
+            }
         }
 
-        &:active {
-            background-color: #0069af;
-        }
-
-        &.on {
-            background-color: #ebf8ff;
-            color: #0084de !important;
-            box-shadow: 0 0 4px 1px #41a7ef;
+        svg {
+            position: absolute;
+            top: 5px;
+            right: 7px;
+            color: white;
         }
     }
 }

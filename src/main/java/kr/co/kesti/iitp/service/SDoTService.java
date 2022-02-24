@@ -2,6 +2,7 @@ package kr.co.kesti.iitp.service;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import kr.co.kesti.iitp.dsl.repository.SDoTDataRepositoryDsl;
+import kr.co.kesti.iitp.projection.ComparativeDataProjection;
 import kr.co.kesti.iitp.repository.SDoTDataRepository;
 import kr.co.kesti.iitp.repository.SDoTStationRepository;
 import kr.co.kesti.iitp.vo.RequestDataVO;

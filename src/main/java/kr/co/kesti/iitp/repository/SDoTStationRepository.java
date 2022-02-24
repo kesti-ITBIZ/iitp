@@ -18,6 +18,7 @@ public interface SDoTStationRepository extends JpaRepository<SDoTStation, String
             "   s.latitude as latitude, " +
             "   s.longitude as longitude, " +
             "   s.stnId as name, " +
+            "   s.stnId as stnId, " +
             "   s.address as address " +
             "from SDoTStation s " +
             "where s.latitude is not null " +

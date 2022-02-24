@@ -68,6 +68,7 @@
                     size: 12px;
                     weight: bold;
                 };
+                color: #555555;
                 letter-spacing: -1px;
                 text-align: left;
                 border-bottom: 1px solid #e0e0e0;
@@ -101,5 +102,11 @@
         &:hover {
             border: 1px solid #409aff;
         }
+    }
+}
+
+@media screen and (max-width: $reactive-max-width) {
+    #layout {
+        height: fit-content;
     }
 }

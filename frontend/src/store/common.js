@@ -18,12 +18,28 @@ export default {
 
     },
     mutations: {
-        ADD_RESIZE_EVENT: (state, callback) => {
-            state.common.resizeEventListeners = state.common.resizeEventListeners.concat(callback);
+        ADD_RESIZE_EVENT: (state, { name, callback }) => {
+            const resizeEventListeners = state.common.resizeEventListeners.concat();
+            const index = resizeEventListeners.findIndex(obj => obj.name === name);
+            if (index !== -1) {
+                window.removeEventListener("resize", resizeEventListeners[index]);
+                resizeEventListeners.splice(index, 1);
+            }
             window.addEventListener("resize", callback);
+            resizeEventListeners.push({ name, callback });
+            state.common.resizeEventListeners = resizeEventListeners;
+        },
+        REMOVE_RESIZE_EVENT: (state, name) => {
+            const resizeEventListeners = state.common.resizeEventListeners.concat();
+            const index = resizeEventListeners.findIndex(obj => obj.name === name);
+            if (index !== -1) {
+                window.removeEventListener("resize", resizeEventListeners[index]);
+                resizeEventListeners.splice(index, 1);
+                state.common.resizeEventListeners = Object.freeze(resizeEventListeners);
+            }
         },
         CLEAR_RESIZE_EVENT: state => {
-            state.common.resizeEventListeners.forEach(func => window.removeEventListener("resize", func));
+            state.common.resizeEventListeners.forEach(obj => window.removeEventListener("resize", obj.callback));
             state.common.resizeEventListeners = [];
         },
         SET_WINDOW_WIDTH: (state, width) => state.common.windowWidth = width,
@@ -34,7 +50,8 @@ export default {
         SET_LOADING_INVISIBLE: state => state.common.loading = false
     },
     actions: {
-        ADD_RESIZE_EVENT: (context, callback) => context.commit("ADD_RESIZE_EVENT", callback),
+        ADD_RESIZE_EVENT: (context, { name, callback }) => context.commit("ADD_RESIZE_EVENT", { name, callback }),
+        REMOVE_RESIZE_EVENT: (context, name) => context.commit("REMOVE_RESIZE_EVENT", name),
         CLEAR_RESIZE_EVENT: context => context.commit("CLEAR_RESIZE_EVENT"),
         SET_WINDOW_WIDTH: (context, width) => context.commit("SET_WINDOW_WIDTH", width),
         SET_WINDOW_HEIGHT: (context, height) => context.commit("SET_WINDOW_HEIGHT", height),

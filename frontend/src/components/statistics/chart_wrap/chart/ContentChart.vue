@@ -93,7 +93,7 @@
         methods: {
             ...mapActions({
                 addResizeEvent: "ADD_RESIZE_EVENT",
-                clearResizeEvent: "CLEAR_RESIZE_EVENT",
+                removeResizeEvent: "REMOVE_RESIZE_EVENT",
                 setLoadingInvisible: "SET_LOADING_INVISIBLE"
             }),
 
@@ -102,8 +102,7 @@
                     setTimeout(this.initChart, 0);
             },
 
-            async initChart() {
-                await this.clearResizeEvent();
+            initChart() {
                 Object.keys(this.chart).forEach(key => {
                     if (this.chart[key] != null) this.chart[key].clear();
                     else this.chart = Object.freeze({ ...this.chart, [key]: init(this.$refs[key]) });
@@ -240,7 +239,10 @@
                             }
                         })()
                     });
-                    this.addResizeEvent(() => this.chart[key].resize());
+                    this.addResizeEvent({
+                        name: "resizeStatisticsChart",
+                        callback: () => this.chart[key].resize()
+                    });
                 });
             },
 
@@ -264,7 +266,7 @@
             }
         },
         destroyed() {
-            this.clearResizeEvent();
+            this.removeResizeEvent("resizeStatisticsChart");
         }
     }
 </script>
