@@ -57,32 +57,44 @@ public class VerificationService implements GraphQLQueryResolver {
             ComparativeDataProjection _a = a.get(0), _b = b.get(0);
             final String stdStnId = _a.getStnId();
             final String stdStnNm = _a.getStnNm();
-            final String compStnId = _a.getStnId();
-            final String compStnNm = _a.getStnNm();
+            final String compStnId = _b.getStnId();
+            final String compStnNm = _b.getStnNm();
             for (Iterator<ComparativeDataProjection> i = a.iterator(), j = b.iterator(); i.hasNext() && j.hasNext(); ) {
                 if (_a.getDatetime().compareTo(_b.getDatetime()) < 0) {
                     list.add(ResponseVerficationDataVO.builder()
                             .datetime(_a.getDatetime())
-                            .stdStnId(_a.getStnId())
-                            .stdStnNm(_a.getStnNm())
+                            .stdStnId(stdStnId)
+                            .stdStnNm(stdStnNm)
                             .stdPm10(_a.getPm10())
                             .stdPm25(_a.getPm25())
-                            .compStnId(_b.getStnId())
-                            .compStnNm(_b.getStnNm())
+                            .compStnId(compStnId)
+                            .compStnNm(compStnNm)
+                            .compPm10(null)
+                            .compPm25(null)
+                            .build());
+                    _a = i.next();
+                } else if (_a.getDatetime().compareTo(_b.getDatetime()) > 0) {
+                    list.add(ResponseVerficationDataVO.builder()
+                            .datetime(_b.getDatetime())
+                            .stdStnId(stdStnId)
+                            .stdStnNm(stdStnNm)
+                            .stdPm10(null)
+                            .stdPm25(null)
+                            .compStnId(compStnId)
+                            .compStnNm(compStnNm)
                             .compPm10(_b.getPm10())
                             .compPm25(_b.getPm25())
                             .build());
-                    _a = i.next();
-                } else if (_a.getDatetime().compareTo(_b.getDatetime()) > 0) _b = j.next();
-                else {
+                    _b = j.next();
+                } else {
                     list.add(ResponseVerficationDataVO.builder()
                             .datetime(_a.getDatetime())
-                            .stdStnId(_a.getStnId())
-                            .stdStnNm(_a.getStnNm())
+                            .stdStnId(stdStnId)
+                            .stdStnNm(stdStnNm)
                             .stdPm10(_a.getPm10())
                             .stdPm25(_a.getPm25())
-                            .compStnId(_b.getStnId())
-                            .compStnNm(_b.getStnNm())
+                            .compStnId(compStnId)
+                            .compStnNm(compStnNm)
                             .compPm10(_b.getPm10())
                             .compPm25(_b.getPm25())
                             .build());

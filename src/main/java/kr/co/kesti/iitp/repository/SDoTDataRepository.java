@@ -33,6 +33,7 @@ public interface SDoTDataRepository extends JpaRepository<SDoTData, SDoTDataKey>
             "and ( " +
             "   a.sDoTDataKey.modelSr = :stnId " +
             "   or b.stnId = :stnNm) " +
+            "and a.sDoTDataKey.div = 3 " +
             "order by a.sDoTDataKey.registTime")
     List<ComparativeDataProjection> findAllComparativeData(final String startDatetime, final String endDatetime, final String stnId, final String stnNm);
 }
