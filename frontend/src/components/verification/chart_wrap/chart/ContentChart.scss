@@ -65,6 +65,11 @@ div.container-wrap.chart {
                     color: #555555;
                 }
             }
+
+            .correlation > div {
+                width: 35vmin;
+                margin: 0 auto;
+            }
         }
 
         &#no-data {
@@ -119,6 +124,10 @@ div.container-wrap.chart {
                     color: #404040;
                     transform: rotate(0.03deg);
                 }
+            }
+
+            .correlation > div {
+                width: 300px;
             }
         }
 
