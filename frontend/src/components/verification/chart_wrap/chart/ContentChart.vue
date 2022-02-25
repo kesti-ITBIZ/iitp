@@ -27,7 +27,7 @@
                 <div ref="correlation"></div>
             </div>
         </div>
-        <div v-show="(!data || data.length === 0) && !loading" id="no-data" class="container">
+        <div v-show="!data || data.length === 0" id="no-data" class="container">
             <div>
                 <h1>데이터가 없습니다.</h1>
             </div>
@@ -63,7 +63,6 @@
             ...mapState({
                 windowWidth: state => state.common.windowWidth,
                 reactiveMaxWidth: state => state.common.reactiveMaxWidth,
-                loading: state => state.common.loading,
                 selectedStandardStation: state => state.verification.selectedStandardStation,
                 selectedCompareStation: state => state.verification.selectedCompareStation,
                 selectedDateType: state => state.verification.selectedDateType,

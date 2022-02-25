@@ -136,8 +136,9 @@ div.container-wrap.chart {
         }
 
         #loading-wrap {
-            height: fit-content;
+            height: calc(100% - 22px);
             min-height: 440px;
+            max-height: 1058px;
         }
     }
 }
