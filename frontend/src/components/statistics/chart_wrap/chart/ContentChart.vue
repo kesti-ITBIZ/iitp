@@ -6,7 +6,7 @@
             <div class="bad" ref="bad"></div>
             <div class="high" ref="high"></div>
         </div>
-        <div v-show="(!data || data.length === 0) && !loading" id="no-data">
+        <div v-show="!data || data.length === 0" id="no-data">
             <div>
                 <h1>데이터가 없습니다.</h1>
             </div>
@@ -52,7 +52,6 @@
         }),
         computed: {
             ...mapState({
-                loading: state => state.common.loading,
                 selectedChartType: state => state.statistics.selectedChartType,
                 startDatetime: state => state.statistics.startDatetime,
                 endDatetime: state => state.statistics.endDatetime,
