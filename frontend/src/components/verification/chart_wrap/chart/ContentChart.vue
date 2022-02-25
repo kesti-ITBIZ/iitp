@@ -169,53 +169,11 @@
             },
 
             corrPm10() {
-                const n = this.data.length;
-                let avgX = 0, avgY = 0;
-
-                this.data.forEach(obj => {
-                    avgX += obj.compPm10;
-                    avgY += obj.stdPm10;
-                });
-                avgX /= n;
-                avgY /= n;
-
-                let cov = 0, std = 0;
-                let sumOfSubXAvgXSqure = 0, sumOfSubYAvgYSqure = 0;
-                this.data.forEach(obj => {
-                    const subXAvgX = obj.compPm10 - avgX;
-                    const subYAvgY = obj.stdPm10 - avgY;
-                    cov += subXAvgX * subYAvgY;
-                    sumOfSubXAvgXSqure += subXAvgX ** 2;
-                    sumOfSubYAvgYSqure += subYAvgY ** 2;
-                });
-                std = Math.sqrt(sumOfSubXAvgXSqure * sumOfSubYAvgYSqure);
-
-                return cov / std;
+                return this.corr("pm10");
             },
 
             corrPm25() {
-                const n = this.data.length;
-                let avgX = 0, avgY = 0;
-
-                this.data.forEach(obj => {
-                    avgX += obj.compPm25;
-                    avgY += obj.stdPm25;
-                });
-                avgX /= n;
-                avgY /= n;
-
-                let cov = 0, std = 0;
-                let sumOfSubXAvgXSqure = 0, sumOfSubYAvgYSqure = 0;
-                this.data.forEach(obj => {
-                    const subXAvgX = obj.compPm25 - avgX;
-                    const subYAvgY = obj.stdPm25 - avgY;
-                    cov += subXAvgX * subYAvgY;
-                    sumOfSubXAvgXSqure += subXAvgX ** 2;
-                    sumOfSubYAvgYSqure += subYAvgY ** 2;
-                });
-                std = Math.sqrt(sumOfSubXAvgXSqure * sumOfSubYAvgYSqure);
-
-                return cov / std;
+                return this.corr("pm25");
             }
         },
         watch: {
@@ -476,6 +434,38 @@
                     name: "resizeVrfyCorrelationChart",
                     callback: () => this.correlationChart.resize()
                 });
+            },
+
+            /**
+             * @param itemCategory: "pm10" | "pm25"
+             * */
+            corr(itemCategory) {
+                itemCategory = itemCategory.split("");
+                itemCategory[0] = itemCategory[0].toUpperCase();
+                itemCategory = itemCategory.join("");
+
+                const n = this.data.length;
+                let avgX = 0, avgY = 0;
+
+                this.data.forEach(obj => {
+                    avgX += obj["comp" + itemCategory];
+                    avgY += obj["std" + itemCategory];
+                });
+                avgX /= n;
+                avgY /= n;
+
+                let cov = 0, std = 0;
+                let sumOfSubXAvgXSqure = 0, sumOfSubYAvgYSqure = 0;
+                this.data.forEach(obj => {
+                    const subXAvgX = obj["comp" + itemCategory] - avgX;
+                    const subYAvgY = obj["std" + itemCategory] - avgY;
+                    cov += subXAvgX * subYAvgY;
+                    sumOfSubXAvgXSqure += subXAvgX ** 2;
+                    sumOfSubYAvgYSqure += subYAvgY ** 2;
+                });
+                std = Math.sqrt(sumOfSubXAvgXSqure * sumOfSubYAvgYSqure);
+
+                return cov / std;
             }
         },
         destroyed() {
