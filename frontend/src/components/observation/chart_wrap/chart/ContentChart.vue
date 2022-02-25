@@ -41,7 +41,7 @@
             <div v-show="data[selectedCategory] && data[selectedCategory].length > 0 && selectedChartType == 'table' && Object.keys(tableData).length > 0" class="csv-download" @click="csvDownload">
                 <font-awesome-icon size="lg" :icon="['fa', 'file-download']" />
             </div>
-            <div v-show="(data[selectedCategory] == null || data[selectedCategory].length === 0) && !loading" id="no-data">
+            <div v-show="data[selectedCategory] == null || data[selectedCategory].length === 0" id="no-data">
                 <div>
                     <h1>데이터가 없습니다.</h1>
                 </div>
