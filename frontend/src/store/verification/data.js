@@ -38,9 +38,19 @@ export default {
         },
         SET_VERIFICATION_SELECTED_STANDARD_STATION: (state, station) => {
             state.verification.selectedStandardStation = Object.freeze(station);
+            state.verification.selectedStandardOrg = station == null ? null : state.verification.selectedCategory;
         },
         SET_VERIFICATION_SELECTED_COMPARE_STATION: (state, station) => {
             state.verification.selectedCompareStation = Object.freeze(station);
+            let min = 9999999999999, selectedStandardStation = null;
+            state.verification.stations.airkorea.forEach(standardStation => {
+                const distance = Math.sqrt((station.latitude - standardStation.latitude) ** 2 + (station.longitude - standardStation.longitude) ** 2);
+                if (min > distance) {
+                    min = distance;
+                    selectedStandardStation = standardStation;
+                }
+            });
+            state.verification.selectedStandardStation = Object.freeze(selectedStandardStation);
             state.verification.selectedCompareOrg = station == null ? null : state.verification.selectedCategory;
         },
         SET_VERIFICATION_SEARCHED_STATIONS: (state, stations) => state.verification.searchedStations = Object.freeze(stations),
