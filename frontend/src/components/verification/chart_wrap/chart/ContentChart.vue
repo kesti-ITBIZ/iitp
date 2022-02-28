@@ -1,14 +1,43 @@
 <template>
     <div class="container-wrap chart">
-        <div v-show="data && data.length > 0" class="container chart">
-            <div class="info">
+        <div v-show="data && data.length > 0 && windowWidth >= reactiveMaxWidth + 1" class="container chart">
+            <div class="correlation">
+                <h3>상관분석 차트 - {{ selectedItem.label }} (단위: {{ selectedItem.unit }}) </h3>
                 <div>
-                    <h4>기준 지점</h4>
-                    <h3 v-if="data && data.length > 0">{{ data[0].stdStnNm }}</h3>
+                    <div class="info">
+                        <div>
+                            <h4>비교 지점</h4>
+                            <h3 v-if="data && data.length > 0">{{ data[0].compStnNm }}</h3>
+                        </div>
+                        <div>
+                            <h4>기준 지점</h4>
+                            <h3 v-if="data && data.length > 0">{{ data[0].stdStnNm }}</h3>
+                        </div>
+                        <div>
+                            <h4>비교 분석 결과</h4>
+                            <h3 v-if="data && data.length > 0" class="formula">
+                                Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}<br />
+                                R<sup>2</sup> = {{ (Math.round((this.selectedItem.value == 'pm10' ? this.corrPm10 ** 2 : this.corrPm25 ** 2) * 10000) / 10000).toFixed(4) }}
+                            </h3>
+                        </div>
+                    </div>
+                    <div ref="correlation" class="chart-content"></div>
                 </div>
+            </div>
+            <div class="timeseries">
+                <h3>시계열 차트</h3>
+                <div ref="timeseries"></div>
+            </div>
+        </div>
+        <div v-show="data && data.length > 0 && windowWidth < reactiveMaxWidth + 1" class="container chart">
+            <div class="info">
                 <div>
                     <h4>비교 지점</h4>
                     <h3 v-if="data && data.length > 0">{{ data[0].compStnNm }}</h3>
+                </div>
+                <div>
+                    <h4>기준 지점</h4>
+                    <h3 v-if="data && data.length > 0">{{ data[0].stdStnNm }}</h3>
                 </div>
                 <div>
                     <h4>비교 분석 결과</h4>
@@ -18,18 +47,18 @@
                     </h3>
                 </div>
             </div>
-            <div class="timeseries">
-                <h3>시계열 차트</h3>
-                <div ref="timeseries"></div>
-            </div>
             <div class="correlation">
                 <h3>상관분석 차트 - {{ selectedItem.label }} (단위: {{ selectedItem.unit }}) </h3>
-                <div ref="correlation"></div>
+                <div ref="correlation-mobile" class="chart-content"></div>
+            </div>
+            <div class="timeseries">
+                <h3>시계열 차트</h3>
+                <div ref="timeseries-mobile"></div>
             </div>
         </div>
         <div v-show="!data || data.length === 0" id="no-data" class="container">
             <div>
-                <h1>데이터가 없습니다.</h1>
+                <h1>분석할 지점을 선택하세요.</h1>
             </div>
         </div>
         <loading />
@@ -56,6 +85,8 @@
         data: () => ({
             timeseriesChart: null,
             correlationChart: null,
+            timeseriesChartMobile: null,
+            correlationChartMobile: null,
             r: 0,
             b: 0
         }),
@@ -213,10 +244,16 @@
             },
 
             initTimeseriesChart() {
-                if (this.timeseriesChart != null) this.timeseriesChart.clear();
-                else this.timeseriesChart = init(this.$refs["timeseries"]);
+                if (this.timeseriesChart != null && this.timeseriesChartMobile != null) {
+                    this.timeseriesChart.clear();
+                    this.timeseriesChartMobile.clear();
+                }
+                else {
+                    this.timeseriesChart = init(this.$refs["timeseries"]);
+                    this.timeseriesChartMobile = init(this.$refs["timeseries-mobile"]);
+                }
 
-                this.timeseriesChart.setOption({
+                const option = {
                     tooltip: {
                         formatter: data => `
                             <strong style="font-size: 16px; margin-bottom: 5px;">${data.componentIndex === 0 ? "기준" : "비교"} 지점</strong><br />
@@ -301,20 +338,33 @@
                             showSymbol: true
                         }
                     ]
-                });
+                };
+
+                this.timeseriesChart.setOption(option);
+                this.timeseriesChartMobile.setOption(option);
 
                 this.addResizeEvent({
                     name: "resizeVrfyTimeseriesChart",
-                    callback: () => this.timeseriesChart.resize()
+                    callback: () => {
+                        this.timeseriesChart.resize();
+                        this.timeseriesChartMobile.resize();
+                    }
                 });
             },
 
             initCorrelationChart() {
-                if (this.correlationChart != null) this.correlationChart.clear();
-                else this.correlationChart = init(this.$refs["correlation"]);
+                if (this.correlationChart != null && this.correlationChartMobile != null) {
+                    this.correlationChart.clear();
+                    this.correlationChartMobile.clear();
+                }
+                else {
+                    this.correlationChart = init(this.$refs["correlation"]);
+                    this.correlationChartMobile = init(this.$refs["correlation-mobile"]);
+                }
 
                 registerTransform(transform.regression);
-                this.correlationChart?.setOption({
+
+                const option = {
                     dataset: [
                         {
                             source: this.correlationData
@@ -428,11 +478,17 @@
                             }
                         }
                     ]
-                });
+                };
+
+                this.correlationChart?.setOption(option);
+                this.correlationChartMobile?.setOption(option);
 
                 this.addResizeEvent({
                     name: "resizeVrfyCorrelationChart",
-                    callback: () => this.correlationChart.resize()
+                    callback: () => {
+                        this.correlationChart.resize();
+                        this.correlationChartMobile.resize();
+                    }
                 });
             },
 
