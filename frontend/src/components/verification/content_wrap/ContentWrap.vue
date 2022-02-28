@@ -6,8 +6,8 @@
                 <content-map v-show="selectedSearchOption == 'map'" />
                 <search v-show="selectedSearchOption == 'search'" />
                 <div class="station-wrap">
-                    <station title="비교 지점" :station="selectedCompareStation" @remove="setSelectedCompareStation(null)" />
                     <station title="기준 지점" :station="selectedStandardStation" @remove="setSelectedStandardStation(null)" />
+                    <station title="비교 지점" :station="selectedCompareStation" @remove="setSelectedCompareStation(null)" />
                 </div>
             </div>
             <side-header />
@@ -16,8 +16,8 @@
             <content-map v-show="selectedSearchOption == 'map'" />
             <search v-show="selectedSearchOption == 'search'" />
             <div class="station-wrap">
-                <station title="비교 지점" :station="selectedCompareStation" @remove="setSelectedCompareStation(null)" />
                 <station title="기준 지점" :station="selectedStandardStation" @remove="setSelectedStandardStation(null)" />
+                <station title="비교 지점" :station="selectedCompareStation" @remove="setSelectedCompareStation(null)" />
             </div>
             <side-header />
         </div>

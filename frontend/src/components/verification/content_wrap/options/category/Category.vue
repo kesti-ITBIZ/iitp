@@ -6,11 +6,6 @@
             </li>
         </ul>
         <div class="org-wrap">
-            <div class="label">검증 지점</div>
-            <button :class="selectedCategory == 'airkorea' ? 'on' : ''" @click="setSelectedCategory('airkorea')">
-                <span class="airkorea"></span>
-                <span>환경부</span>
-            </button>
             <div class="label">비교 지점</div>
             <ul>
                 <li :key="i" v-for="(obj, i) in category.filter(c => c.value !== 'airkorea')">
@@ -20,6 +15,11 @@
                     </button>
                 </li>
             </ul>
+            <div class="label">기준 지점</div>
+            <button :class="selectedCategory == 'airkorea' ? 'on' : ''" @click="setSelectedCategory('airkorea')">
+                <span class="airkorea"></span>
+                <span>환경부</span>
+            </button>
         </div>
     </div>
 </template>
