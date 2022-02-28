@@ -19,6 +19,10 @@
                                 Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}<br />
                                 R<sup>2</sup> = {{ (Math.round((this.selectedItem.value == 'pm10' ? this.corrPm10 ** 2 : this.corrPm25 ** 2) * 10000) / 10000).toFixed(4) }}
                             </h3>
+                            <div>
+                                <input type="checkbox" id="show-formula" @click="e => showFomula = e.target.checked" :checked="showFomula" />
+                                <label for="show-formula">차트 수식 표시</label>
+                            </div>
                         </div>
                     </div>
                     <div ref="correlation" class="chart-content"></div>
@@ -45,6 +49,10 @@
                         Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}<br />
                         R<sup>2</sup> = {{ (Math.round((this.selectedItem.value == 'pm10' ? this.corrPm10 ** 2 : this.corrPm25 ** 2) * 10000) / 10000).toFixed(4) }}
                     </h3>
+                    <div>
+                        <input type="checkbox" id="show-formula-mobile" @click="e => showFomula = e.target.checked" :checked="showFomula" />
+                        <label for="show-formula-mobile">차트 수식 표시</label>
+                    </div>
                 </div>
             </div>
             <div class="correlation">
@@ -83,6 +91,7 @@
             Loading
         },
         data: () => ({
+            showFomula: true,
             timeseriesChart: null,
             correlationChart: null,
             timeseriesChartMobile: null,
@@ -225,6 +234,11 @@
                     this.reInitTimeseriesChart();
                     this.reInitCorrelationChart();
                 }
+            },
+
+            showFomula() {
+                if (this.data && this.data.length > 0)
+                    this.reInitCorrelationChart();
             }
         },
         methods: {
@@ -241,6 +255,146 @@
             reInitCorrelationChart() {
                 if (this.data && this.data.length > 0)
                     setTimeout(this.initCorrelationChart, 0);
+            },
+
+            initCorrelationChart() {
+                if (this.correlationChart != null && this.correlationChartMobile != null) {
+                    this.correlationChart.clear();
+                    this.correlationChartMobile.clear();
+                }
+                else {
+                    this.correlationChart = init(this.$refs["correlation"]);
+                    this.correlationChartMobile = init(this.$refs["correlation-mobile"]);
+                }
+
+                registerTransform(transform.regression);
+
+                const option = {
+                    dataset: [
+                        {
+                            source: this.correlationData
+                        },
+                        {
+                            transform: {
+                                type: "ecStat:regression"
+                            }
+                        }
+                    ],
+                    tooltip: {
+                        formatter: data => {
+                            if (data.componentIndex === 0) {
+                                const label = this.selectedItem.label;
+                                const unit = this.selectedItem.unit;
+                                return `
+                                    기준 지점 ${label}: ${data.value[0]}${unit}<br />
+                                    비교 지점 ${label}: ${data.value[1]}${unit}<br />`;
+                            }
+                        },
+                        textStyle: {
+                            fontFamily: "NanumSquare"
+                        }
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {
+                                type: "png"
+                            }
+                        },
+                        right: 40
+                    },
+                    grid: {
+                        top: 70,
+                        right: 120,
+                        bottom: 20
+                    },
+                    legend: {
+                        data: ["산점도", "추세선"],
+                        textStyle: {
+                            fontFamily: "NanumSquare"
+                        }
+                    },
+                    xAxis: {
+                        name: this.data && this.data.length > 0 ? this.data[0].compStnNm : "",
+                        splitLine: {
+                            show: true
+                        },
+                        nameTextStyle: {
+                            fontFamily: "NanumSquare"
+                        },
+                        axisLabel: {
+                            fontFamily: "NanumSquare"
+                        }
+                    },
+                    yAxis: {
+                        name: this.data && this.data.length > 0 ? this.data[0].stdStnNm : "",
+                        splitLine: {
+                            show: true
+                        },
+                        nameTextStyle: {
+                            align: "left",
+                            fontFamily: "NanumSquare",
+                            fontWeight: "bold"
+                        },
+                        axisLabel: {
+                            formatter: "{value}",
+                            fontFamily: "NanumSquare"
+                        },
+                    },
+                    series: [
+                        {
+                            name: "산점도",
+                            type: "scatter",
+                            symbolSize: 7,
+                            itemStyle: {
+                                color: "#5b9bd6"
+                            }
+                        },
+                        {
+                            name: "추세선",
+                            type: "line",
+                            datasetIndex: 1,
+                            symbolSize: 0.1,
+                            symbol: "circle",
+                            label: {
+                                show: this.showFomula,
+                                fontSize: 16,
+                                fontFamily: "NanumSquare",
+                                fontWeight: "bold",
+                                formatter: data => {
+                                    if (data.value[2] !== "") {
+                                        const formula = data.value[2].toUpperCase().replace("+ -", "- ");
+                                        let tmp = formula.replace("Y = ", "");
+                                        this.r = +tmp.substr(0, tmp.indexOf("X"));
+                                        this.b = +tmp.substr(tmp.lastIndexOf(tmp.lastIndexOf("+") !== -1 ? "+" : "-")).replace(" ", "");
+                                        return formula + `    R² = ${(Math.round((this.selectedItem.value == 'pm10' ? this.corrPm10 ** 2 : this.corrPm25 ** 2) * 10000) / 10000).toFixed(4)}`;
+                                    }
+                                }
+                            },
+                            itemStyle: {
+                                color: "#5c5c5c"
+                            },
+                            labelLayout: {
+                                dx: -100,
+                                dy: 100
+                            },
+                            encode: {
+                                label: 2,
+                                tooltip: 1
+                            }
+                        }
+                    ]
+                };
+
+                this.correlationChart?.setOption(option);
+                this.correlationChartMobile?.setOption(option);
+
+                this.addResizeEvent({
+                    name: "resizeVrfyCorrelationChart",
+                    callback: () => {
+                        this.correlationChart.resize();
+                        this.correlationChartMobile.resize();
+                    }
+                });
             },
 
             initTimeseriesChart() {
@@ -277,6 +431,9 @@
                             type: "slider"
                         }
                     ],
+                    grid: {
+                        right: 80
+                    },
                     legend: {
                         data: this.data && this.data.length > 0 ?
                             [
@@ -348,146 +505,6 @@
                     callback: () => {
                         this.timeseriesChart.resize();
                         this.timeseriesChartMobile.resize();
-                    }
-                });
-            },
-
-            initCorrelationChart() {
-                if (this.correlationChart != null && this.correlationChartMobile != null) {
-                    this.correlationChart.clear();
-                    this.correlationChartMobile.clear();
-                }
-                else {
-                    this.correlationChart = init(this.$refs["correlation"]);
-                    this.correlationChartMobile = init(this.$refs["correlation-mobile"]);
-                }
-
-                registerTransform(transform.regression);
-
-                const option = {
-                    dataset: [
-                        {
-                            source: this.correlationData
-                        },
-                        {
-                            transform: {
-                                type: "ecStat:regression"
-                            }
-                        }
-                    ],
-                    tooltip: {
-                        formatter: data => {
-                            if (data.componentIndex === 0) {
-                                const label = this.selectedItem.label;
-                                const unit = this.selectedItem.unit;
-                                return `
-                                    기준 지점 ${label}: ${data.value[0]}${unit}<br />
-                                    비교 지점 ${label}: ${data.value[1]}${unit}<br />`;
-                            }
-                        },
-                        textStyle: {
-                            fontFamily: "NanumSquare"
-                        }
-                    },
-                    toolbox: {
-                        feature: {
-                            saveAsImage: {
-                                type: "png"
-                            }
-                        },
-                        right: 40
-                    },
-                    dataZoom: [
-                        {
-                            type: "slider"
-                        }
-                    ],
-                    legend: {
-                        data: ["산점도", "추세선"],
-                        textStyle: {
-                            fontFamily: "NanumSquare"
-                        }
-                    },
-                    xAxis: {
-                        name: this.data && this.data.length > 0 ? this.data[0].compStnNm : "",
-                        splitLine: {
-                            show: true
-                        },
-                        nameTextStyle: {
-                            fontFamily: "NanumSquare"
-                        },
-                        axisLabel: {
-                            fontFamily: "NanumSquare"
-                        }
-                    },
-                    yAxis: {
-                        name: this.data && this.data.length > 0 ? this.data[0].stdStnNm : "",
-                        splitLine: {
-                            show: true
-                        },
-                        nameTextStyle: {
-                            align: "left",
-                            fontFamily: "NanumSquare",
-                            fontWeight: "bold"
-                        },
-                        axisLabel: {
-                            formatter: "{value}",
-                            fontFamily: "NanumSquare"
-                        },
-                    },
-                    series: [
-                        {
-                            name: "산점도",
-                            type: "scatter",
-                            symbolSize: 7,
-                            itemStyle: {
-                                color: "#5b9bd6"
-                            }
-                        },
-                        {
-                            name: "추세선",
-                            type: "line",
-                            datasetIndex: 1,
-                            symbolSize: 0.1,
-                            symbol: "circle",
-                            label: {
-                                show: true,
-                                fontSize: 16,
-                                fontFamily: "NanumSquare",
-                                fontWeight: "bold",
-                                formatter: data => {
-                                    if (data.value[2] !== "") {
-                                        const formula = data.value[2].toUpperCase().replace("+ -", "- ");
-                                        let tmp = formula.replace("Y = ", "");
-                                        this.r = +tmp.substr(0, tmp.indexOf("X"));
-                                        this.b = +tmp.substr(tmp.lastIndexOf(tmp.lastIndexOf("+") !== -1 ? "+" : "-")).replace(" ", "");
-                                        return formula + `    R² = ${(Math.round((this.selectedItem.value == 'pm10' ? this.corrPm10 ** 2 : this.corrPm25 ** 2) * 10000) / 10000).toFixed(4)}`;
-                                    }
-                                }
-                            },
-                            itemStyle: {
-                                color: "#5c5c5c"
-                            },
-                            labelLayout: {
-                                dx: -100,
-                                dy: 100
-                            },
-                            encode: {
-                                label: 2,
-                                tooltip: 1
-                            }
-                        }
-                    ]
-                };
-
-                this.correlationChart?.setOption(option);
-                this.correlationChartMobile?.setOption(option);
-
-                this.addResizeEvent({
-                    name: "resizeVrfyCorrelationChart",
-                    callback: () => {
-                        this.correlationChart.resize();
-                        this.correlationChartMobile.resize();
                     }
                 });
             },
