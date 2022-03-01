@@ -237,7 +237,7 @@
                         if (arr[0] !== 0 && arr[1] !== 0) data.push(arr);
                     });
 
-                    console.log(data);
+                    console.log("data:", data);
 
                     return data;
                 }
