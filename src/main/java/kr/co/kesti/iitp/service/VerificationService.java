@@ -53,56 +53,79 @@ public class VerificationService implements GraphQLQueryResolver {
 
     private List<ResponseVerficationDataVO> joinByDatetime(List<ComparativeDataProjection> a, List<ComparativeDataProjection> b) {
         List<ResponseVerficationDataVO> list = new LinkedList<>();
-        if (!a.isEmpty() && !b.isEmpty()) {
-            ComparativeDataProjection _a = a.get(0), _b = b.get(0);
-            final String stdStnId = _a.getStnId();
-            final String stdStnNm = _a.getStnNm();
-            final String compStnId = _b.getStnId();
-            final String compStnNm = _b.getStnNm();
-            for (Iterator<ComparativeDataProjection> i = a.iterator(), j = b.iterator(); i.hasNext() && j.hasNext(); ) {
-                if (_a.getDatetime().compareTo(_b.getDatetime()) < 0) {
-                    list.add(ResponseVerficationDataVO.builder()
-                            .datetime(_a.getDatetime())
-                            .stdStnId(stdStnId)
-                            .stdStnNm(stdStnNm)
-                            .stdPm10(_a.getPm10())
-                            .stdPm25(_a.getPm25())
-                            .compStnId(compStnId)
-                            .compStnNm(compStnNm)
-                            .compPm10(null)
-                            .compPm25(null)
-                            .build());
-                    _a = i.next();
-                } else if (_a.getDatetime().compareTo(_b.getDatetime()) > 0) {
-                    list.add(ResponseVerficationDataVO.builder()
-                            .datetime(_b.getDatetime())
-                            .stdStnId(stdStnId)
-                            .stdStnNm(stdStnNm)
-                            .stdPm10(null)
-                            .stdPm25(null)
-                            .compStnId(compStnId)
-                            .compStnNm(compStnNm)
-                            .compPm10(_b.getPm10())
-                            .compPm25(_b.getPm25())
-                            .build());
-                    _b = j.next();
-                } else {
-                    list.add(ResponseVerficationDataVO.builder()
-                            .datetime(_a.getDatetime())
-                            .stdStnId(stdStnId)
-                            .stdStnNm(stdStnNm)
-                            .stdPm10(_a.getPm10())
-                            .stdPm25(_a.getPm25())
-                            .compStnId(compStnId)
-                            .compStnNm(compStnNm)
-                            .compPm10(_b.getPm10())
-                            .compPm25(_b.getPm25())
-                            .build());
-                    _a = i.next();
-                    _b = j.next();
-                }
+        ComparativeDataProjection _a = a.get(0), _b = b.get(0);
+        final String stdStnId = _a.getStnId();
+        final String stdStnNm = _a.getStnNm();
+        final String compStnId = _b.getStnId();
+        final String compStnNm = _b.getStnNm();
+        int i, j;
+        for (i = 0, j = 0; i < a.size() && j < b.size();) {
+            if (a.get(i).getDatetime().compareTo(b.get(j).getDatetime()) < 0) {
+                list.add(ResponseVerficationDataVO.builder()
+                        .datetime(a.get(i).getDatetime())
+                        .stdStnId(stdStnId)
+                        .stdStnNm(stdStnNm)
+                        .stdPm10(a.get(i).getPm10())
+                        .stdPm25(a.get(i).getPm25())
+                        .compStnId(compStnId)
+                        .compStnNm(compStnNm)
+                        .compPm10(null)
+                        .compPm25(null)
+                        .build());
+                ++i;
+            } else if (a.get(i).getDatetime().compareTo(b.get(j).getDatetime()) > 0) {
+                list.add(ResponseVerficationDataVO.builder()
+                        .datetime(b.get(j).getDatetime())
+                        .stdStnId(stdStnId)
+                        .stdStnNm(stdStnNm)
+                        .stdPm10(null)
+                        .stdPm25(null)
+                        .compStnId(compStnId)
+                        .compStnNm(compStnNm)
+                        .compPm10(b.get(j).getPm10())
+                        .compPm25(b.get(j).getPm25())
+                        .build());
+                ++j;
+            } else {
+                list.add(ResponseVerficationDataVO.builder()
+                        .datetime(a.get(i).getDatetime())
+                        .stdStnId(stdStnId)
+                        .stdStnNm(stdStnNm)
+                        .stdPm10(a.get(i).getPm10())
+                        .stdPm25(a.get(i).getPm25())
+                        .compStnId(compStnId)
+                        .compStnNm(compStnNm)
+                        .compPm10(b.get(j).getPm10())
+                        .compPm25(b.get(j).getPm25())
+                        .build());
+                ++i;
+                ++j;
             }
         }
+        for (; i < a.size(); ++i)
+            list.add(ResponseVerficationDataVO.builder()
+                    .datetime(a.get(i).getDatetime())
+                    .stdStnId(stdStnId)
+                    .stdStnNm(stdStnNm)
+                    .stdPm10(a.get(i).getPm10())
+                    .stdPm25(a.get(i).getPm25())
+                    .compStnId(compStnId)
+                    .compStnNm(compStnNm)
+                    .compPm10(null)
+                    .compPm25(null)
+                    .build());
+        for (; j < b.size(); ++j)
+            list.add(ResponseVerficationDataVO.builder()
+                    .datetime(b.get(j).getDatetime())
+                    .stdStnId(stdStnId)
+                    .stdStnNm(stdStnNm)
+                    .stdPm10(null)
+                    .stdPm25(null)
+                    .compStnId(compStnId)
+                    .compStnNm(compStnNm)
+                    .compPm10(b.get(j).getPm10())
+                    .compPm25(b.get(j).getPm25())
+                    .build());
         return list;
     }
 }

@@ -16,8 +16,9 @@
                         <div>
                             <h4>비교 분석 결과</h4>
                             <h3 v-if="data && data.length > 0" class="formula">
-                                Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}<br />
-                                R<sup>2</sup> = {{ (Math.round((this.selectedItem.value == 'pm10' ? this.corrPm10 ** 2 : this.corrPm25 ** 2) * 10000) / 10000).toFixed(4) }}
+<!--                                Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}<br />-->
+                                Y = {{ Math.round(gradient * 10000) / 10000 }}X {{ intercept >= 0 ? `+ ${Math.round(intercept * 10000) / 10000}` : `- ${-Math.round(intercept * 10000) / 10000}` }}<br />
+                                R<sup>2</sup> = {{ (Math.round(corr ** 2 * 10000) / 10000).toFixed(4) }}
                             </h3>
                             <div>
                                 <input type="checkbox" id="show-formula" @click="e => showFomula = e.target.checked" :checked="showFomula" />
@@ -46,8 +47,9 @@
                 <div>
                     <h4>비교 분석 결과</h4>
                     <h3 v-if="data && data.length > 0" class="formula">
-                        Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}<br />
-                        R<sup>2</sup> = {{ (Math.round((this.selectedItem.value == 'pm10' ? this.corrPm10 ** 2 : this.corrPm25 ** 2) * 10000) / 10000).toFixed(4) }}
+<!--                        Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}<br />-->
+                        Y = {{ Math.round(gradient * 10000) / 10000 }}X {{ intercept >= 0 ? `+ ${Math.round(intercept * 10000) / 10000}` : `- ${-Math.round(intercept * 10000) / 10000}` }}<br />
+                        R<sup>2</sup> = {{ (Math.round(corr ** 2 * 10000) / 10000).toFixed(4) }}
                     </h3>
                     <div>
                         <input type="checkbox" id="show-formula-mobile" @click="e => showFomula = e.target.checked" :checked="showFomula" />
@@ -203,17 +205,87 @@
             },
 
             correlationData() {
-                if (this.selectedItem.value == "pm10")
-                    return this.data.map(obj => [obj.compPm10, obj.stdPm10]);
-                else return this.data.map(obj => [obj.compPm25, obj.stdPm25]);
+                if (this.selectedDateType == "hour") {
+                    return this.selectedItem.value == "pm10" ?
+                        this.data.filter(obj => obj.compPm10 != null && obj.stdPm10 != null).map(obj => [obj.compPm10, obj.stdPm10]) :
+                        this.data.filter(obj => obj.compPm25 != null && obj.stdPm25 != null).map(obj => [obj.compPm25, obj.stdPm25]);
+                } else {
+                    const valueType = this.selectedItem.value == "pm10" ? "Pm10" : "Pm25";
+                    const bucket = [];
+                    this.data.forEach(obj => {
+                        if (obj["comp" + valueType] != null && obj["std" + valueType] != null) {
+                            const date = obj.datetime.substr(0, 8);
+                            if (!(date in bucket)) bucket[date] = [];
+                            bucket[date].push([
+                                obj["comp" + valueType],
+                                obj["std" + valueType]
+                            ]);
+                        }
+                    });
+
+                    console.log("bucket:", bucket);
+
+                    const data = [];
+                    Object.keys(bucket).forEach(date => {
+                        let arr = bucket[date].reduce((acc, cur) => {
+                            acc[0] += cur[0];
+                            acc[1] += cur[1];
+                            return acc;
+                        });
+                        arr[0] = Math.round(arr[0] / 24);
+                        arr[1] = Math.round(arr[1] / 24);
+                        if (arr[0] !== 0 && arr[1] !== 0) data.push(arr);
+                    });
+
+                    console.log(data);
+
+                    return data;
+                }
             },
 
-            corrPm10() {
-                return this.corr("pm10");
+            avgX() {
+                return this.correlationData.reduce((acc, cur) => (typeof acc == "object" ? acc[1] : acc) + cur[1]) / this.correlationData.length;
             },
 
-            corrPm25() {
-                return this.corr("pm25");
+            avgY() {
+                return this.correlationData.reduce((acc, cur) => (typeof acc == "object" ? acc[0] : acc) + cur[0]) / this.correlationData.length;
+            },
+
+            corr() {
+                const n = this.correlationData.length;
+                const avgX = this.avgX;
+                const avgY = this.avgY;
+
+                let a = 0, b = 0, c = 0;
+                for (let i = 0; i < n; ++i) {
+                    const subXAvgX = this.correlationData[i][1] - avgX;
+                    const subYAvgY = this.correlationData[i][0] - avgY;
+                    a += subXAvgX * subYAvgY;
+                    b += subXAvgX ** 2;
+                    c += subYAvgY ** 2;
+                }
+
+                return a / Math.sqrt(b * c);
+            },
+
+            gradient() {
+                const n = this.correlationData.length;
+                const avgX = this.avgX;
+                const avgY = this.avgY;
+
+                let a = 0, b = 0;
+                for (let i = 0; i < n; ++i) {
+                    const subXAvgX = this.correlationData[i][1] - avgX;
+                    const subYAvgY = this.correlationData[i][0] - avgY;
+                    a += subXAvgX * subYAvgY;
+                    b += subYAvgY ** 2;
+                }
+
+                return a / b;
+            },
+
+            intercept() {
+                return this.avgX - this.gradient * this.avgY;
             }
         },
         watch: {
@@ -225,8 +297,10 @@
             },
 
             selectedDateType() {
-                if (this.data && this.data.length > 0)
+                if (this.data && this.data.length > 0) {
                     this.reInitTimeseriesChart();
+                    this.reInitCorrelationChart();
+                }
             },
 
             data() {
@@ -362,11 +436,12 @@
                                 fontWeight: "bold",
                                 formatter: data => {
                                     if (data.value[2] !== "") {
-                                        const formula = data.value[2].toUpperCase().replace("+ -", "- ");
-                                        let tmp = formula.replace("Y = ", "");
-                                        this.r = +tmp.substr(0, tmp.indexOf("X"));
-                                        this.b = +tmp.substr(tmp.lastIndexOf(tmp.lastIndexOf("+") !== -1 ? "+" : "-")).replace(" ", "");
-                                        return formula + `    R² = ${(Math.round((this.selectedItem.value == 'pm10' ? this.corrPm10 ** 2 : this.corrPm25 ** 2) * 10000) / 10000).toFixed(4)}`;
+                                        // const formula = data.value[2].toUpperCase().replace("+ -", "- ");
+                                        // let tmp = formula.replace("Y = ", "");
+                                        // this.r = +tmp.substr(0, tmp.indexOf("X"));
+                                        // this.b = +tmp.substr(tmp.lastIndexOf(tmp.lastIndexOf("+") !== -1 ? "+" : "-")).replace(" ", "");
+                                        // return formula + `    R² = ${(Math.round(this.corr ** 2 * 10000) / 10000).toFixed(4)}`;
+                                        return `Y = ${Math.round(this.gradient * 10000) / 10000}X ${this.intercept < 0 ? "-" : "+"} ${Math.abs(Math.round(this.intercept * 10000) / 10000)}    R² = ${Math.round(this.corr ** 2 * 10000) / 10000}`
                                     }
                                 }
                             },
@@ -507,38 +582,6 @@
                         this.timeseriesChartMobile.resize();
                     }
                 });
-            },
-
-            /**
-             * @param itemCategory: "pm10" | "pm25"
-             * */
-            corr(itemCategory) {
-                itemCategory = itemCategory.split("");
-                itemCategory[0] = itemCategory[0].toUpperCase();
-                itemCategory = itemCategory.join("");
-
-                const n = this.data.length;
-                let avgX = 0, avgY = 0;
-
-                this.data.forEach(obj => {
-                    avgX += obj["comp" + itemCategory];
-                    avgY += obj["std" + itemCategory];
-                });
-                avgX /= n;
-                avgY /= n;
-
-                let cov = 0, std = 0;
-                let sumOfSubXAvgXSqure = 0, sumOfSubYAvgYSqure = 0;
-                this.data.forEach(obj => {
-                    const subXAvgX = obj["comp" + itemCategory] - avgX;
-                    const subYAvgY = obj["std" + itemCategory] - avgY;
-                    cov += subXAvgX * subYAvgY;
-                    sumOfSubXAvgXSqure += subXAvgX ** 2;
-                    sumOfSubYAvgYSqure += subYAvgY ** 2;
-                });
-                std = Math.sqrt(sumOfSubXAvgXSqure * sumOfSubYAvgYSqure);
-
-                return cov / std;
             }
         },
         destroyed() {
