@@ -17,7 +17,7 @@
                             <h4>비교 분석 결과</h4>
                             <h3 v-if="data && data.length > 0" class="formula">
                                 Y = {{ Math.round(gradient * 10000) / 10000 }}X {{ intercept >= 0 ? `+ ${Math.round(intercept * 10000) / 10000}` : `- ${-Math.round(intercept * 10000) / 10000}` }}<br />
-                                R<sup>2</sup> = {{ (Math.round(corr ** 2 * 10000) / 10000).toFixed(4) }}
+                                R² = {{ (Math.round(corr ** 2 * 10000) / 10000).toFixed(4) }}
                             </h3>
                             <div>
                                 <input type="checkbox" id="show-formula" @click="e => showFomula = e.target.checked" :checked="showFomula" />
@@ -47,7 +47,7 @@
                     <h4>비교 분석 결과</h4>
                     <h3 v-if="data && data.length > 0" class="formula">
                         Y = {{ Math.round(gradient * 10000) / 10000 }}X {{ intercept >= 0 ? `+ ${Math.round(intercept * 10000) / 10000}` : `- ${-Math.round(intercept * 10000) / 10000}` }}<br />
-                        R<sup>2</sup> = {{ (Math.round(corr ** 2 * 10000) / 10000).toFixed(4) }}
+                        R² = {{ (Math.round(corr ** 2 * 10000) / 10000).toFixed(4) }}
                     </h3>
                     <div>
                         <input type="checkbox" id="show-formula-mobile" @click="e => showFomula = e.target.checked" :checked="showFomula" />
@@ -95,9 +95,7 @@
             timeseriesChart: null,
             correlationChart: null,
             timeseriesChartMobile: null,
-            correlationChartMobile: null,
-            r: 0,
-            b: 0
+            correlationChartMobile: null
         }),
         computed: {
             ...mapState({
@@ -244,6 +242,7 @@
                 return this.correlationData.reduce((acc, cur) => (typeof acc == "object" ? acc[0] : acc) + cur[0]) / this.correlationData.length;
             },
 
+            // 상관계수 R값
             corr() {
                 const n = this.correlationData.length;
                 const avgX = this.avgX;
@@ -261,6 +260,7 @@
                 return a / Math.sqrt(b * c);
             },
 
+            // 기울기
             gradient() {
                 const n = this.correlationData.length;
                 const avgX = this.avgX;
@@ -277,6 +277,7 @@
                 return a / b;
             },
 
+            // Y절편
             intercept() {
                 return this.avgX - this.gradient * this.avgY;
             }
