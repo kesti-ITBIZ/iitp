@@ -142,8 +142,8 @@
                         <div>
                             <h4 style="font: 16px 'NanumSquare'; font-weight: bold; margin: 0 0 10px 0; transform: rotate(0.03deg);">${data.name}</h4>
                             <div style="margin-top: 5px;">
-                                <div style="margin-top: 2px; transform: rotate(0.03deg);">위도: ${Math.round(data.latitude * 100) / 100}</div>
-                                <div style="margin-top: 2px; transform: rotate(0.03deg);">경도: ${Math.round(data.longitude * 100) / 100}</div>
+                                <div style="margin-top: 2px; transform: rotate(0.03deg);">위도: ${Math.round(data.latitude * 1000000) / 1000000}</div>
+                                <div style="margin-top: 2px; transform: rotate(0.03deg);">경도: ${Math.round(data.longitude * 1000000) / 1000000}</div>
                                 <div style="margin-top: 2px; transform: rotate(0.03deg);">주소: ${data.address}</div>
                                 <div style="margin-top: 2px; transform: rotate(0.03deg);">측정항목: ${this.items[this.selectedCategory].join(", ")}</div>
                                 <div style="margin-top: 2px; transform: rotate(0.03deg);">

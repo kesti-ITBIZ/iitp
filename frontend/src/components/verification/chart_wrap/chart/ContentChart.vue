@@ -16,9 +16,8 @@
                         <div>
                             <h4>비교 분석 결과</h4>
                             <h3 v-if="data && data.length > 0" class="formula">
-<!--                                Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}<br />-->
                                 Y = {{ Math.round(gradient * 10000) / 10000 }}X {{ intercept >= 0 ? `+ ${Math.round(intercept * 10000) / 10000}` : `- ${-Math.round(intercept * 10000) / 10000}` }}<br />
-                                R<sup>2</sup> = {{ (Math.round(corr ** 2 * 10000) / 10000).toFixed(4) }}
+                                R² = {{ (Math.round(corr ** 2 * 10000) / 10000).toFixed(4) }}
                             </h3>
                             <div>
                                 <input type="checkbox" id="show-formula" @click="e => showFomula = e.target.checked" :checked="showFomula" />
@@ -47,9 +46,8 @@
                 <div>
                     <h4>비교 분석 결과</h4>
                     <h3 v-if="data && data.length > 0" class="formula">
-<!--                        Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}<br />-->
                         Y = {{ Math.round(gradient * 10000) / 10000 }}X {{ intercept >= 0 ? `+ ${Math.round(intercept * 10000) / 10000}` : `- ${-Math.round(intercept * 10000) / 10000}` }}<br />
-                        R<sup>2</sup> = {{ (Math.round(corr ** 2 * 10000) / 10000).toFixed(4) }}
+                        R² = {{ (Math.round(corr ** 2 * 10000) / 10000).toFixed(4) }}
                     </h3>
                     <div>
                         <input type="checkbox" id="show-formula-mobile" @click="e => showFomula = e.target.checked" :checked="showFomula" />
@@ -97,9 +95,7 @@
             timeseriesChart: null,
             correlationChart: null,
             timeseriesChartMobile: null,
-            correlationChartMobile: null,
-            r: 0,
-            b: 0
+            correlationChartMobile: null
         }),
         computed: {
             ...mapState({
@@ -222,8 +218,6 @@
                         ]);
                     });
 
-                    console.log("length:", Object.keys(bucket).length);
-
                     const data = [];
                     Object.keys(bucket).forEach(date => {
                         let arr = [0, 0];
@@ -233,27 +227,24 @@
                         });
                         arr[0] = Math.round(arr[0] / 24);
                         arr[1] = Math.round(arr[1] / 24);
-                        if (date === "20211122") {
-                            console.log("bucket:", bucket[date]);
-                            console.log("arr:", arr);
-                        }
                         if (arr[0] > 0 && arr[1] > 0) data.push(arr);
                     });
-
-                    console.log("data:", data);
 
                     return data;
                 }
             },
 
+            // 비교지점 데이터 평균
             avgX() {
                 return this.correlationData.reduce((acc, cur) => (typeof acc == "object" ? acc[1] : acc) + cur[1]) / this.correlationData.length;
             },
 
+            // 기준지점 데이터 평균
             avgY() {
                 return this.correlationData.reduce((acc, cur) => (typeof acc == "object" ? acc[0] : acc) + cur[0]) / this.correlationData.length;
             },
 
+            // 상관계수 R값
             corr() {
                 const n = this.correlationData.length;
                 const avgX = this.avgX;
@@ -271,6 +262,7 @@
                 return a / Math.sqrt(b * c);
             },
 
+            // 기울기
             gradient() {
                 const n = this.correlationData.length;
                 const avgX = this.avgX;
@@ -287,6 +279,7 @@
                 return a / b;
             },
 
+            // Y절편
             intercept() {
                 return this.avgX - this.gradient * this.avgY;
             }
@@ -298,13 +291,6 @@
                     this.reInitCorrelationChart();
                 }
             },
-
-            // selectedDateType() {
-            //     if (this.data && this.data.length > 0) {
-            //         this.reInitTimeseriesChart();
-            //         this.reInitCorrelationChart();
-            //     }
-            // },
 
             data() {
                 if (this.data && this.data.length > 0) {
@@ -437,23 +423,14 @@
                                 fontSize: 16,
                                 fontFamily: "NanumSquare",
                                 fontWeight: "bold",
-                                formatter: data => {
-                                    if (data.value[2] !== "") {
-                                        // const formula = data.value[2].toUpperCase().replace("+ -", "- ");
-                                        // let tmp = formula.replace("Y = ", "");
-                                        // this.r = +tmp.substr(0, tmp.indexOf("X"));
-                                        // this.b = +tmp.substr(tmp.lastIndexOf(tmp.lastIndexOf("+") !== -1 ? "+" : "-")).replace(" ", "");
-                                        // return formula + `    R² = ${(Math.round(this.corr ** 2 * 10000) / 10000).toFixed(4)}`;
-                                        return `Y = ${Math.round(this.gradient * 10000) / 10000}X ${this.intercept < 0 ? "-" : "+"} ${Math.abs(Math.round(this.intercept * 10000) / 10000)}    R² = ${Math.round(this.corr ** 2 * 10000) / 10000}`
-                                    }
-                                }
+                                formatter: data => data.value[2] !== "" ? `Y = ${Math.round(this.gradient * 10000) / 10000}X ${this.intercept < 0 ? "-" : "+"} ${Math.abs(Math.round(this.intercept * 10000) / 10000)}    R² = ${Math.round(this.corr ** 2 * 10000) / 10000}` : ""
                             },
                             itemStyle: {
                                 color: "#5c5c5c"
                             },
                             labelLayout: {
-                                dx: -100,
-                                dy: 100
+                                x: "35%",
+                                y: "85%",
                             },
                             encode: {
                                 label: 2,

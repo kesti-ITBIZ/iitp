@@ -79,12 +79,14 @@ div.container-wrap.chart {
                 }
             }
 
-            .correlation > div {
-                display: flex;
+            .correlation {
+                > div {
+                    display: flex;
 
-                > div.chart-content {
-                    width: 42vmin;
-                    margin: 0 0 0 auto;
+                    > div.chart-content {
+                        width: 100%;
+                        margin: 0 0 0 auto;
+                    }
                 }
             }
         }
