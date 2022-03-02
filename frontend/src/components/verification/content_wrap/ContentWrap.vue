@@ -50,6 +50,7 @@
                 windowWidth: state => state.common.windowWidth,
                 reactiveMaxWidth: state => state.common.reactiveMaxWidth,
                 selectedSearchOption: state => state.verification.selectedSearchOption,
+                selectedDateType: state => state.verification.selectedDateType,
                 startDatetime: state => state.verification.startDatetime,
                 endDatetime: state => state.verification.endDatetime,
                 selectedCategory: state => state.verification.selectedCategory,
