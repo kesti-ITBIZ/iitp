@@ -211,6 +211,7 @@
                         this.data.filter(obj => obj.compPm25 != null && obj.stdPm25 != null).map(obj => [obj.compPm25, obj.stdPm25]);
                 } else {
                     const valueType = this.selectedItem.value == "pm10" ? "Pm10" : "Pm25";
+
                     const bucket = [];
                     this.data.forEach(obj => {
                         const date = obj.datetime.substr(0, 8);
@@ -221,17 +222,25 @@
                         ]);
                     });
 
+                    console.log("length:", Object.keys(bucket).length);
+
                     const data = [];
                     Object.keys(bucket).forEach(date => {
-                        let arr = bucket[date].reduce((acc, cur) => {
-                            acc[0] += cur[0];
-                            acc[1] += cur[1];
-                            return acc;
+                        let arr = [0, 0];
+                        bucket[date].forEach(values => {
+                            arr[0] += values[0];
+                            arr[1] += values[1];
                         });
                         arr[0] = Math.round(arr[0] / 24);
                         arr[1] = Math.round(arr[1] / 24);
-                        if (arr[0] !== 0 && arr[1] !== 0) data.push(arr);
+                        if (date === "20211122") {
+                            console.log("bucket:", bucket[date]);
+                            console.log("arr:", arr);
+                        }
+                        if (arr[0] > 0 && arr[1] > 0) data.push(arr);
                     });
+
+                    console.log("data:", data);
 
                     return data;
                 }
