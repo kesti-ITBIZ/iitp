@@ -213,14 +213,12 @@
                     const valueType = this.selectedItem.value == "pm10" ? "Pm10" : "Pm25";
                     const bucket = [];
                     this.data.forEach(obj => {
-                        if (obj["comp" + valueType] != null && obj["std" + valueType] != null) {
-                            const date = obj.datetime.substr(0, 8);
-                            if (!(date in bucket)) bucket[date] = [];
-                            bucket[date].push([
-                                obj["comp" + valueType],
-                                obj["std" + valueType]
-                            ]);
-                        }
+                        const date = obj.datetime.substr(0, 8);
+                        if (!(date in bucket)) bucket[date] = [];
+                        bucket[date].push([
+                            obj["comp" + valueType] == null ? 0 : obj["comp" + valueType],
+                            obj["std" + valueType] == null ? 0 : obj["std" + valueType]
+                        ]);
                     });
 
                     console.log("bucket:", bucket);
