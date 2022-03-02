@@ -234,10 +234,12 @@
                 }
             },
 
+            // 비교지점 데이터 평균
             avgX() {
                 return this.correlationData.reduce((acc, cur) => (typeof acc == "object" ? acc[1] : acc) + cur[1]) / this.correlationData.length;
             },
 
+            // 기준지점 데이터 평균
             avgY() {
                 return this.correlationData.reduce((acc, cur) => (typeof acc == "object" ? acc[0] : acc) + cur[0]) / this.correlationData.length;
             },
