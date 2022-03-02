@@ -26,10 +26,6 @@
                         </div>
                     </div>
                     <div ref="correlation" class="chart-content"></div>
-<!--                    <div class="chart-formula">-->
-<!--                        Y = {{ Math.round(gradient * 10000) / 10000 }}X {{ intercept >= 0 ? `+ ${Math.round(intercept * 10000) / 10000}` : `- ${-Math.round(intercept * 10000) / 10000}` }}&emsp;-->
-<!--                        R<sup>2</sup> = {{ (Math.round(corr ** 2 * 10000) / 10000).toFixed(4) }}-->
-<!--                    </div>-->
                 </div>
             </div>
             <div class="timeseries">
@@ -61,12 +57,7 @@
             </div>
             <div class="correlation">
                 <h3>상관분석 차트 - {{ selectedItem.label }} (단위: {{ selectedItem.unit }}) </h3>
-                <div ref="correlation-mobile" class="chart-content">
-<!--                    <div class="formula">-->
-<!--                        Y = {{ Math.round(gradient * 10000) / 10000 }}X {{ intercept >= 0 ? `+ ${Math.round(intercept * 10000) / 10000}` : `- ${-Math.round(intercept * 10000) / 10000}` }}&emsp;-->
-<!--                        R<sup>2</sup> = {{ (Math.round(corr ** 2 * 10000) / 10000).toFixed(4) }}-->
-<!--                    </div>-->
-                </div>
+                <div ref="correlation-mobile" class="chart-content"></div>
             </div>
             <div class="timeseries">
                 <h3>시계열 차트</h3>
