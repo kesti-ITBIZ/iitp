@@ -6,7 +6,7 @@
                 <div v-if="selectedStation" @click="removeSelectedStation">
                     <span class="close">&times;</span>
                     <h2>{{ selectedStation.name }}</h2>
-                    <div>위/경도: {{ Math.round(selectedStation.latitude * 100) / 100 }} / {{ Math.round(selectedStation.longitude * 100) / 100 }}</div>
+                    <div>위/경도: {{ Math.round(selectedStation.latitude * 1000000) / 1000000 }} / {{ Math.round(selectedStation.longitude * 1000000) / 1000000 }}</div>
                     <div>주소: {{ selectedStation.address }}</div>
                     <div>측정항목: {{ obsItems.map(obsItem => obsItem.label).join(", ") }}</div>
                 </div>
