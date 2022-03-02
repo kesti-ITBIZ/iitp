@@ -1,35 +1,74 @@
 <template>
     <div class="container-wrap chart">
-        <div v-show="data && data.length > 0" class="container chart">
-            <div class="info">
+        <div v-show="data && data.length > 0 && windowWidth >= reactiveMaxWidth + 1" class="container chart">
+            <div class="correlation">
+                <h3>상관분석 차트 - {{ selectedItem.label }} (단위: {{ selectedItem.unit }}) </h3>
                 <div>
-                    <h4>기준 지점</h4>
-                    <h3 v-if="data && data.length > 0">{{ data[0].stdStnNm }}</h3>
-                </div>
-                <div>
-                    <h4>비교 지점</h4>
-                    <h3 v-if="data && data.length > 0">{{ data[0].compStnNm }}</h3>
-                </div>
-                <div>
-                    <h4>비교 분석 결과</h4>
-                    <h3 v-if="data && data.length > 0" class="formula">
-                        Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}<br />
-                        R<sup>2</sup> = {{ (Math.round((this.selectedItem.value == 'pm10' ? this.corrPm10 ** 2 : this.corrPm25 ** 2) * 10000) / 10000).toFixed(4) }}
-                    </h3>
+                    <div class="info">
+                        <div>
+                            <h4>비교 지점</h4>
+                            <h3 v-if="data && data.length > 0">{{ data[0].compStnNm }}</h3>
+                        </div>
+                        <div>
+                            <h4>기준 지점</h4>
+                            <h3 v-if="data && data.length > 0">{{ data[0].stdStnNm }}</h3>
+                        </div>
+                        <div>
+                            <h4>비교 분석 결과</h4>
+                            <h3 v-if="data && data.length > 0" class="formula">
+<!--                                Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}<br />-->
+                                Y = {{ Math.round(gradient * 10000) / 10000 }}X {{ intercept >= 0 ? `+ ${Math.round(intercept * 10000) / 10000}` : `- ${-Math.round(intercept * 10000) / 10000}` }}<br />
+                                R<sup>2</sup> = {{ (Math.round(corr ** 2 * 10000) / 10000).toFixed(4) }}
+                            </h3>
+                            <div>
+                                <input type="checkbox" id="show-formula" @click="e => showFomula = e.target.checked" :checked="showFomula" />
+                                <label for="show-formula">차트 수식 표시</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div ref="correlation" class="chart-content"></div>
                 </div>
             </div>
             <div class="timeseries">
                 <h3>시계열 차트</h3>
                 <div ref="timeseries"></div>
             </div>
+        </div>
+        <div v-show="data && data.length > 0 && windowWidth < reactiveMaxWidth + 1" class="container chart">
+            <div class="info">
+                <div>
+                    <h4>비교 지점</h4>
+                    <h3 v-if="data && data.length > 0">{{ data[0].compStnNm }}</h3>
+                </div>
+                <div>
+                    <h4>기준 지점</h4>
+                    <h3 v-if="data && data.length > 0">{{ data[0].stdStnNm }}</h3>
+                </div>
+                <div>
+                    <h4>비교 분석 결과</h4>
+                    <h3 v-if="data && data.length > 0" class="formula">
+<!--                        Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}<br />-->
+                        Y = {{ Math.round(gradient * 10000) / 10000 }}X {{ intercept >= 0 ? `+ ${Math.round(intercept * 10000) / 10000}` : `- ${-Math.round(intercept * 10000) / 10000}` }}<br />
+                        R<sup>2</sup> = {{ (Math.round(corr ** 2 * 10000) / 10000).toFixed(4) }}
+                    </h3>
+                    <div>
+                        <input type="checkbox" id="show-formula-mobile" @click="e => showFomula = e.target.checked" :checked="showFomula" />
+                        <label for="show-formula-mobile">차트 수식 표시</label>
+                    </div>
+                </div>
+            </div>
             <div class="correlation">
                 <h3>상관분석 차트 - {{ selectedItem.label }} (단위: {{ selectedItem.unit }}) </h3>
-                <div ref="correlation"></div>
+                <div ref="correlation-mobile" class="chart-content"></div>
+            </div>
+            <div class="timeseries">
+                <h3>시계열 차트</h3>
+                <div ref="timeseries-mobile"></div>
             </div>
         </div>
         <div v-show="!data || data.length === 0" id="no-data" class="container">
             <div>
-                <h1>데이터가 없습니다.</h1>
+                <h1>분석할 지점을 선택하세요.</h1>
             </div>
         </div>
         <loading />
@@ -54,8 +93,11 @@
             Loading
         },
         data: () => ({
+            showFomula: true,
             timeseriesChart: null,
             correlationChart: null,
+            timeseriesChartMobile: null,
+            correlationChartMobile: null,
             r: 0,
             b: 0
         }),
@@ -163,17 +205,85 @@
             },
 
             correlationData() {
-                if (this.selectedItem.value == "pm10")
-                    return this.data.map(obj => [obj.compPm10, obj.stdPm10]);
-                else return this.data.map(obj => [obj.compPm25, obj.stdPm25]);
+                if (this.selectedDateType == "hour") {
+                    return this.selectedItem.value == "pm10" ?
+                        this.data.filter(obj => obj.compPm10 != null && obj.stdPm10 != null).map(obj => [obj.compPm10, obj.stdPm10]) :
+                        this.data.filter(obj => obj.compPm25 != null && obj.stdPm25 != null).map(obj => [obj.compPm25, obj.stdPm25]);
+                } else {
+                    const valueType = this.selectedItem.value == "pm10" ? "Pm10" : "Pm25";
+                    const bucket = [];
+                    this.data.forEach(obj => {
+                        const date = obj.datetime.substr(0, 8);
+                        if (!(date in bucket)) bucket[date] = [];
+                        bucket[date].push([
+                            obj["comp" + valueType] == null ? 0 : obj["comp" + valueType],
+                            obj["std" + valueType] == null ? 0 : obj["std" + valueType]
+                        ]);
+                    });
+
+                    console.log("bucket:", bucket);
+
+                    const data = [];
+                    Object.keys(bucket).forEach(date => {
+                        let arr = bucket[date].reduce((acc, cur) => {
+                            acc[0] += cur[0];
+                            acc[1] += cur[1];
+                            return acc;
+                        });
+                        arr[0] = Math.round(arr[0] / 24);
+                        arr[1] = Math.round(arr[1] / 24);
+                        if (arr[0] !== 0 && arr[1] !== 0) data.push(arr);
+                    });
+
+                    console.log("data:", data);
+
+                    return data;
+                }
             },
 
-            corrPm10() {
-                return this.corr("pm10");
+            avgX() {
+                return this.correlationData.reduce((acc, cur) => (typeof acc == "object" ? acc[1] : acc) + cur[1]) / this.correlationData.length;
             },
 
-            corrPm25() {
-                return this.corr("pm25");
+            avgY() {
+                return this.correlationData.reduce((acc, cur) => (typeof acc == "object" ? acc[0] : acc) + cur[0]) / this.correlationData.length;
+            },
+
+            corr() {
+                const n = this.correlationData.length;
+                const avgX = this.avgX;
+                const avgY = this.avgY;
+
+                let a = 0, b = 0, c = 0;
+                for (let i = 0; i < n; ++i) {
+                    const subXAvgX = this.correlationData[i][1] - avgX;
+                    const subYAvgY = this.correlationData[i][0] - avgY;
+                    a += subXAvgX * subYAvgY;
+                    b += subXAvgX ** 2;
+                    c += subYAvgY ** 2;
+                }
+
+                return a / Math.sqrt(b * c);
+            },
+
+            gradient() {
+                const n = this.correlationData.length;
+                const avgX = this.avgX;
+                const avgY = this.avgY;
+
+                let a = 0, b = 0;
+                for (let i = 0; i < n; ++i) {
+                    const subXAvgX = this.correlationData[i][1] - avgX;
+                    const subYAvgY = this.correlationData[i][0] - avgY;
+                    a += subXAvgX * subYAvgY;
+                    b += subYAvgY ** 2;
+                }
+
+                return a / b;
+            },
+
+            intercept() {
+                return this.avgX - this.gradient * this.avgY;
             }
         },
         watch: {
@@ -185,8 +295,10 @@
             },
 
             selectedDateType() {
-                if (this.data && this.data.length > 0)
+                if (this.data && this.data.length > 0) {
                     this.reInitTimeseriesChart();
+                    this.reInitCorrelationChart();
+                }
             },
 
             data() {
@@ -194,6 +306,11 @@
                     this.reInitTimeseriesChart();
                     this.reInitCorrelationChart();
                 }
+            },
+
+            showFomula() {
+                if (this.data && this.data.length > 0)
+                    this.reInitCorrelationChart();
             }
         },
         methods: {
@@ -212,11 +329,158 @@
                     setTimeout(this.initCorrelationChart, 0);
             },
 
-            initTimeseriesChart() {
-                if (this.timeseriesChart != null) this.timeseriesChart.clear();
-                else this.timeseriesChart = init(this.$refs["timeseries"]);
+            initCorrelationChart() {
+                if (this.correlationChart != null && this.correlationChartMobile != null) {
+                    this.correlationChart.clear();
+                    this.correlationChartMobile.clear();
+                }
+                else {
+                    this.correlationChart = init(this.$refs["correlation"]);
+                    this.correlationChartMobile = init(this.$refs["correlation-mobile"]);
+                }
 
-                this.timeseriesChart.setOption({
+                registerTransform(transform.regression);
+
+                const option = {
+                    dataset: [
+                        {
+                            source: this.correlationData
+                        },
+                        {
+                            transform: {
+                                type: "ecStat:regression"
+                            }
+                        }
+                    ],
+                    tooltip: {
+                        formatter: data => {
+                            if (data.componentIndex === 0) {
+                                const label = this.selectedItem.label;
+                                const unit = this.selectedItem.unit;
+                                return `
+                                    기준 지점 ${label}: ${data.value[0]}${unit}<br />
+                                    비교 지점 ${label}: ${data.value[1]}${unit}<br />`;
+                            }
+                        },
+                        textStyle: {
+                            fontFamily: "NanumSquare"
+                        }
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {
+                                type: "png"
+                            }
+                        },
+                        right: 40
+                    },
+                    grid: {
+                        top: 70,
+                        right: 120,
+                        bottom: 20
+                    },
+                    legend: {
+                        data: ["산점도", "추세선"],
+                        textStyle: {
+                            fontFamily: "NanumSquare"
+                        }
+                    },
+                    xAxis: {
+                        name: this.data && this.data.length > 0 ? this.data[0].compStnNm : "",
+                        splitLine: {
+                            show: true
+                        },
+                        nameTextStyle: {
+                            fontFamily: "NanumSquare"
+                        },
+                        axisLabel: {
+                            fontFamily: "NanumSquare"
+                        }
+                    },
+                    yAxis: {
+                        name: this.data && this.data.length > 0 ? this.data[0].stdStnNm : "",
+                        splitLine: {
+                            show: true
+                        },
+                        nameTextStyle: {
+                            align: "left",
+                            fontFamily: "NanumSquare",
+                            fontWeight: "bold"
+                        },
+                        axisLabel: {
+                            formatter: "{value}",
+                            fontFamily: "NanumSquare"
+                        },
+                    },
+                    series: [
+                        {
+                            name: "산점도",
+                            type: "scatter",
+                            symbolSize: 7,
+                            itemStyle: {
+                                color: "#5b9bd6"
+                            }
+                        },
+                        {
+                            name: "추세선",
+                            type: "line",
+                            datasetIndex: 1,
+                            symbolSize: 0.1,
+                            symbol: "circle",
+                            label: {
+                                show: this.showFomula,
+                                fontSize: 16,
+                                fontFamily: "NanumSquare",
+                                fontWeight: "bold",
+                                formatter: data => {
+                                    if (data.value[2] !== "") {
+                                        // const formula = data.value[2].toUpperCase().replace("+ -", "- ");
+                                        // let tmp = formula.replace("Y = ", "");
+                                        // this.r = +tmp.substr(0, tmp.indexOf("X"));
+                                        // this.b = +tmp.substr(tmp.lastIndexOf(tmp.lastIndexOf("+") !== -1 ? "+" : "-")).replace(" ", "");
+                                        // return formula + `    R² = ${(Math.round(this.corr ** 2 * 10000) / 10000).toFixed(4)}`;
+                                        return `Y = ${Math.round(this.gradient * 10000) / 10000}X ${this.intercept < 0 ? "-" : "+"} ${Math.abs(Math.round(this.intercept * 10000) / 10000)}    R² = ${Math.round(this.corr ** 2 * 10000) / 10000}`
+                                    }
+                                }
+                            },
+                            itemStyle: {
+                                color: "#5c5c5c"
+                            },
+                            labelLayout: {
+                                dx: -100,
+                                dy: 100
+                            },
+                            encode: {
+                                label: 2,
+                                tooltip: 1
+                            }
+                        }
+                    ]
+                };
+
+                this.correlationChart?.setOption(option);
+                this.correlationChartMobile?.setOption(option);
+
+                this.addResizeEvent({
+                    name: "resizeVrfyCorrelationChart",
+                    callback: () => {
+                        this.correlationChart.resize();
+                        this.correlationChartMobile.resize();
+                    }
+                });
+            },
+
+            initTimeseriesChart() {
+                if (this.timeseriesChart != null && this.timeseriesChartMobile != null) {
+                    this.timeseriesChart.clear();
+                    this.timeseriesChartMobile.clear();
+                }
+                else {
+                    this.timeseriesChart = init(this.$refs["timeseries"]);
+                    this.timeseriesChartMobile = init(this.$refs["timeseries-mobile"]);
+                }
+
+                const option = {
                     tooltip: {
                         formatter: data => `
                             <strong style="font-size: 16px; margin-bottom: 5px;">${data.componentIndex === 0 ? "기준" : "비교"} 지점</strong><br />
@@ -240,6 +504,9 @@
                             type: "slider"
                         }
                     ],
+                    grid: {
+                        right: 80
+                    },
                     legend: {
                         data: this.data && this.data.length > 0 ?
                             [
@@ -301,171 +568,18 @@
                             showSymbol: true
                         }
                     ]
-                });
+                };
+
+                this.timeseriesChart.setOption(option);
+                this.timeseriesChartMobile.setOption(option);
 
                 this.addResizeEvent({
                     name: "resizeVrfyTimeseriesChart",
-                    callback: () => this.timeseriesChart.resize()
+                    callback: () => {
+                        this.timeseriesChart.resize();
+                        this.timeseriesChartMobile.resize();
+                    }
                 });
-            },
-
-            initCorrelationChart() {
-                if (this.correlationChart != null) this.correlationChart.clear();
-                else this.correlationChart = init(this.$refs["correlation"]);
-
-                registerTransform(transform.regression);
-                this.correlationChart?.setOption({
-                    dataset: [
-                        {
-                            source: this.correlationData
-                        },
-                        {
-                            transform: {
-                                type: "ecStat:regression"
-                            }
-                        }
-                    ],
-                    tooltip: {
-                        formatter: data => {
-                            if (data.componentIndex === 0) {
-                                const label = this.selectedItem.label;
-                                const unit = this.selectedItem.unit;
-                                return `
-                                    기준 지점 ${label}: ${data.value[0]}${unit}<br />
-                                    비교 지점 ${label}: ${data.value[1]}${unit}<br />`;
-                            }
-                        },
-                        textStyle: {
-                            fontFamily: "NanumSquare"
-                        }
-                    },
-                    toolbox: {
-                        feature: {
-                            saveAsImage: {
-                                type: "png"
-                            }
-                        },
-                        right: 40
-                    },
-                    dataZoom: [
-                        {
-                            type: "slider"
-                        }
-                    ],
-                    legend: {
-                        data: ["산점도", "추세선"],
-                        textStyle: {
-                            fontFamily: "NanumSquare"
-                        }
-                    },
-                    xAxis: {
-                        name: this.data && this.data.length > 0 ? this.data[0].compStnNm : "",
-                        splitLine: {
-                            show: true
-                        },
-                        nameTextStyle: {
-                            fontFamily: "NanumSquare"
-                        },
-                        axisLabel: {
-                            fontFamily: "NanumSquare"
-                        }
-                    },
-                    yAxis: {
-                        name: this.data && this.data.length > 0 ? this.data[0].stdStnNm : "",
-                        splitLine: {
-                            show: true
-                        },
-                        nameTextStyle: {
-                            align: "left",
-                            fontFamily: "NanumSquare",
-                            fontWeight: "bold"
-                        },
-                        axisLabel: {
-                            formatter: "{value}",
-                            fontFamily: "NanumSquare"
-                        },
-                    },
-                    series: [
-                        {
-                            name: "산점도",
-                            type: "scatter",
-                            symbolSize: 7,
-                            itemStyle: {
-                                color: "#5b9bd6"
-                            }
-                        },
-                        {
-                            name: "추세선",
-                            type: "line",
-                            datasetIndex: 1,
-                            symbolSize: 0.1,
-                            symbol: "circle",
-                            label: {
-                                show: true,
-                                fontSize: 16,
-                                fontFamily: "NanumSquare",
-                                fontWeight: "bold",
-                                formatter: data => {
-                                    if (data.value[2] !== "") {
-                                        const formula = data.value[2].toUpperCase().replace("+ -", "- ");
-                                        let tmp = formula.replace("Y = ", "");
-                                        this.r = +tmp.substr(0, tmp.indexOf("X"));
-                                        this.b = +tmp.substr(tmp.lastIndexOf(tmp.lastIndexOf("+") !== -1 ? "+" : "-")).replace(" ", "");
-                                        return formula + `    R² = ${(Math.round((this.selectedItem.value == 'pm10' ? this.corrPm10 ** 2 : this.corrPm25 ** 2) * 10000) / 10000).toFixed(4)}`;
-                                    }
-                                }
-                            },
-                            itemStyle: {
-                                color: "#5c5c5c"
-                            },
-                            labelLayout: {
-                                dx: -100,
-                                dy: 100
-                            },
-                            encode: {
-                                label: 2,
-                                tooltip: 1
-                            }
-                        }
-                    ]
-                });
-
-                this.addResizeEvent({
-                    name: "resizeVrfyCorrelationChart",
-                    callback: () => this.correlationChart.resize()
-                });
-            },
-
-            /**
-             * @param itemCategory: "pm10" | "pm25"
-             * */
-            corr(itemCategory) {
-                itemCategory = itemCategory.split("");
-                itemCategory[0] = itemCategory[0].toUpperCase();
-                itemCategory = itemCategory.join("");
-
-                const n = this.data.length;
-                let avgX = 0, avgY = 0;
-
-                this.data.forEach(obj => {
-                    avgX += obj["comp" + itemCategory];
-                    avgY += obj["std" + itemCategory];
-                });
-                avgX /= n;
-                avgY /= n;
-
-                let cov = 0, std = 0;
-                let sumOfSubXAvgXSqure = 0, sumOfSubYAvgYSqure = 0;
-                this.data.forEach(obj => {
-                    const subXAvgX = obj["comp" + itemCategory] - avgX;
-                    const subYAvgY = obj["std" + itemCategory] - avgY;
-                    cov += subXAvgX * subYAvgY;
-                    sumOfSubXAvgXSqure += subXAvgX ** 2;
-                    sumOfSubYAvgYSqure += subYAvgY ** 2;
-                });
-                std = Math.sqrt(sumOfSubXAvgXSqure * sumOfSubYAvgYSqure);
-
-                return cov / std;
             }
         },
         destroyed() {

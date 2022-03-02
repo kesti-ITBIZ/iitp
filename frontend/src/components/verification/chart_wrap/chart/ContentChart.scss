@@ -14,33 +14,46 @@ div.container-wrap.chart {
 
             .info {
                 display: flex;
+                flex-direction: column;
+                width: 30%;
+                min-width: 200px;
 
                 > div {
                     color: white;
+
                     border-radius: 10px;
+                    margin: auto 0;
                     padding: 15px;
 
                     &:nth-child(1) {
-                        flex: 2;
                         background-color: #59a0e9;
-                        margin: 0 10px 10px 0;
                     }
 
                     &:nth-child(2) {
-                        flex: 2;
                         background-color: #637ebd;
-                        margin: 0 10px 10px 10px;
                     }
 
                     &:nth-child(3) {
-                        flex: 3;
                         background-color: #515f7e;
-                        margin: 0 0 10px 10px;
+
+                        > div {
+                            text-align: right;
+                            font-size: 12px;
+                            font-weight: bold;
+                            margin-top: 10px;
+                            transform: rotate(0.03deg);
+
+                            label {
+                                position: relative;
+                                top: -2px;
+                            }
+                        }
                     }
 
                     h3 {
-                        text-align: right;
+                        text-align: center;
                         margin-top: 15px;
+                        color: white;
 
                         &.formula {
                             font-size: 18px;
@@ -54,7 +67,7 @@ div.container-wrap.chart {
             }
 
             .timeseries, .correlation {
-                height: calc(50% - 155px);
+                height: calc(50% - 100px);
                 padding: 50px 30px;
 
                 > div {
@@ -67,8 +80,12 @@ div.container-wrap.chart {
             }
 
             .correlation > div {
-                width: 35vmin;
-                margin: 0 auto;
+                display: flex;
+
+                > div.chart-content {
+                    width: 42vmin;
+                    margin: 0 0 0 auto;
+                }
             }
         }
 
@@ -95,8 +112,10 @@ div.container-wrap.chart {
         div.container.chart {
             .info {
                 display: block;
+                width: 100%;
 
                 > div {
+                    width: calc(100% - 30px);
                     margin: 0 0 10px 0!important;
 
                     h4 {
@@ -105,7 +124,7 @@ div.container-wrap.chart {
                     }
 
                     h3 {
-                        font-size: 16px;
+                        font-size: 16px !important;
                         transform: rotate(0.03deg);
                     }
                 }
@@ -127,7 +146,8 @@ div.container-wrap.chart {
             }
 
             .correlation > div {
-                width: 300px;
+                width: 400px;
+                margin: 0 auto;
             }
         }
 

@@ -4,8 +4,8 @@
             <div class="map" v-show="selectedCategory == category" :key="i" v-for="(category, i) in Object.keys(stations)">
                 <geo-map
                         :ref="category + '-map'"
-                        :zoom="windowWidth < reactiveMaxWidth + 1 ? 7 : 8"
-                        :center="[36, 127.5]"
+                        :zoom="zoom"
+                        :center="center"
                         :data="stations[category]"
                         :marker="marker"
                         :tooltip="tooltip"
@@ -74,6 +74,16 @@
                         radius: 16
                     }
                 }
+            },
+
+            zoom() {
+                if (this.selectedCategory != "sDoT")
+                    return this.windowWidth < this.reactiveMaxWidth + 1 ? 7 : 8;
+                else return this.windowWidth < this.reactiveMaxWidth + 1 ? 10 : 11;
+            },
+
+            center() {
+                return this.selectedCategory == "sDoT" ? [37.56, 127] : [36, 127.5];
             }
         },
         watch: {
