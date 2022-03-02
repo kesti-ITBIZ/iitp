@@ -3,13 +3,13 @@
 $table-color: #00c3dc;
 
 div.container-wrap.chart {
-    position: relative;
     height: calc(100% - 60px);
 
     div.container {
         padding: 20px;
 
         &.chart {
+            position: relative;
             height: 103px;
 
             .info {
@@ -79,15 +79,23 @@ div.container-wrap.chart {
                 }
             }
 
-            .correlation > div {
-                display: flex;
+            .correlation {
+                > div {
+                    display: flex;
 
-                > div.chart-content {
-                    //width: 42vmin;
-                    width: 100%;
-                    margin: 0 0 0 auto;
+                    > div.chart-content {
+                        width: 100%;
+                        margin: 0 0 0 auto;
+                    }
                 }
             }
+
+            //.chart-formula {
+            //    position: absolute;
+            //    top: 0;
+            //    left: 0;
+            //    color: black;
+            //}
         }
 
         &#no-data {

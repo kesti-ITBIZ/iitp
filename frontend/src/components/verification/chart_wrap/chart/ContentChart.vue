@@ -16,7 +16,6 @@
                         <div>
                             <h4>비교 분석 결과</h4>
                             <h3 v-if="data && data.length > 0" class="formula">
-<!--                                Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}<br />-->
                                 Y = {{ Math.round(gradient * 10000) / 10000 }}X {{ intercept >= 0 ? `+ ${Math.round(intercept * 10000) / 10000}` : `- ${-Math.round(intercept * 10000) / 10000}` }}<br />
                                 R<sup>2</sup> = {{ (Math.round(corr ** 2 * 10000) / 10000).toFixed(4) }}
                             </h3>
@@ -27,6 +26,10 @@
                         </div>
                     </div>
                     <div ref="correlation" class="chart-content"></div>
+<!--                    <div class="chart-formula">-->
+<!--                        Y = {{ Math.round(gradient * 10000) / 10000 }}X {{ intercept >= 0 ? `+ ${Math.round(intercept * 10000) / 10000}` : `- ${-Math.round(intercept * 10000) / 10000}` }}&emsp;-->
+<!--                        R<sup>2</sup> = {{ (Math.round(corr ** 2 * 10000) / 10000).toFixed(4) }}-->
+<!--                    </div>-->
                 </div>
             </div>
             <div class="timeseries">
@@ -47,7 +50,6 @@
                 <div>
                     <h4>비교 분석 결과</h4>
                     <h3 v-if="data && data.length > 0" class="formula">
-<!--                        Y = {{ r }}X {{ b >= 0 ? `+ ${b}` : `- ${-b}` }}<br />-->
                         Y = {{ Math.round(gradient * 10000) / 10000 }}X {{ intercept >= 0 ? `+ ${Math.round(intercept * 10000) / 10000}` : `- ${-Math.round(intercept * 10000) / 10000}` }}<br />
                         R<sup>2</sup> = {{ (Math.round(corr ** 2 * 10000) / 10000).toFixed(4) }}
                     </h3>
@@ -59,7 +61,12 @@
             </div>
             <div class="correlation">
                 <h3>상관분석 차트 - {{ selectedItem.label }} (단위: {{ selectedItem.unit }}) </h3>
-                <div ref="correlation-mobile" class="chart-content"></div>
+                <div ref="correlation-mobile" class="chart-content">
+<!--                    <div class="formula">-->
+<!--                        Y = {{ Math.round(gradient * 10000) / 10000 }}X {{ intercept >= 0 ? `+ ${Math.round(intercept * 10000) / 10000}` : `- ${-Math.round(intercept * 10000) / 10000}` }}&emsp;-->
+<!--                        R<sup>2</sup> = {{ (Math.round(corr ** 2 * 10000) / 10000).toFixed(4) }}-->
+<!--                    </div>-->
+                </div>
             </div>
             <div class="timeseries">
                 <h3>시계열 차트</h3>
@@ -222,8 +229,6 @@
                         ]);
                     });
 
-                    console.log("length:", Object.keys(bucket).length);
-
                     const data = [];
                     Object.keys(bucket).forEach(date => {
                         let arr = [0, 0];
@@ -233,14 +238,8 @@
                         });
                         arr[0] = Math.round(arr[0] / 24);
                         arr[1] = Math.round(arr[1] / 24);
-                        if (date === "20211122") {
-                            console.log("bucket:", bucket[date]);
-                            console.log("arr:", arr);
-                        }
                         if (arr[0] > 0 && arr[1] > 0) data.push(arr);
                     });
-
-                    console.log("data:", data);
 
                     return data;
                 }
@@ -298,13 +297,6 @@
                     this.reInitCorrelationChart();
                 }
             },
-
-            // selectedDateType() {
-            //     if (this.data && this.data.length > 0) {
-            //         this.reInitTimeseriesChart();
-            //         this.reInitCorrelationChart();
-            //     }
-            // },
 
             data() {
                 if (this.data && this.data.length > 0) {
@@ -437,23 +429,14 @@
                                 fontSize: 16,
                                 fontFamily: "NanumSquare",
                                 fontWeight: "bold",
-                                formatter: data => {
-                                    if (data.value[2] !== "") {
-                                        // const formula = data.value[2].toUpperCase().replace("+ -", "- ");
-                                        // let tmp = formula.replace("Y = ", "");
-                                        // this.r = +tmp.substr(0, tmp.indexOf("X"));
-                                        // this.b = +tmp.substr(tmp.lastIndexOf(tmp.lastIndexOf("+") !== -1 ? "+" : "-")).replace(" ", "");
-                                        // return formula + `    R² = ${(Math.round(this.corr ** 2 * 10000) / 10000).toFixed(4)}`;
-                                        return `Y = ${Math.round(this.gradient * 10000) / 10000}X ${this.intercept < 0 ? "-" : "+"} ${Math.abs(Math.round(this.intercept * 10000) / 10000)}    R² = ${Math.round(this.corr ** 2 * 10000) / 10000}`
-                                    }
-                                }
+                                formatter: data => data.value[2] !== "" ? `Y = ${Math.round(this.gradient * 10000) / 10000}X ${this.intercept < 0 ? "-" : "+"} ${Math.abs(Math.round(this.intercept * 10000) / 10000)}    R² = ${Math.round(this.corr ** 2 * 10000) / 10000}` : ""
                             },
                             itemStyle: {
                                 color: "#5c5c5c"
                             },
                             labelLayout: {
-                                dx: -100,
-                                dy: 100
+                                x: "35%",
+                                y: "85%",
                             },
                             encode: {
                                 label: 2,
