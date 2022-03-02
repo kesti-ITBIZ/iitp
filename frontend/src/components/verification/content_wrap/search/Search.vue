@@ -79,7 +79,6 @@
         name: "Search",
         data: () => ({
             keyword: "",
-            prevKeyword: null,
             pageIndex: 0,
             infiniteState: null,
             height: 0
@@ -122,7 +121,7 @@
                         skip: true,
                         variables() {
                             return {
-                                keyword: this.prevKeyword,
+                                keyword: this.keyword,
                                 page: this.pageIndex,
                                 size: 100
                             };
@@ -143,9 +142,8 @@
             async search() {
                 if (this.keyword === "")
                     await new Promise(resolve => alert("검색할 지점명 또는 주소를 입력하세요.", resolve));
-                else if (this.prevKeyword !== this.keyword) {
+                else {
                     const dataQuery = this.$apollo.queries[this.selectedCategory + "StationsByKeyword"];
-                    this.prevKeyword = this.keyword;
                     this.pageIndex = 0;
                     dataQuery.skip = false;
                     this.setSearchedStations((await dataQuery.refetch()

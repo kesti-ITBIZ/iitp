@@ -221,8 +221,6 @@
                         ]);
                     });
 
-                    console.log("bucket:", bucket);
-
                     const data = [];
                     Object.keys(bucket).forEach(date => {
                         let arr = bucket[date].reduce((acc, cur) => {
@@ -234,8 +232,6 @@
                         arr[1] = Math.round(arr[1] / 24);
                         if (arr[0] !== 0 && arr[1] !== 0) data.push(arr);
                     });
-
-                    console.log("data:", data);
 
                     return data;
                 }
@@ -294,12 +290,12 @@
                 }
             },
 
-            selectedDateType() {
-                if (this.data && this.data.length > 0) {
-                    this.reInitTimeseriesChart();
-                    this.reInitCorrelationChart();
-                }
-            },
+            // selectedDateType() {
+            //     if (this.data && this.data.length > 0) {
+            //         this.reInitTimeseriesChart();
+            //         this.reInitCorrelationChart();
+            //     }
+            // },
 
             data() {
                 if (this.data && this.data.length > 0) {
