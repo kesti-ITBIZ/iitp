@@ -83,7 +83,8 @@ div.container-wrap.chart {
                 display: flex;
 
                 > div.chart-content {
-                    width: 42vmin;
+                    //width: 42vmin;
+                    width: 100%;
                     margin: 0 0 0 auto;
                 }
             }
