@@ -6,8 +6,8 @@
                 <content-map v-show="selectedSearchOption == 'map'" />
                 <search v-show="selectedSearchOption == 'search'" />
                 <div class="station-wrap">
-                    <station title="기준 지점" :station="selectedStandardStation" @remove="setSelectedStandardStation(null)" />
                     <station title="비교 지점" :station="selectedCompareStation" @remove="setSelectedCompareStation(null)" />
+                    <station title="기준 지점" :station="selectedStandardStation" @remove="setSelectedStandardStation(null)" />
                 </div>
             </div>
             <side-header />
@@ -16,8 +16,8 @@
             <content-map v-show="selectedSearchOption == 'map'" />
             <search v-show="selectedSearchOption == 'search'" />
             <div class="station-wrap">
-                <station title="기준 지점" :station="selectedStandardStation" @remove="setSelectedStandardStation(null)" />
                 <station title="비교 지점" :station="selectedCompareStation" @remove="setSelectedCompareStation(null)" />
+                <station title="기준 지점" :station="selectedStandardStation" @remove="setSelectedStandardStation(null)" />
             </div>
             <side-header />
         </div>
@@ -50,6 +50,7 @@
                 windowWidth: state => state.common.windowWidth,
                 reactiveMaxWidth: state => state.common.reactiveMaxWidth,
                 selectedSearchOption: state => state.verification.selectedSearchOption,
+                selectedDateType: state => state.verification.selectedDateType,
                 startDatetime: state => state.verification.startDatetime,
                 endDatetime: state => state.verification.endDatetime,
                 selectedCategory: state => state.verification.selectedCategory,
@@ -70,10 +71,10 @@
             }),
 
             async fetchData() {
-                if (this.selectedStandardStation == null)
-                    await new Promise(resolve => alert("기준 지점을 선택해주세요.", resolve));
-                else if (this.selectedCompareStation == null)
+                if (this.selectedCompareStation == null)
                     await new Promise(resolve => alert("비교 지점을 선택해주세요.", resolve));
+                else if (this.selectedStandardStation == null)
+                    await new Promise(resolve => alert("기준 지점을 선택해주세요.", resolve));
                 else {
                     await this.setLoadingVisible();
                     let org = this.selectedCompareOrg.split("");

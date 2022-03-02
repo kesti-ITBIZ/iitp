@@ -224,8 +224,8 @@ export const verificationApi = {
                 return {
                     standard: this.selectedStandardOrg,
                     compare: this.selectedCompareOrg,
-                    startDatetime: this.startDatetime.format("YYYY-MM-DD HH:mm"),
-                    endDatetime: this.endDatetime.format("YYYY-MM-DD HH:mm"),
+                    startDatetime: this.selectedDateType == "hour" ? this.startDatetime.format("YYYY-MM-DD HH:00") : this.startDatetime.format("YYYY-MM-DD 00:00"),
+                    endDatetime: this.selectedDateType == "hour" ? this.endDatetime.format("YYYY-MM-DD HH:59") : this.endDatetime.format("YYYY-MM-DD 23:59"),
                     stdStnId: this.selectedStandardStation.stnId,
                     stdStnNm: this.selectedStandardStation.name,
                     compStnId: this.selectedCompareStation.stnId,

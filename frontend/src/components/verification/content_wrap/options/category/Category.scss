@@ -158,7 +158,7 @@ $active: #006f5b;
     #category .org-wrap {
         grid-template: {
             columns: 80px calc(100% - 80px);
-            rows: calc(1fr / 3) 1fr;
+            rows: 1fr calc(1fr / 3);
         };
         margin-top: 10px;
 
