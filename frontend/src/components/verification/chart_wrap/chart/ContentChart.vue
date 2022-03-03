@@ -2,7 +2,7 @@
     <div class="container-wrap chart">
         <div v-show="data && data.length > 0 && windowWidth >= reactiveMaxWidth + 1" class="container chart">
             <div class="correlation">
-                <h3>상관분석 차트 - {{ selectedItem.label }} (단위: {{ selectedItem.unit }}) </h3>
+                <h3>비교분석 차트 - {{ selectedItem.label }} (단위: {{ selectedItem.unit }}) </h3>
                 <div>
                     <div class="info">
                         <div>
@@ -14,7 +14,7 @@
                             <h3 v-if="data && data.length > 0">{{ data[0].stdStnNm }}</h3>
                         </div>
                         <div>
-                            <h4>비교 분석 결과</h4>
+                            <h4>비교분석 결과</h4>
                             <h3 v-if="data && data.length > 0" class="formula">
                                 Y = {{ Math.round(gradient * 10000) / 10000 }}X {{ intercept >= 0 ? `+ ${Math.round(intercept * 10000) / 10000}` : `- ${-Math.round(intercept * 10000) / 10000}` }}<br />
                                 R² = {{ (Math.round(corr ** 2 * 10000) / 10000).toFixed(4) }}
@@ -44,7 +44,7 @@
                     <h3 v-if="data && data.length > 0">{{ data[0].stdStnNm }}</h3>
                 </div>
                 <div>
-                    <h4>비교 분석 결과</h4>
+                    <h4>비교분석 결과</h4>
                     <h3 v-if="data && data.length > 0" class="formula">
                         Y = {{ Math.round(gradient * 10000) / 10000 }}X {{ intercept >= 0 ? `+ ${Math.round(intercept * 10000) / 10000}` : `- ${-Math.round(intercept * 10000) / 10000}` }}<br />
                         R² = {{ (Math.round(corr ** 2 * 10000) / 10000).toFixed(4) }}
@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div class="correlation">
-                <h3>상관분석 차트 - {{ selectedItem.label }} (단위: {{ selectedItem.unit }}) </h3>
+                <h3>비교분석 차트 - {{ selectedItem.label }} (단위: {{ selectedItem.unit }}) </h3>
                 <div ref="correlation-mobile" class="chart-content"></div>
             </div>
             <div class="timeseries">
@@ -105,6 +105,8 @@
                 selectedCompareStation: state => state.verification.selectedCompareStation,
                 selectedDateType: state => state.verification.selectedDateType,
                 selectedItem: state => state.verification.selectedItem,
+                fetchedStartDatetime: state => state.verification.fetchedStartDatetime,
+                fetchedEndDatetime: state => state.verification.fetchedEndDatetime,
                 data: state => state.verification.data
             }),
 
@@ -360,7 +362,8 @@
                     toolbox: {
                         feature: {
                             saveAsImage: {
-                                type: "png"
+                                type: "png",
+                                name: `상관분석차트_${this.data[0].stdStnNm}_${this.data[0].compStnNm}_${this.selectedItem.label}_${this.fetchedStartDatetime.format("YYYYMMDD" + (this.selectedDateType == "hour" ? "HH" : ""))}_${this.fetchedEndDatetime.format("YYYYMMDD" + (this.selectedDateType == "hour" ? "HH" : ""))}`
                             }
                         },
                         right: 40
@@ -476,7 +479,8 @@
                     toolbox: {
                         feature: {
                             saveAsImage: {
-                                type: "png"
+                                type: "png",
+                                name: `시계열차트_${this.data[0].stdStnNm}_${this.data[0].compStnNm}_${this.selectedItem.label}_${this.fetchedStartDatetime.format("YYYYMMDD" + (this.selectedDateType == "hour" ? "HH" : ""))}_${this.fetchedEndDatetime.format("YYYYMMDD" + (this.selectedDateType == "hour" ? "HH" : ""))}`
                             }
                         },
                         right: 40
