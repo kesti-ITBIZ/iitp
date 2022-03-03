@@ -334,127 +334,129 @@
 
                 registerTransform(transform.regression);
 
-                const option = {
-                    dataset: [
-                        {
-                            source: this.correlationData
-                        },
-                        {
-                            transform: {
-                                type: "ecStat:regression"
+                const getOption = isMobile => {
+                    return {
+                        dataset: [
+                            {
+                                source: this.correlationData
+                            },
+                            {
+                                transform: {
+                                    type: "ecStat:regression"
+                                }
                             }
-                        }
-                    ],
-                    tooltip: {
-                        formatter: data => {
-                            if (data.componentIndex === 0) {
-                                const label = this.selectedItem.label;
-                                const unit = this.selectedItem.unit;
-                                return `
+                        ],
+                        tooltip: {
+                            formatter: data => {
+                                if (data.componentIndex === 0) {
+                                    const label = this.selectedItem.label;
+                                    const unit = this.selectedItem.unit;
+                                    return `
                                     기준 지점 ${label}: ${data.value[0]}${unit}<br />
                                     비교 지점 ${label}: ${data.value[1]}${unit}<br />`;
+                                }
+                            },
+                            textStyle: {
+                                fontFamily: "NanumSquare"
                             }
                         },
-                        textStyle: {
-                            fontFamily: "NanumSquare"
-                        }
-                    },
-                    toolbox: {
-                        feature: {
-                            saveAsImage: {
-                                type: "png",
-                                name: (() => {
-                                    const format = "YYYYMMDD" + (this.selectedDateType == "hour" ? "HH" : "");
-                                    return [
-                                        "상관분석차트",
-                                        this.data[0].stdStnNm,
-                                        this.data[0].compStnNm,
-                                        this.selectedItem.label,
-                                        this.fetchedStartDatetime.format(format),
-                                        this.fetchedEndDatetime.format(format)
-                                    ].join("_");
-                                })()
+                        toolbox: {
+                            feature: {
+                                saveAsImage: {
+                                    type: "png",
+                                    name: (() => {
+                                        const format = "YYYYMMDD" + (this.selectedDateType == "hour" ? "HH" : "");
+                                        return [
+                                            "상관분석차트",
+                                            this.data[0].stdStnNm,
+                                            this.data[0].compStnNm,
+                                            this.selectedItem.label,
+                                            this.fetchedStartDatetime.format(format),
+                                            this.fetchedEndDatetime.format(format)
+                                        ].join("_");
+                                    })()
+                                }
+                            },
+                            right: 40
+                        },
+                        grid: {
+                            top: 70,
+                            right: 120,
+                            bottom: 20
+                        },
+                        legend: {
+                            data: ["산점도", "추세선"],
+                            textStyle: {
+                                fontFamily: "NanumSquare"
                             }
                         },
-                        right: 40
-                    },
-                    grid: {
-                        top: 70,
-                        right: 120,
-                        bottom: 20
-                    },
-                    legend: {
-                        data: ["산점도", "추세선"],
-                        textStyle: {
-                            fontFamily: "NanumSquare"
-                        }
-                    },
-                    xAxis: {
-                        name: this.data && this.data.length > 0 ? this.data[0].compStnNm : "",
-                        splitLine: {
-                            show: true
-                        },
-                        nameTextStyle: {
-                            fontFamily: "NanumSquare"
-                        },
-                        axisLabel: {
-                            fontFamily: "NanumSquare"
-                        }
-                    },
-                    yAxis: {
-                        name: this.data && this.data.length > 0 ? this.data[0].stdStnNm : "",
-                        splitLine: {
-                            show: true
-                        },
-                        nameTextStyle: {
-                            align: "left",
-                            fontFamily: "NanumSquare",
-                            fontWeight: "bold"
-                        },
-                        axisLabel: {
-                            formatter: "{value}",
-                            fontFamily: "NanumSquare"
-                        },
-                    },
-                    series: [
-                        {
-                            name: "산점도",
-                            type: "scatter",
-                            symbolSize: 7,
-                            itemStyle: {
-                                color: "#5b9bd6"
+                        xAxis: {
+                            name: this.data && this.data.length > 0 ? this.data[0].compStnNm : "",
+                            splitLine: {
+                                show: true
+                            },
+                            nameTextStyle: {
+                                fontFamily: "NanumSquare"
+                            },
+                            axisLabel: {
+                                fontFamily: "NanumSquare"
                             }
                         },
-                        {
-                            name: "추세선",
-                            type: "line",
-                            datasetIndex: 1,
-                            symbolSize: 0.1,
-                            symbol: "circle",
-                            label: {
-                                show: this.showFomula,
-                                fontSize: 16,
+                        yAxis: {
+                            name: this.data && this.data.length > 0 ? this.data[0].stdStnNm : "",
+                            splitLine: {
+                                show: true
+                            },
+                            nameTextStyle: {
+                                align: "left",
                                 fontFamily: "NanumSquare",
-                                fontWeight: "bold",
-                                formatter: data => data.value[2] !== "" ? `Y = ${Math.round(this.gradient * 10000) / 10000}X ${this.intercept < 0 ? "-" : "+"} ${Math.abs(Math.round(this.intercept * 10000) / 10000)}    R² = ${Math.round(this.corr ** 2 * 10000) / 10000}` : ""
+                                fontWeight: "bold"
                             },
-                            itemStyle: {
-                                color: "#5c5c5c"
+                            axisLabel: {
+                                formatter: "{value}",
+                                fontFamily: "NanumSquare"
                             },
-                            labelLayout: {
-                                x: "35%",
-                                y: "85%",
+                        },
+                        series: [
+                            {
+                                name: "산점도",
+                                type: "scatter",
+                                symbolSize: 7,
+                                itemStyle: {
+                                    color: "#5b9bd6"
+                                }
                             },
-                            encode: {
-                                label: 2,
-                                tooltip: 1
+                            {
+                                name: "추세선",
+                                type: "line",
+                                datasetIndex: 1,
+                                symbolSize: 0.1,
+                                symbol: "circle",
+                                label: {
+                                    show: this.showFomula,
+                                    fontSize: 16,
+                                    fontFamily: "NanumSquare",
+                                    fontWeight: "bold",
+                                    formatter: data => data.value[2] !== "" ? `Y = ${Math.round(this.gradient * 10000) / 10000}X ${this.intercept < 0 ? "-" : "+"} ${Math.abs(Math.round(this.intercept * 10000) / 10000)}    R² = ${Math.round(this.corr ** 2 * 10000) / 10000}` : ""
+                                },
+                                itemStyle: {
+                                    color: "#5c5c5c"
+                                },
+                                labelLayout: {
+                                    x: isMobile ? "5%" : "35%",
+                                    y: "85%",
+                                },
+                                encode: {
+                                    label: 2,
+                                    tooltip: 1
+                                }
                             }
-                        }
-                    ]
-                };
+                        ]
+                    };
+                }
 
-                this.correlationChart?.setOption(option);
-                this.correlationChartMobile?.setOption(option);
+                this.correlationChart?.setOption(getOption(false));
+                this.correlationChartMobile?.setOption(getOption(true));
 
                 this.addResizeEvent({
                     name: "resizeVrfyCorrelationChart",
