@@ -363,7 +363,17 @@
                         feature: {
                             saveAsImage: {
                                 type: "png",
-                                name: `상관분석차트_${this.data[0].stdStnNm}_${this.data[0].compStnNm}_${this.selectedItem.label}_${this.fetchedStartDatetime.format("YYYYMMDD" + (this.selectedDateType == "hour" ? "HH" : ""))}_${this.fetchedEndDatetime.format("YYYYMMDD" + (this.selectedDateType == "hour" ? "HH" : ""))}`
+                                name: (() => {
+                                    const format = "YYYYMMDD" + (this.selectedDateType == "hour" ? "HH" : "");
+                                    return [
+                                        "상관분석차트",
+                                        this.data[0].stdStnNm,
+                                        this.data[0].compStnNm,
+                                        this.selectedItem.label,
+                                        this.fetchedStartDatetime.format(format),
+                                        this.fetchedEndDatetime.format(format)
+                                    ].join("_");
+                                })()
                             }
                         },
                         right: 40

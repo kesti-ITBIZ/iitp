@@ -138,7 +138,18 @@
                             feature: {
                                 saveAsImage: {
                                     type: "png",
-                                    name: `${this.title[key]}_${this.category[this.category.findIndex(obj => obj.value === this.selectedCategory)].label.split(" ")[0]}_${this.selectedStation.name}_${this.selectedItem.label}_${this.fetchedStartDatetime.format("YYYY" + (this.selectedDateType == "month" ? "MM" : ""))}_${this.fetchedEndDatetime.format("YYYY" + (this.selectedDateType == "month" ? "MM" : ""))}`
+                                    name: (() => {
+                                        const format = "YYYY" + (this.selectedDateType == "month" ? "MM" : "");
+                                        return [
+                                            "고농도일수통계",
+                                            this.title[key],
+                                            this.category[this.category.findIndex(obj => obj.value === this.selectedCategory)].label.split(" ")[0],
+                                            this.selectedStation.name,
+                                            this.selectedItem.label,
+                                            this.fetchedStartDatetime.format(format),
+                                            this.fetchedEndDatetime.format(format)
+                                        ].join("_");
+                                    })()
                                 }
                             }
                         },

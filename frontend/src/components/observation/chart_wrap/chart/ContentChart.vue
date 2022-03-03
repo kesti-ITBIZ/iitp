@@ -79,8 +79,12 @@
                 yAxis: state => state.observation[state.observation.selectedCategory].yAxis,
                 startDatetime: state => state.observation.startDatetime,
                 endDatetime: state => state.observation.endDatetime,
+                fetchedStartDatetime: state => state.observation.fetchedStartDatetime,
+                fetchedEndDatetime: state => state.observation.fetchedEndDatetime,
+                selectedStation: state => state.observation.selectedStation,
                 dateTypes: state => state.observation.dateTypes,
                 selectedDateType: state => state.observation.selectedDateType,
+                category: state => state.observation.category,
                 selectedCategory: state => state.observation.selectedCategory,
                 data: state => state.observation.data
             }),
@@ -259,7 +263,35 @@
                     toolbox: {
                         feature: {
                             saveAsImage: {
-                                type: "png"
+                                type: "png",
+                                name: (() => {
+                                    let format = "";
+
+                                    switch (this.selectedDateType) {
+                                    case "year":
+                                        format = "YYYY";
+                                        break;
+                                    case "month":
+                                        format = "YYYYMM";
+                                        break;
+                                    case "date":
+                                        format = "YYYYMMDD";
+                                        break;
+                                    case "hour":
+                                        format = "YYYYMMDDHH";
+                                        break;
+                                    }
+
+                                    return [
+                                        "관측정보",
+                                        this.category[this.category.findIndex(obj => obj.value == this.selectedCategory)].label,
+                                        this.selectedStation.name,
+                                        this.xAxis[0].label.replaceAll(" ", ""),
+                                        this.yAxis.map(obj => obj.label.replaceAll(" ", "")).join("_"),
+                                        this.fetchedStartDatetime.format(format),
+                                        this.fetchedEndDatetime.format(format)
+                                    ].join("_");
+                                })()
                             }
                         }
                     },
