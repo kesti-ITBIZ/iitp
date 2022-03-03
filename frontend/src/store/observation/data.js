@@ -98,6 +98,8 @@ export default {
 
                 state.observation.data = Object.freeze({ ...state.observation.data, [category]: data });
             } else state.observation.data = Object.freeze([]);
+            state.observation.fetchedStartDatetime = state.observation.startDatetime.clone();
+            state.observation.fetchedEndDatetime = state.observation.endDatetime.clone();
         }
     },
     actions: {

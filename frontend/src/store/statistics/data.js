@@ -110,6 +110,9 @@ export default {
                 ...state.statistics.data,
                 [category]: Object.freeze(list)
             });
+
+            state.statistics.fetchedStartDatetime = state.statistics.startDatetime.clone();
+            state.statistics.fetchedEndDatetime = state.statistics.endDatetime.clone();
         }
     },
     actions: {

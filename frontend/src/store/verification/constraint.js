@@ -7,6 +7,8 @@ export default {
     state: {
         startDatetime: dayjs(dayjs().subtract(6, "days").format("YYYY.MM.DD"), "YYYY.MM.DD"),
         endDatetime: dayjs(),
+        fetchedStartDatetime: null,
+        fetchedEndDatetime: null,
         dateTypes: Object.freeze([
             { label: "시간", type: "hour", stringToDayjsFormat: "YYYY.MM.DD HH:mm", dayjsToStringFormat: "YYYY.MM.DD HH" },
             { label: "일", type: "date", stringToDayjsFormat: "YYYY.MM.DD", dayjsToStringFormat: "YYYY.MM.DD" }

@@ -20,10 +20,10 @@ div.container-wrap.chart {
 
                 > div {
                     color: white;
-
+                    height: fit-content;
                     border-radius: 10px;
                     margin: auto 0;
-                    padding: 15px;
+                    padding: 12px;
 
                     &:nth-child(1) {
                         background-color: #59a0e9;
@@ -45,22 +45,22 @@ div.container-wrap.chart {
 
                             label {
                                 position: relative;
-                                top: -2px;
+                                top: -3px;
+                                font-size: 10px;
                             }
                         }
                     }
 
                     h3 {
+                        font-size: 14px;
                         text-align: center;
-                        margin-top: 15px;
+                        margin-top: 10px;
                         color: white;
-
-                        &.formula {
-                            font-size: 18px;
-                        }
+                        transform: rotate(0.03deg);
                     }
 
                     h4 {
+                        font-size: 12px;
                         transform: rotate(0.03deg);
                     }
                 }
@@ -80,6 +80,8 @@ div.container-wrap.chart {
             }
 
             .correlation {
+                min-height: 230px;
+
                 > div {
                     display: flex;
 
