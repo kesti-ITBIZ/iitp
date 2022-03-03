@@ -59,6 +59,8 @@ export default {
             const _data = [...data];
             _data.sort((a, b) => a.datetime < b.datetime ? -1 : 1);
             state.verification.data = Object.freeze(_data);
+            state.verification.fetchedStartDatetime = state.verification.startDatetime.clone();
+            state.verification.fetchedEndDatetime = state.verification.endDatetime.clone();
         }
     },
     actions: {

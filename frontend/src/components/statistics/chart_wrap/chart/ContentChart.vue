@@ -8,7 +8,7 @@
         </div>
         <div v-show="!data || data.length === 0" id="no-data">
             <div>
-                <h1>데이터가 없습니다.</h1>
+                <h1>분석할 지점을 선택하세요.</h1>
             </div>
         </div>
         <loading />
@@ -58,7 +58,11 @@
                 dateTypes: state => state.statistics.dateTypes,
                 selectedDateType: state => state.statistics.selectedDateType,
                 selectedItem: state => state.statistics[state.statistics.selectedCategory].selectedItem,
+                category: state => state.verification.category,
                 selectedCategory: state => state.statistics.selectedCategory,
+                selectedStation: state => state.statistics.selectedStation[state.statistics.selectedCategory],
+                fetchedStartDatetime: state => state.statistics.fetchedStartDatetime,
+                fetchedEndDatetime: state => state.statistics.fetchedEndDatetime,
                 data: state => state.statistics.data[state.statistics.selectedCategory].filter(obj => obj.type === state.statistics.selectedDateType)
             }),
 
@@ -133,7 +137,19 @@
                         toolbox: {
                             feature: {
                                 saveAsImage: {
-                                    type: "png"
+                                    type: "png",
+                                    name: (() => {
+                                        const format = "YYYY" + (this.selectedDateType == "month" ? "MM" : "");
+                                        return [
+                                            "고농도일수통계",
+                                            this.title[key],
+                                            this.category[this.category.findIndex(obj => obj.value === this.selectedCategory)].label.split(" ")[0],
+                                            this.selectedStation.name,
+                                            this.selectedItem.label,
+                                            this.fetchedStartDatetime.format(format),
+                                            this.fetchedEndDatetime.format(format)
+                                        ].join("_");
+                                    })()
                                 }
                             }
                         },
