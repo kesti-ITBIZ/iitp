@@ -97,9 +97,14 @@ div.container-wrap.chart {
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #a5a5a5;
-            font-weight: bold;
-            letter-spacing: -2px;
+            height: 100%;
+
+            h1 {
+                text-align: center;
+                color: #a5a5a5;
+                letter-spacing: -2px;
+                margin: auto 0;
+            }
         }
     }
 

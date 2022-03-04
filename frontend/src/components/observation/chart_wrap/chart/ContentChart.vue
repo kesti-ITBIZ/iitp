@@ -42,9 +42,7 @@
                 <font-awesome-icon size="lg" :icon="['fa', 'file-download']" />
             </div>
             <div v-show="data[selectedCategory] == null || data[selectedCategory].length === 0" id="no-data">
-                <div>
-                    <h1>분석할 지점을 선택하세요.</h1>
-                </div>
+                <h1>분석할 지점을 선택하세요.</h1>
             </div>
             <loading />
         </div>
