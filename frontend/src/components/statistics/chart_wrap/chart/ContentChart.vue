@@ -7,9 +7,7 @@
             <div class="high" ref="high"></div>
         </div>
         <div v-show="!data || data.length === 0" id="no-data">
-            <div>
-                <h1>분석할 지점을 선택하세요.</h1>
-            </div>
+            <h1>분석할 지점을 선택하세요.</h1>
         </div>
         <loading />
     </div>
