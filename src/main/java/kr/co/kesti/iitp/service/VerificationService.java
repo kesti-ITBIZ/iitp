@@ -6,6 +6,7 @@ import kr.co.kesti.iitp.repository.AirkoreaDataRepository;
 import kr.co.kesti.iitp.repository.KtDataRepository;
 import kr.co.kesti.iitp.repository.ObserverDataRepository;
 import kr.co.kesti.iitp.repository.SDoTDataRepository;
+import kr.co.kesti.iitp.repository.VerificationRepository;
 import kr.co.kesti.iitp.vo.ResponseVerficationDataVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,20 +26,28 @@ public class VerificationService implements GraphQLQueryResolver {
     private final KtDataRepository ktDataRepository;
     private final SDoTDataRepository sDoTDataRepository;
     private final ObserverDataRepository observerDataRepository;
+    private final VerificationRepository verificationRepository;
 
-    public List<ResponseVerficationDataVO> getVerificationData(final String standard, final String compare, final String startDatetime, final String endDatetime, final String stdStnId, final String stdStnNm, final String compStnId, final String compStnNm) {
-        AtomicInteger count = new AtomicInteger();
-        AtomicReference<List<ComparativeDataProjection>> standardData = new AtomicReference<>(), compareData = new AtomicReference<>();
-        new Thread(() -> {
-            standardData.set(getComparison(standard, startDatetime, endDatetime, stdStnId, stdStnNm));
-            count.incrementAndGet();
-        }).start();
-        new Thread(() -> {
-            compareData.set(getComparison(compare, startDatetime, endDatetime, compStnId, compStnNm));
-            count.incrementAndGet();
-        }).start();
-        while (count.get() < 2);
-        return standardData.get() != null && compareData.get() != null ? joinByDatetime(standardData.get(), compareData.get()) : null;
+    public List<ResponseVerficationDataVO> getVerificationData(final String standard, final String compare, final String startDatetime, final String endDatetime, final String stdStnId, final String stdStnNm, final String compStnId, final String compStnNm, final String dateType) {
+
+        if (dateType.equals("hour")) {
+            AtomicInteger count = new AtomicInteger();
+            AtomicReference<List<ComparativeDataProjection>> standardData = new AtomicReference<>(), compareData = new AtomicReference<>();
+            new Thread(() -> {
+                standardData.set(getComparison(standard, startDatetime, endDatetime, stdStnId, stdStnNm));
+                count.incrementAndGet();
+            }).start();
+            new Thread(() -> {
+                compareData.set(getComparison(compare, startDatetime, endDatetime, compStnId, compStnNm));
+                count.incrementAndGet();
+            }).start();
+            while (count.get() < 2);
+            return standardData.get() != null && compareData.get() != null ? joinByDatetime(standardData.get(), compareData.get()) : null;
+        } else {
+            List<ResponseVerficationDataVO> list = new LinkedList<>();
+            list = verificationRepository.findVerificationData(compare, startDatetime, endDatetime, stdStnId, stdStnNm, compStnId, compStnNm);
+            return list;
+        }
     }
 
     private List<ComparativeDataProjection> getComparison(final String keyword, final String startDatetime, final String endDatetime, final String stnId, final String stnNm) {

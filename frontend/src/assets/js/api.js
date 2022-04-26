@@ -206,8 +206,8 @@ export const verificationApi = {
     apollo: {
         verificationData: {
             query: gql`
-                query verificationData($standard: String!, $compare: String!, $startDatetime: String!, $endDatetime: String!, $stdStnId: String, $stdStnNm: String, $compStnId: String, $compStnNm: String) {
-                    verificationData(standard: $standard, compare: $compare, startDatetime: $startDatetime, endDatetime: $endDatetime, stdStnId: $stdStnId, stdStnNm: $stdStnNm, compStnId: $compStnId, compStnNm: $compStnNm) {
+                query verificationData($standard: String!, $compare: String!, $startDatetime: String!, $endDatetime: String!, $stdStnId: String, $stdStnNm: String, $compStnId: String, $compStnNm: String, $dateType: String) {
+                    verificationData(standard: $standard, compare: $compare, startDatetime: $startDatetime, endDatetime: $endDatetime, stdStnId: $stdStnId, stdStnNm: $stdStnNm, compStnId: $compStnId, compStnNm: $compStnNm, dateType: $dateType) {
                         datetime
                         stdStnId
                         stdStnNm
@@ -217,6 +217,7 @@ export const verificationApi = {
                         compStnNm
                         compPm10
                         compPm25
+                        dateType
                     }
                 }
             `,
@@ -229,7 +230,8 @@ export const verificationApi = {
                     stdStnId: this.selectedStandardStation.stnId,
                     stdStnNm: this.selectedStandardStation.name,
                     compStnId: this.selectedCompareStation.stnId,
-                    compStnNm: this.selectedCompareStation.name
+                    compStnNm: this.selectedCompareStation.name,
+                    dateType : this.selectedDateType
                 }
             },
             skip: true

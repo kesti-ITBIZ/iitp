@@ -67,7 +67,11 @@ public class VerificationController {
             @Nullable
             @ApiParam(value = "비교지점명")
             @RequestParam("compStnNm")
-            final String compStnNm) {
-        return ResponseEntity.ok(this.verificationService.getVerificationData(standard, compare, startDatetime, endDatetime, stdStnId, stdStnNm, compStnId, compStnNm));
+            final String compStnNm,
+            @Nullable
+            @ApiParam(value = "데이터구분")
+            @RequestParam("dateType")
+            final String dateType) {
+        return ResponseEntity.ok(this.verificationService.getVerificationData(standard, compare, startDatetime, endDatetime, stdStnId, stdStnNm, compStnId, compStnNm, dateType));
     }
 }
