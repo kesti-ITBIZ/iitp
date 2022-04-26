@@ -212,24 +212,28 @@
                     this.data.forEach(obj => {
                         const date = obj.datetime.substr(0, 8);
                         if (!(date in bucket)) bucket[date] = [];
-                        bucket[date].push([
-                            obj["comp" + valueType] == null ? 0 : obj["comp" + valueType],
-                            obj["std" + valueType] == null ? 0 : obj["std" + valueType]
-                        ]);
+                        if (obj["comp" + valueType] != null && obj["std" + valueType] != null) {
+                            bucket[date].push([
+                                //obj["comp" + valueType] == null ? 0 : obj["comp" + valueType],
+                                obj["comp" + valueType],
+                                //obj["std" + valueType] == null ? 0 : obj["std" + valueType]
+                                obj["std" + valueType]
+                            ]);
+                        }
                     });
-
                     const data = [];
                     Object.keys(bucket).forEach(date => {
                         let arr = [0, 0];
+                        let i  = 0;
                         bucket[date].forEach(values => {
                             arr[0] += values[0];
                             arr[1] += values[1];
+                            i++
                         });
-                        arr[0] = Math.round(arr[0] / 24);
-                        arr[1] = Math.round(arr[1] / 24);
+                        arr[0] = Math.round(arr[0] / i);
+                        arr[1] = Math.round(arr[1] / i);
                         if (arr[0] > 0 && arr[1] > 0) data.push(arr);
                     });
-
                     return data;
                 }
             },

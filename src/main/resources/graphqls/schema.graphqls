@@ -17,7 +17,7 @@ type Query {
     sDoTStationsByKeyword(keyword: String!, page: Int!, size: Int!): [Station]
     stations(category: String!, startDatetime: String!, endDatetime: String!): [Station]
     statisticsData(category: String!, startDatetime: String!, endDatetime: String!, stnNm: String!): [StatisticsData]
-    verificationData(standard: String!, compare: String!, startDatetime: String!, endDatetime: String!, stdStnId: String, stdStnNm: String, compStnId: String, compStnNm: String): [VerificationData]
+    verificationData(standard: String!, compare: String!, startDatetime: String!, endDatetime: String!, stdStnId: String, stdStnNm: String, compStnId: String, compStnNm: String, dateType: String): [VerificationData]
 }
 
 type Station {
@@ -95,6 +95,7 @@ type VerificationData {
     compStnNm: String
     compPm10: Float
     compPm25: Float
+    dateType: String
 }
 
 input DataParam {

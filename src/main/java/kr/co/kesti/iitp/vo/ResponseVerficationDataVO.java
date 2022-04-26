@@ -17,4 +17,5 @@ public class ResponseVerficationDataVO {
     private String compStnNm;
     private Float compPm10;
     private Float compPm25;
+    private String dateType;
 }
