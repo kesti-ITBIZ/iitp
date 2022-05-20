@@ -214,9 +214,7 @@
                         if (!(date in bucket)) bucket[date] = [];
                         if (obj["comp" + valueType] != null && obj["std" + valueType] != null) {
                             bucket[date].push([
-                                //obj["comp" + valueType] == null ? 0 : obj["comp" + valueType],
                                 obj["comp" + valueType],
-                                //obj["std" + valueType] == null ? 0 : obj["std" + valueType]
                                 obj["std" + valueType]
                             ]);
                         }

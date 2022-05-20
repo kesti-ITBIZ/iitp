@@ -30,6 +30,7 @@ public interface SDoTDataRepository extends JpaRepository<SDoTData, SDoTDataKey>
             "where a.sDoTDataKey.registTime " +
             "    between :startDatetime " +
             "    and :endDatetime " +
+            "and (a.pm10 <> -999 and a.pm25 <> -999) " +
             "and ( " +
             "   a.sDoTDataKey.modelSr = :stnId " +
             "   or b.stnId = :stnNm) " +

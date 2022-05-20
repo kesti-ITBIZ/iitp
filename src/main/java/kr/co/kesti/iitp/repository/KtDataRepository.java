@@ -30,6 +30,7 @@ public interface KtDataRepository extends JpaRepository<KTData, KTDataKey> {
             "where a.ktDataKey.equipDate " +
             "    between function('to_timestamp', concat(:startDatetime, ':00'), 'YYYY-MM-DD HH24:MI:SS') " +
             "    and function('to_timestamp', concat(:endDatetime, ':59'), 'YYYY-MM-DD HH24:MI:SS') " +
+            "and (a.pm10 <> -999 and a.pm25 <> -999) " +
             "and ( " +
             "   a.ktDataKey.devId = :stnId " +
             "   or b.devNm = :stnNm) " +

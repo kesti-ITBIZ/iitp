@@ -30,6 +30,7 @@ public interface ObserverDataRepository extends JpaRepository<ObserverData, Obse
             "where a.observerDataKey.dataTime " +
             "    between function('to_timestamp', concat(:startDatetime, ':00'), 'YYYY-MM-DD HH24:MI:SS') " +
             "    and function('to_timestamp', concat(:endDatetime, ':59'), 'YYYY-MM-DD HH24:MI:SS') " +
+            "and a.pm25 <> -999 " +
             "and ( " +
             "   a.observerDataKey.stnSerial = :stnId " +
             "   or b.stnNm = :stnNm) " +
