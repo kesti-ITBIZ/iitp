@@ -28,35 +28,34 @@ public class VerificationRepository {
         if (compare.equals("sDoT")) {
             // 서울시
             lst = em.createQuery("select " +
-                    "    function('to_char', function('to_timestamp', a.airkoreaDataKey.time, 'YYYY-MM-DD HH24:MI'), 'YYYYMMDDHH24') as datetime, " +
-                    "    a.airkoreaDataKey.stnNm as stdStnId, " +
+                    "    function('to_char', function('to_timestamp', a.airkoreaQCDataKey.time, 'YYYY-MM-DD HH24:MI'), 'YYYYMMDDHH24') as datetime, " +
+                    "    a.airkoreaQCDataKey.stnId as stdStnId, " +
                     "    b.stnNm as stdStnNm, " +
-                    "    a.pm10 as stdPm10, " +
-                    "    a.pm25 as stdPm25, " +
-                    "    c.sDoTDataKey.modelSr as compStnId, " +
+                    "    a.pm10_qc as stdPm10, " +
+                    "    a.pm25_qc as stdPm25, " +
+                    "    c.sDoTQCDataKey.stnId as compStnId, " +
                     "    d.stnId as compStnNm, " +
-                    "    c.pm10 as compPm10, " +
-                    "    c.pm25 as compPm25 " +
-                    "from AirkoreaData a " +
+                    "    c.pm10_qc as compPm10, " +
+                    "    c.pm25_qc as compPm25 " +
+                    "from AirkoreaQCData a " +
                     "inner join AirkoreaStation b " +
-                    "on a.airkoreaDataKey.stnNm = b.stnNm " +
-                    "inner join SDoTData c " +
-                    "on a.airkoreaDataKey.time = c.sDoTDataKey.registTime " +
+                    "on a.airkoreaQCDataKey.stnId = b.stnNm " +
+                    "inner join SDoTQCData c " +
+                    "on a.airkoreaQCDataKey.time = c.sDoTQCDataKey.time " +
                     "inner join SDoTStation d " +
-                    "on c.sDoTDataKey.modelSr = d.stnId " +
-                    "where a.airkoreaDataKey.time " +
+                    "on c.sDoTQCDataKey.stnId = d.stnId " +
+                    "where a.airkoreaQCDataKey.time " +
                     "    between :startDatetime " +
                     "    and :endDatetime " +
                     "and ( " +
-                    "   a.airkoreaDataKey.stnNm = :stdStnId " +
-                    "   or a.airkoreaDataKey.stnNm = :stdStnNm) " +
+                    "   a.airkoreaQCDataKey.stnId = :stdStnId " +
+                    "   or a.airkoreaQCDataKey.stnId = :stdStnNm) " +
                     "and ( " +
-                    "   c.sDoTDataKey.modelSr = :compStnId " +
+                    "   c.sDoTQCDataKey.stnId = :compStnId " +
                     "   or d.stnId = :compStnNm) " +
-                    "and c.sDoTDataKey.div = 3 " +
-                    "and (a.pm10 is not null and c.pm10 is not null and a.pm10 <> -999 and c.pm10 <> -999)" +
-                    "and (a.pm25 is not null and c.pm25 is not null and a.pm25 <> -999 and c.pm25 <> -999)" +
-                    "order by a.airkoreaDataKey.time")
+                    "and (a.pm10_qc is not null and c.pm10_qc is not null and a.pm10_qc > -900 and c.pm10_qc > -900)" +
+                    "and (a.pm25_qc is not null and c.pm25_qc is not null and a.pm25_qc > -900 and c.pm25_qc > -900)" +
+                    "order by a.airkoreaQCDataKey.time")
                     .setParameter("startDatetime", startDatetime)
                     .setParameter("endDatetime", endDatetime)
                     .setParameter("stdStnId", stdStnId)
@@ -66,34 +65,34 @@ public class VerificationRepository {
         } else if(compare.equals("kt")) {
             // KT
             lst = em.createQuery("select " +
-                    "    function('to_char', function('to_timestamp', a.airkoreaDataKey.time, 'YYYY-MM-DD HH24:MI'), 'YYYYMMDDHH24') as datetime, " +
-                    "    a.airkoreaDataKey.stnNm as stdStnId, " +
+                    "    function('to_char', function('to_timestamp', a.airkoreaQCDataKey.time, 'YYYY-MM-DD HH24:MI'), 'YYYYMMDDHH24') as datetime, " +
+                    "    a.airkoreaQCDataKey.stnId as stdStnId, " +
                     "    b.stnNm as stdStnNm, " +
-                    "    a.pm10 as stdPm10, " +
-                    "    a.pm25 as stdPm25, " +
-                    "    c.ktDataKey.devId as compStnId, " +
+                    "    a.pm10_qc as stdPm10, " +
+                    "    a.pm25_qc as stdPm25, " +
+                    "    c.ktQCDataKey.stnId as compStnId, " +
                     "    d.devId as compStnNm, " +
-                    "    c.pm10 as compPm10, " +
-                    "    c.pm25 as compPm25 " +
-                    "from AirkoreaData a " +
+                    "    c.pm10_qc as compPm10, " +
+                    "    c.pm25_qc as compPm25 " +
+                    "from AirkoreaQCData a " +
                     "inner join AirkoreaStation b " +
-                    "on a.airkoreaDataKey.stnNm = b.stnNm " +
-                    "inner join KTData c " +
-                    "on function('to_timestamp', a.airkoreaDataKey.time, 'YYYY-MM-DD HH24:MI') = c.ktDataKey.equipDate " +
+                    "on a.airkoreaQCDataKey.stnId = b.stnNm " +
+                    "inner join KTQCData c " +
+                    "on a.airkoreaQCDataKey.time = c.ktQCDataKey.time " +
                     "inner join KTStation d " +
-                    "on c.ktDataKey.devId = d.devId " +
-                    "where a.airkoreaDataKey.time " +
+                    "on c.ktQCDataKey.stnId = d.devId " +
+                    "where a.airkoreaQCDataKey.time " +
                     "    between :startDatetime " +
                     "    and :endDatetime " +
                     "and ( " +
-                    "   a.airkoreaDataKey.stnNm = :stdStnId " +
-                    "   or a.airkoreaDataKey.stnNm = :stdStnNm) " +
+                    "   a.airkoreaQCDataKey.stnId = :stdStnId " +
+                    "   or a.airkoreaQCDataKey.stnId = :stdStnNm) " +
                     "and ( " +
-                    "   c.ktDataKey.devId = :compStnId " +
+                    "   c.ktQCDataKey.stnId = :compStnId " +
                     "   or d.devNm = :compStnNm) " +
-                    "and (a.pm10 is not null and c.pm10 is not null and a.pm10 <> -999 and c.pm10 <> -999)" +
-                    "and (a.pm25 is not null and c.pm25 is not null and a.pm25 <> -999 and c.pm25 <> -999)" +
-                    "order by a.airkoreaDataKey.time")
+                    "and (a.pm10_qc is not null and c.pm10_qc is not null and a.pm10_qc > -900 and c.pm10_qc > -900)" +
+                    "and (a.pm25_qc is not null and c.pm25_qc is not null and a.pm25_qc > -900 and c.pm25_qc > -900)" +
+                    "order by a.airkoreaQCDataKey.time")
                     .setParameter("startDatetime", startDatetime)
                     .setParameter("endDatetime", endDatetime)
                     .setParameter("stdStnId", stdStnId)
@@ -103,33 +102,33 @@ public class VerificationRepository {
         } else {
             // 옵저버
             lst = em.createQuery("select " +
-                    "    function('to_char', function('to_timestamp', a.airkoreaDataKey.time, 'YYYY-MM-DD HH24:MI'), 'YYYYMMDDHH24') as datetime, " +
-                    "    a.airkoreaDataKey.stnNm as stdStnId, " +
+                    "    function('to_char', function('to_timestamp', a.airkoreaQCDataKey.time, 'YYYY-MM-DD HH24:MI'), 'YYYYMMDDHH24') as datetime, " +
+                    "    a.airkoreaQCDataKey.stnId as stdStnId, " +
                     "    b.stnNm as stdStnNm, " +
-                    "    a.pm10 as stdPm10, " +
-                    "    a.pm25 as stdPm25, " +
-                    "    c.observerDataKey.stnSerial as compStnId, " +
+                    "    a.pm10_qc as stdPm10, " +
+                    "    a.pm25_qc as stdPm25, " +
+                    "    c.observerQCDataKey.stnId as compStnId, " +
                     "    d.stnNm as compStnNm, " +
                     "    -999.f as compPm10, " +
-                    "    c.pm25 as compPm25 " +
-                    "from AirkoreaData a " +
+                    "    c.pm25_r_qc as compPm25 " +
+                    "from AirkoreaQCData a " +
                     "inner join AirkoreaStation b " +
-                    "on a.airkoreaDataKey.stnNm = b.stnNm " +
-                    "inner join ObserverData c " +
-                    "on function('to_timestamp', a.airkoreaDataKey.time, 'YYYY-MM-DD HH24:MI') = c.observerDataKey.dataTime " +
+                    "on a.airkoreaQCDataKey.stnId = b.stnNm " +
+                    "inner join ObserverQCData c " +
+                    "on a.airkoreaQCDataKey.time = c.observerQCDataKey.time " +
                     "inner join ObserverStation d " +
-                    "on c.observerDataKey.stnSerial = d.stnSerial " +
-                    "where a.airkoreaDataKey.time " +
+                    "on c.observerQCDataKey.stnId = d.stnSerial " +
+                    "where a.airkoreaQCDataKey.time " +
                     "    between :startDatetime " +
                     "    and :endDatetime " +
                     "and ( " +
-                    "   a.airkoreaDataKey.stnNm = :stdStnId " +
-                    "   or a.airkoreaDataKey.stnNm = :stdStnNm) " +
+                    "   a.airkoreaQCDataKey.stnId = :stdStnId " +
+                    "   or a.airkoreaQCDataKey.stnId = :stdStnNm) " +
                     "and ( " +
-                    "   c.observerDataKey.stnSerial = :compStnId " +
+                    "   c.observerQCDataKey.stnId = :compStnId " +
                     "   or d.stnNm = :compStnNm) " +
-                    "and (a.pm25 is not null and c.pm25 is not null and a.pm25 <> -999 and c.pm25 <> -999)" +
-                    "order by a.airkoreaDataKey.time")
+                    "and (a.pm25_qc is not null and c.pm25_r_qc is not null and a.pm25_qc > -900 and c.pm25_r_qc > -900)" +
+                    "order by a.airkoreaQCDataKey.time")
                     .setParameter("startDatetime", startDatetime)
                     .setParameter("endDatetime", endDatetime)
                     .setParameter("stdStnId", stdStnId)
@@ -156,7 +155,7 @@ public class VerificationRepository {
         return list;
     }
 
-    public List<ResponseVerficationDataVO> findVerificationPastData(final String compare,
+    public List<ResponseVerficationDataVO> findVerificationHourData(final String compare,
                                                                 final String startDatetime,
                                                                 final String endDatetime,
                                                                 final String stdStnId,
@@ -170,35 +169,34 @@ public class VerificationRepository {
         if (compare.equals("sDoT")) {
             // 서울시
             lst = em.createQuery("select " +
-                    "    function('to_char', function('to_timestamp', a.airkoreaPastDataKey.dataDatetime, 'YYYY-MM-DD HH24:MI'), 'YYYYMMDDHH24') as datetime, " +
-                    "    a.airkoreaPastDataKey.stnNm as stdStnId, " +
+                    "    function('to_char', function('to_timestamp', a.airkoreaQCDataKey.time, 'YYYY-MM-DD HH24:MI'), 'YYYYMMDDHH24') as datetime, " +
+                    "    a.airkoreaQCDataKey.stnId as stdStnId, " +
                     "    b.stnNm as stdStnNm, " +
-                    "    a.pm10 as stdPm10, " +
-                    "    a.pm25 as stdPm25, " +
-                    "    c.sDoTDataKey.modelSr as compStnId, " +
+                    "    a.pm10_qc as stdPm10, " +
+                    "    a.pm25_qc as stdPm25, " +
+                    "    c.sDoTQCDataKey.stnId as compStnId, " +
                     "    d.stnId as compStnNm, " +
-                    "    c.pm10 as compPm10, " +
-                    "    c.pm25 as compPm25 " +
-                    "from AirkoreaPastData a " +
+                    "    c.pm10_qc as compPm10, " +
+                    "    c.pm25_qc as compPm25 " +
+                    "from AirkoreaQCData a " +
+                    "full join SDoTQCData c " +
+                    "on a.airkoreaQCDataKey.time = c.sDoTQCDataKey.time " +
                     "inner join AirkoreaStation b " +
-                    "on a.airkoreaPastDataKey.stnNm = b.stnNm " +
-                    "inner join SDoTData c " +
-                    "on a.airkoreaPastDataKey.dataDatetime = c.sDoTDataKey.registTime " +
+                    "on a.airkoreaQCDataKey.stnId = b.stnNm " +
                     "inner join SDoTStation d " +
-                    "on c.sDoTDataKey.modelSr = d.stnId " +
-                    "where a.airkoreaPastDataKey.dataDatetime " +
+                    "on c.sDoTQCDataKey.stnId = d.stnId " +
+                    "where a.airkoreaQCDataKey.time " +
                     "    between :startDatetime " +
                     "    and :endDatetime " +
                     "and ( " +
-                    "   a.airkoreaPastDataKey.stnNm = :stdStnId " +
-                    "   or a.airkoreaPastDataKey.stnNm = :stdStnNm) " +
+                    "   a.airkoreaQCDataKey.stnId = :stdStnId " +
+                    "   or a.airkoreaQCDataKey.stnId = :stdStnNm) " +
                     "and ( " +
-                    "   c.sDoTDataKey.modelSr = :compStnId " +
+                    "   c.sDoTQCDataKey.stnId = :compStnId " +
                     "   or d.stnId = :compStnNm) " +
-                    "and c.sDoTDataKey.div = 3 " +
-                    "and (a.pm10 is not null and c.pm10 is not null and a.pm10 <> -999 and c.pm10 <> -999)" +
-                    "and (a.pm25 is not null and c.pm25 is not null and a.pm25 <> -999 and c.pm25 <> -999)" +
-                    "order by a.airkoreaPastDataKey.dataDatetime")
+                    "and (a.pm10_qc is not null and c.pm10_qc is not null and a.pm10_qc > -900 and c.pm10_qc > -900)" +
+                    "and (a.pm25_qc is not null and c.pm25_qc is not null and a.pm25_qc > -900 and c.pm25_qc > -900)" +
+                    "order by a.airkoreaQCDataKey.time")
                     .setParameter("startDatetime", startDatetime)
                     .setParameter("endDatetime", endDatetime)
                     .setParameter("stdStnId", stdStnId)
@@ -208,34 +206,34 @@ public class VerificationRepository {
         } else if(compare.equals("kt")) {
             // KT
             lst = em.createQuery("select " +
-                    "    function('to_char', function('to_timestamp', a.airkoreaPastDataKey.dataDatetime, 'YYYY-MM-DD HH24:MI'), 'YYYYMMDDHH24') as datetime, " +
-                    "    a.airkoreaPastDataKey.stnNm as stdStnId, " +
+                    "    function('to_char', function('to_timestamp', a.airkoreaQCDataKey.time, 'YYYY-MM-DD HH24:MI'), 'YYYYMMDDHH24') as datetime, " +
+                    "    a.airkoreaQCDataKey.stnId as stdStnId, " +
                     "    b.stnNm as stdStnNm, " +
-                    "    a.pm10 as stdPm10, " +
-                    "    a.pm25 as stdPm25, " +
-                    "    c.ktDataKey.devId as compStnId, " +
+                    "    a.pm10_qc as stdPm10, " +
+                    "    a.pm25_qc as stdPm25, " +
+                    "    c.ktQCDataKey.stnId as compStnId, " +
                     "    d.devId as compStnNm, " +
-                    "    c.pm10 as compPm10, " +
-                    "    c.pm25 as compPm25 " +
-                    "from AirkoreaPastData a " +
+                    "    c.pm10_qc as compPm10, " +
+                    "    c.pm25_qc as compPm25 " +
+                    "from AirkoreaQCData a " +
+                    "full join KTQCData c " +
+                    "on a.airkoreaQCDataKey.time = c.ktQCDataKey.time " +
                     "inner join AirkoreaStation b " +
-                    "on a.airkoreaPastDataKey.stnNm = b.stnNm " +
-                    "inner join KTData c " +
-                    "on function('to_timestamp', a.airkoreaPastDataKey.dataDatetime, 'YYYY-MM-DD HH24:MI') = c.ktDataKey.equipDate " +
+                    "on a.airkoreaQCDataKey.stnId = b.stnNm " +
                     "inner join KTStation d " +
-                    "on c.ktDataKey.devId = d.devId " +
-                    "where a.airkoreaPastDataKey.dataDatetime " +
+                    "on c.ktQCDataKey.stnId = d.devId " +
+                    "where a.airkoreaQCDataKey.time " +
                     "    between :startDatetime " +
                     "    and :endDatetime " +
                     "and ( " +
-                    "   a.airkoreaPastDataKey.stnNm = :stdStnId " +
-                    "   or a.airkoreaPastDataKey.stnNm = :stdStnNm) " +
+                    "   a.airkoreaQCDataKey.stnId = :stdStnId " +
+                    "   or a.airkoreaQCDataKey.stnId = :stdStnNm) " +
                     "and ( " +
-                    "   c.ktDataKey.devId = :compStnId " +
+                    "   c.ktQCDataKey.stnId = :compStnId " +
                     "   or d.devNm = :compStnNm) " +
-                    "and (a.pm10 is not null and c.pm10 is not null and a.pm10 <> -999 and c.pm10 <> -999)" +
-                    "and (a.pm25 is not null and c.pm25 is not null and a.pm25 <> -999 and c.pm25 <> -999)" +
-                    "order by a.airkoreaPastDataKey.dataDatetime")
+                    "and (a.pm10_qc is not null and c.pm10_qc is not null and a.pm10_qc > -900 and c.pm10_qc > -900)" +
+                    "and (a.pm25_qc is not null and c.pm25_qc is not null and a.pm25_qc > -900 and c.pm25_qc > -900)" +
+                    "order by a.airkoreaQCDataKey.time")
                     .setParameter("startDatetime", startDatetime)
                     .setParameter("endDatetime", endDatetime)
                     .setParameter("stdStnId", stdStnId)
@@ -245,33 +243,33 @@ public class VerificationRepository {
         } else {
             // 옵저버
             lst = em.createQuery("select " +
-                    "    function('to_char', function('to_timestamp', a.airkoreaPastDataKey.dataDatetime, 'YYYY-MM-DD HH24:MI'), 'YYYYMMDDHH24') as datetime, " +
-                    "    a.airkoreaPastDataKey.stnNm as stdStnId, " +
+                    "    function('to_char', function('to_timestamp', a.airkoreaQCDataKey.time, 'YYYY-MM-DD HH24:MI'), 'YYYYMMDDHH24') as datetime, " +
+                    "    a.airkoreaQCDataKey.stnId as stdStnId, " +
                     "    b.stnNm as stdStnNm, " +
-                    "    a.pm10 as stdPm10, " +
-                    "    a.pm25 as stdPm25, " +
-                    "    c.observerDataKey.stnSerial as compStnId, " +
+                    "    a.pm10_qc as stdPm10, " +
+                    "    a.pm25_qc as stdPm25, " +
+                    "    c.observerQCDataKey.stnId as compStnId, " +
                     "    d.stnNm as compStnNm, " +
                     "    -999.f as compPm10, " +
-                    "    c.pm25 as compPm25 " +
-                    "from AirkoreaPastData a " +
+                    "    c.pm25_r_qc as compPm25 " +
+                    "from AirkoreaQCData a " +
+                    "full join ObserverQCData c " +
+                    "on a.airkoreaQCDataKey.time = c.observerQCDataKey.time " +
                     "inner join AirkoreaStation b " +
-                    "on a.airkoreaPastDataKey.stnNm = b.stnNm " +
-                    "inner join ObserverData c " +
-                    "on function('to_timestamp', a.airkoreaPastDataKey.dataDatetime, 'YYYY-MM-DD HH24:MI') = c.observerDataKey.dataTime " +
+                    "on a.airkoreaQCDataKey.stnId = b.stnNm " +
                     "inner join ObserverStation d " +
-                    "on c.observerDataKey.stnSerial = d.stnSerial " +
-                    "where a.airkoreaPastDataKey.dataDatetime " +
+                    "on c.observerQCDataKey.stnId = d.stnSerial " +
+                    "where a.airkoreaQCDataKey.time " +
                     "    between :startDatetime " +
                     "    and :endDatetime " +
                     "and ( " +
-                    "   a.airkoreaPastDataKey.stnNm = :stdStnId " +
-                    "   or a.airkoreaPastDataKey.stnNm = :stdStnNm) " +
+                    "   a.airkoreaQCDataKey.stnId = :stdStnId " +
+                    "   or a.airkoreaQCDataKey.stnId = :stdStnNm) " +
                     "and ( " +
-                    "   c.observerDataKey.stnSerial = :compStnId " +
+                    "   c.observerQCDataKey.stnId = :compStnId " +
                     "   or d.stnNm = :compStnNm) " +
-                    "and (a.pm25 is not null and c.pm25 is not null and a.pm25 <> -999 and c.pm25 <> -999)" +
-                    "order by a.airkoreaPastDataKey.dataDatetime")
+                    "and (a.pm25_qc is not null and c.pm25_r_qc is not null and a.pm25_qc > -900 and c.pm25_r_qc > -900)" +
+                    "order by a.airkoreaQCDataKey.time")
                     .setParameter("startDatetime", startDatetime)
                     .setParameter("endDatetime", endDatetime)
                     .setParameter("stdStnId", stdStnId)
@@ -294,8 +292,6 @@ public class VerificationRepository {
                     .compPm25(buff[8] != null ? Float.parseFloat(buff[8].toString()) : null)
                     .build());
         }
-
         return list;
     }
-
 }

@@ -30,7 +30,7 @@ public interface AirkoreaPastDataRepository extends JpaRepository<AirkoreaPastDa
                     "where a.airkoreaPastDataKey.dataDatetime " +
                     "    between :startDatetime " +
                     "    and :endDatetime " +
-                    "and (a.pm10 <> -999 and a.pm25 <> -999) " +
+                    "and (a.pm10 > -900 and a.pm25 > -900) " +
                     "and ( " +
                     "   a.airkoreaPastDataKey.stnNm = :stnId " +
                     "   or a.airkoreaPastDataKey.stnNm = :stnNm) " +

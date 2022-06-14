@@ -43,8 +43,6 @@ public class SDoTService implements GraphQLQueryResolver {
                         .stnNm(data.getStnNm())
                         .temperature(data.getTemperature())
                         .relativeHumidity(data.getRelativeHumidity())
-                        .windDirection(data.getWindDirection() == -2.f ? null : data.getWindDirection())
-                        .windSpeed(data.getWindSpeed() == -2.f ? null : data.getWindSpeed())
                         .pm10(data.getPm10())
                         .pm25(data.getPm25())
                         .build())

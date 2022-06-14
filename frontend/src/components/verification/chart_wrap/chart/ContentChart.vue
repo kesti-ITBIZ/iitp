@@ -228,9 +228,13 @@
                             arr[1] += values[1];
                             i++
                         });
-                        arr[0] = Math.round(arr[0] / i);
-                        arr[1] = Math.round(arr[1] / i);
-                        if (arr[0] > 0 && arr[1] > 0) data.push(arr);
+
+                        if(i > 12) {
+                            arr[0] = Math.round(arr[0] / i);
+                            arr[1] = Math.round(arr[1] / i);
+                            data.push(arr);
+                        }
+
                     });
                     return data;
                 }

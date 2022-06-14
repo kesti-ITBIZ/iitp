@@ -12,8 +12,6 @@ public class SDoTDataProjection {
     private String stnNm;
     private Float temperature;
     private Float relativeHumidity;
-    private Float windDirection;
-    private Float windSpeed;
     private Float pm10;
     private Float pm25;
 }

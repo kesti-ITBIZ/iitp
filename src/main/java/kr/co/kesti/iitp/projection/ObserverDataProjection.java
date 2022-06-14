@@ -12,6 +12,5 @@ public class ObserverDataProjection {
     private String stnNm;
     private Float temperature;
     private Float humidity;
-    private Float pressure;
     private Float pm25;
 }

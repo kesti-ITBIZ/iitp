@@ -1,7 +1,7 @@
 package kr.co.kesti.iitp.repository;
 
-import kr.co.kesti.iitp.embed.SDoTDataKey;
-import kr.co.kesti.iitp.entity.SDoTData;
+import kr.co.kesti.iitp.embed.SDoTQCDataKey;
+import kr.co.kesti.iitp.entity.SDoTQCData;
 import kr.co.kesti.iitp.projection.ComparativeDataProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,31 +10,30 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SDoTDataRepository extends JpaRepository<SDoTData, SDoTDataKey> {
+public interface SDoTDataRepository extends JpaRepository<SDoTQCData, SDoTQCDataKey> {
     @Query(
-            "select distinct function('to_char', function('to_timestamp', s.sDoTDataKey.registTime, 'YYYY-MM-DD HH24:MI'), 'YYYY.MM.DD HH24:00') as datetime " +
-            "from SDoTData s " +
-            "where s.sDoTDataKey.registTime is not null")
+            "select distinct function('to_char', function('to_timestamp', s.sDoTQCDataKey.time, 'YYYY-MM-DD HH24:MI'), 'YYYY.MM.DD HH24:00') as datetime " +
+            "from SDoTQCData s " +
+            "where s.sDoTQCDataKey.time is not null")
     List<String> findDistinctAllByOrderByDatetime();
 
     @Query(
             "select " +
-            "    function('to_char', function('to_timestamp', a.sDoTDataKey.registTime, 'YYYY-MM-DD HH24:MI'), 'YYYYMMDDHH24') as datetime, " +
-            "    a.sDoTDataKey.modelSr as stnId, " +
+            "    function('to_char', function('to_timestamp', a.sDoTQCDataKey.time, 'YYYY-MM-DD HH24:MI'), 'YYYYMMDDHH24') as datetime, " +
+            "    a.sDoTQCDataKey.stnId as stnId, " +
             "    b.stnId as stnNm, " +
-            "    a.pm10 as pm10, " +
-            "    a.pm25 as pm25 " +
-            "from SDoTData a " +
+            "    a.pm10_qc as pm10, " +
+            "    a.pm25_qc as pm25 " +
+            "from SDoTQCData a " +
             "join SDoTStation b " +
-            "on a.sDoTDataKey.modelSr = b.stnId " +
-            "where a.sDoTDataKey.registTime " +
+            "on a.sDoTQCDataKey.stnId = b.stnId " +
+            "where a.sDoTQCDataKey.time " +
             "    between :startDatetime " +
             "    and :endDatetime " +
-            "and (a.pm10 <> -999 and a.pm25 <> -999) " +
+            "and (a.pm10_qc > -900 and a.pm25_qc > -900) " +
             "and ( " +
-            "   a.sDoTDataKey.modelSr = :stnId " +
+            "   a.sDoTQCDataKey.stnId = :stnId " +
             "   or b.stnId = :stnNm) " +
-            "and a.sDoTDataKey.div = 3 " +
-            "order by a.sDoTDataKey.registTime")
+            "order by a.sDoTQCDataKey.time")
     List<ComparativeDataProjection> findAllComparativeData(final String startDatetime, final String endDatetime, final String stnId, final String stnNm);
 }

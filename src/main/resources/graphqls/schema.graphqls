@@ -55,7 +55,6 @@ type ObserverData {
     stnNm: String!
     temperature: Float
     humidity: Float
-    pressure: Float
     pm25: Float
 }
 
@@ -64,8 +63,6 @@ type SDoTData {
     stnNm: String!
     temperature: Float
     relativeHumidity: Float
-    windDirection: Float
-    windSpeed: Float
     pm10: Float
     pm25: Float
 }
