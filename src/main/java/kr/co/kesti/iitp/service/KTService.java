@@ -36,16 +36,10 @@ public class KTService implements GraphQLQueryResolver {
     }
 
     public List<ResponseKTDataVO> getKtData(final RequestDataVO request) {
-        final DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-        try {
-            return this.ktDataRepositoryDsl.findAllData(
-                    dateFormat.parse(request.getStartDatetime()),
-                    dateFormat.parse(request.getEndDatetime()),
-                    request.getStnNm());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return this.ktDataRepositoryDsl.findAllData(
+                request.getStartDatetime(),
+                request.getEndDatetime(),
+                request.getStnNm());
     }
 
     public List<String> getKtAvailableDatetimes() {

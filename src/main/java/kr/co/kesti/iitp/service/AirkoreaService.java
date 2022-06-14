@@ -32,10 +32,16 @@ public class AirkoreaService implements GraphQLQueryResolver {
     }
 
     public List<ResponseAirkoreaDataVO> getAirkoreaData(final RequestDataVO request) {
-        return this.airkoreaDataRepositoryDsl.findAllData(
-                request.getStartDatetime(),
-                request.getEndDatetime(),
+
+        String start = request.getStartDatetime();
+        String end = request.getEndDatetime();
+
+        List<ResponseAirkoreaDataVO> result = this.airkoreaDataRepositoryDsl.findAllData(
+                start,
+                end,
                 request.getStnNm());
+
+        return result;
     }
 
     public List<String> getAirkoreaAvailableDatetimes() {

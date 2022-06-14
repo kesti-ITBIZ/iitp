@@ -42,10 +42,8 @@ export default {
         sDoT: {
             items: (() => {
                 let items = [
-                    { label: "풍향", value: "windDirection", unit: "˚" },
                     { label: "기온", value: "temperature", unit: "℃" },
                     { label: "상대습도", value: "relativeHumidity", unit: "%" },
-                    { label: "풍속", value: "windSpeed", unit: "㎧" },
                     { label: "PM10", value: "pm10", unit: "㎍/㎥" },
                     { label: "PM2.5", value: "pm25", unit: "㎍/㎥" }
                 ];
@@ -62,7 +60,6 @@ export default {
                 let items = [
                     { label: "기온", value: "temperature", unit: "℃" },
                     { label: "습도", value: "humidity", unit: "%" },
-                    { label: "기압", value: "pressure", unit: "㎩" },
                     { label: "PM2.5", value: "pm25", unit: "㎍/㎥" }
                 ];
                 for (let i = 0; i < items.length; ++i) items[i]["seq"] = i + 1;

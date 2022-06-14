@@ -87,7 +87,6 @@ export const dataApi = {
                         stnNm
                         temperature
                         humidity
-                        pressure
                         pm25
                     }
                 }
@@ -111,8 +110,6 @@ export const dataApi = {
                         stnNm
                         temperature
                         relativeHumidity
-                        windDirection
-                        windSpeed
                         pm10
                         pm25
                     }
