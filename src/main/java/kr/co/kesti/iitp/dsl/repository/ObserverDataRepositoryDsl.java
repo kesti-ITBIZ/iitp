@@ -39,7 +39,10 @@ public class ObserverDataRepositoryDsl extends QuerydslRepositorySupport {
                 .on(a.observerQCDataKey.stnId.eq(b.stnSerial))
                 .where(
                         a.observerQCDataKey.time.between(startDatetime, endDatetime)
-                        .and(b.stnNm.eq(stnNm)))
+                        .and(b.stnNm.eq(stnNm))
+                        .and(a.tmp_qc.gt(-900))
+                        .and(a.reh_qc.gt(-900))
+                        .and(a.pm25_r_qc.gt(-900)))
                 .fetch();
     }
 }
