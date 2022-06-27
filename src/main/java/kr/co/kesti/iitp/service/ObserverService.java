@@ -2,7 +2,6 @@ package kr.co.kesti.iitp.service;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import kr.co.kesti.iitp.dsl.repository.ObserverDataRepositoryDsl;
-import kr.co.kesti.iitp.projection.ComparativeDataProjection;
 import kr.co.kesti.iitp.repository.ObserverDataRepository;
 import kr.co.kesti.iitp.repository.ObserverStationRepository;
 import kr.co.kesti.iitp.vo.RequestDataVO;
@@ -13,9 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,16 +32,10 @@ public class ObserverService implements GraphQLQueryResolver {
     }
 
     public List<ResponseObserverDataVO> getObserverData(final RequestDataVO request) {
-        final DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-        try {
-            return this.observerDataRepositoryDsl.findAllData(
-                    dateFormat.parse(request.getStartDatetime()),
-                    dateFormat.parse(request.getEndDatetime()),
-                    request.getStnNm());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return this.observerDataRepositoryDsl.findAllData(
+                request.getStartDatetime(),
+                request.getEndDatetime(),
+                request.getStnNm());
     }
 
     public List<String> getObserverAvailableDatetimes() {

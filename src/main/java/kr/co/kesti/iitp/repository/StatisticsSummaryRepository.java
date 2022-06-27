@@ -21,7 +21,7 @@ public interface StatisticsSummaryRepository extends JpaRepository<StatisticsSum
             "   s.address as address, " +
             "   function('round', avg(s.avgPm25)) as pm25 " +
             "from StatisticsSummary s " +
-            "where s.category = :category " +
+            "where s.category = function('upper', :category) " +
             "and s.statisticsTime " +
             "   between :startDatetime " +
             "   and :endDatetime " +
