@@ -44,9 +44,9 @@ public class KTDataRepositoryDsl extends QuerydslRepositorySupport {
                         a.ktQCDataKey.time.between(startDatetime, endDatetime)
                         .and(b.devNm.eq(stnNm))
                         .and(a.tmp_qc.gt(-900))
-                        .and(a.reh_qc.gt(-900))
-                        .and(a.pm10_qc.gt(-900))
-                        .and(a.pm25_qc.gt(-900)))
+                        .and(a.reh_qc.gt(0))
+                        .and(a.pm10_qc.gt(0))
+                        .and(a.pm25_qc.gt(0)))
                 .fetch();
     }
 }

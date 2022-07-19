@@ -30,7 +30,7 @@ public interface ObserverDataRepository extends JpaRepository<ObserverQCData, Ob
             "where a.observerQCDataKey.time " +
             "    between :startDatetime " +
             "    and :endDatetime " +
-            "and a.pm25_r_qc > -900 " +
+            "and a.pm25_r_qc > 0 " +
             "and ( " +
             "   a.observerQCDataKey.stnId = :stnId " +
             "   or b.stnNm = :stnNm) " +

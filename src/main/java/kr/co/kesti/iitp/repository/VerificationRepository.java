@@ -53,8 +53,8 @@ public class VerificationRepository {
                     "and ( " +
                     "   c.sDoTQCDataKey.stnId = :compStnId " +
                     "   or d.stnId = :compStnNm) " +
-                    "and (a.pm10_qc is not null and c.pm10_qc is not null and a.pm10_qc > -900 and c.pm10_qc > -900)" +
-                    "and (a.pm25_qc is not null and c.pm25_qc is not null and a.pm25_qc > -900 and c.pm25_qc > -900)" +
+                    "and (a.pm10_qc is not null and c.pm10_qc is not null and a.pm10_qc > 0 and c.pm10_qc > 0)" +
+                    "and (a.pm25_qc is not null and c.pm25_qc is not null and a.pm25_qc > 0 and c.pm25_qc > 0)" +
                     "order by a.airkoreaQCDataKey.time")
                     .setParameter("startDatetime", startDatetime)
                     .setParameter("endDatetime", endDatetime)
@@ -90,8 +90,8 @@ public class VerificationRepository {
                     "and ( " +
                     "   c.ktQCDataKey.stnId = :compStnId " +
                     "   or d.devNm = :compStnNm) " +
-                    "and (a.pm10_qc is not null and c.pm10_qc is not null and a.pm10_qc > -900 and c.pm10_qc > -900)" +
-                    "and (a.pm25_qc is not null and c.pm25_qc is not null and a.pm25_qc > -900 and c.pm25_qc > -900)" +
+                    "and (a.pm10_qc is not null and c.pm10_qc is not null and a.pm10_qc > 0 and c.pm10_qc > 0)" +
+                    "and (a.pm25_qc is not null and c.pm25_qc is not null and a.pm25_qc > 0 and c.pm25_qc > 0)" +
                     "order by a.airkoreaQCDataKey.time")
                     .setParameter("startDatetime", startDatetime)
                     .setParameter("endDatetime", endDatetime)
@@ -127,7 +127,7 @@ public class VerificationRepository {
                     "and ( " +
                     "   c.observerQCDataKey.stnId = :compStnId " +
                     "   or d.stnNm = :compStnNm) " +
-                    "and (a.pm25_qc is not null and c.pm25_r_qc is not null and a.pm25_qc > -900 and c.pm25_r_qc > -900)" +
+                    "and (a.pm25_qc is not null and c.pm25_r_qc is not null and a.pm25_qc > 0 and c.pm25_r_qc > 0)" +
                     "order by a.airkoreaQCDataKey.time")
                     .setParameter("startDatetime", startDatetime)
                     .setParameter("endDatetime", endDatetime)
@@ -194,8 +194,8 @@ public class VerificationRepository {
                     "and ( " +
                     "   c.sDoTQCDataKey.stnId = :compStnId " +
                     "   or d.stnId = :compStnNm) " +
-                    "and (a.pm10_qc is not null and c.pm10_qc is not null and a.pm10_qc > -900 and c.pm10_qc > -900)" +
-                    "and (a.pm25_qc is not null and c.pm25_qc is not null and a.pm25_qc > -900 and c.pm25_qc > -900)" +
+                    "and (a.pm10_qc is not null and c.pm10_qc is not null and a.pm10_qc > 0 and c.pm10_qc > 0)" +
+                    "and (a.pm25_qc is not null and c.pm25_qc is not null and a.pm25_qc > 0 and c.pm25_qc > 0)" +
                     "order by a.airkoreaQCDataKey.time")
                     .setParameter("startDatetime", startDatetime)
                     .setParameter("endDatetime", endDatetime)
@@ -231,8 +231,8 @@ public class VerificationRepository {
                     "and ( " +
                     "   c.ktQCDataKey.stnId = :compStnId " +
                     "   or d.devNm = :compStnNm) " +
-                    "and (a.pm10_qc is not null and c.pm10_qc is not null and a.pm10_qc > -900 and c.pm10_qc > -900)" +
-                    "and (a.pm25_qc is not null and c.pm25_qc is not null and a.pm25_qc > -900 and c.pm25_qc > -900)" +
+                    "and (a.pm10_qc is not null and c.pm10_qc is not null and a.pm10_qc > 0 and c.pm10_qc > 0)" +
+                    "and (a.pm25_qc is not null and c.pm25_qc is not null and a.pm25_qc > 0 and c.pm25_qc > 0)" +
                     "order by a.airkoreaQCDataKey.time")
                     .setParameter("startDatetime", startDatetime)
                     .setParameter("endDatetime", endDatetime)
@@ -268,7 +268,7 @@ public class VerificationRepository {
                     "and ( " +
                     "   c.observerQCDataKey.stnId = :compStnId " +
                     "   or d.stnNm = :compStnNm) " +
-                    "and (a.pm25_qc is not null and c.pm25_r_qc is not null and a.pm25_qc > -900 and c.pm25_r_qc > -900)" +
+                    "and (a.pm25_qc is not null and c.pm25_r_qc is not null and a.pm25_qc > 0 and c.pm25_r_qc > 0)" +
                     "order by a.airkoreaQCDataKey.time")
                     .setParameter("startDatetime", startDatetime)
                     .setParameter("endDatetime", endDatetime)

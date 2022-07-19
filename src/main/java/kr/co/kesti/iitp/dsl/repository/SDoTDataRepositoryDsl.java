@@ -42,9 +42,9 @@ public class SDoTDataRepositoryDsl extends QuerydslRepositorySupport {
                         a.sDoTQCDataKey.time.between(startDatetime, endDatetime)
                         .and(a.sDoTQCDataKey.stnId.eq(stnNm))
                         .and(a.tmp_qc.gt(-900))
-                        .and(a.reh_qc.gt(-900))
-                        .and(a.pm10_qc.gt(-900))
-                        .and(a.pm25_qc.gt(-900)))
+                        .and(a.reh_qc.gt(0))
+                        .and(a.pm10_qc.gt(0))
+                        .and(a.pm25_qc.gt(0)))
                 .fetch();
     }
 }

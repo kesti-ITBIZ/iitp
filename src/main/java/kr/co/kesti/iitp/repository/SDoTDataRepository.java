@@ -30,7 +30,7 @@ public interface SDoTDataRepository extends JpaRepository<SDoTQCData, SDoTQCData
             "where a.sDoTQCDataKey.time " +
             "    between :startDatetime " +
             "    and :endDatetime " +
-            "and (a.pm10_qc > -900 and a.pm25_qc > -900) " +
+            "and (a.pm10_qc > 0 and a.pm25_qc > 0) " +
             "and ( " +
             "   a.sDoTQCDataKey.stnId = :stnId " +
             "   or b.stnId = :stnNm) " +
