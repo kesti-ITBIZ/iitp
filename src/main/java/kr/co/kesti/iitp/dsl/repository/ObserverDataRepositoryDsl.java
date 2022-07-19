@@ -41,8 +41,8 @@ public class ObserverDataRepositoryDsl extends QuerydslRepositorySupport {
                         a.observerQCDataKey.time.between(startDatetime, endDatetime)
                         .and(b.stnNm.eq(stnNm))
                         .and(a.tmp_qc.gt(-900))
-                        .and(a.reh_qc.gt(-900))
-                        .and(a.pm25_r_qc.gt(-900)))
+                        .and(a.reh_qc.gt(0))
+                        .and(a.pm25_r_qc.gt(0)))
                 .fetch();
     }
 }

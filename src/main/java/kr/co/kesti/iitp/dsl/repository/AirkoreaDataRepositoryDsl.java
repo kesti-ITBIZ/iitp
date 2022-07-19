@@ -47,12 +47,12 @@ public class AirkoreaDataRepositoryDsl extends QuerydslRepositorySupport {
                 .where(
                         a.airkoreaQCDataKey.time.between(startDatetime, endDatetime)
                         .and(a.airkoreaQCDataKey.stnId.eq(stnNm))
-                        .and(a.so2.gt(-900))
-                        .and(a.co.gt(-900))
-                        .and(a.o3.gt(-900))
-                        .and(a.no2.gt(-900))
-                        .and(a.pm10_qc.gt(-900))
-                        .and(a.pm25_qc.gt(-900)))
+                        .and(a.so2.gt(0))
+                        .and(a.co.gt(0))
+                        .and(a.o3.gt(0))
+                        .and(a.no2.gt(0))
+                        .and(a.pm10_qc.gt(0))
+                        .and(a.pm25_qc.gt(0)))
                 .fetch();
     }
 }
