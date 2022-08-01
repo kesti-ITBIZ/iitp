@@ -12,9 +12,9 @@ import java.util.List;
 @Repository
 public interface ObserverDataRepository extends JpaRepository<ObserverQCData, ObserverQCDataKey> {
     @Query(
-            "select distinct function('to_char', function('to_timestamp', o.observerQCDataKey.time, 'YYYY-MM-DD HH24:MI'), 'YYYY.MM.DD HH24:00') as datetime " +
-            "from ObserverQCData o " +
-            "where o.observerQCDataKey.time is not null")
+            "select s.availableDatetimeDataKey.datetime " +
+            "from AvailableDatetime s " +
+            "where s.availableDatetimeDataKey.category = 'OBSERVER'")
     List<String> findDistinctAllByOrderByDatetime();
 
     @Query(

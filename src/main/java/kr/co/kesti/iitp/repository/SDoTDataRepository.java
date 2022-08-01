@@ -12,9 +12,9 @@ import java.util.List;
 @Repository
 public interface SDoTDataRepository extends JpaRepository<SDoTQCData, SDoTQCDataKey> {
     @Query(
-            "select distinct function('to_char', function('to_timestamp', s.sDoTQCDataKey.time, 'YYYY-MM-DD HH24:MI'), 'YYYY.MM.DD HH24:00') as datetime " +
-            "from SDoTQCData s " +
-            "where s.sDoTQCDataKey.time is not null")
+            "select s.availableDatetimeDataKey.datetime " +
+                    "from AvailableDatetime s " +
+                    "where s.availableDatetimeDataKey.category = 'SDOT'")
     List<String> findDistinctAllByOrderByDatetime();
 
     @Query(
