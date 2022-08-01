@@ -12,9 +12,9 @@ import java.util.List;
 @Repository
 public interface AirkoreaDataRepository extends JpaRepository<AirkoreaQCData, AirkoreaQCDataKey> {
     @Query(
-            "select distinct function('to_char', function('to_timestamp', a.airkoreaQCDataKey.time, 'YYYY-MM-DD HH24:MI'), 'YYYY.MM.DD HH24:00') as datetime " +
-            "from AirkoreaQCData a " +
-            "where a.airkoreaQCDataKey.time is not null")
+            "select s.availableDatetimeDataKey.datetime " +
+            "from AvailableDatetime s " +
+            "where s.availableDatetimeDataKey.category = 'AIRKOREA'")
     List<String> findDistinctAllByOrderByDatetime();
 
     @Query(

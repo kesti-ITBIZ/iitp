@@ -12,9 +12,9 @@ import java.util.List;
 @Repository
 public interface KtDataRepository extends JpaRepository<KTQCData, KTQCDataKey> {
     @Query(
-            "select distinct function('to_char', function('to_timestamp', k.ktQCDataKey.time, 'YYYY-MM-DD HH24:MI'), 'YYYY.MM.DD HH24:00') as datetime " +
-            "from KTQCData k " +
-            "where k.ktQCDataKey.time is not null")
+            "select s.availableDatetimeDataKey.datetime " +
+            "from AvailableDatetime s " +
+            "where s.availableDatetimeDataKey.category = 'KT'")
     List<String> findDistinctAllByOrderByDatetime();
 
     @Query(
