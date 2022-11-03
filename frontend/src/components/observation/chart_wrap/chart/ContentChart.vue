@@ -41,8 +41,11 @@
             <div v-show="data[selectedCategory] && data[selectedCategory].length > 0 && selectedChartType == 'table' && Object.keys(tableData).length > 0" class="csv-download" @click="csvDownload">
                 <font-awesome-icon size="lg" :icon="['fa', 'file-download']" />
             </div>
-            <div v-show="data[selectedCategory] == null || data[selectedCategory].length === 0" id="no-data">
+            <div class="no-data" v-show="isShow()">
                 <h1>분석할 지점을 선택하세요.</h1>
+            </div>
+            <div class="no-data" v-show="data[selectedCategory] == null || data[selectedCategory].length === 0">
+                <h1>검색 결과가 없습니다.</h1>
             </div>
             <loading />
         </div>
@@ -217,6 +220,14 @@
                 removeResizeEvent: "REMOVE_RESIZE_EVENT",
                 setLoadingInvisible: "SET_LOADING_INVISIBLE"
             }),
+
+            isShow() {
+                if (this.data[this.selectedCategory]) {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
 
             reInitChart() {
                 if (this.data[this.selectedCategory]
