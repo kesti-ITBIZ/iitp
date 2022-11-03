@@ -35,6 +35,7 @@
     import Search from "./search/Search";
     import Station from "./station/Station";
     import SideHeader from "./side_header/SideHeader";
+    import dayjs from "dayjs";
 
     export default {
         name: "ContentWrap",
@@ -71,7 +72,10 @@
             }),
 
             async fetchData() {
-                if (this.selectedCompareStation == null)
+
+                if (Math.abs(dayjs(this.startDatetime).diff(dayjs(this.endDatetime), "day")))
+                    await new Promise(resolve => alert("검색 가능 기간은 30일입니다.", resolve));
+                else if (this.selectedCompareStation == null)
                     await new Promise(resolve => alert("비교 지점을 선택해주세요.", resolve));
                 else if (this.selectedStandardStation == null)
                     await new Promise(resolve => alert("기준 지점을 선택해주세요.", resolve));

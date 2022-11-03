@@ -126,12 +126,17 @@
             }),
 
             async onChangeStartDatetime(datetime) {
+
                 const dateType = this.dateTypes[this.dateTypes.findIndex(obj => obj.type == this.selectedDateType)];
                 const [stringToDayjsFormat, dayjsToStringFormat] = [dateType.stringToDayjsFormat, dateType.dayjsToStringFormat];
                 if (this.selectedDateType == "hour") datetime += ":00";
                 else if (this.selectedDateType == "month") datetime += ".01";
+
                 if (datetime > this.endDatetime.format(dayjsToStringFormat))
                     await new Promise(resolve => alert("잘못된 시간대 입력입니다.", resolve));
+                else if((this.selectedDateType == "hour" || this.selectedDateType == "date")
+                    && Math.abs(dayjs(datetime).diff(dayjs(this.endDatetime), "day")) > 30)
+                    await new Promise(resolve => alert("검색 가능 기간은 30일입니다.", resolve));
                 else await this.setStartDatetime(dayjs(datetime, stringToDayjsFormat));
             },
 
@@ -154,6 +159,9 @@
 
                 if (datetime < this.startDatetime.format(dayjsToStringFormat))
                     await new Promise(resolve => alert("잘못된 시간대 입력입니다.", resolve));
+                else if((this.selectedDateType == "hour" || this.selectedDateType == "date")
+                    && Math.abs(dayjs(datetime).diff(dayjs(this.startDatetime), "day")) > 30)
+                    await new Promise(resolve => alert("검색 가능 기간은 30일입니다.", resolve));
                 else await this.setEndDatetime(dayjs(datetime, stringToDayjsFormat));
             },
 
