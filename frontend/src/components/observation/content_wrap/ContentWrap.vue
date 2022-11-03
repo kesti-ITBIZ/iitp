@@ -25,6 +25,7 @@
     import Station from "./station/Station";
     import SideHeader from "./side_header/SideHeader";
     import ItemTooltip from "./item_tooltip/ItemTooltip";
+    import dayjs from "dayjs";
 
     export default {
         name: "ContentWrap",
@@ -44,7 +45,8 @@
                 selectedCategory: state => state.observation.selectedCategory,
                 xAxis: state => state.observation[state.observation.selectedCategory].xAxis,
                 yAxis: state => state.observation[state.observation.selectedCategory].yAxis,
-                selectedStation: state => state.observation.selectedStation[state.observation.selectedCategory]
+                selectedStation: state => state.observation.selectedStation[state.observation.selectedCategory],
+                selectedDateType: state => state.observation.selectedDateType,
             })
         },
         ...dataApi,
@@ -56,7 +58,10 @@
             }),
 
             async fetchData() {
-                if (this.selectedStation == null)
+                if ((this.selectedDateType == "hour" || this.selectedDateType == "date")
+                    && Math.abs(dayjs(this.startDatetime).diff(dayjs(this.endDatetime), "day")))
+                    await new Promise(resolve => alert("검색 가능 기간은 30일입니다.", resolve));
+                else if (this.selectedStation == null)
                     await new Promise(resolve => alert("조회할 지점을 선택해주세요.", resolve));
                 else if (this.xAxis.length === 0)
                     await new Promise(resolve => alert("X축 항목을 추가해주세요.", resolve));

@@ -5,7 +5,7 @@ dayjs.extend(customParseFormat);
 
 export default {
     state: {
-        startDatetime: dayjs(dayjs().subtract(31, "days").format("YYYY.MM.DD"), "YYYY.MM.DD"),
+        startDatetime: dayjs(dayjs().subtract(30, "days").format("YYYY.MM.DD"), "YYYY.MM.DD"),
         endDatetime: dayjs(),
         fetchedStartDatetime: null,
         fetchedEndDatetime: null,
