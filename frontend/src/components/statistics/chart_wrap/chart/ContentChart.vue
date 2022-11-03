@@ -6,8 +6,11 @@
             <div class="bad" ref="bad"></div>
             <div class="high" ref="high"></div>
         </div>
-        <div v-show="!data || data.length === 0" id="no-data">
+        <div class="no-data" v-show="isShow()">
             <h1>분석할 지점을 선택하세요.</h1>
+        </div>
+        <div class="no-data" v-show="!data || data.length === 0">
+            <h1>검색 결과가 없습니다.</h1>
         </div>
         <loading />
     </div>
@@ -101,6 +104,14 @@
             reInitChart() {
                 if (this.data && this.data.length > 0)
                     setTimeout(this.initChart, 0);
+            },
+
+            isShow() {
+                if (this.data[this.selectedCategory]) {
+                    return true;
+                } else {
+                    return false;
+                }
             },
 
             initChart() {

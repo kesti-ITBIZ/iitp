@@ -64,8 +64,11 @@
                 <div ref="timeseries-mobile"></div>
             </div>
         </div>
-        <div v-show="!data || data.length === 0" id="no-data" class="container">
+        <div class="no-data container" v-show="isShow()">
             <h1>분석할 지점을 선택하세요.</h1>
+        </div>
+        <div v-show="!data || data.length === 0" class="no-data container">
+            <h1>검색 결과가 없습니다.</h1>
         </div>
         <loading />
     </div>
@@ -315,6 +318,14 @@
                 addResizeEvent: "ADD_RESIZE_EVENT",
                 removeResizeEvent: "REMOVE_RESIZE_EVENT"
             }),
+
+            isShow() {
+                if (this.data) {
+                    return false;
+                } else {
+                    return true;
+                }
+            },
 
             reInitTimeseriesChart() {
                 if (this.data && this.data.length > 0)
