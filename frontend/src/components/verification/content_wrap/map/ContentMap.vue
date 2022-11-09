@@ -12,7 +12,7 @@
                         @click="station => category === 'airkorea' ? setSelectedStandardStation(station) : setSelectedCompareStation(station)" />
             </div>
         </div>
-        <div v-show="windowWidth < reactiveMaxWidth + 1" class="scroll-area">스크롤</div>
+        <div v-show="windowWidth < reactiveMaxWidth + 1"></div>
     </div>
 </template>
 
