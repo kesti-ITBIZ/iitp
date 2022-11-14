@@ -73,7 +73,7 @@
 
             async fetchData() {
 
-                if (Math.abs(dayjs(this.startDatetime).diff(dayjs(this.endDatetime), "day")) > 30)
+                if (this.selectedDateType == "hour" && Math.abs(dayjs(this.startDatetime).diff(dayjs(this.endDatetime), "day")) > 30)
                     await new Promise(resolve => alert("검색 가능 기간은 30일입니다.", resolve));
                 else if (this.selectedCompareStation == null)
                     await new Promise(resolve => alert("비교 지점을 선택해주세요.", resolve));
