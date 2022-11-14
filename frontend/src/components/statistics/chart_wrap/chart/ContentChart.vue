@@ -6,11 +6,9 @@
             <div class="bad" ref="bad"></div>
             <div class="high" ref="high"></div>
         </div>
-        <div class="no-data" v-show="isShow()">
-            <h1>분석할 지점을 선택하세요.</h1>
-        </div>
-        <div class="no-data" v-show="!data || data.length === 0">
-            <h1>검색 결과가 없습니다.</h1>
+        <div class="no-data">
+            <h1 v-if="isShow()">검색 결과가 없습니다.</h1>
+            <h1 v-else>분석할 지점을 선택하세요.</h1>
         </div>
         <loading />
     </div>
@@ -107,9 +105,9 @@
             },
 
             isShow() {
-                if (this.data[this.selectedCategory]) {
+                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length == 0) {
                     return true;
-                } else {
+                } else if(this.data[this.selectedCategory] == undefined) {
                     return false;
                 }
             },

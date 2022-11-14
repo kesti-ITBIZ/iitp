@@ -64,11 +64,9 @@
                 <div ref="timeseries-mobile"></div>
             </div>
         </div>
-        <div class="no-data container" v-show="isShow()">
-            <h1>분석할 지점을 선택하세요.</h1>
-        </div>
-        <div v-show="!data || data.length === 0" class="no-data container">
-            <h1>검색 결과가 없습니다.</h1>
+        <div class="no-data container">
+            <h1 v-if="isShow()">검색 결과가 없습니다.</h1>
+            <h1 v-else>분석할 지점을 선택하세요.</h1>
         </div>
         <loading />
     </div>
@@ -320,10 +318,10 @@
             }),
 
             isShow() {
-                if (this.data) {
-                    return false;
+                if(this.data && this.data.length == 0) {
+                    return true
                 } else {
-                    return true;
+                    return false;
                 }
             },
 
