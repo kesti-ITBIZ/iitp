@@ -6,7 +6,7 @@
             <div class="bad" ref="bad"></div>
             <div class="high" ref="high"></div>
         </div>
-        <div class="no-data">
+        <div class="no-data" v-show="isNodata">
             <h1 v-if="isShow()">검색 결과가 없습니다.</h1>
             <h1 v-else>분석할 지점을 선택하세요.</h1>
         </div>
@@ -47,7 +47,8 @@
                 good: "#1b9fe5",
                 bad: "#ffba25",
                 high: "#dc3e20"
-            }
+            },
+            isNodata: false
         }),
         computed: {
             ...mapState({
@@ -105,9 +106,13 @@
             },
 
             isShow() {
-                if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length == 0) {
-                    return true;
-                } else if(this.data[this.selectedCategory] == undefined) {
+                if (this.data && this.data.length == 0) {
+                    console.log("111");
+                    this.isNodata = true;
+                    return false;
+                } else {
+                    console.log("333");
+                    this.isNodata = false;
                     return false;
                 }
             },
@@ -271,6 +276,7 @@
             chartData(key) {
                 return this.data && this.data.length > 0 ?
                     this.data.map(obj => {
+                        this.isNodata = false;
                         const item = obj[this.selectedItem.value];
                         return item[Object.keys(item).filter(_key => _key.toLowerCase().indexOf(key.toLowerCase()) !== -1)[0]];
                     }) : [];

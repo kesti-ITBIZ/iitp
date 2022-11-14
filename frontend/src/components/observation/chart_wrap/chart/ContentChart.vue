@@ -41,7 +41,7 @@
             <div v-show="data[selectedCategory] && data[selectedCategory].length > 0 && selectedChartType == 'table' && Object.keys(tableData).length > 0" class="csv-download" @click="csvDownload">
                 <font-awesome-icon size="lg" :icon="['fa', 'file-download']" />
             </div>
-            <div class="no-data">
+            <div class="no-data" v-show="isNodata">
                 <h1 v-if="isShow()">검색 결과가 없습니다.</h1>
                 <h1 v-else>분석할 지점을 선택하세요.</h1>
             </div>
@@ -68,7 +68,8 @@
         },
         data: () => ({
             chart: null,
-            title: ""
+            title: "",
+            isNodata: true
         }),
         computed: {
             ...mapState({
@@ -221,9 +222,13 @@
 
             isShow() {
                 if (this.data[this.selectedCategory] && this.data[this.selectedCategory].length == 0) {
+                    this.isNodata = true;
                     return false;
                 } else if(this.data[this.selectedCategory] == undefined) {
+                    this.isNodata = true;
                     return true;
+                } else if(this.data[this.selectedCategory] && this.data[this.selectedCategory].length > 0) {
+                    this.isNodata = false;
                 }
             },
 
