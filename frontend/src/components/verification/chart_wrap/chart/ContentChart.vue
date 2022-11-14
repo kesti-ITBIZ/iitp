@@ -64,7 +64,7 @@
                 <div ref="timeseries-mobile"></div>
             </div>
         </div>
-        <div class="no-data container">
+        <div class="no-data container" v-show="isNodata">
             <h1 v-if="isShow()">검색 결과가 없습니다.</h1>
             <h1 v-else>분석할 지점을 선택하세요.</h1>
         </div>
@@ -94,7 +94,8 @@
             timeseriesChart: null,
             correlationChart: null,
             timeseriesChartMobile: null,
-            correlationChartMobile: null
+            correlationChartMobile: null,
+            isNodata: true
         }),
         computed: {
             ...mapState({
@@ -319,7 +320,11 @@
 
             isShow() {
                 if(this.data && this.data.length == 0) {
+                    this.isNodata = true;
                     return true
+                } else if(this.data && this.data.length > 0) {
+                    this.isNodata = false;
+                    return false;
                 } else {
                     return false;
                 }
